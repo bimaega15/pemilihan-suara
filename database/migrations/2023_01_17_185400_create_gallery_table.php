@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHasilTable extends Migration
+class CreateGalleryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateHasilTable extends Migration
      */
     public function up()
     {
-        Schema::create('hasil', function (Blueprint $table) {
+        Schema::create('gallery', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_diagnosa_id')->unsigned();
+            $table->string('judul_gallery', 50)->nullable();
+            $table->text('keterangan_gallery')->nullable();
+            $table->dateTime('waktu_gallery')->nullable();
+            $table->string('gambar_gallery');
             $table->timestamps();
-
-            $table->foreign('user_diagnosa_id')->references('id')->on('user_diagnosa')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateHasilTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hasil');
+        Schema::dropIfExists('gallery');
     }
 }

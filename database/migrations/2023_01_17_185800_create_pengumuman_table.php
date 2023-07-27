@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRangeBobotTable extends Migration
+class CreatePengumumanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateRangeBobotTable extends Migration
      */
     public function up()
     {
-        Schema::create('range_bobot', function (Blueprint $table) {
+        Schema::create('pengumuman', function (Blueprint $table) {
             $table->increments('id');
-            $table->double('dari_range_bobot', 8, 2);
-            $table->double('sampai_range_bobot', 8, 2);
-            $table->string('nama_range_bobot', 200);
-            $table->text('solusi_range_bobot')->nullable();
+            $table->dateTime('tanggal_pengumuman');
+            $table->integer('tps_id')->unsigned();
+            $table->boolean('is_display');
             $table->timestamps();
+
+
+            $table->foreign('tps_id')->references('id')->on('tps')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateRangeBobotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('range_bobot');
+        Schema::dropIfExists('pengumuman');
     }
 }

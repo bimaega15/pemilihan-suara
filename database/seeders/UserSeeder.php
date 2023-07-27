@@ -29,8 +29,8 @@ class UserSeeder extends Seeder
 
         $profile = Profile::create([
             'users_id' => $user->id,
-            'nama_profile' => 'Admin Naive Bayes',
-            'email_profile' => 'adminnaivebayes@gmail.com',
+            'nama_profile' => 'Admin KPU',
+            'email_profile' => 'adminkpu@gmail.com',
             'alamat_profile' => 'alamat admin',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',

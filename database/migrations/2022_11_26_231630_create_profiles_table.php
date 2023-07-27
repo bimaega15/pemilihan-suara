@@ -15,16 +15,23 @@ class CreateProfilesTable extends Migration
     {
         Schema::create('profile', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nik_profile', 200);
+            $table->boolean('is_biro_profile');
             $table->integer('users_id')->unsigned();
+            $table->integer('jabatan_id')->unsigned();
+
             $table->string('nama_profile', 200);
             $table->string('email_profile')->unique();
             $table->text('alamat_profile');
             $table->string('nohp_profile', 35);
             $table->enum('jenis_kelamin_profile', ['L', 'P']);
             $table->string('gambar_profile', 200)->nullable();
+            $table->string('membawahi_profile', 200)->nullable();
+
             $table->timestamps();
 
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('jabatan_id')->references('id')->on('jabatan')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -19,8 +19,11 @@ class CreateKonfigurasisTable extends Migration
             $table->string('logo_konfigurasi', 250);
             $table->string('nohp_konfigurasi', 200);
             $table->text('alamat_konfigurasi');
-            $table->string('email_konfigurasi')->unique();
-            $table->text('deskripsi_konfigurasi');
+            $table->string('email_konfigurasi')->unique()->nullable();
+            $table->text('deskripsi_konfigurasi')->nullable();
+            $table->string('facebook_konfigurasi')->nullable();
+            $table->string('instagram_konfigurasi')->nullable();
+            $table->string('youtube_konfigurasi')->nullable();
             $table->string('created_konfigurasi');
             $table->string('longitude_konfigurasi', 200);
             $table->string('latitude_konfigurasi', 200);

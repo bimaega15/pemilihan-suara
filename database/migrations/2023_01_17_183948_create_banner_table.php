@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKuisionerTable extends Migration
+class CreateBannerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateKuisionerTable extends Migration
      */
     public function up()
     {
-        Schema::create('kuisioner', function (Blueprint $table) {
+        Schema::create('banner', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kode_kuisioner', 25)->unique();
-            $table->string('soal_kuisioner', 200);
-            $table->text('definisi_kuisioner')->nullable();
+            $table->string('gambar_banner', 250);
+            $table->string('judul_banner', 200)->nullable();
+            $table->text('keterangan_banner');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateKuisionerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kuisioner');
+        Schema::dropIfExists('banner');
     }
 }
