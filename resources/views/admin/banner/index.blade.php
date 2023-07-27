@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    rangeBobot
+    Banner
 @endsection
 @section('content')
     <?php
@@ -12,7 +12,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-header">
-                            <i data-feather="settings"></i> <strong>Data Range Bobot</strong>
+                            <i data-feather="settings"></i> <strong>Data banner</strong>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -20,7 +20,7 @@
                                     @if ($isCreate != null)
                                         <div class="mb-3">
                                             <a data-bs-toggle="modal" data-bs-target="#modalForm"
-                                                href="{{ url('/admin/rangeBobot/create') }}" class="btn btn-primary btn-add">
+                                                href="{{ url('/admin/banner/create') }}" class="btn btn-primary btn-add">
                                                 <i data-feather="plus"></i> Tambah
                                             </a>
                                         </div>
@@ -31,16 +31,7 @@
                                                 <tr>
                                                     <th scope="col">No</th>
                                                     <th scope="col">
-                                                        Dari Range
-                                                    </th>
-                                                    <th scope="col">
-                                                        Sampai Range
-                                                    </th>
-                                                    <th scope="col">
-                                                        Nama
-                                                    </th>
-                                                    <th scope="col">
-                                                        Solusi
+                                                        Nama role
                                                     </th>
                                                     <th scope="col">
                                                         <div class="text-center">
@@ -61,9 +52,9 @@
             </div>
         </div>
     </div>
-    @include('admin.rangeBobot.model')
+    @include('admin.banner.model')
 @endsection
 
 @push('js')
-    @include('admin.rangeBobot.script')
+    @include('admin.banner.script')
 @endpush

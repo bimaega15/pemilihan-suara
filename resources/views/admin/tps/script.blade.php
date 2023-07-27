@@ -2,7 +2,7 @@
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
             ajax: {
-                url: "{{ route('admin.jawabanKuisioner.index') }}",
+                url: "{{ route('admin.tps.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -12,39 +12,10 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/jawabanKuisioner');
+            $('.form-submit').attr('action', url + '/admin/tps');
 
             resetForm();
-            getKode();
         })
-
-        function getKode() {
-            let url = "{{ url('/') }}";
-
-            $.ajax({
-                url: `${url}/admin/jawabanKuisioner/autoNumber`,
-                type: 'get',
-                dataType: 'json',
-                success: function(data) {
-                    if (data.status == 200) {
-                        const {
-                            result
-                        } = data;
-
-                        $('.kode_jawaban_kuisioner').val(result);
-                    }
-                },
-                error: function(xhr) {
-                    const {
-                        responseText,
-                        responseJSON
-                    } = xhr;
-                    if (responseText != '') {
-                        console.log(responseText);
-                    }
-                }
-            })
-        }
 
         $(document).on('click', '.btn-edit', function(e) {
             e.preventDefault();
@@ -60,14 +31,11 @@
                         result
                     } = data;
 
-                    $('.kode_jawaban_kuisioner').val(result.kode_jawaban_kuisioner);
-                    $('.nama_jawaban_kuisioner').val(result.nama_jawaban_kuisioner);
-                    $('.definisi_jawaban_kuisioner').val(result.definisi_jawaban_kuisioner);
-                    $('.bobot_jawaban_kuisioner').val(result.bobot_jawaban_kuisioner);
+                    $('.nama_tps').val(result.nama_tps);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/jawabanKuisioner/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/tps/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -78,6 +46,7 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
                     $('.' + v).removeClass("border border-danger");

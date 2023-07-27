@@ -2,7 +2,7 @@
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
             ajax: {
-                url: "{{ route('admin.pernyataan.index') }}",
+                url: "{{ route('admin.jabatan.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -12,39 +12,10 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/pernyataan');
+            $('.form-submit').attr('action', url + '/admin/jabatan');
 
             resetForm();
-            getKode();
         })
-
-        function getKode() {
-            let url = "{{ url('/') }}";
-
-            $.ajax({
-                url: `${url}/admin/pernyataan/autoNumber`,
-                type: 'get',
-                dataType: 'json',
-                success: function(data) {
-                    if (data.status == 200) {
-                        const {
-                            result
-                        } = data;
-
-                        $('.kode_pernyataan').val(result);
-                    }
-                },
-                error: function(xhr) {
-                    const {
-                        responseText,
-                        responseJSON
-                    } = xhr;
-                    if (responseText != '') {
-                        console.log(responseText);
-                    }
-                }
-            })
-        }
 
         $(document).on('click', '.btn-edit', function(e) {
             e.preventDefault();
@@ -60,12 +31,11 @@
                         result
                     } = data;
 
-                    $('.kode_pernyataan').val(result.kode_pernyataan);
-                    $('.nama_pernyataan').val(result.nama_pernyataan);
+                    $('.nama_jabatan').val(result.nama_jabatan);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/pernyataan/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/jabatan/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -76,6 +46,7 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
                     $('.' + v).removeClass("border border-danger");

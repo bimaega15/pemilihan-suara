@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
 
         $profile = Profile::create([
             'users_id' => $user->id,
+            'jabatan_id' => 25,
             'nama_profile' => 'Admin KPU',
             'email_profile' => 'adminkpu@gmail.com',
             'alamat_profile' => 'alamat admin',
@@ -42,20 +43,21 @@ class UserSeeder extends Seeder
             'user_id' => $user->id,
         ]);
 
-        // owner
+        // koordinator
         $user = User::create([
-            'username' => 'owner123',
-            'password' => Hash::make('owner123'),
+            'username' => 'koordinator123',
+            'password' => Hash::make('koordinator123'),
         ]);
         $role = Role::create([
-            'nama_roles' => 'owner'
+            'nama_roles' => 'koordinator'
         ]);
 
         $profile = Profile::create([
             'users_id' => $user->id,
-            'nama_profile' => 'owner naive bayes',
-            'email_profile' => 'ownernaivebayes@gmail.com',
-            'alamat_profile' => 'alamat owner',
+            'jabatan_id' => 25,
+            'nama_profile' => 'koordinator kpu',
+            'email_profile' => 'koordinatorkpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -67,20 +69,21 @@ class UserSeeder extends Seeder
         ]);
 
 
-        // developer
+        // kepala kepegawaian
         $user = User::create([
-            'username' => 'developer123',
-            'password' => Hash::make('developer123'),
+            'username' => 'kepala123',
+            'password' => Hash::make('kepala123'),
         ]);
         $role = Role::create([
-            'nama_roles' => 'developer'
+            'nama_roles' => 'kepala kepegawaian'
         ]);
 
         $profile = Profile::create([
             'users_id' => $user->id,
-            'nama_profile' => 'developer naive bayes',
-            'email_profile' => 'developernaivebayes@gmail.com',
-            'alamat_profile' => 'alamat developer',
+            'jabatan_id' => 25,
+            'nama_profile' => 'kepala kepegawaian kpu',
+            'email_profile' => 'kepalakepegawaiankpu@gmail.com',
+            'alamat_profile' => 'alamat kepala kepegawaian',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -93,18 +96,19 @@ class UserSeeder extends Seeder
 
         // user
         $user = User::create([
-            'username' => 'user123',
-            'password' => Hash::make('user123'),
+            'username' => 'relawan123',
+            'password' => Hash::make('relawan123'),
         ]);
         $role = Role::create([
-            'nama_roles' => 'user'
+            'nama_roles' => 'Relawan'
         ]);
 
         $profile = Profile::create([
             'users_id' => $user->id,
-            'nama_profile' => 'user naive bayes',
-            'email_profile' => 'usernaivebayes@gmail.com',
-            'alamat_profile' => 'alamat user',
+            'jabatan_id' => 25,
+            'nama_profile' => 'relawan kpu',
+            'email_profile' => 'relawankpu@gmail.com',
+            'alamat_profile' => 'alamat relawan',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'

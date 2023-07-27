@@ -2,7 +2,7 @@
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
             ajax: {
-                url: "{{ route('admin.rangeBobot.index') }}",
+                url: "{{ route('admin.pengumuman.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -12,7 +12,7 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/rangeBobot');
+            $('.form-submit').attr('action', url + '/admin/pengumuman');
 
             resetForm();
         })
@@ -31,14 +31,11 @@
                         result
                     } = data;
 
-                    $('.dari_range_bobot').val(result.dari_range_bobot);
-                    $('.sampai_range_bobot').val(result.sampai_range_bobot);
-                    $('.nama_range_bobot').val(result.nama_range_bobot);
-                    $('.solusi_range_bobot').val(result.solusi_range_bobot);
+                    $('.nama_pengumuman').val(result.nama_pengumuman);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/rangeBobot/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/pengumuman/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -49,6 +46,7 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
                     $('.' + v).removeClass("border border-danger");

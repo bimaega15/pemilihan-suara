@@ -2,7 +2,7 @@
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
             ajax: {
-                url: "{{ route('admin.kuisioner.index') }}",
+                url: "{{ route('admin.about.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -12,39 +12,10 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/kuisioner');
+            $('.form-submit').attr('action', url + '/admin/about');
 
             resetForm();
-            getKode();
         })
-
-        function getKode() {
-            let url = "{{ url('/') }}";
-
-            $.ajax({
-                url: `${url}/admin/kuisioner/autoNumber`,
-                type: 'get',
-                dataType: 'json',
-                success: function(data) {
-                    if (data.status == 200) {
-                        const {
-                            result
-                        } = data;
-
-                        $('.kode_jawaban_kuisioner').val(result);
-                    }
-                },
-                error: function(xhr) {
-                    const {
-                        responseText,
-                        responseJSON
-                    } = xhr;
-                    if (responseText != '') {
-                        console.log(responseText);
-                    }
-                }
-            })
-        }
 
         $(document).on('click', '.btn-edit', function(e) {
             e.preventDefault();
@@ -60,13 +31,11 @@
                         result
                     } = data;
 
-                    $('.kode_kuisioner').val(result.kode_kuisioner);
-                    $('.soal_kuisioner').val(result.soal_kuisioner);
-                    $('.definisi_kuisioner').val(result.definisi_kuisioner);
+                    $('.nama_about').val(result.nama_about);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/kuisioner/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/about/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -77,6 +46,7 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
                     $('.' + v).removeClass("border border-danger");

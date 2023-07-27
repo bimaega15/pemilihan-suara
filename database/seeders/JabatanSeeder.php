@@ -88,105 +88,105 @@ class JabatanSeeder extends Seeder
 
             ],
             [
-                'id' => 10,
+                'id' => 11,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Pengembangan Pemuda dan Olahraga',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 11,
+                'id' => 12,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Penelitian dan Pengembangan',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 12,
+                'id' => 13,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Pengembangan dan Perlindungan Tani dan Nelayan',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 13,
+                'id' => 14,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Pendidikan dan Agama',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 14,
+                'id' => 15,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Bantuan Hukum dan Advokasi',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 15,
+                'id' => 16,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Pemberdayaan Perempuan dan Perlindungan Anak',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 16,
+                'id' => 17,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Pengembangan Koperasi Usaha Mikro, Kecil, dan Menengah (UMKM)',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 17,
+                'id' => 18,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Pengembangan dan Perlindungan Buruh dan Perindustrian',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 18,
+                'id' => 19,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Konservasi dan Pemberdayaan Sumber Daya Alam (SDA), Energi, Lingkungan Hidup, dan Penanggulangan Bencana',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 19,
+                'id' => 20,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Saksi Wilayah',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 20,
+                'id' => 21,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Budaya dan Industri Kreatif',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 21,
+                'id' => 22,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Komunikasi dan Informasi Publik',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 22,
+                'id' => 23,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Kesehatan',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 23,
+                'id' => 24,
                 'nama_jabatan' => 'Badan',
                 'keterangan_jabatan' => 'Kesejahteraan Masyarakat',
                 'membawahi_jabatan' => null,
 
             ],
             [
-                'id' => 24,
+                'id' => 25,
                 'nama_jabatan' => 'Biro',
                 'keterangan_jabatan' => '',
                 'membawahi_jabatan' => null,
