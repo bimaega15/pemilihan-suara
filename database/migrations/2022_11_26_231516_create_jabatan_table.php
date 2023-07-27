@@ -17,6 +17,7 @@ class CreateJabatanTable extends Migration
             $table->increments('id');
             $table->string('nama_jabatan', 200);
             $table->string('keterangan_jabatan')->nullable();
+            $table->string('membawahi_jabatan', 255)->nullable();
             $table->timestamps();
         });
     }

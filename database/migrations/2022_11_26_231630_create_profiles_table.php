@@ -16,7 +16,6 @@ class CreateProfilesTable extends Migration
         Schema::create('profile', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nik_profile', 200);
-            $table->boolean('is_biro_profile');
             $table->integer('users_id')->unsigned();
             $table->integer('jabatan_id')->unsigned();
 

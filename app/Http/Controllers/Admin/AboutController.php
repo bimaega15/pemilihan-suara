@@ -4,19 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\Pernyataan;
-use App\Models\RangeBobot;
+use App\Models\About;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 
 
-class PernyataanController extends Controller
+class AboutController extends Controller
 {
     public $validation = [
-        'kode_pernyataan' => 'required',
-        'nama_pernyataan' => 'required',
+        'keterangan_about' => 'required',
     ];
     public $customValidation = [
         'required' => ':attribute wajib diisi',
@@ -42,10 +38,9 @@ class PernyataanController extends Controller
 
         //
         if ($request->ajax()) {
-
             $userAcess = session()->get('userAcess');
-            $data = Pernyataan::all();
 
+            $data = About::all();
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -55,7 +50,7 @@ class PernyataanController extends Controller
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {
                     $buttonUpdate = '
-                    <a href="' . route('admin.pernyataan.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <a href="' . route('admin.about.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
                     <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
@@ -63,18 +58,20 @@ class PernyataanController extends Controller
                 $buttonDelete = '';
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
-                    <form action=' . route('admin.pernyataan.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                    <form action=' . route('admin.about.destroy', $v_data->id) . ' class="d-inline">
+                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #4682A9 !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
                     ';
                 }
+
                 $buttonDetail = '
-                <a href="' . route('admin.pernyataanDetail.index', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #5547f5ea !important;">
-                <i class="fa-solid fa-eye"></i>
+                <a href="' . route('admin.about.show', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-show" style="border-color: #f5af47ea !important;">
+                <i class="fas fa-eye"></i>
                 </a>
                 ';
+
                 $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
@@ -82,23 +79,20 @@ class PernyataanController extends Controller
                     ' . $buttonDetail . '
                 </div>
                 ';
-                $rangeBobot = $v_data->range_bobot_id;
-                $diagnosa = '-';
-                if ($rangeBobot != null) {
-                    $diagnosa = RangeBobot::find($rangeBobot)->nama_range_bobot;
-                }
+
                 $result['data'][] = [
                     $no++,
-                    $v_data->kode_pernyataan,
-                    $v_data->nama_pernyataan,
-                    $diagnosa,
+                    $v_data->project_about,
+                    $v_data->customers_about,
+                    $v_data->team_about,
+                    $v_data->awards_about,
                     trim($button)
                 ];
             }
 
             return response()->json($result, 200);
         }
-        return view('admin.pernyataan.index');
+        return view('admin.about.index');
     }
 
     /**
@@ -130,10 +124,16 @@ class PernyataanController extends Controller
         }
 
         $data = [
-            'kode_pernyataan' => $request->input('kode_pernyataan'),
-            'nama_pernyataan' => $request->input('nama_pernyataan'),
+            'keterangan_about' => $request->input('keterangan_about'),
+            'gambar_about' => $request->input('gambar_about'),
+            'project_about' => $request->input('project_about'),
+            'customers_about' => $request->input('customers_about'),
+            'team_about' => $request->input('team_about'),
+            'awards_about' => $request->input('awards_about'),
+            'teamdetail_about' => $request->input('teamdetail_about'),
+            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
         ];
-        $insert = Pernyataan::create($data);
+        $insert = About::create($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -167,12 +167,12 @@ class PernyataanController extends Controller
     public function edit($id)
     {
         //
-        $pernyataan = Pernyataan::find($id);
-        if ($pernyataan) {
+        $About = About::find($id);
+        if ($About) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
-                'result' => $pernyataan,
+                'result' => $About,
             ], 200);
         } else {
             return response()->json([
@@ -202,20 +202,26 @@ class PernyataanController extends Controller
         }
 
         $data = [
-            'kode_pernyataan' => $request->input('kode_pernyataan'),
-            'nama_pernyataan' => $request->input('nama_pernyataan'),
+            'keterangan_about' => $request->input('keterangan_about'),
+            'gambar_about' => $request->input('gambar_about'),
+            'project_about' => $request->input('project_about'),
+            'customers_about' => $request->input('customers_about'),
+            'team_about' => $request->input('team_about'),
+            'awards_about' => $request->input('awards_about'),
+            'teamdetail_about' => $request->input('teamdetail_about'),
+            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
         ];
-        $update = Pernyataan::find($id)->update($data);
-        if ($update) {
+        $insert = About::find($id)->update($data);
+        if ($insert) {
             return response()->json([
                 'status' => 200,
-                'message' => 'Berhasil update data',
+                'message' => 'Berhasil insert data',
                 'result' => $request->all(),
             ], 200);
         } else {
             return response()->json([
                 'status' => 400,
-                'message' => 'Gagal update data',
+                'message' => 'Gagal insert data',
             ], 400);
         }
     }
@@ -229,7 +235,7 @@ class PernyataanController extends Controller
     public function destroy($id)
     {
         //
-        $delete = Pernyataan::destroy($id);
+        $delete = About::destroy($id);
         if ($delete) {
             return response()->json([
                 'status' => 200,
@@ -241,46 +247,5 @@ class PernyataanController extends Controller
                 'message' => 'Gagal delete data',
             ], 400);
         }
-    }
-
-    public function autoNumber()
-    {
-        try {
-            //code...
-            $number = Pernyataan::select(DB::raw('max(kode_pernyataan) as kode_pernyataan'))->first();
-            if ($number != '' && $number != null) {
-                $getKodeKuisioner = ($number->kode_pernyataan);
-                $getKodeKuisioner = str_replace('KJ', '', $getKodeKuisioner);
-                $getKodeKuisioner = (int)  $getKodeKuisioner;
-                $getKodeKuisioner++;
-                $getAutoNumber = 'KJ' . sprintf("%03s", $getKodeKuisioner);
-            } else {
-                $getAutoNumber = 'KJ001';
-            }
-            if ($number) {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Berhasil ambil data',
-                    'result' => $getAutoNumber
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Gagal ambil data',
-                ], 200);
-            }
-        } catch (Exception $e) {
-            //throw $th;
-            return response()->json([
-                'status' => 400,
-                'message' => 'Terjadi kesalahan data',
-                'result' => $e->getMessage()
-            ], 400);
-        }
-    }
-
-    public function detail($id)
-    {
-        return response()->json($id);
     }
 }

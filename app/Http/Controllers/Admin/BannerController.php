@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\JawabanKuisioner;
-use Exception;
+use App\Models\Banner;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
-class JawabanKuisionerController extends Controller
+class BannerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +33,8 @@ class JawabanKuisionerController extends Controller
         //
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
-            $data = JawabanKuisioner::all();
+
+            $data = Banner::all();
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -45,41 +44,47 @@ class JawabanKuisionerController extends Controller
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {
                     $buttonUpdate = '
-                    <a href="' . route('admin.jawabanKuisioner.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                        <i class="fa-solid fa-pencil"></i>
+                    <a href="' . route('admin.banner.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
                 }
                 $buttonDelete = '';
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
-                    <form action=' . route('admin.jawabanKuisioner.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                    <form action=' . route('admin.banner.destroy', $v_data->id) . ' class="d-inline">
+                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #4682A9 !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
                     ';
                 }
+
+                $buttonDetail = '
+                <a href="' . route('admin.banner.show', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-show" style="border-color: #f5af47ea !important;">
+                <i class="fas fa-eye"></i>
+                </a>
+                ';
+
                 $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
                     ' . $buttonDelete . '
+                    ' . $buttonDetail . '
                 </div>
                 ';
 
                 $result['data'][] = [
                     $no++,
-                    $v_data->kode_jawaban_kuisioner,
-                    $v_data->nama_jawaban_kuisioner,
-                    $v_data->definisi_jawaban_kuisioner,
-                    $v_data->bobot_jawaban_kuisioner,
+                    $v_data->judul_banner,
+                    $v_data->keterangan_banner,
                     trim($button)
                 ];
             }
 
             return response()->json($result, 200);
         }
-        return view('admin.jawabanKuisioner.index');
+        return view('admin.banner.index');
     }
 
     /**
@@ -102,17 +107,13 @@ class JawabanKuisionerController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'kode_jawaban_kuisioner' => ['required', function ($attribute, $value, $fail) use ($request) {
-                $kodeJawabanKuisioner = $request->kode_jawaban_kuisioner;
-                $checkKodeJawabanKuisioner = JawabanKuisioner::where('kode_jawaban_kuisioner', $kodeJawabanKuisioner)->count();
-                if ($checkKodeJawabanKuisioner > 0) {
-                    $fail('Kode jawaban kuisioner sudah digunakan');
-                }
-            }],
-            'nama_jawaban_kuisioner' => 'required',
-            'bobot_jawaban_kuisioner' => 'required',
+            'judul_banner' => 'required',
+            'logo_konfigurasi' => 'image|max:2048',
+
         ], [
             'required' => ':attribute wajib diisi',
+            'image' => ':attribute harus berupa gambar',
+            'max' => ':attribute tidak boleh lebih dari :max',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -123,12 +124,11 @@ class JawabanKuisionerController extends Controller
         }
 
         $data = [
-            'kode_jawaban_kuisioner' => $request->input('kode_jawaban_kuisioner'),
-            'nama_jawaban_kuisioner' => $request->input('nama_jawaban_kuisioner'),
-            'definisi_jawaban_kuisioner' => $request->input('definisi_jawaban_kuisioner'),
-            'bobot_jawaban_kuisioner' => $request->input('bobot_jawaban_kuisioner'),
+            'judul_banner' => $request->input('judul_banner'),
+            'gambar_banner' => $request->input('gambar_banner'),
+            'keterangan_banner' => $request->input('keterangan_banner'),
         ];
-        $insert = JawabanKuisioner::create($data);
+        $insert = Banner::create($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -142,7 +142,6 @@ class JawabanKuisionerController extends Controller
             ], 400);
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -163,12 +162,12 @@ class JawabanKuisionerController extends Controller
     public function edit($id)
     {
         //
-        $roles = JawabanKuisioner::find($id);
-        if ($roles) {
+        $Banner = Banner::find($id);
+        if ($Banner) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
-                'result' => $roles,
+                'result' => $Banner,
             ], 200);
         } else {
             return response()->json([
@@ -189,17 +188,12 @@ class JawabanKuisionerController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'kode_jawaban_kuisioner' => ['required', function ($attribute, $value, $fail) use ($request, $id) {
-                $kodeJawabanKuisioner = $request->kode_jawaban_kuisioner;
-                $checkKodeJawabanKuisioner = JawabanKuisioner::where('kode_jawaban_kuisioner', $kodeJawabanKuisioner)->where('id', '!=', $id)->count();
-                if ($checkKodeJawabanKuisioner > 0) {
-                    $fail('Kode jawaban kuisioner sudah digunakan');
-                }
-            }],
-            'nama_jawaban_kuisioner' => 'required',
-            'bobot_jawaban_kuisioner' => 'required',
+            'judul_banner' => 'required',
+            'logo_konfigurasi' => 'image|max:2048',
         ], [
             'required' => ':attribute wajib diisi',
+            'image' => ':attribute harus berupa gambar',
+            'max' => ':attribute tidak boleh lebih dari :max',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -210,22 +204,21 @@ class JawabanKuisionerController extends Controller
         }
 
         $data = [
-            'kode_jawaban_kuisioner' => $request->input('kode_jawaban_kuisioner'),
-            'nama_jawaban_kuisioner' => $request->input('nama_jawaban_kuisioner'),
-            'definisi_jawaban_kuisioner' => $request->input('definisi_jawaban_kuisioner'),
-            'bobot_jawaban_kuisioner' => $request->input('bobot_jawaban_kuisioner'),
+            'judul_banner' => $request->input('judul_banner'),
+            'gambar_banner' => $request->input('gambar_banner'),
+            'keterangan_banner' => $request->input('keterangan_banner'),
         ];
-        $update = JawabanKuisioner::find($id)->update($data);
-        if ($update) {
+        $insert = Banner::find($id)->update($data);
+        if ($insert) {
             return response()->json([
                 'status' => 200,
-                'message' => 'Berhasil update data',
+                'message' => 'Berhasil insert data',
                 'result' => $request->all(),
             ], 200);
         } else {
             return response()->json([
                 'status' => 400,
-                'message' => 'Gagal update data',
+                'message' => 'Gagal insert data',
             ], 400);
         }
     }
@@ -239,7 +232,7 @@ class JawabanKuisionerController extends Controller
     public function destroy($id)
     {
         //
-        $delete = JawabanKuisioner::destroy($id);
+        $delete = Banner::destroy($id);
         if ($delete) {
             return response()->json([
                 'status' => 200,
@@ -249,42 +242,6 @@ class JawabanKuisionerController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Gagal delete data',
-            ], 400);
-        }
-    }
-
-    public function autoNumber()
-    {
-        try {
-            //code...
-            $number = JawabanKuisioner::select(DB::raw('max(kode_jawaban_kuisioner) as kode_jawaban_kuisioner'))->first();
-            if ($number != '' && $number != null) {
-                $getKodeKuisioner = ($number->kode_jawaban_kuisioner);
-                $getKodeKuisioner = str_replace('J', '', $getKodeKuisioner);
-                $getKodeKuisioner = (int)  $getKodeKuisioner;
-                $getKodeKuisioner++;
-                $getAutoNumber = 'J' . sprintf("%03s", $getKodeKuisioner);
-            } else {
-                $getAutoNumber = 'J001';
-            }
-            if ($number) {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Berhasil ambil data',
-                    'result' => $getAutoNumber
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Gagal ambil data',
-                ], 200);
-            }
-        } catch (Exception $e) {
-            //throw $th;
-            return response()->json([
-                'status' => 400,
-                'message' => 'Terjadi kesalahan data',
-                'result' => $e->getMessage()
             ], 400);
         }
     }

@@ -4,17 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\RangeBobot;
+use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class RangeBobotController extends Controller
+class JabatanController extends Controller
 {
     public $validation = [
-        'dari_range_bobot' => 'required',
-        'sampai_range_bobot' => 'required',
-        'nama_range_bobot' => 'required',
+        'nama_jabatan' => 'required',
     ];
     public $customValidation = [
         'required' => ':attribute wajib diisi',
@@ -42,7 +40,7 @@ class RangeBobotController extends Controller
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
-            $data = RangeBobot::all();
+            $data = Jabatan::all();
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -52,7 +50,7 @@ class RangeBobotController extends Controller
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {
                     $buttonUpdate = '
-                    <a href="' . route('admin.rangeBobot.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <a href="' . route('admin.jabatan.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
                     <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
@@ -60,7 +58,7 @@ class RangeBobotController extends Controller
                 $buttonDelete = '';
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
-                    <form action=' . route('admin.rangeBobot.destroy', $v_data->id) . ' class="d-inline">
+                    <form action=' . route('admin.jabatan.destroy', $v_data->id) . ' class="d-inline">
                         <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
@@ -73,19 +71,29 @@ class RangeBobotController extends Controller
                     ' . $buttonDelete . '
                 </div>
                 ';
+
+                $dataMembawahiJabatan = $v_data->membawahi_jabatan;
+                $expJabatan = explode(',', $dataMembawahiJabatan);
+                $stringJabatan = '';
+                foreach ($expJabatan as $key => $value) {
+                    $rowJabatan = Jabatan::find($value);
+                    $stringJabatan .= '<span class="badge badge-info">
+                        <strong class="text-white">' . $rowJabatan->nama_jabatan . '</strong> <br>
+                        ' . $rowJabatan->keterangan_jabatan . '
+                    </span> ';
+                }
                 $result['data'][] = [
                     $no++,
-                    $v_data->dari_range_bobot,
-                    $v_data->sampai_range_bobot,
-                    $v_data->nama_range_bobot,
-                    $v_data->solusi_range_bobot,
+                    $v_data->nama_jabatan,
+                    $v_data->keterangan_jabatan,
+                    $stringJabatan,
                     trim($button)
                 ];
             }
 
             return response()->json($result, 200);
         }
-        return view('admin.rangeBobot.index');
+        return view('admin.jabatan.index');
     }
 
     /**
@@ -117,12 +125,11 @@ class RangeBobotController extends Controller
         }
 
         $data = [
-            'dari_range_bobot' => $request->input('dari_range_bobot'),
-            'sampai_range_bobot' => $request->input('sampai_range_bobot'),
-            'nama_range_bobot' => $request->input('nama_range_bobot'),
-            'solusi_range_bobot' => $request->input('solusi_range_bobot'),
+            'nama_jabatan' => $request->input('nama_jabatan'),
+            'keterangan_jabatan' => $request->input('keterangan_jabatan'),
+            'membawahi_jabatan' => $request->input('membawahi_jabatan'),
         ];
-        $insert = RangeBobot::create($data);
+        $insert = Jabatan::create($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -156,12 +163,12 @@ class RangeBobotController extends Controller
     public function edit($id)
     {
         //
-        $rangeBobot = RangeBobot::find($id);
-        if ($rangeBobot) {
+        $Jabatan = Jabatan::find($id);
+        if ($Jabatan) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
-                'result' => $rangeBobot,
+                'result' => $Jabatan,
             ], 200);
         } else {
             return response()->json([
@@ -191,12 +198,11 @@ class RangeBobotController extends Controller
         }
 
         $data = [
-            'dari_range_bobot' => $request->input('dari_range_bobot'),
-            'sampai_range_bobot' => $request->input('sampai_range_bobot'),
-            'nama_range_bobot' => $request->input('nama_range_bobot'),
-            'solusi_range_bobot' => $request->input('solusi_range_bobot'),
+            'nama_jabatan' => $request->input('nama_jabatan'),
+            'keterangan_jabatan' => $request->input('keterangan_jabatan'),
+            'membawahi_jabatan' => $request->input('membawahi_jabatan'),
         ];
-        $insert = RangeBobot::find($id)->update($data);
+        $insert = Jabatan::find($id)->update($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -220,7 +226,7 @@ class RangeBobotController extends Controller
     public function destroy($id)
     {
         //
-        $delete = RangeBobot::destroy($id);
+        $delete = Jabatan::destroy($id);
         if ($delete) {
             return response()->json([
                 'status' => 200,
