@@ -32,6 +32,7 @@
                     } = data;
 
                     $('.nama_jabatan').val(result.nama_jabatan);
+                    $('.keterangan_jabatan').val(result.keterangan_jabatan);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";

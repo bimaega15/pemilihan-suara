@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\Hasil;
-use App\Models\JawabanKuisioner;
-use App\Models\Kuisioner;
-use App\Models\PenilaianUser;
-use App\Models\RangeBobot;
+use App\Models\Banner;
+use App\Models\Gallery;
+use App\Models\Jabatan;
+use App\Models\Pengumuman;
 use App\Models\Role;
+use App\Models\Tps;
 use App\Models\User;
-use App\Models\UserDiagnosa;
 use Illuminate\Http\Request;
 
 
@@ -38,20 +37,40 @@ class HomeController extends Controller
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
 
-        $user = User::all()->count();
-        $roles = Role::all()->count();
-        $kuisioner = Kuisioner::all()->count();
-        $jawabanKuisioner = JawabanKuisioner::all()->count();
-        $rangeBobot = RangeBobot::all()->count();
-        $userDiagnosa = UserDiagnosa::all()->count();
+        $admin = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', 'like', '%' . 'admin' . '%')
+            ->get()->count();
+        $koordinator = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', 'like', '%' . 'koordinator' . '%')
+            ->get()->count();
+        $kepalaKepegawaian = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', 'like', '%' . 'kepala kepegawaian' . '%')
+            ->get()->count();
+        $relawan = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', 'like', '%' . 'Relawan' . '%')
+            ->get()->count();
+        $jabatan = Jabatan::all()->count();
+        $banner = Banner::all()->count();
+        $gallery = Gallery::all()->count();
+        $pengumuman = Pengumuman::all()->count();
+        $tps = Tps::all()->count();
+
+
 
         return view('admin.home.index', [
-            'users' => $user,
-            'role' => $roles,
-            'kuisioner' => $kuisioner,
-            'jawabanKuisioner' => $jawabanKuisioner,
-            'rangeBobot' => $rangeBobot,
-            'userDiagnosa' => $userDiagnosa,
+            'admin' => $admin,
+            'koordinator' => $koordinator,
+            'kepalaKepegawaian' => $kepalaKepegawaian,
+            'relawan' => $relawan,
+            'jabatan' => $jabatan,
+            'banner' => $banner,
+            'gallery' => $gallery,
+            'pengumuman' => $pengumuman,
+            'tps' => $tps,
         ]);
     }
 }

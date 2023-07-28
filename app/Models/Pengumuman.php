@@ -11,4 +11,9 @@ class Pengumuman extends Model
     use HasFactory;
     protected $table = 'pengumuman';
     protected $guarded = ['id'];
+
+    public function tps()
+    {
+        return $this->belongsTo(Tps::class);
+    }
 }
