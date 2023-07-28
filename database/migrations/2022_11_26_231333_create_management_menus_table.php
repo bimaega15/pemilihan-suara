@@ -15,7 +15,7 @@ class CreateManagementMenusTable extends Migration
     {
         Schema::create('management_menu', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('no_management_menu');
+            $table->tinyInteger('no_management_menu');
             $table->string('nama_management_menu');
             $table->string('icon_management_menu');
             $table->string('link_management_menu');

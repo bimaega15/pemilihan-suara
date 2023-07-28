@@ -47,6 +47,7 @@ Route::get('/clear', function () {
 });
 
 Route::group(['middleware' => ['checkAlreadyLogin', 'throttle:login']], function () {
+    Route::get('/', [LoginController::class, 'index'])->name('login.index');
     Route::get('/login', [LoginController::class, 'index'])->name('login.index');
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register/store', [RegisterController::class, 'store'])->name('register.store');

@@ -35,7 +35,7 @@ class JabatanController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-
+        $userAcess = session()->get('userAcess');
         //
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
@@ -65,6 +65,20 @@ class JabatanController extends Controller
                     </form>
                     ';
                 }
+
+                $stringJabatan = '';
+                $dataMembawahiJabatan = $v_data->membawahi_jabatan;
+                if ($dataMembawahiJabatan != null) {
+                    $expJabatan = explode(',', $dataMembawahiJabatan);
+                    foreach ($expJabatan as $key => $value) {
+                        $rowJabatan = Jabatan::find($value);
+                        $stringJabatan .= '<span class="badge badge-info">
+                        <strong class="text-white">' . $rowJabatan->nama_jabatan . '</strong> <br>
+                        ' . $rowJabatan->keterangan_jabatan . '
+                    </span> ';
+                    }
+                }
+
                 $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
@@ -72,16 +86,7 @@ class JabatanController extends Controller
                 </div>
                 ';
 
-                $dataMembawahiJabatan = $v_data->membawahi_jabatan;
-                $expJabatan = explode(',', $dataMembawahiJabatan);
-                $stringJabatan = '';
-                foreach ($expJabatan as $key => $value) {
-                    $rowJabatan = Jabatan::find($value);
-                    $stringJabatan .= '<span class="badge badge-info">
-                        <strong class="text-white">' . $rowJabatan->nama_jabatan . '</strong> <br>
-                        ' . $rowJabatan->keterangan_jabatan . '
-                    </span> ';
-                }
+
                 $result['data'][] = [
                     $no++,
                     $v_data->nama_jabatan,

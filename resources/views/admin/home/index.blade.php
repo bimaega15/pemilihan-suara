@@ -16,10 +16,10 @@ Home
                             <div class="col-md-6 col-xl-4">
                                 <div class="card stat-widget shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title">User</h5>
-                                        <h2>{{ $users }}</h2>
+                                        <h5 class="card-title">Admin</h5>
+                                        <h2>{{ $admin }}</h2>
                                         <p>
-                                            <i class="fas fa-user fa-2x"></i>
+                                            <i class="fas fa-user-lock fa-2x"></i>
                                         </p>
                                     </div>
                                 </div>
@@ -27,18 +27,20 @@ Home
                             <div class="col-md-6 col-xl-4">
                                 <div class="card stat-widget shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title">Role</h5>
-                                        <h2>{{ $role }}</h2>
-                                        <i class="fa-solid fa-user-gear fa-2x"></i>
+                                        <h5 class="card-title">Koordinator</h5>
+                                        <h2>{{ $koordinator }}</h2>
+                                        <i class="fas fa-user-tie 2x"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 col-xl-4">
                                 <div class="card stat-widget shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title">Kuisioner</h5>
-                                        <h2>{{ $kuisioner }}</h2>
-                                        <p><i class="fa-solid fa-table fa-2x"></i></p>
+                                        <h5 class="card-title">Kepala Kepegawaian</h5>
+                                        <h2>{{ $kepalaKepegawaian }}</h2>
+                                        <p>
+                                            <i class="fas fa-user-secret fa-2x"></i>
+                                        </p>
 
                                     </div>
                                 </div>
@@ -46,19 +48,10 @@ Home
                             <div class="col-md-6 col-xl-4">
                                 <div class="card stat-widget shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title">Jawaban Kuisioner</h5>
-                                        <h2>{{ $jawabanKuisioner }}</h2>
-                                        <p><i class="fa-solid fa-table fa-2x"></i></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card stat-widget shadow-sm">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Range Bobot</h5>
-                                        <h2>{{ $rangeBobot }}</h2>
+                                        <h5 class="card-title">Relawan</h5>
+                                        <h2>{{ $relawan }}</h2>
                                         <p>
-                                            <i class="fa-solid fa-book fa-2x"></i>
+                                            <i class="fas fa-user-friends fa-2x"></i>
                                         </p>
                                     </div>
                                 </div>
@@ -66,10 +59,54 @@ Home
                             <div class="col-md-6 col-xl-4">
                                 <div class="card stat-widget shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title">Diagnosa User</h5>
-                                        <h2>{{ $userDiagnosa }}</h2>
+                                        <h5 class="card-title">Jabatan</h5>
+                                        <h2>{{ $jabatan }}</h2>
+                                        <p>
+                                            <i class="fas fa-house-user fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card stat-widget shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Banner</h5>
+                                        <h2>{{ $banner }}</h2>
                                         <p>
                                             <i class="fa-solid fa-user-tie fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card stat-widget shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Gallery</h5>
+                                        <h2>{{ $gallery }}</h2>
+                                        <p>
+                                            <i class="fas fa-image fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card stat-widget shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pengumuman</h5>
+                                        <h2>{{ $pengumuman }}</h2>
+                                        <p>
+                                            <i class="fas fa-volume-down fa-2x"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card stat-widget shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Tps</h5>
+                                        <h2>{{ $tps }}</h2>
+                                        <p>
+                                            <i class="fas fa-envelope-open-text fa-2x"></i>
                                         </p>
                                     </div>
                                 </div>
