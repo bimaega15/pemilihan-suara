@@ -10,6 +10,7 @@ class District extends Model
     use HasFactory;
     protected $table = 'districts';
     protected $guarded = ['id'];
+    public $timestamps = false;
 
     public function regencies()
     {
@@ -18,6 +19,6 @@ class District extends Model
 
     public function villages()
     {
-        return $this->hasMany(Village::class, 'district_id','id');
+        return $this->hasMany(Village::class, 'district_id', 'id');
     }
 }

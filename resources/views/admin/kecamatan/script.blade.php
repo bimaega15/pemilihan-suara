@@ -49,6 +49,8 @@
         });
 
         var table = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
             ajax: {
                 url: "{{ route('admin.kecamatan.index') }}",
                 dataType: 'json',

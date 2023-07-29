@@ -30,7 +30,7 @@ $isCreate = session()->get('userAcess.is_create');
                                             <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">
-                                                    Provinsi
+                                                    Kabupaten
                                                 </th>
                                                 <th scope="col">
                                                     Kecamatan

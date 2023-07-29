@@ -6,6 +6,7 @@ use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\District;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -30,16 +31,53 @@ class KecamatanController extends Controller
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
 
+
+
         //
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
-            $data = District::all();
+            $draw = $request->input('draw');
+            $order = $request->input('order');
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $search = $request->input('search')['value'];
+
+            $orderColumn = ["districts.id", "regencies.name", "districts.name", "districts.id"];
+            $indexColumn = intval($order[0]['column']);
+            $dir = $order[0]['dir'];
+            $sortDir = $dir == "asc" ? 'asc' : 'desc';
+            $sortColumn = $orderColumn[$indexColumn];
+
+            $data = District::select('districts.*')->join('regencies', 'districts.regency_id', '=', 'regencies.id');
+            if ($search != '' && $search != null) {
+                $data->where('districts.name', 'like', '%' . $search . '%')
+                    ->orWhere('regencies.name', 'like', '%' . $search . '%');
+            }
+
+            $data = $data
+                ->offset($start)
+                ->limit($length)
+                ->orderBy($sortColumn, $sortDir)
+                ->get();
+
+            $countDocuments = District::join('regencies', 'districts.regency_id', '=', 'regencies.id')->get()->count();
+            $countAllData = $countDocuments;
+
+            if ($search != null && $search != '') {
+                $countAllData = $data->count();
+            }
+
             $result = [];
-            $no = 1;
+            $result['draw'] = $draw;
+            $result['recordsTotal'] = $countAllData;
+            $result['recordsFiltered'] = $countAllData;
+
+            $no = intval($start) + 1;
             if ($data->count() == 0) {
                 $result['data'] = [];
             }
+
             foreach ($data as $index => $v_data) {
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {

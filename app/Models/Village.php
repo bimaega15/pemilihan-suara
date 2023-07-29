@@ -10,6 +10,7 @@ class Village extends Model
     use HasFactory;
     protected $table = 'villages';
     protected $guarded = ['id'];
+    public $timestamps = false;
 
     public function district()
     {
