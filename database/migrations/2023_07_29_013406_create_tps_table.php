@@ -15,10 +15,10 @@ class CreateTpsTable extends Migration
     {
         Schema::create('tps', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('provinces_id');
-            $table->integer('regencies_id');
-            $table->integer('districts_id');
-            $table->integer('villages_id');
+            $table->integer('provinces_id')->unsigned();
+            $table->integer('regencies_id')->unsigned();
+            $table->integer('districts_id')->unsigned();
+            $table->integer('villages_id')->unsigned();
             $table->string('nama_tps', 50);
             $table->integer('totallk_tps')->nullable();
             $table->integer('totalpr_tps')->nullable();
