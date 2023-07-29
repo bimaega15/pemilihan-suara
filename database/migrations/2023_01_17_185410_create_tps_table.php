@@ -15,15 +15,23 @@ class CreateTpsTable extends Migration
     {
         Schema::create('tps', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('provinsi_id');
-            $table->integer('kabupaten_id');
-            $table->integer('kecamatan_id');
-            $table->integer('kelurahan_id');
+            $table->integer('provinces_id');
+            $table->integer('regencies_id');
+            $table->integer('districts_id');
+            $table->integer('villages_id');
             $table->string('nama_tps', 50);
             $table->integer('totallk_tps')->nullable();
             $table->integer('totalpr_tps')->nullable();
             $table->integer('totalsemua_tps')->nullable();
+            $table->integer('users_id')->unsigned();
+            $table->integer('minimal_tps');
             $table->timestamps();
+
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('provinces_id')->references('id')->on('provinces')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('regencies_id')->references('id')->on('regencies')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('districts_id')->references('id')->on('districts')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('villages_id')->references('id')->on('villages')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

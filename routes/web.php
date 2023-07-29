@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\JabatanController;
 use App\Http\Controllers\Admin\JawabanKuisionerController;
 use App\Http\Controllers\Admin\KabupatenController;
 use App\Http\Controllers\Admin\KecamatanController;
+use App\Http\Controllers\Admin\KelurahanController;
 use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\KuisionerController;
 use App\Http\Controllers\Admin\PernyataanController;
@@ -85,5 +86,5 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::resource('provinsi', ProvinsiController::class);
     Route::resource('kabupaten', KabupatenController::class);
     Route::resource('kecamatan', KecamatanController::class);
-    Route::resource('kelurahan', GalleryController::class);
+    Route::resource('kelurahan', KelurahanController::class);
 });

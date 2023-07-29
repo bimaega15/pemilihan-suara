@@ -21,14 +21,14 @@
         function formatRepoSelection(repo) {
             return repo.text;
         }
-        $('.province_id').select2({
+        $('.district_id').select2({
             theme: 'bootstrap-5',
             ajax: {
-                url: `{{ url('/admin/provinsi') }}`,
+                url: `{{ url('/admin/kecamatan') }}`,
                 dataType: 'json',
                 data: function(params) {
                     return {
-                        xhr: 'getProvinsi',
+                        xhr: 'getKecamatan',
                         search: params.term,
                         page: params.page || 1
                     };
@@ -52,7 +52,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('admin.kabupaten.index') }}",
+                url: "{{ route('admin.kelurahan.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -62,7 +62,7 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/kabupaten');
+            $('.form-submit').attr('action', url + '/admin/kelurahan');
 
             resetForm();
         })
@@ -81,15 +81,15 @@
                         result
                     } = data;
 
-                    $('.province_id').append(
-                            new Option(result.provinces.name, result.provinces.id, true, true)
+                    $('.district_id').append(
+                            new Option(result.district.name, result.district.id, true, true)
                         )
                         .trigger("change");
                     $('.name').val(result.name);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/kabupaten/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/kelurahan/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -100,7 +100,7 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
-            $('.province_id option').attr('selected', false).trigger('change');
+            $('.district_id option').attr('selected', false).trigger('change');
 
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {

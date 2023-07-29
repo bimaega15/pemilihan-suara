@@ -3,24 +3,24 @@
      <div class="modal-dialog modal-lg">
          <div class="modal-content">
              <div class="modal-header">
-                 <h5 class="modal-title" id="modalFormLabel">Form Kecamatan</h5>
+                 <h5 class="modal-title" id="modalFormLabel">Form Kelurahan</h5>
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
-             <form action="{{ route('admin.kecamatan.store') }}" class="form-submit">
+             <form action="{{ route('admin.kelurahan.store') }}" class="form-submit">
                  <input type="hidden" name="_method" value="post">
                  <div class="modal-body">
                      <div class="form-floating">
-                         <select class="form-control regency_id" id="floatingInput" name="regency_id">
-                             <option value="">-- Kabupaten --</option>
+                         <select class="form-control district_id" id="floatingInput" name="district_id">
+                             <option value="">-- Kecamatan --</option>
                          </select>
-                         <small class="error_regency_id text-danger"></small>
-                         <label for="floatingInput">Kabupaten</label>
+                         <small class="error_district_id text-danger"></small>
+                         <label for="floatingInput">Kecamatan</label>
                      </div>
                      <div style="height: 10px;"></div>
                      <div class="form-floating">
-                         <input type="text" class="form-control name" id="floatingInput" placeholder="Nama kecamatan..." name="name">
+                         <input type="text" class="form-control name" id="floatingInput" placeholder="Nama kelurahan..." name="name">
                          <small class="error_name text-danger"></small>
-                         <label for="floatingInput">Nama kecamatan</label>
+                         <label for="floatingInput">Nama kelurahan</label>
                      </div>
                  </div>
                  <div class="modal-footer">

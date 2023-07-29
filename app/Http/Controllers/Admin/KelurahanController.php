@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\Gallery;
+use App\Models\Village;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use File;
 
 
-class GalleryController extends Controller
+class KelurahanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,17 +35,52 @@ class GalleryController extends Controller
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
-            $data = Gallery::all();
+            $draw = $request->input('draw');
+            $order = $request->input('order');
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $search = $request->input('search')['value'];
+
+            $orderColumn = ["villages.id", "districts.name", "villages.name", "villages.id"];
+            $indexColumn = intval($order[0]['column']);
+            $dir = $order[0]['dir'];
+            $sortDir = $dir == "asc" ? 'asc' : 'desc';
+            $sortColumn = $orderColumn[$indexColumn];
+
+            $data = Village::select('villages.*')->join('districts', 'villages.district_id', '=', 'districts.id');
+            if ($search != '' && $search != null) {
+                $data->where('villages.name', 'like', '%' . $search . '%')
+                    ->orWhere('districts.name', 'like', '%' . $search . '%');
+            }
+
+            $data = $data
+                ->offset($start)
+                ->limit($length)
+                ->orderBy($sortColumn, $sortDir)
+                ->get();
+
+            $countDocuments = Village::join('districts', 'villages.district_id', '=', 'districts.id')->get()->count();
+            $countAllData = $countDocuments;
+
+            if ($search != null && $search != '') {
+                $countAllData = $data->count();
+            }
+
             $result = [];
-            $no = 1;
+            $result['draw'] = $draw;
+            $result['recordsTotal'] = $countAllData;
+            $result['recordsFiltered'] = $countAllData;
+
+            $no = intval($start) + 1;
             if ($data->count() == 0) {
                 $result['data'] = [];
             }
+
             foreach ($data as $index => $v_data) {
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {
                     $buttonUpdate = '
-                    <a href="' . route('admin.gallery.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <a href="' . route('admin.kelurahan.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
                     <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
@@ -53,7 +88,7 @@ class GalleryController extends Controller
                 $buttonDelete = '';
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
-                    <form action=' . route('admin.gallery.destroy', $v_data->id) . ' class="d-inline">
+                    <form action=' . route('admin.kelurahan.destroy', $v_data->id) . ' class="d-inline">
                         <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
@@ -61,10 +96,6 @@ class GalleryController extends Controller
                     ';
                 }
 
-                $url_gambar_gallery = asset('upload/gallery/' . $v_data->gambar_gallery);
-                $gambar_gallery = '<a class="photoviewer" href="' . $url_gambar_gallery . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_gallery . '">
-                    <img src="' . $url_gambar_gallery . '" width="100%;"></img>
-                </a>';
 
                 $button = '
                 <div class="text-center">
@@ -75,17 +106,15 @@ class GalleryController extends Controller
 
                 $result['data'][] = [
                     $no++,
-                    Check::waktuDateTimeView($v_data->waktu_gallery),
-                    $v_data->judul_gallery,
-                    $v_data->keterangan_gallery,
-                    $gambar_gallery,
+                    $v_data->district->name,
+                    $v_data->name,
                     trim($button)
                 ];
             }
 
             return response()->json($result, 200);
         }
-        return view('admin.gallery.index');
+        return view('admin.kelurahan.index');
     }
 
     /**
@@ -108,14 +137,11 @@ class GalleryController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'judul_gallery' => 'required',
-            'waktu_gallery' => 'required',
-            'gambar_gallery' => 'required|image|max:2048',
+            'district_id' => 'required',
+            'name' => 'required',
 
         ], [
             'required' => ':attribute wajib diisi',
-            'image' => ':attribute harus berupa gambar',
-            'max' => ':attribute tidak boleh lebih dari :max',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -125,20 +151,13 @@ class GalleryController extends Controller
             ], 400);
         }
 
-        $waktuGallery = $request->input('waktu_gallery');
-        $waktu_gallery = Check::waktuDateTime($waktuGallery);
-
-        $file = $request->file('gambar_gallery');
-        $gambar_gallery = $this->uploadFile($file);
 
 
         $data = [
-            'judul_gallery' => $request->input('judul_gallery'),
-            'keterangan_gallery' => $request->input('keterangan_gallery'),
-            'waktu_gallery' => $waktu_gallery,
-            'gambar_gallery' => $gambar_gallery,
+            'district_id' => $request->input('district_id'),
+            'name' => $request->input('name'),
         ];
-        $insert = Gallery::create($data);
+        $insert = Village::create($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -172,12 +191,12 @@ class GalleryController extends Controller
     public function edit($id)
     {
         //
-        $Gallery = Gallery::find($id);
-        if ($Gallery) {
+        $Village = Village::with('district')->where('id', $id)->first();
+        if ($Village) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
-                'result' => $Gallery,
+                'result' => $Village,
             ], 200);
         } else {
             return response()->json([
@@ -198,9 +217,8 @@ class GalleryController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'judul_gallery' => 'required',
-            'waktu_gallery' => 'required',
-            'gambar_gallery' => 'image|max:2048',
+            'district_id' => 'required',
+            'name' => 'required',
         ], [
             'required' => ':attribute wajib diisi',
             'image' => ':attribute harus berupa gambar',
@@ -215,17 +233,12 @@ class GalleryController extends Controller
             ], 400);
         }
 
-        $file = $request->file('gambar_gallery');
-        $gambar_gallery = $this->uploadFile($file, $id);
-
-
         $data = [
-            'judul_gallery' => $request->input('judul_gallery'),
-            'keterangan_gallery' => $request->input('keterangan_gallery'),
-            'waktu_gallery' => $request->input('waktu_gallery'),
-            'gambar_gallery' => $gambar_gallery,
+            'district_id' => $request->input('district_id'),
+            'name' => $request->input('name'),
+
         ];
-        $insert = Gallery::find($id)->update($data);
+        $insert = Village::find($id)->update($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -249,8 +262,7 @@ class GalleryController extends Controller
     public function destroy($id)
     {
         //
-        $this->deleteFile($id);
-        $delete = Gallery::destroy($id);
+        $delete = Village::destroy($id);
         if ($delete) {
             return response()->json([
                 'status' => 200,
@@ -261,48 +273,6 @@ class GalleryController extends Controller
                 'status' => 400,
                 'message' => 'Gagal delete data',
             ], 400);
-        }
-    }
-
-
-    private function uploadFile($file, $id = null)
-    {
-        if ($file != null) {
-            // delete file
-            $this->deleteFile($id);
-            // nama file
-            $fileExp =  explode('.', $file->getClientOriginalName());
-            $name = $fileExp[0];
-            $ext = $fileExp[1];
-            $name = time() . '-' . str_replace(' ', '-', $name) . '.' . $ext;
-
-            // isi dengan nama folder tempat kemana file diupload
-            $tujuan_upload =  public_path() . '/upload/gallery/';
-
-            // upload file
-            $file->move($tujuan_upload, $name);
-        } else {
-            if ($id == null) {
-                $name = 'default.png';
-            } else {
-                $gallery = Gallery::where('id', $id)->first();
-                $name = $gallery->gambar_gallery;
-            }
-        }
-
-        return $name;
-    }
-
-    private function deleteFile($id = null)
-    {
-        if ($id != null) {
-            $gallery = Gallery::where('id', '=', $id)->first();
-            $gambar = public_path() . '/upload/gallery/' . $gallery->gambar_gallery;
-            if (file_exists($gambar)) {
-                if ($gallery->gambar_gallery != 'default.png') {
-                    File::delete($gambar);
-                }
-            }
         }
     }
 }

@@ -30,11 +30,36 @@ class KecamatanController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-
-
-
         //
         if ($request->ajax()) {
+            if ($request->input('xhr') == 'getKecamatan') {
+                $search = $request->input('search');
+                $limit = 10;
+                $page = $request->input('page');
+                $endPage = $page * $limit;
+                $firstPage = $endPage - $limit;
+
+                $province = District::select('*');
+                $countDistricts = District::all()->count();
+                if ($search != null) {
+                    $province->where('name', 'like', '%' . $search . '%');
+                }
+                $province = $province->offset($firstPage)
+                    ->limit($limit)
+                    ->get();
+
+                $result = [];
+                foreach ($province as $key => $v_province) {
+                    $result['results'][] =
+                        [
+                            'id' => $v_province->id,
+                            'text' => $v_province->name,
+                        ];
+                }
+                $result['count_filtered'] = $countDistricts;
+                return response()->json($result, 200);
+            }
+
             $userAcess = session()->get('userAcess');
 
             $draw = $request->input('draw');

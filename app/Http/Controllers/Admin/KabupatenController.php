@@ -61,9 +61,43 @@ class KabupatenController extends Controller
 
             $userAcess = session()->get('userAcess');
 
-            $data = Regencies::all();
+            $draw = $request->input('draw');
+            $order = $request->input('order');
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $search = $request->input('search')['value'];
+
+            $orderColumn = ["regencies.id", "provinces.name", "regencies.name", "regencies.id"];
+            $indexColumn = intval($order[0]['column']);
+            $dir = $order[0]['dir'];
+            $sortDir = $dir == "asc" ? 'asc' : 'desc';
+            $sortColumn = $orderColumn[$indexColumn];
+
+            $data = Regencies::select('regencies.*')->join('provinces', 'provinces.id', '=', 'regencies.province_id');
+            if ($search != '' && $search != null) {
+                $data->where('provinces.name', 'like', '%' . $search . '%')
+                    ->orWhere('regencies.name', 'like', '%' . $search . '%');
+            }
+
+            $data = $data
+                ->offset($start)
+                ->limit($length)
+                ->orderBy($sortColumn, $sortDir)
+                ->get();
+
+            $countDocuments = Regencies::join('provinces', 'provinces.id', '=', 'regencies.province_id')->get()->count();
+            $countAllData = $countDocuments;
+
+            if ($search != null && $search != '') {
+                $countAllData = $data->count();
+            }
+
             $result = [];
-            $no = 1;
+            $result['draw'] = $draw;
+            $result['recordsTotal'] = $countAllData;
+            $result['recordsFiltered'] = $countAllData;
+
+            $no = intval($start) + 1;
             if ($data->count() == 0) {
                 $result['data'] = [];
             }
