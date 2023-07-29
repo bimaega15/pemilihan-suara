@@ -8,41 +8,7 @@
             },
         });
 
-        $(document).on('click', '.btn-add', function(e) {
-            e.preventDefault();
-            $('input[name="_method"]').val('post');
-            let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/about');
 
-            resetForm();
-        })
-
-        $(document).on('click', '.btn-edit', function(e) {
-            e.preventDefault();
-            const id = $(this).data('id');
-            const action = $(this).attr('href');
-            const root = "{{ asset('/') }}";
-            $.ajax({
-                url: action,
-                method: 'get',
-                dataType: 'json',
-                success: function(data) {
-                    const {
-                        result
-                    } = data;
-
-                    $('.nama_about').val(result.nama_about);
-                    $('input[name="_method"]').val('put');
-
-                    let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/about/' + result.id);
-                    $('#modalForm').modal('show');
-                },
-                error: function(x, t, m) {
-                    console.log(x.responseText);
-                }
-            })
-        })
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");

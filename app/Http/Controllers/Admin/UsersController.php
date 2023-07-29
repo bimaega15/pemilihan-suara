@@ -139,7 +139,7 @@ class UsersController extends Controller
             'email_profile' => 'required|email',
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
-            'logo_konfigurasi' => 'image|max:2048',
+            'gambar_profile' => 'image|max:2048',
 
         ], [
             'required' => ':attribute wajib diisi',
@@ -280,7 +280,7 @@ class UsersController extends Controller
             'email_profile' => 'required|email',
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
-            'logo_konfigurasi' => 'image|max:2048',
+            'gambar_profile' => 'image|max:2048',
 
         ], [
             'required' => ':attribute wajib diisi',
@@ -354,6 +354,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+        $this->deleteFile($id);
         $delete = User::destroy($id);
         if ($delete) {
             return response()->json([

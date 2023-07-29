@@ -65,27 +65,41 @@ class Check
         return $getDate;
     }
 
-    public static function getHasil($id)
+    public static function waktuDateTime($dateTime)
     {
-        $data = Hasil::with('userDiagnosa')->find($id);
-        return $data;
+        $explodeWaktu = explode('/', $dateTime);
+        $endExplode = end($explodeWaktu);
+        $explodeEnd = explode(' ', $endExplode);
+        $firstExplode = $explodeEnd[0];
+
+        $mergeTime[] = $firstExplode;
+        $mergeTime[] = $explodeWaktu[1];
+        $mergeTime[] = $explodeWaktu[0];
+
+        $implodeTime = implode('-', $mergeTime);
+
+        $timeMerge[] = $implodeTime;
+        $timeMerge[] = $explodeEnd[1];
+        $implodeTime = implode(' ', $timeMerge);
+        return $implodeTime;
     }
 
-    public static function getKuisioner($kuisioner_id)
+    public static function waktuDateTimeView($dateTime)
     {
-        $data = Kuisioner::find($kuisioner_id);
-        return $data;
-    }
+        $explodeWaktu = explode('-', $dateTime);
+        $endExplode = end($explodeWaktu);
+        $explodeEnd = explode(' ', $endExplode);
+        $firstExplode = $explodeEnd[0];
 
-    public static function getRangeBobot($range_bobot_id)
-    {
-        $data = RangeBobot::find($range_bobot_id);
-        return $data;
-    }
+        $mergeTime[] = $firstExplode;
+        $mergeTime[] = $explodeWaktu[1];
+        $mergeTime[] = $explodeWaktu[0];
 
-    public static function getPernyataan($kuisiner_jawaban_id)
-    {
-        $data = Pernyataan::with('rangeBobot')->find($kuisiner_jawaban_id);
-        return $data;
+        $implodeTime = implode('/', $mergeTime);
+
+        $timeMerge[] = $implodeTime;
+        $timeMerge[] = $explodeEnd[1];
+        $implodeTime = implode(' ', $timeMerge);
+        return $implodeTime;
     }
 }

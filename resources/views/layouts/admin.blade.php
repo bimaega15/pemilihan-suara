@@ -41,6 +41,7 @@ $getKonfigurasi = Check::getKonfigurasi();
     <link rel="stylesheet" href="{{ asset('library/leaflet/dist/leaflet.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <link rel="stylesheet" href="{{ asset('library/summernote/summernote.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('library/jquerydatetimepicker/jquery.datetimepicker.min.css') }}">
 
     @stack('css')
 
@@ -108,6 +109,7 @@ $getKonfigurasi = Check::getKonfigurasi();
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="{{ asset('library/summernote/summernote.min.js') }}"></script>
     <script src=" {{ asset('library/jQuery-Plugin-To-Print-Any-Part-Of-Your-Page-Print/jQuery.print.js') }}"></script>
+    <script src="{{ asset('library/jquerydatetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {

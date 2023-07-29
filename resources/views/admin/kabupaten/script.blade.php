@@ -1,8 +1,56 @@
 <script>
     $(document).ready(function(e) {
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'></div>" +
+                "</div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(repo.text);
+            return $container;
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.text;
+        }
+        $('.province_id').select2({
+            theme: 'bootstrap-5',
+            ajax: {
+                url: `{{ url('/admin/provinsi') }}`,
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        xhr: 'getProvinsi',
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: {
+                            more: (params.page * 10) < data.count_filtered
+                        }
+                    };
+                },
+                cache: true,
+            },
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection
+        });
+
         var table = $('#dataTable').DataTable({
             ajax: {
-                url: "{{ route('admin.banner.index') }}",
+                url: "{{ route('admin.kabupaten.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -12,7 +60,7 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/banner');
+            $('.form-submit').attr('action', url + '/admin/kabupaten');
 
             resetForm();
         })
@@ -31,21 +79,15 @@
                         result
                     } = data;
 
-                    let linkGambar =
-                        `${root}upload/banner/${result.gambar_banner}`;
-                    $('#load_gambar_banner').html(`
-                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.gambar_banner}">
-                        <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
-                    </a>
-                    `);
-
-                    $('.judul_banner').val(result.judul_banner);
-                    $('.keterangan_banner').val(result.keterangan_banner);
-
+                    $('.province_id').append(
+                            new Option(result.provinces.name, result.provinces.id, true, true)
+                        )
+                        .trigger("change");
+                    $('.name').val(result.name);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/banner/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/kabupaten/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -55,8 +97,8 @@
         })
 
         function resetForm(attribute = null) {
-            $('#load_gambar_banner').html('');
             $('.form-submit').trigger("reset");
+            $('.province_id option').attr('selected', false).trigger('change');
 
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
@@ -192,23 +234,5 @@
                 }
             })
         })
-
-        // initialize manually with a list of links
-        $(document).on('click', '[data-gallery="photoviewer"]', function(e) {
-            e.preventDefault();
-            var items = [],
-                options = {
-                    index: $('.photoviewer').index(this),
-                };
-
-            $('[data-gallery="photoviewer"]').each(function() {
-                items.push({
-                    src: $(this).attr('href'),
-                    title: $(this).attr('data-title')
-                });
-            });
-
-            new PhotoViewer(items, options);
-        });
     })
 </script>

@@ -4,19 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\About;
+use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class AboutController extends Controller
+class KecamatanController extends Controller
 {
-    public $validation = [
-        'keterangan_about' => 'required',
-    ];
-    public $customValidation = [
-        'required' => ':attribute wajib diisi',
-    ];
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +34,7 @@ class AboutController extends Controller
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
-            $data = About::all();
+            $data = District::all();
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -50,7 +44,7 @@ class AboutController extends Controller
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {
                     $buttonUpdate = '
-                    <a href="' . route('admin.about.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <a href="' . route('admin.kecamatan.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
                     <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
@@ -58,41 +52,33 @@ class AboutController extends Controller
                 $buttonDelete = '';
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
-                    <form action=' . route('admin.about.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #4682A9 !important;">
+                    <form action=' . route('admin.kecamatan.destroy', $v_data->id) . ' class="d-inline">
+                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
                     ';
                 }
 
-                $buttonDetail = '
-                <a href="' . route('admin.about.show', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-show" style="border-color: #f5af47ea !important;">
-                <i class="fas fa-eye"></i>
-                </a>
-                ';
 
                 $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
                     ' . $buttonDelete . '
-                    ' . $buttonDetail . '
                 </div>
                 ';
 
                 $result['data'][] = [
                     $no++,
-                    $v_data->project_about,
-                    $v_data->customers_about,
-                    $v_data->team_about,
-                    $v_data->awards_about,
+                    $v_data->regencies->name,
+                    $v_data->name,
                     trim($button)
                 ];
             }
 
             return response()->json($result, 200);
         }
-        return view('admin.about.index');
+        return view('admin.kecamatan.index');
     }
 
     /**
@@ -103,7 +89,6 @@ class AboutController extends Controller
     public function create()
     {
         //
-        return view('admin.about.form');
     }
 
     /**
@@ -115,7 +100,13 @@ class AboutController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = Validator::make($request->all(), $this->validation, $this->customValidation);
+        $validator = Validator::make($request->all(), [
+            'regency_id' => 'required',
+            'name' => 'required',
+
+        ], [
+            'required' => ':attribute wajib diisi',
+        ]);
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
@@ -124,17 +115,13 @@ class AboutController extends Controller
             ], 400);
         }
 
+
+
         $data = [
-            'keterangan_about' => $request->input('keterangan_about'),
-            'gambar_about' => $request->input('gambar_about'),
-            'project_about' => $request->input('project_about'),
-            'customers_about' => $request->input('customers_about'),
-            'team_about' => $request->input('team_about'),
-            'awards_about' => $request->input('awards_about'),
-            'teamdetail_about' => $request->input('teamdetail_about'),
-            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
+            'regency_id' => $request->input('regency_id'),
+            'name' => $request->input('name'),
         ];
-        $insert = About::create($data);
+        $insert = District::create($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -168,12 +155,12 @@ class AboutController extends Controller
     public function edit($id)
     {
         //
-        $About = About::find($id);
-        if ($About) {
+        $District = District::with('regencies')->where('id', $id)->first();
+        if ($District) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
-                'result' => $About,
+                'result' => $District,
             ], 200);
         } else {
             return response()->json([
@@ -193,7 +180,15 @@ class AboutController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $validator = Validator::make($request->all(), $this->validation, $this->customValidation);
+        $validator = Validator::make($request->all(), [
+            'regency_id' => 'required',
+            'name' => 'required',
+        ], [
+            'required' => ':attribute wajib diisi',
+            'image' => ':attribute harus berupa gambar',
+            'max' => ':attribute tidak boleh lebih dari :max',
+        ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
@@ -203,16 +198,11 @@ class AboutController extends Controller
         }
 
         $data = [
-            'keterangan_about' => $request->input('keterangan_about'),
-            'gambar_about' => $request->input('gambar_about'),
-            'project_about' => $request->input('project_about'),
-            'customers_about' => $request->input('customers_about'),
-            'team_about' => $request->input('team_about'),
-            'awards_about' => $request->input('awards_about'),
-            'teamdetail_about' => $request->input('teamdetail_about'),
-            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
+            'regency_id' => $request->input('regency_id'),
+            'name' => $request->input('name'),
+
         ];
-        $insert = About::find($id)->update($data);
+        $insert = District::find($id)->update($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -236,7 +226,7 @@ class AboutController extends Controller
     public function destroy($id)
     {
         //
-        $delete = About::destroy($id);
+        $delete = District::destroy($id);
         if ($delete) {
             return response()->json([
                 'status' => 200,

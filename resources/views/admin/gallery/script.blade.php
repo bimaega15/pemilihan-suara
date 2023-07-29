@@ -31,7 +31,18 @@
                         result
                     } = data;
 
-                    $('.nama_gallery').val(result.nama_gallery);
+                    $('.judul_gallery').val(result.judul_gallery);
+                    $('.keterangan_gallery').val(result.keterangan_gallery);
+                    $('.waktu_gallery').val(result.waktu_gallery);
+
+                    let linkGambar =
+                        `${root}upload/gallery/${result.gambar_gallery}`;
+                    $('#load_gambar_gallery').html(`
+                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.gambar_gallery}">
+                        <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
+                    </a>
+                    `);
+
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
@@ -82,6 +93,7 @@
                     $('.btn-submit').attr('disabled', true);
                 },
                 success: function(data) {
+                    console.log(data);
                     if (data.status == 200) {
                         Swal.fire({
                             icon: 'success',
@@ -180,6 +192,31 @@
                     })
                 }
             })
+        })
+
+
+        // initialize manually with a list of links
+        $(document).on('click', '[data-gallery="photoviewer"]', function(e) {
+            e.preventDefault();
+            var items = [],
+                options = {
+                    index: $('.photoviewer').index(this),
+                };
+
+            $('[data-gallery="photoviewer"]').each(function() {
+                items.push({
+                    src: $(this).attr('href'),
+                    title: $(this).attr('data-title')
+                });
+            });
+
+            new PhotoViewer(items, options);
+        });
+
+        $(document).on('click', '#datetimepicker', function() {
+            $('#datetimepicker').datetimepicker({
+                format: 'd/m/Y H:i',
+            });
         })
     })
 </script>

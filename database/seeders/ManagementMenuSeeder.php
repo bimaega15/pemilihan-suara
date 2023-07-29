@@ -31,7 +31,7 @@ class ManagementMenuSeeder extends Seeder
                 'nama_management_menu' => 'Data master',
                 'icon_management_menu' => 'hard-drive',
                 'link_management_menu' => '#',
-                'membawahi_menu_management_menu' => '4, 5, 6, 7, 8, 12',
+                'membawahi_menu_management_menu' => '4, 5, 6, 7, 8, 12, 16, 17, 18, 19',
                 'is_node_management_menu' => '1',
             ],
 
@@ -155,6 +155,42 @@ class ManagementMenuSeeder extends Seeder
                 'membawahi_menu_management_menu' => '',
                 'is_node_management_menu' => '',
             ],
+            [
+                'id' => 16,
+                'no_management_menu' => 16,
+                'nama_management_menu' => 'Provinsi',
+                'icon_management_menu' => 'far fa-circle',
+                'link_management_menu' => '/admin/provinsi',
+                'membawahi_menu_management_menu' => '',
+                'is_node_management_menu' => '',
+            ],
+            [
+                'id' => 17,
+                'no_management_menu' => 17,
+                'nama_management_menu' => 'Kabupaten',
+                'icon_management_menu' => 'far fa-circle',
+                'link_management_menu' => '/admin/kabupaten',
+                'membawahi_menu_management_menu' => '',
+                'is_node_management_menu' => '',
+            ],
+            [
+                'id' => 18,
+                'no_management_menu' => 18,
+                'nama_management_menu' => 'Kecamatan',
+                'icon_management_menu' => 'far fa-circle',
+                'link_management_menu' => '/admin/kecamatan',
+                'membawahi_menu_management_menu' => '',
+                'is_node_management_menu' => '',
+            ],
+            [
+                'id' => 19,
+                'no_management_menu' => 19,
+                'nama_management_menu' => 'Kelurahan',
+                'icon_management_menu' => 'far fa-circle',
+                'link_management_menu' => '/admin/kelurahan',
+                'membawahi_menu_management_menu' => '',
+                'is_node_management_menu' => '',
+            ],
 
         ];
         ManagementMenu::insert($data);
@@ -265,7 +301,34 @@ class ManagementMenuSeeder extends Seeder
                 'is_update' => 1,
                 'is_delete' => 1,
             ],
-
+            [
+                'management_menu_id' => 16,
+                'roles_id' => 1,
+                'is_create' => 1,
+                'is_update' => 1,
+                'is_delete' => 1,
+            ],
+            [
+                'management_menu_id' => 17,
+                'roles_id' => 1,
+                'is_create' => 1,
+                'is_update' => 1,
+                'is_delete' => 1,
+            ],
+            [
+                'management_menu_id' => 18,
+                'roles_id' => 1,
+                'is_create' => 1,
+                'is_update' => 1,
+                'is_delete' => 1,
+            ],
+            [
+                'management_menu_id' => 19,
+                'roles_id' => 1,
+                'is_create' => 1,
+                'is_update' => 1,
+                'is_delete' => 1,
+            ],
         ];
         ManagementMenuRoles::insert($data);
     }

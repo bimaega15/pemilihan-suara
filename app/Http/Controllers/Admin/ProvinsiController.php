@@ -4,19 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\About;
+use App\Models\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class AboutController extends Controller
+class ProvinsiController extends Controller
 {
-    public $validation = [
-        'keterangan_about' => 'required',
-    ];
-    public $customValidation = [
-        'required' => ':attribute wajib diisi',
-    ];
     /**
      * Display a listing of the resource.
      *
@@ -38,9 +32,37 @@ class AboutController extends Controller
 
         //
         if ($request->ajax()) {
+            if ($request->input('xhr') == 'getProvinsi') {
+                $search = $request->input('search');
+                $limit = 10;
+                $page = $request->input('page');
+                $endPage = $page * $limit;
+                $firstPage = $endPage - $limit;
+
+                $province = Province::select('*');
+                $countProvince = Province::all()->count();
+                if ($search != null) {
+                    $province->where('name', 'like', '%' . $search . '%');
+                }
+                $province = $province->offset($firstPage)
+                    ->limit($limit)
+                    ->get();
+
+                $result = [];
+                foreach ($province as $key => $v_province) {
+                    $result['results'][] =
+                        [
+                            'id' => $v_province->id,
+                            'text' => $v_province->name,
+                        ];
+                }
+                $result['count_filtered'] = $countProvince;
+                return response()->json($result, 200);
+            }
+
             $userAcess = session()->get('userAcess');
 
-            $data = About::all();
+            $data = Province::all();
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -50,7 +72,7 @@ class AboutController extends Controller
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {
                     $buttonUpdate = '
-                    <a href="' . route('admin.about.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <a href="' . route('admin.provinsi.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
                     <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
@@ -58,41 +80,31 @@ class AboutController extends Controller
                 $buttonDelete = '';
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
-                    <form action=' . route('admin.about.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #4682A9 !important;">
+                    <form action=' . route('admin.provinsi.destroy', $v_data->id) . ' class="d-inline">
+                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
                     ';
                 }
 
-                $buttonDetail = '
-                <a href="' . route('admin.about.show', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-show" style="border-color: #f5af47ea !important;">
-                <i class="fas fa-eye"></i>
-                </a>
-                ';
-
                 $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
                     ' . $buttonDelete . '
-                    ' . $buttonDetail . '
                 </div>
                 ';
 
                 $result['data'][] = [
                     $no++,
-                    $v_data->project_about,
-                    $v_data->customers_about,
-                    $v_data->team_about,
-                    $v_data->awards_about,
+                    $v_data->name,
                     trim($button)
                 ];
             }
 
             return response()->json($result, 200);
         }
-        return view('admin.about.index');
+        return view('admin.provinsi.index');
     }
 
     /**
@@ -103,7 +115,6 @@ class AboutController extends Controller
     public function create()
     {
         //
-        return view('admin.about.form');
     }
 
     /**
@@ -115,7 +126,13 @@ class AboutController extends Controller
     public function store(Request $request)
     {
         //
-        $validator = Validator::make($request->all(), $this->validation, $this->customValidation);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ], [
+            'required' => ':attribute wajib diisi',
+            'image' => ':attribute harus berupa gambar',
+            'max' => ':attribute tidak boleh lebih dari :max',
+        ]);
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
@@ -125,16 +142,9 @@ class AboutController extends Controller
         }
 
         $data = [
-            'keterangan_about' => $request->input('keterangan_about'),
-            'gambar_about' => $request->input('gambar_about'),
-            'project_about' => $request->input('project_about'),
-            'customers_about' => $request->input('customers_about'),
-            'team_about' => $request->input('team_about'),
-            'awards_about' => $request->input('awards_about'),
-            'teamdetail_about' => $request->input('teamdetail_about'),
-            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
+            'name' => $request->input('name'),
         ];
-        $insert = About::create($data);
+        $insert = Province::create($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -168,12 +178,12 @@ class AboutController extends Controller
     public function edit($id)
     {
         //
-        $About = About::find($id);
-        if ($About) {
+        $Provinsi = Province::find($id);
+        if ($Provinsi) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
-                'result' => $About,
+                'result' => $Provinsi,
             ], 200);
         } else {
             return response()->json([
@@ -193,7 +203,14 @@ class AboutController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $validator = Validator::make($request->all(), $this->validation, $this->customValidation);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ], [
+            'required' => ':attribute wajib diisi',
+            'image' => ':attribute harus berupa gambar',
+            'max' => ':attribute tidak boleh lebih dari :max',
+        ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
@@ -201,18 +218,10 @@ class AboutController extends Controller
                 'result' => $validator->errors()
             ], 400);
         }
-
         $data = [
-            'keterangan_about' => $request->input('keterangan_about'),
-            'gambar_about' => $request->input('gambar_about'),
-            'project_about' => $request->input('project_about'),
-            'customers_about' => $request->input('customers_about'),
-            'team_about' => $request->input('team_about'),
-            'awards_about' => $request->input('awards_about'),
-            'teamdetail_about' => $request->input('teamdetail_about'),
-            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
+            'name' => $request->input('name'),
         ];
-        $insert = About::find($id)->update($data);
+        $insert = Province::find($id)->update($data);
         if ($insert) {
             return response()->json([
                 'status' => 200,
@@ -236,7 +245,7 @@ class AboutController extends Controller
     public function destroy($id)
     {
         //
-        $delete = About::destroy($id);
+        $delete = Province::destroy($id);
         if ($delete) {
             return response()->json([
                 'status' => 200,

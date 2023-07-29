@@ -2,7 +2,7 @@
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
             ajax: {
-                url: "{{ route('admin.banner.index') }}",
+                url: "{{ route('admin.provinsi.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -12,7 +12,7 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/banner');
+            $('.form-submit').attr('action', url + '/admin/provinsi');
 
             resetForm();
         })
@@ -31,21 +31,11 @@
                         result
                     } = data;
 
-                    let linkGambar =
-                        `${root}upload/banner/${result.gambar_banner}`;
-                    $('#load_gambar_banner').html(`
-                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.gambar_banner}">
-                        <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
-                    </a>
-                    `);
-
-                    $('.judul_banner').val(result.judul_banner);
-                    $('.keterangan_banner').val(result.keterangan_banner);
-
+                    $('.name').val(result.name);
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/banner/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/provinsi/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -55,7 +45,6 @@
         })
 
         function resetForm(attribute = null) {
-            $('#load_gambar_banner').html('');
             $('.form-submit').trigger("reset");
 
             if (attribute != null && attribute != '') {
@@ -192,23 +181,5 @@
                 }
             })
         })
-
-        // initialize manually with a list of links
-        $(document).on('click', '[data-gallery="photoviewer"]', function(e) {
-            e.preventDefault();
-            var items = [],
-                options = {
-                    index: $('.photoviewer').index(this),
-                };
-
-            $('[data-gallery="photoviewer"]').each(function() {
-                items.push({
-                    src: $(this).attr('href'),
-                    title: $(this).attr('data-title')
-                });
-            });
-
-            new PhotoViewer(items, options);
-        });
     })
 </script>
