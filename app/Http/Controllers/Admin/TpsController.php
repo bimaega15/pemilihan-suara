@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
+use App\Models\Province;
 use App\Models\Tps;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,11 +14,13 @@ use Illuminate\Support\Facades\Validator;
 class TpsController extends Controller
 {
     public $validation = [
-        'provinsi_id' => 'required',
-        'kabupaten_id' => 'required',
-        'kecamatan_id' => 'required',
-        'kelurahan_id' => 'required',
+        'provinces_id' => 'required',
+        'regencies_id' => 'required',
+        'districts_id' => 'required',
+        'villages_id' => 'required',
         'nama_tps' => 'required',
+        'minimal_tps' => 'required',
+        'users_id' => 'required',
     ];
     public $customValidation = [
         'required' => ':attribute wajib diisi',
@@ -76,21 +80,34 @@ class TpsController extends Controller
                 </div>
                 ';
 
-                $dataMembawahiTps = $v_data->membawahi_tps;
-                $expTps = explode(',', $dataMembawahiTps);
-                $stringTps = '';
-                foreach ($expTps as $key => $value) {
-                    $rowTps = Tps::find($value);
-                    $stringTps .= '<span class="badge badge-info">
-                        <strong class="text-white">' . $rowTps->nama_tps . '</strong> <br>
-                        ' . $rowTps->keterangan_tps . '
-                    </span> ';
-                }
+                $daerah = '
+                <div class="row">
+                    <div class="col-lg-6">
+                    Provinsi: <br> <strong class="text-success">' . $v_data->provinces->name . ' </strong>
+                    </div>
+                    <div class="col-lg-6">
+                    Kabupaten: <br> <strong class="text-success">' . $v_data->regencies->name . ' </strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                    Kecamatan: <br> <strong class="text-success">' . $v_data->districts->name . ' </strong>
+                    </div>
+                    <div class="col-lg-6">
+                    Kelurahan: <br> <strong class="text-success">' . $v_data->villages->name . ' </strong>
+                    </div>
+                </div>
+                ';
+
                 $result['data'][] = [
                     $no++,
                     $v_data->nama_tps,
-                    $v_data->keterangan_tps,
-                    $stringTps,
+                    $v_data->minimal_tps,
+                    $v_data->totallk_tps == null ? 0 : $v_data->totallk_tps,
+                    $v_data->totalpr_tps == null ? 0 : $v_data->totalpr_tps,
+                    $v_data->totalsemua_tps == null ? 0 : $v_data->totalsemua_tps,
+                    $v_data->users_id,
+                    $daerah,
                     trim($button)
                 ];
             }
@@ -129,9 +146,13 @@ class TpsController extends Controller
         }
 
         $data = [
+            'provinces_id' => $request->input('provinces_id'),
+            'regencies_id' => $request->input('regencies_id'),
+            'districts_id' => $request->input('districts_id'),
+            'villages_id' => $request->input('villages_id'),
             'nama_tps' => $request->input('nama_tps'),
-            'keterangan_tps' => $request->input('keterangan_tps'),
-            'membawahi_tps' => $request->input('membawahi_tps'),
+            'users_id' => $request->input('users_id'),
+            'minimal_tps' => $request->input('minimal_tps'),
         ];
         $insert = Tps::create($data);
         if ($insert) {
@@ -242,5 +263,57 @@ class TpsController extends Controller
                 'message' => 'Gagal delete data',
             ], 400);
         }
+    }
+
+    public function getProvinsi()
+    {
+        $data = Province::all();
+        return response()->json([
+            'status' => 200,
+            'message' => "Berhasil ambil data",
+            "result" => $data
+        ], 200);
+    }
+
+    public function getKoordinator(Request $request)
+    {
+        $search = $request->input('search');
+
+        $limit = 10;
+        $page = $request->input('page');
+        $endPage = $page * $limit;
+        $firstPage = $endPage - $limit;
+
+        $usersKoordinator = User::join('profile', 'profile.users_id', '=', 'users.id')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', 'koordinator');
+        $countDistricts = User::join('profile', 'profile.users_id', '=', 'users.id')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', 'koordinator')->get()->count();
+
+        if ($search != null) {
+            $usersKoordinator
+                ->where('nik_profile', 'like', '%' . $search . '%')
+                ->orWhere('nama_profile', 'like', '%' . $search . '%')
+                ->orWhere('email_profile', 'like', '%' . $search . '%')
+                ->orWhere('alamat_profile', 'like', '%' . $search . '%')
+                ->orWhere('nohp_profile', 'like', '%' . $search . '%');
+        }
+        $usersKoordinator = $usersKoordinator->offset($firstPage)
+            ->limit($limit)
+            ->get();
+
+        $result = [];
+        foreach ($usersKoordinator as $key => $v_usersKoordinator) {
+            $result['results'][] =
+                [
+                    'id' => $v_usersKoordinator->id,
+                    'text' => $v_usersKoordinator->nama_profile,
+                ];
+        }
+        $result['count_filtered'] = $countDistricts;
+        return response()->json($result, 200);
     }
 }

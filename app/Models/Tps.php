@@ -20,4 +20,29 @@ class Tps extends Model
     {
         return $this->hasMany(Pengumuman::class);
     }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
+
+    public function provinces()
+    {
+        return $this->belongsTo(Province::class, 'provinces_id', 'id');
+    }
+
+    public function regencies()
+    {
+        return $this->belongsTo(Regencies::class, 'regencies_id', 'id');
+    }
+
+    public function districts()
+    {
+        return $this->belongsTo(District::class, 'districts_id', 'id');
+    }
+
+    public function villages()
+    {
+        return $this->belongsTo(Village::class, 'villages_id', 'id');
+    }
 }

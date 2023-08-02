@@ -20,4 +20,9 @@ class Regencies extends Model
     {
         return $this->hasMany(District::class, 'regency_id', 'id');
     }
+
+    public function tps()
+    {
+        return $this->hasMany(Tps::class, 'regencies_id', 'id');
+    }
 }

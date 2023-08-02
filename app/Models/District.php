@@ -21,4 +21,9 @@ class District extends Model
     {
         return $this->hasMany(Village::class, 'district_id', 'id');
     }
+
+    public function tps()
+    {
+        return $this->hasMany(Tps::class, 'districts_id', 'id');
+    }
 }

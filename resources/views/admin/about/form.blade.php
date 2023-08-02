@@ -3,6 +3,14 @@
 Form About
 @endsection
 @section('content')
+@push('css')
+<style>
+    .ck-editor__editable[role="textbox"] {
+        /* editing area */
+        min-height: 200px;
+    }
+</style>
+@endpush
 <?php
 $isCreate = session()->get('userAcess.is_create');
 ?>
@@ -37,7 +45,7 @@ $isCreate = session()->get('userAcess.is_create');
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="">Keterangan</label>
-                                    <textarea name="keterangan_about" class="form-control keterangan_about" id="" placeholder="Keterangan"></textarea>
+                                    <textarea name="keterangan_about" class="form-control keterangan_about" id="editor" placeholder="Keterangan"></textarea>
                                     <small class="error_keterangan_about text-danger"></small>
                                 </div>
                                 <div style="height: 10px;"></div>

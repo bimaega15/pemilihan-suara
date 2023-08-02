@@ -33,6 +33,40 @@ class KelurahanController extends Controller
 
         //
         if ($request->ajax()) {
+            if ($request->input('xhr') == 'getKelurahan') {
+                $district_id = $request->input('district_id');
+                $search = $request->input('search');
+
+                $limit = 10;
+                $page = $request->input('page');
+                $endPage = $page * $limit;
+                $firstPage = $endPage - $limit;
+
+                $village = Village::select('*');
+                $countDistricts = Village::all()->count();
+                if ($search != null) {
+                    $village->where('name', 'like', '%' . $search . '%');
+                }
+                $countDistricts = Village::all()->count();
+                if ($district_id != null) {
+                    $village->where('district_id', '=', $district_id);
+                }
+                $village = $village->offset($firstPage)
+                    ->limit($limit)
+                    ->get();
+
+                $result = [];
+                foreach ($village as $key => $v_village) {
+                    $result['results'][] =
+                        [
+                            'id' => $v_village->id,
+                            'text' => $v_village->name,
+                        ];
+                }
+                $result['count_filtered'] = $countDistricts;
+                return response()->json($result, 200);
+            }
+
             $userAcess = session()->get('userAcess');
 
             $draw = $request->input('draw');

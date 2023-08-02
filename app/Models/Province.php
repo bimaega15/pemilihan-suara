@@ -16,4 +16,9 @@ class Province extends Model
     {
         return $this->hasMany(Regencies::class, 'province_id', 'id');
     }
+
+    public function tps()
+    {
+        return $this->hasMany(Tps::class, 'provinces_id', 'id');
+    }
 }

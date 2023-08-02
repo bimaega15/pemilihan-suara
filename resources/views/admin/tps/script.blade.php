@@ -181,5 +181,186 @@
                 }
             })
         })
+
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'></div>" +
+                "</div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(repo.text);
+            return $container;
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.text;
+        }
+
+        $('.provinces_id').select2({
+            theme: 'bootstrap-5',
+            ajax: {
+                url: `{{ url('/admin/provinsi') }}`,
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        xhr: 'getProvinsi',
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: {
+                            more: (params.page * 10) < data.count_filtered
+                        }
+                    };
+                },
+                cache: true,
+            },
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection
+        });
+
+
+        $(document).on('change', '.provinces_id', function() {
+            let value = $(this).val();
+            getKabupaten(value);
+        })
+
+        function getKabupaten(provinces_id) {
+            $('.regencies_id').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: `{{ url('/admin/kabupaten') }}`,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            xhr: 'getKabupaten',
+                            search: params.term,
+                            page: params.page || 1,
+                            provinces_id: provinces_id
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page * 10) < data.count_filtered
+                            }
+                        };
+                    },
+                    cache: true,
+                },
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        }
+
+        $(document).on('change', '.regencies_id', function() {
+            let value = $(this).val();
+            getKecamatan(value);
+        })
+
+        function getKecamatan(regency_id) {
+            $('.districts_id').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: `{{ url('/admin/kecamatan') }}`,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            xhr: 'getKecamatan',
+                            search: params.term,
+                            page: params.page || 1,
+                            regency_id: regency_id
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page * 10) < data.count_filtered
+                            }
+                        };
+                    },
+                    cache: true,
+                },
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        }
+
+        $(document).on('change', '.districts_id', function() {
+            let value = $(this).val();
+            getKelurahan(value);
+        })
+
+        function getKelurahan(district_id) {
+            $('.villages_id').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: `{{ url('/admin/kelurahan') }}`,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            xhr: 'getKelurahan',
+                            search: params.term,
+                            page: params.page || 1,
+                            district_id: district_id
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page * 10) < data.count_filtered
+                            }
+                        };
+                    },
+                    cache: true,
+                },
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        }
+
+        $('.users_id').select2({
+            theme: 'bootstrap-5',
+            ajax: {
+                url: `{{ url('/admin/tps/getKoordinator') }}`,
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        search: params.term,
+                        page: params.page || 1,
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: {
+                            more: (params.page * 10) < data.count_filtered
+                        }
+                    };
+                },
+                cache: true,
+            },
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection
+        });
     })
 </script>

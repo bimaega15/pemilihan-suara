@@ -25,7 +25,6 @@ class CreateProfilesTable extends Migration
             $table->string('nohp_profile', 35);
             $table->enum('jenis_kelamin_profile', ['L', 'P']);
             $table->string('gambar_profile', 200)->nullable();
-            $table->string('membawahi_profile', 200)->nullable();
 
             $table->timestamps();
 

@@ -3,6 +3,7 @@
 About
 @endsection
 @section('content')
+
 <?php
 $isCreate = session()->get('userAcess.is_create');
 ?>

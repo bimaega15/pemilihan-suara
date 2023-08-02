@@ -33,26 +33,30 @@ class KabupatenController extends Controller
         if ($request->ajax()) {
             if ($request->input('xhr') == 'getKabupaten') {
                 $search = $request->input('search');
+                $provinces_id = $request->input('provinces_id');
                 $limit = 10;
                 $page = $request->input('page');
                 $endPage = $page * $limit;
                 $firstPage = $endPage - $limit;
 
-                $province = Regencies::select('*');
+                $regencies = Regencies::select('*');
                 $countRegencies = Regencies::all()->count();
                 if ($search != null) {
-                    $province->where('name', 'like', '%' . $search . '%');
+                    $regencies->where('name', 'like', '%' . $search . '%');
                 }
-                $province = $province->offset($firstPage)
+                if ($provinces_id != null) {
+                    $regencies->where('province_id', '=',  $provinces_id);
+                }
+                $regencies = $regencies->offset($firstPage)
                     ->limit($limit)
                     ->get();
 
                 $result = [];
-                foreach ($province as $key => $v_province) {
+                foreach ($regencies as $key => $v_regencies) {
                     $result['results'][] =
                         [
-                            'id' => $v_province->id,
-                            'text' => $v_province->name,
+                            'id' => $v_regencies->id,
+                            'text' => $v_regencies->name,
                         ];
                 }
                 $result['count_filtered'] = $countRegencies;

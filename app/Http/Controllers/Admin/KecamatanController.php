@@ -34,6 +34,8 @@ class KecamatanController extends Controller
         if ($request->ajax()) {
             if ($request->input('xhr') == 'getKecamatan') {
                 $search = $request->input('search');
+                $regency_id = $request->input('regency_id');
+
                 $limit = 10;
                 $page = $request->input('page');
                 $endPage = $page * $limit;
@@ -43,6 +45,9 @@ class KecamatanController extends Controller
                 $countDistricts = District::all()->count();
                 if ($search != null) {
                     $province->where('name', 'like', '%' . $search . '%');
+                }
+                if ($regency_id != null) {
+                    $province->where('regency_id', '=', $regency_id);
                 }
                 $province = $province->offset($firstPage)
                     ->limit($limit)

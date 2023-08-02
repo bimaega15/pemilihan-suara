@@ -78,7 +78,10 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::post('access/updateAccess', [AccessController::class, 'updateAccess'])->name('access.updateAccess');
 
     // 
-    Route::resource('tps', TpsController::class);
+    Route::resource('tps', TpsController::class)->except(['show']);
+    Route::get('/tps/getKoordinator', [TpsController::class, 'getKoordinator'])->name('tps.getKoordinator');
+
+
     Route::resource('jabatan', JabatanController::class);
     Route::resource('banner', BannerController::class);
     Route::resource('about', AboutController::class);
