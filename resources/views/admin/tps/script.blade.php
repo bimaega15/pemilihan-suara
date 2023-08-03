@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
+            responsive: true,
             ajax: {
                 url: "{{ route('admin.tps.index') }}",
                 dataType: 'json',

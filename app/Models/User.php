@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tps::class, 'users_id', 'id');
     }
+
+    public function tpsDetail()
+    {
+        return $this->hasMany(TpsDetail::class, 'users_id', 'id');
+    }
 }

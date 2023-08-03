@@ -8,6 +8,8 @@ use App\Models\Jabatan;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
+use App\Models\Tps;
+use App\Models\TpsDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -39,7 +41,7 @@ class TpsDetailController extends Controller
             $tps_id = $request->input('tps_id');
             $userAcess = session()->get('userAcess');
 
-            $data = User::all();
+            $data = TpsDetail::with('tps', 'users', 'users.profile')->where('tps_id', $tps_id)->get();
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -71,17 +73,27 @@ class TpsDetailController extends Controller
             </div>
             ';
 
-                $url_gambar_profile = asset('upload/profile/' . $v_data->profile->gambar_profile);
-                $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->profile->gambar_profile . '">
+                $url_gambar_profile = asset('upload/profile/' . $v_data->users->profile->gambar_profile);
+                $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->users->profile->gambar_profile . '">
                     <img src="' . $url_gambar_profile . '" width="100%;"></img>
                 </a>';
+
+                $gambarCoblos = $v_data->bukticoblos_detail;
+                if ($gambarCoblos == null) {
+                    $gambarCoblos = 'default.png';
+                }
+                $url_bukticoblos_detail = asset('upload/tps/' . $gambarCoblos);
+                $bukticoblos_detail = '<a class="photoviewer" href="' . $url_bukticoblos_detail . '" data-gallery="photoviewer" data-title="' . $gambarCoblos . '">
+                    <img src="' . $url_bukticoblos_detail . '" width="100%;"></img>
+                </a>';
+
                 $result['data'][] = [
                     $no++,
-                    $v_data->username,
-                    $v_data->profile->nama_profile,
-                    $v_data->profile->email_profile,
-                    $v_data->profile->nohp_profile,
+                    $v_data->users->profile->nama_profile,
+                    $v_data->users->profile->email_profile,
+                    $v_data->users->profile->nohp_profile,
                     $gambar_profile,
+                    $bukticoblos_detail,
                     trim($button)
                 ];
             }
@@ -91,7 +103,8 @@ class TpsDetailController extends Controller
         $tps_id = $request->input('tps_id');
 
         return view('admin.tpsDetail.index', [
-            'tps_id' => $tps_id
+            'tps_id' => $tps_id,
+            'tps' => Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps_id)
         ]);
     }
 
@@ -126,9 +139,7 @@ class TpsDetailController extends Controller
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
             'nik_profile' => 'required',
-            'jabatan_id' => 'required',
             'gambar_profile' => 'image|max:2048',
-
         ], [
             'required' => ':attribute wajib diisi',
             'numeric' => ':attribute harus berupa angka',
@@ -146,36 +157,46 @@ class TpsDetailController extends Controller
 
         // tpsDetail
         $dataUsers = [
-            'username' => $request->input('username'),
-            'password' => Hash::make($request->input('password')),
+            'username' => $request->input('email_profile'),
+            'password' => Hash::make('123456'),
         ];
         $user_id = User::create($dataUsers);
 
         // roles
+        $getRoles = Role::where('nama_roles', 'like', '%Relawan%')->first();
         $dataRoles = [
-            'role_id' => $request->input('role_id'),
+            'role_id' => $getRoles->id,
             'user_id' => $user_id->id,
         ];
         $roleUser = RoleUser::create($dataRoles);
 
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Relawan%')->first();
         // biodata
         $file = $request->file('gambar_profile');
         $gambar_profile = $this->uploadFile($file);
         $dataBiodata = [
-            'tpsDetail_id' => $user_id->id,
             'nik_profile' => $request->input('nik_profile'),
-            'jabatan_id' => $request->input('jabatan_id'),
+            'jabatan_id' => $getJabatan->id,
             'nama_profile' => $request->input('nama_profile'),
             'email_profile' => $request->input('email_profile'),
             'alamat_profile' => $request->input('alamat_profile'),
             'nohp_profile' => $request->input('nohp_profile'),
             'jenis_kelamin_profile' => $request->input('jenis_kelamin_profile'),
             'gambar_profile' => $gambar_profile,
+            'users_id' => $user_id->id
         ];
         $profile = Profile::create($dataBiodata);
 
-        $data = array_merge($dataUsers, $dataRoles, $dataBiodata);
-        if ($user_id || $roleUser || $profile) {
+        // tps
+        $data = [
+            'users_id' => $user_id->id,
+            'tps_id' => $request->input('tps_id')
+        ];
+        $tps = TpsDetail::create($data);
+
+        $tps_id = $request->input('tps_id');
+        $this->updateCountTps($tps_id);
+        if ($user_id || $roleUser || $profile || $tps) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil insert data',
@@ -209,7 +230,7 @@ class TpsDetailController extends Controller
     public function edit($id)
     {
         //
-        $tpsDetail = User::with('profile', 'roles')->find($id);
+        $tpsDetail =  TpsDetail::with('users', 'users.profile', 'users.roles')->find($id);
         if ($tpsDetail) {
             return response()->json([
                 'status' => 200,
@@ -235,44 +256,12 @@ class TpsDetailController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'username' => [
-                'required', function ($attribute, $value, $fail) {
-                    $username = $_POST['username'];
-                    $id = $_POST['id'];
-                    $checkusername = User::where('username', $username)
-                        ->where('id', '!=', $id)
-                        ->count();
-                    if ($checkusername > 0) {
-                        $fail('Username sudah digunakan');
-                    }
-                }
-            ],
-            'password' => [function ($attribute, $value, $fail) {
-                $password = $_POST['password'];
-                $password_confirm = $_POST['password_confirm'];
-                if ($password != null && $password_confirm != null) {
-                    if ($password_confirm != $password) {
-                        $fail('Password tidak sama dengan password confirmation');
-                    }
-                }
-            },],
-            'password_confirm' => [function ($attribute, $value, $fail) {
-                $password = $_POST['password'];
-                $password_confirm = $_POST['password_confirm'];
-                if ($password != null && $password_confirm != null) {
-                    if ($password_confirm != $password) {
-                        $fail('Password tidak sama dengan password confirmation');
-                    }
-                }
-            },],
-            'role_id' => 'required',
-            'nik_profile' => 'required',
-            'jabatan_id' => 'required',
             'nama_profile' => 'required',
             'email_profile' => ['required', 'email', function ($attribute, $value, $fail) use ($id) {
+                $tpsDetail = TpsDetail::find($id);
                 $email_profile = $_POST['email_profile'];
                 $checkEmailProfile = Profile::where('email_profile', $email_profile)
-                    ->where('users_id', '<>', $id)
+                    ->where('users_id', '<>', $tpsDetail->users_id)
                     ->count();
                 if ($checkEmailProfile > 0) {
                     $fail('Email sudah digunakan');
@@ -280,8 +269,8 @@ class TpsDetailController extends Controller
             }],
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
+            'nik_profile' => 'required',
             'gambar_profile' => 'image|max:2048',
-
         ], [
             'required' => ':attribute wajib diisi',
             'numeric' => ':attribute harus berupa angka',
@@ -289,6 +278,7 @@ class TpsDetailController extends Controller
             'image' => ':attribute harus berupa gambar',
             'max' => ':attribute tidak boleh lebih dari :max',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
@@ -297,52 +287,39 @@ class TpsDetailController extends Controller
             ], 400);
         }
 
-        // tpsDetail
-        $password_db = $request->input('password_old');
-        $password = $request->input('password');
-        if ($password != null) {
-            $password_db = Hash::make($password);
-        }
-        $dataUsers = [
-            'username' => $request->input('username'),
-            'password' => $password_db,
-        ];
-        $user_id = User::find($id)->update($dataUsers);
-
-        // roles
-        $dataRoles = [
-            'role_id' => $request->input('role_id'),
-            'user_id' => $id,
-        ];
-        $roleUser = RoleUser::where('user_id', $id)->update($dataRoles);
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Relawan%')->first();
 
         // biodata
+        $tpsDetail = TpsDetail::find($id);
+        $users_id = $tpsDetail->users_id;
         $file = $request->file('gambar_profile');
-        $gambar_profile = $this->uploadFile($file, $id);
+        $gambar_profile = $this->uploadFile($file, $users_id);
         $dataBiodata = [
-            'tpsDetail_id' => $id,
             'nik_profile' => $request->input('nik_profile'),
-            'jabatan_id' => $request->input('jabatan_id'),
+            'jabatan_id' => $getJabatan->id,
             'nama_profile' => $request->input('nama_profile'),
             'email_profile' => $request->input('email_profile'),
             'alamat_profile' => $request->input('alamat_profile'),
             'nohp_profile' => $request->input('nohp_profile'),
             'jenis_kelamin_profile' => $request->input('jenis_kelamin_profile'),
             'gambar_profile' => $gambar_profile,
+            'users_id' => $users_id,
         ];
-        $profile = Profile::where('tpsDetail_id', $id)->update($dataBiodata);
+        $profile = Profile::where('users_id', $users_id)->update($dataBiodata);
 
-        $data = array_merge($dataUsers, $dataRoles, $dataBiodata);
-        if ($user_id || $roleUser || $profile) {
+        $tps_id = $tpsDetail->tps_id;
+        $this->updateCountTps($tps_id);
+
+        if ($profile) {
             return response()->json([
                 'status' => 200,
-                'message' => 'Berhasil insert data',
+                'message' => 'Berhasil update data',
                 'result' => $request->all(),
             ], 200);
         } else {
             return response()->json([
                 'status' => 400,
-                'message' => 'Gagal insert data',
+                'message' => 'Gagal update data',
             ], 400);
         }
     }
@@ -356,9 +333,15 @@ class TpsDetailController extends Controller
     public function destroy($id)
     {
         //
-        $this->deleteFile($id);
-        $delete = User::destroy($id);
+        $tpsDetail = TpsDetail::find($id);
+        $tps_id = $tpsDetail->tps_id;
+
+        $users_id = $tpsDetail->users_id;
+        $this->deleteFile($users_id);
+        $delete = TpsDetail::destroy($id);
+        User::destroy($users_id);
         if ($delete) {
+            $this->updateCountTps($tps_id);
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil delete data',
@@ -371,11 +354,42 @@ class TpsDetailController extends Controller
         }
     }
 
-    private function uploadFile($file, $tpsDetail_id = null)
+    private function updateCountTps($tps_id)
+    {
+        $totalLK = [];
+        $totalPR = [];
+        $getTpsDetail = TpsDetail::with('users', 'users.profile')->where('tps_id', $tps_id)->get();
+        foreach ($getTpsDetail as $key => $value) {
+            if ($value->users->profile->jenis_kelamin_profile == 'L') {
+                $totalLK[$value->users->profile->jenis_kelamin_profile][] = $value->users->profile->jenis_kelamin_profile;
+            }
+            if ($value->users->profile->jenis_kelamin_profile == 'P') {
+                $totalPR[$value->users->profile->jenis_kelamin_profile][] = $value->users->profile->jenis_kelamin_profile;
+            }
+        }
+        $hitungLK = 0;
+        if (isset($totalLK['L'])) {
+            $hitungLK = count($totalLK['L']);
+        }
+
+        $hitungPR = 0;
+        if (isset($totalPR['P'])) {
+            $hitungPR = count($totalPR['P']);
+        }
+        $totalAll = $hitungLK + $hitungPR;
+        $tps_id = $tps_id;
+        Tps::find($tps_id)->update([
+            'totallk_tps' => $hitungLK,
+            'totalpr_tps' => $hitungPR,
+            'totalsemua_tps' => $totalAll
+        ]);
+    }
+
+    private function uploadFile($file, $users_id = null)
     {
         if ($file != null) {
             // delete file
-            $this->deleteFile($tpsDetail_id);
+            $this->deleteFile($users_id);
             // nama file
             $fileExp =  explode('.', $file->getClientOriginalName());
             $name = $fileExp[0];
@@ -388,10 +402,10 @@ class TpsDetailController extends Controller
             // upload file
             $file->move($tujuan_upload, $name);
         } else {
-            if ($tpsDetail_id == null) {
+            if ($users_id == null) {
                 $name = 'default.png';
             } else {
-                $user = Profile::where('tpsDetail_id', $tpsDetail_id)->first();
+                $user = Profile::where('users_id', $users_id)->first();
                 $name = $user->gambar_profile;
             }
         }
@@ -399,10 +413,10 @@ class TpsDetailController extends Controller
         return $name;
     }
 
-    private function deleteFile($tpsDetail_id = null)
+    private function deleteFile($users_id = null)
     {
-        if ($tpsDetail_id != null) {
-            $profile = Profile::where('tpsDetail_id', '=', $tpsDetail_id)->first();
+        if ($users_id != null) {
+            $profile = Profile::where('users_id', '=', $users_id)->first();
             $gambar = public_path() . '/upload/profile/' . $profile->gambar_profile;
             if (file_exists($gambar)) {
                 if ($profile->gambar_profile != 'default.png') {

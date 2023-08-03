@@ -15,4 +15,9 @@ class TpsDetail extends Model
     {
         return $this->belongsTo(Tps::class);
     }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
 }

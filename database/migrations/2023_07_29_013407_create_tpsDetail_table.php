@@ -18,6 +18,7 @@ class CreateTpsDetailTable extends Migration
             $table->integer('users_id')->unsigned();
             $table->integer('tps_id')->unsigned();
             $table->string('bukticoblos_detail')->nullable();
+            $table->boolean('detail_verification');
             $table->timestamps();
 
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

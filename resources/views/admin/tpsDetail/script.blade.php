@@ -5,8 +5,12 @@
             dropdownParent: $('#modalForm')
         });
         var table = $('#dataTable').DataTable({
+            responsive: true,
             ajax: {
                 url: "{{ route('admin.tpsDetail.index') }}",
+                data: {
+                    tps_id: "{{ $tps_id }}"
+                },
                 dataType: 'json',
                 type: 'get',
             },
@@ -35,27 +39,20 @@
                         result
                     } = data;
 
-
-
                     $('.id').val(result.id);
-                    $('.password_old').val(result.password);
-                    $('.username').val(result.username);
-                    $('.role_id').val(result.roles[0].id);
 
-                    $('.nik_profile').val(result.profile.nik_profile);
-                    $('.jabatan_id').val(result.profile.jabatan_id).trigger('change');
-                    $('.nama_profile').val(result.profile.nama_profile);
-                    $('.email_profile').val(result.profile.email_profile);
-                    $('.nohp_profile').val(result.profile.nohp_profile);
-                    $('.jenis_kelamin_profile[value="' + result
-                            .profile.jenis_kelamin_profile + '"]')
+                    $('.nik_profile').val(result.users.profile.nik_profile);
+                    $('.nama_profile').val(result.users.profile.nama_profile);
+                    $('.email_profile').val(result.users.profile.email_profile);
+                    $('.nohp_profile').val(result.users.profile.nohp_profile);
+                    $('.jenis_kelamin_profile[value="' + result.users.profile.jenis_kelamin_profile + '"]')
                         .attr('checked', true);
 
-                    $('.alamat_profile').val(result.profile.alamat_profile);
+                    $('.alamat_profile').val(result.users.profile.alamat_profile);
                     let linkGambar =
-                        `${root}upload/profile/${result.profile.gambar_profile}`;
+                        `${root}upload/profile/${result.users.profile.gambar_profile}`;
                     $('#load_gambar_profile').html(`
-                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.profile.gambar_profile}">
+                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.users.profile.gambar_profile}">
                         <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
                     </a>
                     `);
@@ -83,6 +80,7 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+            $('.jenis_kelamin_profile').attr('checked', false);
             owl.trigger('to.owl.carousel', 0)
 
             if (attribute != null && attribute != '') {
@@ -137,6 +135,8 @@
                             result
                         } = data;
                         resetForm(result);
+                        getTps();
+
                     }
 
                     if (data.status == 400) {
@@ -210,7 +210,7 @@
                                     'success'
                                 );
                                 table.ajax.reload();
-
+                                getTps();
                             } else {
                                 Swal.fire(
                                     'Deleted!',
@@ -259,5 +259,26 @@
 
             new PhotoViewer(items, options);
         });
+
+
+        function getTps() {
+            let url = "{{ url('/') }}";
+            let tps_id = "{{ $tps_id }}";
+            $.ajax({
+                url: `${url}/admin/tps/${tps_id}/edit`,
+                dataType: 'json',
+                type: 'get',
+                success: function(data) {
+                    if (data.status == 200) {
+                        const {
+                            result
+                        } = data;
+                        $('#totallk_tps').text(result.totallk_tps);
+                        $('#totalpr_tps').text(result.totalpr_tps);
+                        $('#totalsemua_tps').text(result.totalsemua_tps);
+                    }
+                }
+            })
+        }
     })
 </script>

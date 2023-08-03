@@ -62,7 +62,14 @@ $isCreate = session()->get('userAcess.is_create');
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i data-feather="user"></i> <strong>Data TPS Detail</strong>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i data-feather="user"></i> <strong>Data TPS Detail</strong>
+                            </div>
+                            <div>
+                                {{ Breadcrumbs::render('tpsDetail') }}
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -74,14 +81,70 @@ $isCreate = session()->get('userAcess.is_create');
                                     </a>
                                 </div>
                                 @endif
+                                <div class="row mb-1 mt-1">
+                                    <div class="col-lg-6">
+                                        <table>
+                                            <tr>
+                                                <td>Provinsi</td>
+                                                <td class="px-4">:</td>
+                                                <td>{{ $tps->provinces->name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kabupaten</td>
+                                                <td class="px-4">:</td>
+                                                <td>{{ $tps->regencies->name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kecamatan</td>
+                                                <td class="px-4">:</td>
+                                                <td>{{ $tps->districts->name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kelurahan</td>
+                                                <td class="px-4">:</td>
+                                                <td>{{ $tps->villages->name }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <table>
+                                            <tr>
+                                                <td>Nama TPS</td>
+                                                <td class="px-4">:</td>
+                                                <td>
+                                                    {{ $tps->nama_tps }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Minimal TPS</td>
+                                                <td class="px-4">:</td>
+                                                <td>
+                                                    {{ $tps->minimal_tps }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Laki-laki</td>
+                                                <td class="px-4">:</td>
+                                                <td><span id="totallk_tps">{{ $tps->totallk_tps }}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Perempuan</td>
+                                                <td class="px-4">:</td>
+                                                <td><span id="totalpr_tps">{{ $tps->totalpr_tps }}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Keseluruhan</td>
+                                                <td class="px-4">:</td>
+                                                <td><span id="totalsemua_tps">{{ $tps->totalsemua_tps }}</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table" id="dataTable">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
-                                                <th scope="col">
-                                                    Username
-                                                </th>
                                                 <th scope="col">
                                                     Nama
                                                 </th>

@@ -4,6 +4,7 @@ $isUpdate = session()->get('userAcess.is_update');
 <div class="item">
     <h4>Biodata</h4>
     <hr>
+    <input type="hidden" name="tps_id" value="{{ $tps_id }}">
     <div class="row">
         <div class="col-lg-12">
             <div class="form-floating">
