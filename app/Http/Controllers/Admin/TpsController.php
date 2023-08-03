@@ -73,10 +73,17 @@ class TpsController extends Controller
                     </form>
                     ';
                 }
+
+                $buttonDetail = '
+                <a href="' . url('admin/tpsDetail?tps_id=' . $v_data->id) . '" class="btn btn-outline-info m-b-xs" style="border-color: #91C8E4 !important;">
+                    <i class="fas fa-eye"></i>
+                </a>
+                ';
                 $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
                     ' . $buttonDelete . '
+                    ' . $buttonDetail . '
                 </div>
                 ';
 
@@ -99,6 +106,19 @@ class TpsController extends Controller
                 </div>
                 ';
 
+                $dataUsers = '
+                <div class="row">
+                    <div class="col-12">
+                     <span>Nama / No. Induk</span><br>
+                     <strong class="text-success">' . $v_data->users->profile->nama_profile . ' / ' . ' ' . $v_data->users->profile->nik_profile . '</strong>
+                    </div>
+                    <div class="col-12">
+                     <span>Jabatan / No. HP</span><br>
+                     <strong class="text-success">' . $v_data->users->profile->jabatan->nama_jabatan . ' / ' . ' ' . $v_data->users->profile->nohp_profile . '</strong>
+                    </div>
+                </div>
+                ';
+
                 $result['data'][] = [
                     $no++,
                     $v_data->nama_tps,
@@ -106,7 +126,7 @@ class TpsController extends Controller
                     $v_data->totallk_tps == null ? 0 : $v_data->totallk_tps,
                     $v_data->totalpr_tps == null ? 0 : $v_data->totalpr_tps,
                     $v_data->totalsemua_tps == null ? 0 : $v_data->totalsemua_tps,
-                    $v_data->users_id,
+                    $dataUsers,
                     $daerah,
                     trim($button)
                 ];
@@ -188,7 +208,7 @@ class TpsController extends Controller
     public function edit($id)
     {
         //
-        $Tps = Tps::find($id);
+        $Tps = Tps::with('users', 'users.profile', 'provinces', 'regencies', 'districts', 'villages')->find($id);
         if ($Tps) {
             return response()->json([
                 'status' => 200,
@@ -223,9 +243,13 @@ class TpsController extends Controller
         }
 
         $data = [
+            'provinces_id' => $request->input('provinces_id'),
+            'regencies_id' => $request->input('regencies_id'),
+            'districts_id' => $request->input('districts_id'),
+            'villages_id' => $request->input('villages_id'),
             'nama_tps' => $request->input('nama_tps'),
-            'keterangan_tps' => $request->input('keterangan_tps'),
-            'membawahi_tps' => $request->input('membawahi_tps'),
+            'users_id' => $request->input('users_id'),
+            'minimal_tps' => $request->input('minimal_tps'),
         ];
         $insert = Tps::find($id)->update($data);
         if ($insert) {

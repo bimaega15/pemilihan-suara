@@ -62,14 +62,14 @@ $isCreate = session()->get('userAcess.is_create');
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i data-feather="user"></i> <strong>Data users</strong>
+                        <i data-feather="user"></i> <strong>Data TPS Detail</strong>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
                                 @if ($isCreate != null)
                                 <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-add">
+                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/tpsDetail/create') }}" class="btn btn-primary btn-add">
                                         <i data-feather="plus"></i> Tambah
                                     </a>
                                 </div>
@@ -94,6 +94,9 @@ $isCreate = session()->get('userAcess.is_create');
                                                 <th scope="col" style="width: 40px;">
                                                     Gambar
                                                 </th>
+                                                <th scope="col" style="width: 40px;">
+                                                    Bukti Coblos
+                                                </th>
                                                 <th scope="col">
                                                     <div class="text-center">
                                                         Actions
@@ -113,9 +116,9 @@ $isCreate = session()->get('userAcess.is_create');
         </div>
     </div>
 </div>
-@include('admin.users.model')
+@include('admin.tpsDetail.model')
 @endsection
 
 @push('js')
-@include('admin.users.script')
+@include('admin.tpsDetail.script')
 @endpush

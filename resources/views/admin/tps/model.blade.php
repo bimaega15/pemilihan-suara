@@ -44,7 +44,7 @@
                          </div>
                          <div class="col-lg-6">
                              <div class="form-group">
-                                 <label for="">Kecamatan</label>
+                                 <label for="">Kelurahan</label>
                                  <select class="form-control villages_id" name="villages_id">
                                      <option value="">Pilih Kelurahan</option>
                                  </select>

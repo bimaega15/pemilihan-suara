@@ -6,7 +6,7 @@
         });
         var table = $('#dataTable').DataTable({
             ajax: {
-                url: "{{ route('admin.users.index') }}",
+                url: "{{ route('admin.tpsDetail.index') }}",
                 dataType: 'json',
                 type: 'get',
             },
@@ -16,7 +16,7 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/users');
+            $('.form-submit').attr('action', url + '/admin/tpsDetail');
 
             resetForm();
         })
@@ -62,7 +62,7 @@
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/users/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/tpsDetail/' + result.id);
                     $('#modalForm').modal('show');
                 },
                 error: function(x, t, m) {
@@ -82,7 +82,6 @@
         })
 
         function resetForm(attribute = null) {
-            $('.jabatan_id option').attr('selected', false).trigger('change');
             $('.form-submit').trigger("reset");
             owl.trigger('to.owl.carousel', 0)
 

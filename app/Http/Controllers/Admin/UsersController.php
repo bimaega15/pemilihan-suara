@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
+use App\Models\Jabatan;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -87,7 +88,8 @@ class UsersController extends Controller
             return response()->json($result, 200);
         }
         return view('admin.users.index', [
-            'role' => Role::all()
+            'role' => Role::all(),
+            'jabatan' => Jabatan::all()
         ]);
     }
 
@@ -136,9 +138,17 @@ class UsersController extends Controller
             },],
             'role_id' => 'required',
             'nama_profile' => 'required',
-            'email_profile' => 'required|email',
+            'email_profile' => ['required', 'email', function ($attribute, $value, $fail) {
+                $email_profile = $_POST['email_profile'];
+                $checkEmailProfile = Profile::where('email_profile', $email_profile)->count();
+                if ($checkEmailProfile > 0) {
+                    $fail('Email sudah digunakan');
+                }
+            }],
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
+            'nik_profile' => 'required',
+            'jabatan_id' => 'required',
             'gambar_profile' => 'image|max:2048',
 
         ], [
@@ -175,6 +185,8 @@ class UsersController extends Controller
         $gambar_profile = $this->uploadFile($file);
         $dataBiodata = [
             'users_id' => $user_id->id,
+            'nik_profile' => $request->input('nik_profile'),
+            'jabatan_id' => $request->input('jabatan_id'),
             'nama_profile' => $request->input('nama_profile'),
             'email_profile' => $request->input('email_profile'),
             'alamat_profile' => $request->input('alamat_profile'),
@@ -276,8 +288,18 @@ class UsersController extends Controller
                 }
             },],
             'role_id' => 'required',
+            'nik_profile' => 'required',
+            'jabatan_id' => 'required',
             'nama_profile' => 'required',
-            'email_profile' => 'required|email',
+            'email_profile' => ['required', 'email', function ($attribute, $value, $fail) use ($id) {
+                $email_profile = $_POST['email_profile'];
+                $checkEmailProfile = Profile::where('email_profile', $email_profile)
+                    ->where('users_id', '<>', $id)
+                    ->count();
+                if ($checkEmailProfile > 0) {
+                    $fail('Email sudah digunakan');
+                }
+            }],
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
             'gambar_profile' => 'image|max:2048',
@@ -321,6 +343,8 @@ class UsersController extends Controller
         $gambar_profile = $this->uploadFile($file, $id);
         $dataBiodata = [
             'users_id' => $id,
+            'nik_profile' => $request->input('nik_profile'),
+            'jabatan_id' => $request->input('jabatan_id'),
             'nama_profile' => $request->input('nama_profile'),
             'email_profile' => $request->input('email_profile'),
             'alamat_profile' => $request->input('alamat_profile'),

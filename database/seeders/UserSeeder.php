@@ -100,7 +100,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('relawan123'),
         ]);
         $role = Role::create([
-            'nama_roles' => 'Relawan'
+            'nama_roles' => 'relawan'
         ]);
 
         $profile = Profile::create([

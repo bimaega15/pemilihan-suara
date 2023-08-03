@@ -191,6 +191,12 @@ class JabatanSeeder extends Seeder
                 'keterangan_jabatan' => '',
                 'membawahi_jabatan' => null,
             ],
+            [
+                'id' => 26,
+                'nama_jabatan' => 'Relawan',
+                'keterangan_jabatan' => '',
+                'membawahi_jabatan' => null,
+            ],
         ];
         Jabatan::insert($data);
     }

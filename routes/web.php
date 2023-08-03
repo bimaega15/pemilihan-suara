@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ProvinsiController;
 use App\Http\Controllers\Admin\RangeBobotController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\TpsController;
+use App\Http\Controllers\Admin\TpsDetailController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -80,6 +81,8 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     // 
     Route::resource('tps', TpsController::class)->except(['show']);
     Route::get('/tps/getKoordinator', [TpsController::class, 'getKoordinator'])->name('tps.getKoordinator');
+
+    Route::resource('tpsDetail', TpsDetailController::class)->except(['show']);
 
 
     Route::resource('jabatan', JabatanController::class);

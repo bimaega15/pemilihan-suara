@@ -31,7 +31,30 @@
                         result
                     } = data;
 
+
+                    $('.provinces_id').append(
+                            new Option(result.provinces.name, result.provinces.id, true, true)
+                        )
+                        .trigger("change");
+                    $('.regencies_id').append(
+                            new Option(result.regencies.name, result.regencies.id, true, true)
+                        )
+                        .trigger("change");
+                    $('.districts_id').append(
+                            new Option(result.districts.name, result.districts.id, true, true)
+                        )
+                        .trigger("change");
+                    $('.villages_id').append(
+                            new Option(result.villages.name, result.villages.id, true, true)
+                        )
+                        .trigger("change");
                     $('.nama_tps').val(result.nama_tps);
+                    $('.minimal_tps').val(result.minimal_tps);
+                    $('.users_id').append(
+                            new Option(result.users.profile.nama_profile, result.users_id, true, true)
+                        )
+                        .trigger("change");
+
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
@@ -46,6 +69,11 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+            $('.provinces_id option').attr('selected', false).trigger('change');
+            $('.regencies_id option').attr('selected', false).trigger('change');
+            $('.districts_id option').attr('selected', false).trigger('change');
+            $('.villages_id option').attr('selected', false).trigger('change');
+            $('.users_id option').attr('selected', false).trigger('change');
 
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
