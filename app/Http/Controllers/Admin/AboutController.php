@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\About;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use File;
 
 
 class AboutController extends Controller
@@ -59,26 +60,24 @@ class AboutController extends Controller
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
                     <form action=' . route('admin.about.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #4682A9 !important;">
+                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #EA1179 !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
                     ';
                 }
 
-                $buttonDetail = '
-                <a href="' . route('admin.about.show', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-show" style="border-color: #f5af47ea !important;">
-                <i class="fas fa-eye"></i>
-                </a>
-                ';
-
                 $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
                     ' . $buttonDelete . '
-                    ' . $buttonDetail . '
                 </div>
                 ';
+
+                $url_gambar_about = asset('upload/about/gambar/' . $v_data->gambar_about);
+                $gambar_about = '<a class="photoviewer" href="' . $url_gambar_about . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_about . '">
+                    <img src="' . $url_gambar_about . '" width="100%;"></img>
+                </a>';
 
                 $result['data'][] = [
                     $no++,
@@ -86,6 +85,7 @@ class AboutController extends Controller
                     $v_data->customers_about,
                     $v_data->team_about,
                     $v_data->awards_about,
+                    $gambar_about,
                     trim($button)
                 ];
             }
@@ -103,7 +103,8 @@ class AboutController extends Controller
     public function create()
     {
         //
-        return view('admin.about.form');
+        $page = 'add';
+        return view('admin.about.form', compact('page'));
     }
 
     /**
@@ -124,15 +125,36 @@ class AboutController extends Controller
             ], 400);
         }
 
+        $file = $this->uploadFile($_FILES, null, 'teamdetail_about', 'team');
+        $teamdetail_about = ['default.png'];
+        if (is_array($file)) {
+            if (!empty($file[0])) {
+                $teamdetail_about = $file;
+            }
+        }
+        $teamdetail_about = json_encode($teamdetail_about);
+
+        $file = $this->uploadFile($_FILES, null, 'gambarsponsor_about', 'sponsor');
+        $gambarsponsor_about = ['default.png'];
+        if (is_array($file)) {
+            if (!empty($file[0])) {
+                $gambarsponsor_about = $file;
+            }
+        }
+        $gambarsponsor_about = json_encode($gambarsponsor_about);
+
+        $file = $request->file('gambar_about');
+        $gambar_about = $this->uploadFileSingle($file);
+
         $data = [
             'keterangan_about' => $request->input('keterangan_about'),
-            'gambar_about' => $request->input('gambar_about'),
+            'gambar_about' => $gambar_about,
             'project_about' => $request->input('project_about'),
             'customers_about' => $request->input('customers_about'),
             'team_about' => $request->input('team_about'),
             'awards_about' => $request->input('awards_about'),
-            'teamdetail_about' => $request->input('teamdetail_about'),
-            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
+            'teamdetail_about' => $teamdetail_about,
+            'gambarsponsor_about' => $gambarsponsor_about,
         ];
         $insert = About::create($data);
         if ($insert) {
@@ -168,19 +190,9 @@ class AboutController extends Controller
     public function edit($id)
     {
         //
-        $About = About::find($id);
-        if ($About) {
-            return response()->json([
-                'status' => 200,
-                'message' => 'Berhasil ambil data',
-                'result' => $About,
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 400,
-                'message' => 'Gagal ambil data',
-            ], 400);
-        }
+        $page = 'edit';
+        $about = About::find($id);
+        return view('admin.about.form', compact('page', 'about'));
     }
 
     /**
@@ -202,27 +214,49 @@ class AboutController extends Controller
             ], 400);
         }
 
+        $file = $this->uploadFile($_FILES, null, 'teamdetail_about', 'team');
+        $teamdetail_about = ['default.png'];
+        if (is_array($file)) {
+            if (!empty($file[0])) {
+                $teamdetail_about = $file;
+            }
+        }
+        $teamdetail_about = json_encode($teamdetail_about);
+
+        $file = $this->uploadFile($_FILES, null, 'gambarsponsor_about', 'sponsor');
+        $gambarsponsor_about = ['default.png'];
+        if (is_array($file)) {
+            if (!empty($file[0])) {
+                $gambarsponsor_about = $file;
+            }
+        }
+        $gambarsponsor_about = json_encode($gambarsponsor_about);
+
+        $file = $request->file('gambar_about');
+        $gambar_about = $this->uploadFileSingle($file, $id);
+
         $data = [
             'keterangan_about' => $request->input('keterangan_about'),
-            'gambar_about' => $request->input('gambar_about'),
+            'gambar_about' => $gambar_about,
             'project_about' => $request->input('project_about'),
             'customers_about' => $request->input('customers_about'),
             'team_about' => $request->input('team_about'),
             'awards_about' => $request->input('awards_about'),
-            'teamdetail_about' => $request->input('teamdetail_about'),
-            'gambarsponsor_about' => $request->input('gambarsponsor_about'),
+            'teamdetail_about' => $teamdetail_about,
+            'gambarsponsor_about' => $gambarsponsor_about,
         ];
-        $insert = About::find($id)->update($data);
-        if ($insert) {
+
+        $update = About::find($id)->update($data);
+        if ($update) {
             return response()->json([
                 'status' => 200,
-                'message' => 'Berhasil insert data',
+                'message' => 'Berhasil update data',
                 'result' => $request->all(),
             ], 200);
         } else {
             return response()->json([
                 'status' => 400,
-                'message' => 'Gagal insert data',
+                'message' => 'Gagal update data',
             ], 400);
         }
     }
@@ -236,6 +270,10 @@ class AboutController extends Controller
     public function destroy($id)
     {
         //
+        $this->deleteFileSingle($id);
+        $this->deleteFile($id, 'sponsor');
+        $this->deleteFile($id, 'team');
+
         $delete = About::destroy($id);
         if ($delete) {
             return response()->json([
@@ -248,5 +286,146 @@ class AboutController extends Controller
                 'message' => 'Gagal delete data',
             ], 400);
         }
+    }
+
+    private function uploadFileSingle($file, $id = null)
+    {
+        if ($file != null) {
+            // delete file
+            $this->deleteFileSingle($id);
+            // nama file
+            $fileExp =  explode('.', $file->getClientOriginalName());
+            $name = $fileExp[0];
+            $ext = $fileExp[1];
+            $name = time() . '-' . str_replace(' ', '-', $name) . '.' . $ext;
+
+            // isi dengan nama folder tempat kemana file diupload
+            $tujuan_upload =  public_path() . '/upload/about/gambar';
+
+            // upload file
+            $file->move($tujuan_upload, $name);
+        } else {
+            if ($id == null) {
+                $name = 'default.png';
+            } else {
+                $user = About::where('id', $id)->first();
+                $name = $user->gambar_about;
+            }
+        }
+
+        return $name;
+    }
+
+    private function uploadFile($file, $id = null, $nameFile, $lokasi)
+    {
+        if ($file != null && floatval($file[$nameFile]['size'][0]) > 0) {
+            // delete file
+            $this->deleteFile($id, $lokasi);
+
+            if (!empty($file[$nameFile])) {
+                foreach ($file[$nameFile]['name'] as $index => $item) {
+                    // nama file
+                    $name = str_replace(' ', '-', $item);
+                    $name = time() . '-' . $name;
+
+                    // isi dengan nama folder tempat kemana file diupload
+                    $tujuan_upload = 'upload/about/' . $lokasi . '/';
+
+                    // upload file
+                    $target_file = $tujuan_upload . $name;
+                    if (move_uploaded_file($file[$nameFile]['tmp_name'][$index], $target_file)) {
+                        $namePush[] = $name;
+                    }
+                }
+                $name = $namePush;
+            }
+        } else {
+            $name = 'default.png';
+        }
+
+        return $name;
+    }
+
+    private function deleteFileSingle($id = null)
+    {
+        if ($id != null) {
+            $about = About::where('id', '=', $id)->first();
+            $gambar = public_path() . '/upload/about/gambar/' . $about->gambar_about;
+            if (file_exists($gambar)) {
+                if ($about->gambar_about != 'default.png') {
+                    File::delete($gambar);
+                }
+            }
+        }
+    }
+
+    private function deleteFileName($name = null, $lokasi = null)
+    {
+        $gambar = public_path() . '/upload/about/' . $lokasi . '/' . $name;
+        if (file_exists($gambar)) {
+            if ($name != 'default.png') {
+                File::delete($gambar);
+            }
+        }
+    }
+
+    private function deleteFile($id = null, $lokasi = null)
+    {
+        if ($id != null && $lokasi != null) {
+            $about = About::find($id);
+            if ($lokasi == 'sponsor') {
+                $gambar_detail = json_decode($about->gambarsponsor_about, true);
+            }
+            if ($lokasi == 'team') {
+                $gambar_detail = json_decode($about->teamdetail_about, true);
+            }
+
+            foreach ($gambar_detail as $key => $value) {
+                $gambar = public_path() . '/upload/about/' . $lokasi . '/' . $value;
+                if (file_exists($gambar)) {
+                    if ($value != 'default.png') {
+                        File::delete($gambar);
+                    }
+                }
+            }
+        }
+    }
+
+    public function deleteMultipleImage()
+    {
+        $value = request()->input('value');
+        $id = request()->input('id');
+        $type = request()->input('type');
+
+        $getData = About::find($id);
+        $pushGambar = [];
+        if ($type == 'team') {
+            $parseJson = json_decode($getData->teamdetail_about, true);
+        }
+        if ($type == 'sponsor') {
+            $parseJson = json_decode($getData->gambarsponsor_about, true);
+        }
+
+        foreach ($parseJson as $key => $item) {
+            if ($item != $value) {
+                $pushGambar[] = $item;
+            }
+        }
+
+        $this->deleteFileName($value, $type);
+        $setGambarTeam = json_encode($pushGambar);
+
+        if ($type == 'team') {
+            $getData->teamdetail_about = $setGambarTeam;
+        }
+        if ($type == 'sponsor') {
+            $getData->gambarsponsor_about = $setGambarTeam;
+        }
+        $getData->save();
+
+        return response()->json([
+            'message' => 'Berhasil hapus gambar team',
+            'result' => request()->all()
+        ]);
     }
 }

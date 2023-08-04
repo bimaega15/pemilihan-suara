@@ -10,9 +10,20 @@
         });
 
 
-
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+
+            $('.input-teamdetail_about').html('');
+            $('.input-teamdetail_about').imageUploader({
+                imagesInputName: 'teamdetail_about',
+                preloadedInputName: 'old'
+            });
+
+            $('.input-gambarsponsor_about').html('');
+            $('.input-gambarsponsor_about').imageUploader({
+                imagesInputName: 'gambarsponsor_about',
+                preloadedInputName: 'old'
+            });
 
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
@@ -38,7 +49,7 @@
         function onSubmit(action, data) {
             $.ajax({
                 url: action,
-                type: "POST",
+                type: 'post',
                 data: data,
                 enctype: 'multipart/form-data',
                 processData: false, // Important!
@@ -56,28 +67,11 @@
                             text: data.message,
                             showConfirmButton: false,
                             timer: 1500
+                        }).then(() => {
+                            resetForm();
+                            let getUrl = "{{ url('/') }}";
+                            window.location.href = `${getUrl}/admin/about`;
                         })
-
-                        $('#modalForm').modal('hide');
-                        table.ajax.reload();
-
-                        const {
-                            result
-                        } = data;
-                        resetForm(result);
-                    }
-
-                    if (data.status == 400) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Failed',
-                            text: data.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-
-                        $('#modalForm').modal('hide');
-                        table.ajax.reload();
                     }
                 },
                 error: function(xhr) {
@@ -324,5 +318,83 @@
                 'TableOfContents'
             ]
         });
+
+        $('.input-teamdetail_about').imageUploader({
+            imagesInputName: 'teamdetail_about',
+            preloadedInputName: 'old'
+        });
+
+        $('.input-gambarsponsor_about').imageUploader({
+            imagesInputName: 'gambarsponsor_about',
+            preloadedInputName: 'old'
+        });
+
+        // initialize manually with a list of links
+        $(document).on('click', '[data-gallery="photoviewer"]', function(e) {
+            e.preventDefault();
+            var items = [],
+                options = {
+                    index: $('.photoviewer').index(this),
+                };
+
+            $('[data-gallery="photoviewer"]').each(function() {
+                items.push({
+                    src: $(this).attr('href'),
+                    title: $(this).attr('data-title')
+                });
+            });
+
+            new PhotoViewer(items, options);
+        });
+
+        $(document).on('click', '.delete-gambar-team', function(e) {
+            e.preventDefault();
+            let value = $(this).data('gambar_type');
+            let id = $(this).data('id');
+            let type = $(this).data('type');
+
+
+            Swal.fire({
+                title: 'Deleted',
+                text: "Yakin ingin menghapus item ini?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteGambarMultiple(value, id, type);
+                }
+            })
+        })
+
+        function deleteGambarMultiple(value, id, type) {
+            let url = "{{ url('/') }}";
+
+            $.ajax({
+                url: `${url}/admin/about/deleteMultipleImage`,
+                type: 'post',
+                data: {
+                    value,
+                    id,
+                    type
+                },
+                dataType: 'json',
+                success: function(data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Successfully',
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        resetForm();
+                        let getUrl = "{{ url('/') }}";
+                        window.location.href = `${getUrl}/admin/about/${data.result.id}/edit`;
+                    })
+                }
+            })
+        }
     })
 </script>

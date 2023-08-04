@@ -35,7 +35,7 @@ $isCreate = session()->get('userAcess.is_create');
                                                 <th>Total Pr.</th>
                                                 <th>Total Keseluruhan</th>
                                                 <th>Koordinator</th>
-                                                <th>Daerah</th>
+                                                <th style="width: 430px;">Daerah</th>
                                                 <th scope="col">
                                                     <div class="text-center">
                                                         Actions

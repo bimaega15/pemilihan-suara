@@ -87,7 +87,9 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
 
     Route::resource('jabatan', JabatanController::class);
     Route::resource('banner', BannerController::class);
-    Route::resource('about', AboutController::class);
+    Route::resource('about', AboutController::class)->except(['show']);
+    Route::post('/about/deleteMultipleImage', [AboutController::class, 'deleteMultipleImage'])->name('gambar.deleteMultipleImage');
+
     Route::resource('gallery', GalleryController::class);
     Route::resource('provinsi', ProvinsiController::class);
     Route::resource('kabupaten', KabupatenController::class);

@@ -43,7 +43,8 @@ $getKonfigurasi = Check::getKonfigurasi();
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <link rel="stylesheet" href="{{ asset('library/summernote/summernote.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/jquerydatetimepicker/jquery.datetimepicker.min.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('library/jquery-image-uploader-preview-and-delete/dist/image-uploader.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     @stack('css')
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -112,6 +113,7 @@ $getKonfigurasi = Check::getKonfigurasi();
     <script src="{{ asset('library/summernote/summernote.min.js') }}"></script>
     <script src=" {{ asset('library/jQuery-Plugin-To-Print-Any-Part-Of-Your-Page-Print/jQuery.print.js') }}"></script>
     <script src="{{ asset('library/jquerydatetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
+    <script src="{{ asset('library/jquery-image-uploader-preview-and-delete/dist/image-uploader.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
