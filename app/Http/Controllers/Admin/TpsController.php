@@ -20,6 +20,7 @@ class TpsController extends Controller
         'villages_id' => 'required',
         'nama_tps' => 'required',
         'minimal_tps' => 'required',
+        'target_tps' => 'required',
         'users_id' => 'required',
     ];
     public $customValidation = [
@@ -173,6 +174,7 @@ class TpsController extends Controller
             'nama_tps' => $request->input('nama_tps'),
             'users_id' => $request->input('users_id'),
             'minimal_tps' => $request->input('minimal_tps'),
+            'target_tps' => $request->input('target_tps'),
         ];
         $insert = Tps::create($data);
         if ($insert) {
@@ -250,6 +252,7 @@ class TpsController extends Controller
             'nama_tps' => $request->input('nama_tps'),
             'users_id' => $request->input('users_id'),
             'minimal_tps' => $request->input('minimal_tps'),
+            'target_tps' => $request->input('target_tps'),
         ];
         $insert = Tps::find($id)->update($data);
         if ($insert) {

@@ -25,6 +25,7 @@ class CreateTpsTable extends Migration
             $table->integer('totalsemua_tps')->nullable();
             $table->integer('users_id')->unsigned();
             $table->integer('minimal_tps');
+            $table->integer('target_tps');
             $table->timestamps();
 
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

@@ -80,6 +80,10 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
+            $('.form-submit-upload').trigger("reset");
+            $('#load-bukticoblos_detail').html('');
+            $('#load_gambar_profile').html('');
+
             $('.jenis_kelamin_profile').attr('checked', false);
             owl.trigger('to.owl.carousel', 0)
 
@@ -280,5 +284,151 @@
                 }
             })
         }
+
+        $(document).on('click', '.btn-upload-bukti', function() {
+            let id = $(this).data('id');
+            let url = "{{ url('/') }}";
+            let setUrl = `${url}/admin/tpsDetail/${id}/uploadBuktiCoblos`;
+            let bukticoblos_detail = $(this).data('bukticoblos_detail');
+
+            let assetUrl = "{{ asset('/') }}";
+            let uploadGambarUrl = `${assetUrl}upload/tps/${bukticoblos_detail}`;
+
+            $('#load-bukticoblos_detail').html(
+                `<a class="photoviewer" href="${uploadGambarUrl}" data-gallery="photoviewer" data-title="${bukticoblos_detail}" class="d-block">
+                        <img src="${uploadGambarUrl}" width="100%;"></img>
+                    </a>`
+            );
+            $('.form-submit-upload').attr('action', setUrl);
+            $('#modalUpload').modal('show');
+
+        })
+
+        $(document).on('click', '.btn-submit-upload', function(e) {
+            e.preventDefault();
+            $('.form-submit-upload').submit();
+        })
+
+        $(document).on('submit', '.form-submit-upload', function(e) {
+            e.preventDefault();
+            var form = $('.form-submit-upload')[0];
+            var data = new FormData(form);
+            var action = $('.form-submit-upload').attr('action');
+            onSubmitUpload(action, data);
+        })
+
+        function onSubmitUpload(action, data) {
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: data,
+                enctype: 'multipart/form-data',
+                processData: false, // Important!
+                contentType: false,
+                cache: false,
+                dataType: 'json',
+                beforeSend: function() {
+                    $('.btn-submit-upload').attr('disabled', true);
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Successfully',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        $('#modalUpload').modal('hide');
+                        table.ajax.reload();
+
+                        const {
+                            result
+                        } = data;
+                        resetForm(result);
+                        getTps();
+                    }
+
+                    if (data.status == 400) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        $('#modalUpload').modal('hide');
+                        table.ajax.reload();
+                    }
+                },
+                error: function(xhr) {
+                    const {
+                        responseJSON,
+                        responseText
+                    } = xhr;
+                    if (responseText != null) {
+                        console.log(responseText);
+                    }
+
+                    if (responseJSON.result != undefined) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Info',
+                            text: 'Perhatikan kembali form anda dengan benar',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        let outputResult = responseJSON.result;
+                        $.each(outputResult, function(v, i) {
+                            let textError = outputResult[v][0];
+                            let keyError = v;
+                            $('.' + keyError).addClass("border border-danger");
+                            $('.error_' + keyError).html(textError);
+                        })
+                    }
+                },
+                complete: function() {
+                    $('.btn-submit-upload').attr('disabled', false);
+                }
+            });
+        }
+
+        $(document).on('click', '.btn-verification', function(e) {
+            e.preventDefault();
+            let action = $(this).attr('href');
+            Swal.fire({
+                title: 'Verification',
+                text: "Apakah anda yakin ingin konfirmasi verifikasi data ini ?",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: action,
+                        dataType: 'json',
+                        type: 'post',
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Successfully',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            table.ajax.reload();
+                        },
+                        error: function(x, t, m) {
+                            console.log(x.responseText);
+                        }
+                    })
+                }
+            })
+
+        })
     })
 </script>

@@ -154,10 +154,10 @@ $isCreate = session()->get('userAcess.is_create');
                                                 <th scope="col">
                                                     No. HP
                                                 </th>
-                                                <th scope="col" style="width: 40px;">
+                                                <th scope="col" style="width: 100px;">
                                                     Gambar
                                                 </th>
-                                                <th scope="col" style="width: 40px;">
+                                                <th scope="col" style="width: 100px;">
                                                     Bukti Coblos
                                                 </th>
                                                 <th scope="col">
@@ -180,6 +180,7 @@ $isCreate = session()->get('userAcess.is_create');
     </div>
 </div>
 @include('admin.tpsDetail.model')
+@include('admin.tpsDetail.modelUploadBukti')
 @endsection
 
 @push('js')

@@ -74,10 +74,30 @@ class TpsDetailController extends Controller
                 </form>
                     ';
                 }
+
+
+                $buttonVerification = '';
+                if ($v_data->detail_verification == 1) {
+
+                    $buttonVerification = '
+                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" style="border-color: #EA1179 !important;">
+                        <i class="fas fa-times"></i>
+                    </a>
+                    ';
+                }
+                if ($v_data->detail_verification == 0) {
+                    $buttonVerification = '
+                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" style="border-color: #4477CE !important;">
+                        <i class="fas fa-check"></i>
+                    </a>
+                    ';
+                }
+
                 $button = '
             <div class="text-center">
             ' . $buttonUpdate . '               
-            ' . $buttonDelete . '               
+            ' . $buttonDelete . '
+            ' . $buttonVerification . '               
             </div>
             ';
 
@@ -90,10 +110,19 @@ class TpsDetailController extends Controller
                 if ($gambarCoblos == null) {
                     $gambarCoblos = 'default.png';
                 }
+
                 $url_bukticoblos_detail = asset('upload/tps/' . $gambarCoblos);
-                $bukticoblos_detail = '<a class="photoviewer" href="' . $url_bukticoblos_detail . '" data-gallery="photoviewer" data-title="' . $gambarCoblos . '">
-                    <img src="' . $url_bukticoblos_detail . '" width="100%;"></img>
-                </a>';
+                $bukticoblos_detail = '
+                <div style="width: 100%">
+                    <a class="photoviewer" href="' . $url_bukticoblos_detail . '" data-gallery="photoviewer" data-title="' . $gambarCoblos . '" class="d-block">
+                        <img src="' . $url_bukticoblos_detail . '" width="100%;"></img>
+                    </a>
+                    <button type="button" class="btn btn-dark text-center text-white w-100 btn-upload-bukti" data-id="' . $v_data->id . '" data-bukticoblos_detail="' . $v_data->bukticoblos_detail . '">
+                    <i class="fas fa-upload"></i>
+                    </button>
+                </div>
+                ';
+
 
                 $result['data'][] = [
                     $no++,
@@ -432,5 +461,108 @@ class TpsDetailController extends Controller
                 }
             }
         }
+    }
+
+    private function uploadFileBukti($file, $id = null)
+    {
+        if ($file != null) {
+            // delete file
+            $this->deleteFileBukti($id);
+            // nama file
+            $fileExp =  explode('.', $file->getClientOriginalName());
+            $name = $fileExp[0];
+            $ext = $fileExp[1];
+            $name = time() . '-' . str_replace(' ', '-', $name) . '.' . $ext;
+
+            // isi dengan nama folder tempat kemana file diupload
+            $tujuan_upload =  public_path() . '/upload/tps/';
+
+            // upload file
+            $file->move($tujuan_upload, $name);
+        } else {
+            if ($id == null) {
+                $name = 'default.png';
+            } else {
+                $user = TpsDetail::where('id', $id)->first();
+                $name = $user->bukticoblos_detail;
+            }
+        }
+
+        return $name;
+    }
+
+    private function deleteFileBukti($id = null)
+    {
+        if ($id != null) {
+            $tpsDetail = TpsDetail::where('id', '=', $id)->first();
+            $gambar = public_path() . '/upload/tps/' . $tpsDetail->bukticoblos_detail;
+            if (file_exists($gambar)) {
+                if ($tpsDetail->bukticoblos_detail != 'default.png') {
+                    File::delete($gambar);
+                }
+            }
+        }
+    }
+
+    public function uploadBuktiCoblos(Request $request, $id)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'bukticoblos_detail' => 'required|image|max:3048',
+        ], [
+            'required' => ':attribute wajib diisi',
+            'image' => ':attribute harus berupa gambar',
+            'max' => ':attribute tidak boleh lebih dari :max kb',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'invalid form validation',
+                'result' => $validator->errors()
+            ], 400);
+        }
+
+        // biodata
+        $file = $request->file('bukticoblos_detail');
+        $bukticoblos_detail = $this->uploadFileBukti($file, $id);
+
+        $update =  TpsDetail::find($id)->update([
+            'bukticoblos_detail' => $bukticoblos_detail
+        ]);
+        if ($update) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil upload bukti coblos',
+                'result' => $request->all(),
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal upload bukti coblos',
+            ], 400);
+        }
+    }
+
+    public function verificationCoblos(Request $request, $id)
+    {
+        $tpsDetail = TpsDetail::find($id);
+        $isVerification = null;
+        if ($tpsDetail->detail_verification == null) {
+            $isVerification = 1;
+        }
+        if ($tpsDetail->detail_verification == 1) {
+            $isVerification = 0;
+        }
+        if ($tpsDetail->detail_verification == 0) {
+            $isVerification = 1;
+        }
+
+        TpsDetail::find($id)->update([
+            'detail_verification' => $isVerification
+        ]);
+
+        return response()->json([
+            'message' => 'Berhasil verifikasi relawan ini'
+        ], 200);
     }
 }

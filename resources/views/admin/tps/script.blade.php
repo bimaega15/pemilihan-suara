@@ -51,6 +51,7 @@
                         .trigger("change");
                     $('.nama_tps').val(result.nama_tps);
                     $('.minimal_tps').val(result.minimal_tps);
+                    $('.target_tps').val(result.target_tps);
                     $('.users_id').append(
                             new Option(result.users.profile.nama_profile, result.users_id, true, true)
                         )

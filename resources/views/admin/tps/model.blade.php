@@ -54,18 +54,25 @@
                      </div>
                      <div style="height: 10px;"></div>
                      <div class="row">
-                         <div class="col-lg-6">
+                         <div class="col-lg-4">
                              <div class="form-floating">
                                  <input class="form-control nama_tps" id="floatingInput" name="nama_tps" />
                                  <small class="error_nama_tps text-danger"></small>
                                  <label for="floatingInput">Nama TPS</label>
                              </div>
                          </div>
-                         <div class="col-lg-6">
+                         <div class="col-lg-4">
                              <div class="form-floating">
                                  <input type="number" class="form-control minimal_tps" id="floatingInput" name="minimal_tps" />
                                  <small class="error_minimal_tps text-danger"></small>
                                  <label for="floatingInput">Minimal TPS</label>
+                             </div>
+                         </div>
+                         <div class="col-lg-4">
+                             <div class="form-floating">
+                                 <input type="number" class="form-control target_tps" id="floatingInput" name="target_tps" />
+                                 <small class="error_target_tps text-danger"></small>
+                                 <label for="floatingInput">Target TPS</label>
                              </div>
                          </div>
                      </div>
