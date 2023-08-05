@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
+use App\Models\Jabatan;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -36,7 +37,7 @@ class ProfileController extends Controller
 
         //
         if ($request->ajax()) {
-            $data = User::with('profile', 'roles')->find(Auth::id());
+            $data = User::with('profile', 'roles', 'profile.jabatan')->find(Auth::id());
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
@@ -47,7 +48,8 @@ class ProfileController extends Controller
         $profile =  User::with('profile')->first();
 
         return view('admin.profile.index', [
-            'role' => Role::all()
+            'role' => Role::all(),
+            'jabatan' => Jabatan::all()
         ]);
     }
 

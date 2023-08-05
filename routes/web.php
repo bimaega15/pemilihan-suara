@@ -65,7 +65,8 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
 
     Route::resource('profile', ProfileController::class);
 
-    Route::resource('users', UsersController::class);
+    Route::resource('users', UsersController::class)->except(['show']);
+    Route::post('users/setAktif', [UsersController::class, 'setAktif'])->name('users.setAktif');
 
     Route::resource('konfigurasi', KonfigurasiController::class);
 

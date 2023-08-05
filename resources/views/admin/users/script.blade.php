@@ -1,15 +1,45 @@
 <script>
     $(document).ready(function(e) {
-        $('.select2').select2({
-            theme: 'bootstrap-5',
-            dropdownParent: $('#modalForm')
-        });
-        var table = $('#dataTable').DataTable({
+        var tableAdmin = $('#dataTableAdmin').DataTable({
             ajax: {
                 url: "{{ route('admin.users.index') }}",
                 dataType: 'json',
                 type: 'get',
+                data: {
+                    roles: 'admin'
+                }
             },
+        });
+
+        var tableKepala = $('#dataTableKepala').DataTable({
+            ajax: {
+                url: "{{ route('admin.users.index') }}",
+                dataType: 'json',
+                type: 'get',
+                data: {
+                    roles: 'kepala kepegawaian'
+                }
+            },
+        });
+
+        var tableKoordinator = $('#dataTableKoordinator').DataTable({
+            ajax: {
+                url: "{{ route('admin.users.index') }}",
+                dataType: 'json',
+                type: 'get',
+                data: {
+                    roles: 'koordinator'
+                }
+            },
+        });
+
+        var admin_id = "{{ $admin }}";
+        var koordinator_id = "{{ $koordinator }}";
+        var kepalaKepegawianId = "{{ $kepalaKepegawaian }}";
+
+        $('.select2').select2({
+            theme: 'bootstrap-5',
+            dropdownParent: $('#modalForm')
         });
 
         $(document).on('click', '.btn-add', function(e) {
@@ -17,6 +47,17 @@
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/users');
+            let roles = $(this).data('roles');
+
+            if (roles == 'admin') {
+                $('.role_id').val(admin_id);
+            }
+            if (roles == 'kepala kepegawaian') {
+                $('.role_id').val(kepalaKepegawianId);
+            }
+            if (roles == 'koordinator') {
+                $('.role_id').val(koordinator_id);
+            }
 
             resetForm();
         })
@@ -26,6 +67,18 @@
             const id = $(this).data('id');
             const action = $(this).attr('href');
             const root = "{{ asset('/') }}";
+            let roles = $(this).data('roles');
+
+            if (roles == 'admin') {
+                $('.role_id').val(admin_id);
+            }
+            if (roles == 'kepala kepegawaian') {
+                $('.role_id').val(kepalaKepegawianId);
+            }
+            if (roles == 'koordinator') {
+                $('.role_id').val(koordinator_id);
+            }
+
             $.ajax({
                 url: action,
                 method: 'get',
@@ -121,7 +174,6 @@
                     $('.btn-submit').attr('disabled', true);
                 },
                 success: function(data) {
-                    console.log("get data", data);
                     if (data.status == 200) {
                         Swal.fire({
                             icon: 'success',
@@ -132,7 +184,17 @@
                         })
 
                         $('#modalForm').modal('hide');
-                        table.ajax.reload();
+
+                        let roles = $('.role_id').val();
+                        if (roles == admin_id) {
+                            tableAdmin.ajax.reload();
+                        }
+                        if (roles == kepalaKepegawianId) {
+                            tableKepala.ajax.reload();
+                        }
+                        if (roles == koordinator_id) {
+                            tableKoordinator.ajax.reload();
+                        }
 
                         const {
                             result
@@ -188,6 +250,18 @@
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
             const action = $(this).closest("form").attr('action');
+            let roles = $(this).data('roles');
+
+            if (roles == 'admin') {
+                $('.role_id').val(admin_id);
+            }
+            if (roles == 'kepala kepegawaian') {
+                $('.role_id').val(kepalaKepegawianId);
+            }
+            if (roles == 'koordinator') {
+                $('.role_id').val(koordinator_id);
+            }
+
             Swal.fire({
                 title: 'Deleted',
                 text: "Yakin ingin menghapus item ini?",
@@ -210,7 +284,17 @@
                                     data.message,
                                     'success'
                                 );
-                                table.ajax.reload();
+
+                                if (roles == 'admin') {
+                                    tableAdmin.ajax.reload();
+                                }
+                                if (roles == 'kepala kepegawaian') {
+                                    tableKepala.ajax.reload();
+                                }
+                                if (roles == 'koordinator') {
+                                    tableKoordinator.ajax.reload();
+                                }
+
 
                             } else {
                                 Swal.fire(
@@ -260,5 +344,33 @@
 
             new PhotoViewer(items, options);
         });
+
+        $(document).on('click', '.check-input', function() {
+            let id = $(this).data('id');
+            let url = "{{ url('/') }}";
+            let roles = $(this).data('roles');
+
+            $.ajax({
+                url: `${url}/admin/users/setAktif`,
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    if (roles == 'admin') {
+                        tableAdmin.ajax.reload();
+                    }
+                    if (roles == 'kepala kepegawaian') {
+                        tableKepala.ajax.reload();
+                    }
+                    if (roles == 'koordinator') {
+                        tableKoordinator.ajax.reload();
+                    }
+
+                    
+                }
+            })
+        })
     })
 </script>

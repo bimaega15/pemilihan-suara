@@ -14,8 +14,8 @@
                      <div class="row">
                          <div class="col-lg-12">
                              <div class="owl-carousel owl-theme">
-                                 @include('admin.profile.item.account')
-                                 @include('admin.profile.item.biodata')
+                                 @include('admin.users.partial.account.index')
+                                 @include('admin.users.partial.biodata.index')
                              </div>
                          </div>
                      </div>

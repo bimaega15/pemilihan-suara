@@ -67,43 +67,28 @@ $isCreate = session()->get('userAcess.is_create');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                @if ($isCreate != null)
-                                <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-add">
-                                        <i data-feather="plus"></i> Tambah
-                                    </a>
-                                </div>
-                                @endif
-                                <div class="table-responsive">
-                                    <table class="table" id="dataTable">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">No</th>
-                                                <th scope="col">
-                                                    Username
-                                                </th>
-                                                <th scope="col">
-                                                    Nama
-                                                </th>
-                                                <th scope="col">
-                                                    Email
-                                                </th>
-                                                <th scope="col">
-                                                    No. HP
-                                                </th>
-                                                <th scope="col" style="width: 40px;">
-                                                    Gambar
-                                                </th>
-                                                <th scope="col">
-                                                    <div class="text-center">
-                                                        Actions
-                                                    </div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="true">Admin</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="kepala-tab" data-bs-toggle="tab" data-bs-target="#kepala" type="button" role="tab" aria-controls="kepala" aria-selected="false">Kepala Kepegawaian</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="koordinator-tab" data-bs-toggle="tab" data-bs-target="#koordinator" type="button" role="tab" aria-controls="koordinator" aria-selected="false">Koordinator</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+                                        @include('admin.users.admin.index')
+                                    </div>
+                                    <div class="tab-pane fade" id="kepala" role="tabpanel" aria-labelledby="kepala-tab">
+                                        @include('admin.users.kepala.index')
+
+                                    </div>
+                                    <div class="tab-pane fade" id="koordinator" role="tabpanel" aria-labelledby="koordinator-tab">
+                                        @include('admin.users.koordinator.index')
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function(e) {
+        $('.select2').select2({
+            theme: 'bootstrap-5'
+        })
         loadData();
 
         function loadData() {
@@ -11,6 +14,8 @@
                     const {
                         result
                     } = data;
+                    
+                    console.log(result);
 
                     let root = `{{ asset('/') }}`;
                     $('.id').val(result.id);
@@ -18,6 +23,8 @@
                     $('.username').val(result.username);
                     $('.role_id').val(result.roles[0].id);
 
+                    $('.nik_profile').val(result.profile.nik_profile);
+                    $('.jabatan_id').val(result.profile.jabatan.id).trigger('change');
                     $('.nama_profile').val(result.profile.nama_profile);
                     $('.email_profile').val(result.profile.email_profile);
                     $('.nohp_profile').val(result.profile.nohp_profile);
@@ -44,6 +51,8 @@
                         'Perempuan';
                     $('.username_html').html(result.username);
                     $('.roles_id_html').html(result.roles[0].nama_roles);
+                    $('.nik_profile_html').html(result.profile.nik_profile);
+                    $('.jabatan_id_html').html(result.profile.jabatan.nama_jabatan);
                     $('.nama_profile_html').html(result.profile.nama_profile);
                     $('.email_profile_html').html(result.profile.email_profile);
                     $('.nohp_profile_html').html(result.profile.nohp_profile);

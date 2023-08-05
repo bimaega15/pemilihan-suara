@@ -171,7 +171,6 @@ $isCreate = session()->get('userAcess.is_create');
                                         <div class="row">
                                             ';
                                             foreach ($jsonDetailAbout as $key => $value) {
-                                            $url_gambar_team = asset('upload/about/team/' . $value);
                                             $outputDetailAbout .= '
                                             <div class="col-lg-3">
                                                 <div class="text-center p-3" style="border: 1px solid #61677A; position: relative;">
@@ -211,7 +210,6 @@ $isCreate = session()->get('userAcess.is_create');
                                         <div class="row">
                                             ';
                                             foreach ($jsonDetailAbout as $key => $value) {
-                                            $url_gambar_team = asset('upload/about/sponsor/' . $value);
                                             $outputDetailAbout .= '
                                             <div class="col-lg-3">
                                                 <div class="text-center p-3" style="border: 1px solid #61677A; position: relative;">

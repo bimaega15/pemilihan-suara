@@ -353,7 +353,6 @@
             let id = $(this).data('id');
             let type = $(this).data('type');
 
-
             Swal.fire({
                 title: 'Deleted',
                 text: "Yakin ingin menghapus item ini?",
@@ -382,6 +381,9 @@
                 },
                 dataType: 'json',
                 success: function(data) {
+                    const {
+                        output
+                    } = data;
                     Swal.fire({
                         icon: 'success',
                         title: 'Successfully',
@@ -391,7 +393,54 @@
                     }).then(() => {
                         resetForm();
                         let getUrl = "{{ url('/') }}";
-                        window.location.href = `${getUrl}/admin/about/${data.result.id}/edit`;
+
+                        let outputTeamDetail = `
+                        <div class="row">
+                        `;
+                        $getAbout = output.about;
+                        let publicPath = "{{ asset('/') }}"
+
+                        output.teamdetail_about.map((v, i) => {
+                            outputTeamDetail += `
+                            <div class="col-lg-3">
+                                <div class="text-center p-3" style="border: 1px solid #61677A; position: relative;">
+                                    <a href="#" class="py-2 shadow-sm bg-danger text-white delete-gambar-team" data-id="${$getAbout.id}" style="border-radius: 50%; padding: 1px 14px; border: 1px solid #F31559; position: absolute; top: 0; right: 0;" data-gambar_type="${v}" data-type="team">
+                                        <i class="fas fa-times text-white fa-1x"></i>
+                                    </a>
+                                    <a class="photoviewer" href="${publicPath}upload/about/team/${v}" data-gallery="photoviewer" data-title="${v}">
+                                        <img src="${publicPath}upload/about/team/${v}" alt="" style="height: 150px; width: 100%;">
+                                    </a>
+                                </div>
+                            </div>
+                            `;
+                        })
+                        outputTeamDetail += `
+                        </div>
+                        `;
+                        $('#load-teamdetail_about').html(outputTeamDetail);
+
+
+                        let outputGambarSponsor = `
+                        <div class="row">
+                        `;
+                        output.gambarsponsor_about.map((v, i) => {
+                            outputGambarSponsor += `
+                            <div class="col-lg-3">
+                                <div class="text-center p-3" style="border: 1px solid #61677A; position: relative;">
+                                    <a href="#" class="py-2 shadow-sm bg-danger text-white delete-gambar-team" data-id="${$getAbout.id}" style="border-radius: 50%; padding: 1px 14px; border: 1px solid #F31559; position: absolute; top: 0; right: 0;" data-gambar_type="${v}" data-type="sponsor">
+                                        <i class="fas fa-times text-white fa-1x"></i>
+                                    </a>
+                                    <a class="photoviewer" href="${publicPath}upload/about/sponsor/${v}" data-gallery="photoviewer" data-title="${v}">
+                                        <img src="${publicPath}upload/about/sponsor/${v}" alt="" style="height: 150px; width: 100%;">
+                                    </a>
+                                </div>
+                            </div>
+                            `;
+                        })
+                        outputGambarSponsor += `
+                        </div>
+                        `;
+                        $('#load-gambarsponsor_about').html(outputGambarSponsor);
                     })
                 }
             })

@@ -1,6 +1,7 @@
 <div class="item">
     <h4>Account</h4>
     <hr>
+    <input type="hidden" name="role_id" class="role_id" value="">
     <div class="row">
         <div class="col-lg-12">
             <div class="form-floating">
@@ -28,23 +29,6 @@
         </div>
     </div>
     <div style="height: 10px;"></div>
-    <input type="hidden" name="role_id" value="" class="role_id">
-    <!-- <div class="row">
-        <div class="col-lg-12">
-            <div class="form-floating">
-                <select type="text" class="form-control role_id" id="floatingInput" name="role_id">
-                    <option value="">-- Role --</option>
-                    @foreach ($role as $item)
-                    <option value="{{ $item->id }}">{{ $item->nama_roles }}
-                    </option>
-                    @endforeach
-                </select>
-                <small class="error_role_id text-danger"></small>
-                <label for="floatingInput">Role user</label>
-            </div>
-        </div>
-    </div> -->
-    <div style="height: 25px;"></div>
     <hr>
     <div class="row">
         <div class="col-lg-12">

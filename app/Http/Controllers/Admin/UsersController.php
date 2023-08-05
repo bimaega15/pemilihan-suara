@@ -36,9 +36,13 @@ class UsersController extends Controller
 
         //
         if ($request->ajax()) {
+            $roles = request()->input('roles');
             $userAcess = session()->get('userAcess');
 
-            $data = User::all();
+            $data = User::select('users.*', 'roles.nama_roles')->join('role_user', 'role_user.user_id', '=', 'users.id')
+                ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                ->where('roles.nama_roles', '=', $roles)->get();
+
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -48,7 +52,7 @@ class UsersController extends Controller
                 $buttonUpdate = '';
                 if ($userAcess['is_update'] == '1') {
                     $buttonUpdate = '
-                    <a href="' . route('admin.users.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <a href="' . route('admin.users.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;" data-roles="' . $roles . '">
                         <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
@@ -57,7 +61,7 @@ class UsersController extends Controller
                 if ($userAcess['is_delete'] == '1') {
                     $buttonDelete = '
                     <form action=' . route('admin.users.destroy', $v_data->id) . ' class="d-inline">
-                    <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                    <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;" data-roles="' . $roles . '">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </form>
@@ -74,6 +78,21 @@ class UsersController extends Controller
                 $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->profile->gambar_profile . '">
                     <img src="' . $url_gambar_profile . '" width="100%;"></img>
                 </a>';
+
+                $checkedStatus = '';
+                if ($v_data->is_aktif == 1) {
+                    $checkedStatus = 'checked';
+                }
+
+                $outputAktif = '
+                <div class="text-center">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input check-input" data-id="' . $v_data->id . '" type="checkbox" id="is_aktif_' . $v_data->id . '" style="height: 20px; width: 40px;" ' . $checkedStatus . ' data-roles="' . $roles . '">
+                        <label class="form-check-label" for="is_aktif_' . $v_data->id . '"></label>
+                    </div>
+                </div>
+              ';
+
                 $result['data'][] = [
                     $no++,
                     $v_data->username,
@@ -81,15 +100,23 @@ class UsersController extends Controller
                     $v_data->profile->email_profile,
                     $v_data->profile->nohp_profile,
                     $gambar_profile,
+                    $outputAktif,
                     trim($button)
                 ];
             }
 
             return response()->json($result, 200);
         }
+        $admin = Role::where("nama_roles", 'like', '%admin%')->first();
+        $koordinator = Role::where("nama_roles", 'like', '%koordinator%')->first();
+        $kepalaKepegawaian = Role::where("nama_roles", 'like', '%kepala kepegawaian%')->first();
+
         return view('admin.users.index', [
             'role' => Role::all(),
-            'jabatan' => Jabatan::all()
+            'jabatan' => Jabatan::all(),
+            'admin' => $admin->id,
+            'koordinator' => $koordinator->id,
+            'kepalaKepegawaian' => $kepalaKepegawaian->id,
         ]);
     }
 
@@ -136,7 +163,6 @@ class UsersController extends Controller
                     $fail('Password tidak sama dengan password confirmation');
                 }
             },],
-            'role_id' => 'required',
             'nama_profile' => 'required',
             'email_profile' => ['required', 'email', function ($attribute, $value, $fail) {
                 $email_profile = $_POST['email_profile'];
@@ -167,9 +193,11 @@ class UsersController extends Controller
         }
 
         // users
+        $isAktif = $request->input('is_aktif') != null ? 1 : 0;
         $dataUsers = [
             'username' => $request->input('username'),
             'password' => Hash::make($request->input('password')),
+            'is_aktif' => $isAktif,
         ];
         $user_id = User::create($dataUsers);
 
@@ -183,6 +211,7 @@ class UsersController extends Controller
         // biodata
         $file = $request->file('gambar_profile');
         $gambar_profile = $this->uploadFile($file);
+
         $dataBiodata = [
             'users_id' => $user_id->id,
             'nik_profile' => $request->input('nik_profile'),
@@ -209,17 +238,6 @@ class UsersController extends Controller
                 'message' => 'Gagal insert data',
             ], 400);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -287,7 +305,6 @@ class UsersController extends Controller
                     }
                 }
             },],
-            'role_id' => 'required',
             'nik_profile' => 'required',
             'jabatan_id' => 'required',
             'nama_profile' => 'required',
@@ -325,9 +342,11 @@ class UsersController extends Controller
         if ($password != null) {
             $password_db = Hash::make($password);
         }
+        $isAktif = $request->input('is_aktif') != null ? 1 : 0;
         $dataUsers = [
             'username' => $request->input('username'),
             'password' => $password_db,
+            'is_aktif' => $isAktif,
         ];
         $user_id = User::find($id)->update($dataUsers);
 
@@ -341,6 +360,7 @@ class UsersController extends Controller
         // biodata
         $file = $request->file('gambar_profile');
         $gambar_profile = $this->uploadFile($file, $id);
+
         $dataBiodata = [
             'users_id' => $id,
             'nik_profile' => $request->input('nik_profile'),
@@ -432,5 +452,23 @@ class UsersController extends Controller
                 }
             }
         }
+    }
+
+    public function setAktif()
+    {
+        $id = request()->input('id');
+        $getUsers = User::find($id);
+        $setAktif = null;
+        if ($getUsers->is_aktif == 1) {
+            $setAktif = 0;
+        } else {
+            $setAktif = 1;
+        }
+
+        User::find($id)->update([
+            'is_aktif' => $setAktif
+        ]);
+
+        return response()->json('Berhasil update is aktif');
     }
 }

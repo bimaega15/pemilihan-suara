@@ -308,11 +308,12 @@ class TpsController extends Controller
         $endPage = $page * $limit;
         $firstPage = $endPage - $limit;
 
-        $usersKoordinator = User::join('profile', 'profile.users_id', '=', 'users.id')
+        $usersKoordinator = User::select('users.*', 'profile.nama_profile')->join('profile', 'profile.users_id', '=', 'users.id')
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->where('roles.nama_roles', 'koordinator');
-        $countDistricts = User::join('profile', 'profile.users_id', '=', 'users.id')
+        $countDistricts =  User::select('users.*', 'profile.nama_profile')
+            ->join('profile', 'profile.users_id', '=', 'users.id')
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->where('roles.nama_roles', 'koordinator')->get()->count();

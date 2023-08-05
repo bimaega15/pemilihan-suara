@@ -70,14 +70,13 @@
                          </div>
                      </div>
                      <div style="height: 10px;"></div>
-                     <div class="form-floating">
-                         <select class="form-control users_id" id="floatingInput" name="users_id">
+                     <div class="form-group">
+                         <label for="">Koordinator</label>
+                         <select class="form-control users_id" name="users_id" id="">
                              <option value="">Pilih Koordinator</option>
                          </select>
                          <small class="error_users_id text-danger"></small>
-                         <label for="floatingInput">Koordinator</label>
                      </div>
-
                  </div>
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i data-feather="x"></i>

@@ -116,6 +116,18 @@
                                             <div class="table-responsive">
                                                 <table style="width: 100%;" class="form-my-profile">
                                                     <tr>
+                                                        <td>No. Induk</td>
+                                                        <td>:</td>
+                                                        <td><span class="nik_profile_html"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jabatan</td>
+                                                        <td>:</td>
+                                                        <td><span class="jabatan_id_html"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>Nama</td>
                                                         <td>:</td>
                                                         <td><span class="nama_profile_html"></span>

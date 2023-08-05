@@ -36,12 +36,20 @@ class TpsDetailController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-        //
         if ($request->ajax()) {
             $tps_id = $request->input('tps_id');
             $userAcess = session()->get('userAcess');
 
-            $data = TpsDetail::with('tps', 'users', 'users.profile')->where('tps_id', $tps_id)->get();
+            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile')
+                ->with('tps')
+                ->join('users', 'tps_detail.users_id', '=', 'users.id')
+                ->join('profile', 'profile.users_id', '=', 'users.id')
+                ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                ->where('roles.nama_roles', '=', 'relawan')
+                ->where('tps_detail.tps_id', $tps_id)
+                ->get();
+
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -73,8 +81,8 @@ class TpsDetailController extends Controller
             </div>
             ';
 
-                $url_gambar_profile = asset('upload/profile/' . $v_data->users->profile->gambar_profile);
-                $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->users->profile->gambar_profile . '">
+                $url_gambar_profile = asset('upload/profile/' . $v_data->gambar_profile);
+                $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_profile . '">
                     <img src="' . $url_gambar_profile . '" width="100%;"></img>
                 </a>';
 
@@ -89,9 +97,9 @@ class TpsDetailController extends Controller
 
                 $result['data'][] = [
                     $no++,
-                    $v_data->users->profile->nama_profile,
-                    $v_data->users->profile->email_profile,
-                    $v_data->users->profile->nohp_profile,
+                    $v_data->nama_profile,
+                    $v_data->email_profile,
+                    $v_data->nohp_profile,
                     $gambar_profile,
                     $bukticoblos_detail,
                     trim($button)
@@ -163,14 +171,14 @@ class TpsDetailController extends Controller
         $user_id = User::create($dataUsers);
 
         // roles
-        $getRoles = Role::where('nama_roles', 'like', '%Relawan%')->first();
+        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
         $dataRoles = [
             'role_id' => $getRoles->id,
             'user_id' => $user_id->id,
         ];
         $roleUser = RoleUser::create($dataRoles);
 
-        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Relawan%')->first();
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%relawan%')->first();
         // biodata
         $file = $request->file('gambar_profile');
         $gambar_profile = $this->uploadFile($file);
@@ -287,7 +295,7 @@ class TpsDetailController extends Controller
             ], 400);
         }
 
-        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Relawan%')->first();
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%relawan%')->first();
 
         // biodata
         $tpsDetail = TpsDetail::find($id);

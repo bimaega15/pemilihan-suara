@@ -423,9 +423,15 @@ class AboutController extends Controller
         }
         $getData->save();
 
+        $dataOutput =  About::find($id);
         return response()->json([
             'message' => 'Berhasil hapus gambar team',
-            'result' => request()->all()
+            'result' => request()->all(),
+            'output' => [
+                'teamdetail_about' => json_decode($dataOutput->teamdetail_about, true),
+                'gambarsponsor_about' => json_decode($dataOutput->gambarsponsor_about, true),
+                'about' => $dataOutput
+            ]
         ]);
     }
 }
