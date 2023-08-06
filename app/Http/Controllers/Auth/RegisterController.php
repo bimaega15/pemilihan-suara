@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Jabatan;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -25,7 +26,8 @@ class RegisterController extends Controller
         //
 
         return view('auth.register', [
-            'role' => Role::all()
+            'role' => Role::all(),
+            'jabatan' => Jabatan::all()
         ]);
     }
 
@@ -81,11 +83,12 @@ class RegisterController extends Controller
         $dataUsers = [
             'username' => $request->input('username'),
             'password' => Hash::make($request->input('password')),
+            'is_aktif' => 0,
         ];
         $user_id = User::create($dataUsers);
 
         // roles
-        $getRoles = Role::where('nama_roles', 'like', '%' . 'user' . '%')->first();
+        $getRoles = Role::where('nama_roles', 'like', '%' . 'koordinator' . '%')->first();
         $dataRoles = [
             'role_id' => $getRoles->id,
             'user_id' => $user_id->id,
@@ -96,6 +99,8 @@ class RegisterController extends Controller
         $file = $request->file('gambar_profile');
         $gambar_profile = $this->uploadFile($file);
         $dataBiodata = [
+            'jabatan_id' => $request->input('jabatan_id'),
+            'nik_profile' => $request->input('nik_profile'),
             'users_id' => $user_id->id,
             'nama_profile' => $request->input('nama_profile'),
             'email_profile' => $request->input('email_profile'),
