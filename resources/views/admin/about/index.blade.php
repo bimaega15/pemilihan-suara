@@ -94,6 +94,10 @@ $isCreate = session()->get('userAcess.is_create');
                                                     Gambar
                                                 </th>
                                                 <th scope="col">
+                                                    Is Aktif
+                                                </th>
+
+                                                <th scope="col">
                                                     <div class="text-center">
                                                         Actions
                                                     </div>

@@ -91,6 +91,7 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::resource('jabatan', JabatanController::class);
     Route::resource('banner', BannerController::class);
     Route::resource('about', AboutController::class)->except(['show']);
+    Route::post('about/setAktif', [AboutController::class, 'setAktif'])->name('about.setAktif');
     Route::post('/about/deleteMultipleImage', [AboutController::class, 'deleteMultipleImage'])->name('gambar.deleteMultipleImage');
 
     Route::resource('gallery', GalleryController::class);

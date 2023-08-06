@@ -23,6 +23,7 @@ class CreateAboutTable extends Migration
             $table->string('awards_about')->nullable();
             $table->text('teamdetail_about')->nullable();
             $table->text('gambarsponsor_about')->nullable();
+            $table->boolean('about_aktif')->default(false);
             $table->timestamps();
         });
     }

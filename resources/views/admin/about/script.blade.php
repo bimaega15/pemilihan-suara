@@ -445,5 +445,22 @@
                 }
             })
         }
+
+        $(document).on('click', '.check-input', function(e) {
+            let id = $(this).data('id');
+            let url = $(this).data('url');
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    id,
+                    id
+                },
+                success: function() {
+                    table.ajax.reload();
+                }
+            })
+        })
     })
 </script>

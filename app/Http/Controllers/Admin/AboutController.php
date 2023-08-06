@@ -79,6 +79,20 @@ class AboutController extends Controller
                     <img src="' . $url_gambar_about . '" width="100%;"></img>
                 </a>';
 
+                $checkedStatus = '';
+                if ($v_data->about_aktif == 1) {
+                    $checkedStatus = 'checked';
+                }
+
+                $outputAktif = '
+                <div class="text-center">
+                    <div class="form-check form-switch">
+                        <input data-url="' . route("admin.about.setAktif") . '" class="form-check-input check-input" data-id="' . $v_data->id . '" type="checkbox" id="is_aktif_' . $v_data->id . '" style="height: 20px; width: 40px;" ' . $checkedStatus . '>
+                        <label class="form-check-label" for="is_aktif_' . $v_data->id . '"></label>
+                    </div>
+                </div>
+              ';
+
                 $result['data'][] = [
                     $no++,
                     $v_data->project_about,
@@ -86,6 +100,7 @@ class AboutController extends Controller
                     $v_data->team_about,
                     $v_data->awards_about,
                     $gambar_about,
+                    $outputAktif,
                     trim($button)
                 ];
             }
@@ -433,5 +448,18 @@ class AboutController extends Controller
                 'about' => $dataOutput
             ]
         ]);
+    }
+
+    public function setAktif()
+    {
+        $id = request()->input('id');
+        About::query()->update([
+            'about_aktif' => false
+        ]);
+        About::find($id)->update([
+            'about_aktif' => true
+        ]);
+
+        return response()->json(['status' => 200, 'message' => 'Berhasil update data']);
     }
 }
