@@ -23,19 +23,19 @@ class TpsKoordinatorSeeder extends Seeder
         //
         // user
         $user = User::create([
-            'username' => 'relawan1.1kpu@gmail.com',
+            'username' => 'koordinator1.1kpu@gmail.com',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%relawan%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'relawan1.1 kpu',
-            'email_profile' => 'relawan1.1kpu@gmail.com',
-            'alamat_profile' => 'alamat relawan1.1',
+            'nama_profile' => 'koordinator1.1 kpu',
+            'email_profile' => 'koordinator1.1kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator1.1',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -60,6 +60,31 @@ class TpsKoordinatorSeeder extends Seeder
             'alamat_tps' => 'alamat_tps1',
         ];
         $tps = Tps::create($tps);
+
+        // user
+        $user = User::create([
+            'username' => 'relawan1.1kpu@gmail.com',
+            'password' => Hash::make('123456'),
+            'is_aktif' => 1
+        ]);
+        $role = Role::where('nama_roles', 'like', '%relawan%')->first();
+
+        $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
+            'users_id' => $user->id,
+            'jabatan_id' => 27,
+            'nama_profile' => 'relawan1.1 kpu',
+            'email_profile' => 'relawan1.1kpu@gmail.com',
+            'alamat_profile' => 'alamat relawan1.1',
+            'nohp_profile' => '082277506232',
+            'jenis_kelamin_profile' => 'L',
+            'gambar_profile' => 'default.png'
+        ]);
+
+        $roleUser = RoleUser::create([
+            'role_id' => $role->id,
+            'user_id' => $user->id,
+        ]);
         TpsDetail::create([
             'users_id' => $user->id,
             'tps_id' => $tps->id,
@@ -188,19 +213,19 @@ class TpsKoordinatorSeeder extends Seeder
         ]);
         // ==================
         $user = User::create([
-            'username' => 'caleg124',
+            'username' => 'koordinator124',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg124 kpu',
-            'email_profile' => 'caleg124kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg124',
+            'nama_profile' => 'koordinator124 kpu',
+            'email_profile' => 'koordinator124kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator124',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -378,19 +403,19 @@ class TpsKoordinatorSeeder extends Seeder
         // ==================
 
         $user = User::create([
-            'username' => 'caleg125',
+            'username' => 'koordinator125',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg125 kpu',
-            'email_profile' => 'caleg125kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg125',
+            'nama_profile' => 'koordinator125 kpu',
+            'email_profile' => 'koordinator125kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator125',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -418,19 +443,19 @@ class TpsKoordinatorSeeder extends Seeder
         // ==================
 
         $user = User::create([
-            'username' => 'caleg126',
+            'username' => 'koordinator126',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg126 kpu',
-            'email_profile' => 'caleg126kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg126',
+            'nama_profile' => 'koordinator126 kpu',
+            'email_profile' => 'koordinator126kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator126',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -612,7 +637,7 @@ class TpsKoordinatorSeeder extends Seeder
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
@@ -798,19 +823,19 @@ class TpsKoordinatorSeeder extends Seeder
         // ==================
 
         $user = User::create([
-            'username' => 'caleg128',
+            'username' => 'koordinator128',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg128 kpu',
-            'email_profile' => 'caleg128kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg128',
+            'nama_profile' => 'koordinator128 kpu',
+            'email_profile' => 'koordinator128kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator128',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -988,19 +1013,19 @@ class TpsKoordinatorSeeder extends Seeder
         // ==================
 
         $user = User::create([
-            'username' => 'caleg129',
+            'username' => 'koordinator129',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg129 kpu',
-            'email_profile' => 'caleg129kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg129',
+            'nama_profile' => 'koordinator129 kpu',
+            'email_profile' => 'koordinator129kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator129',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -1016,9 +1041,9 @@ class TpsKoordinatorSeeder extends Seeder
             'districts_id' => 1101010,
             'villages_id' => 1,
             'nama_tps' => 'tps7',
-            'totallk_tps' => '2',
-            'totalpr_tps' => '3',
-            'totalsemua_tps' => '5',
+            'totallk_tps' => '0',
+            'totalpr_tps' => '0',
+            'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
             'target_tps' => '100',
@@ -1028,19 +1053,19 @@ class TpsKoordinatorSeeder extends Seeder
         // ==================
 
         $user = User::create([
-            'username' => 'caleg130',
+            'username' => 'koordinator130',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg130 kpu',
-            'email_profile' => 'caleg130kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg130',
+            'nama_profile' => 'koordinator130 kpu',
+            'email_profile' => 'koordinator130kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator130',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -1056,9 +1081,9 @@ class TpsKoordinatorSeeder extends Seeder
             'districts_id' => 1101010,
             'villages_id' => 1,
             'nama_tps' => 'tps8',
-            'totallk_tps' => '2',
-            'totalpr_tps' => '3',
-            'totalsemua_tps' => '5',
+            'totallk_tps' => '0',
+            'totalpr_tps' => '0',
+            'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
             'target_tps' => '100',
@@ -1069,19 +1094,19 @@ class TpsKoordinatorSeeder extends Seeder
 
 
         $user = User::create([
-            'username' => 'caleg131',
+            'username' => 'koordinator131',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg131 kpu',
-            'email_profile' => 'caleg131kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg131',
+            'nama_profile' => 'koordinator131 kpu',
+            'email_profile' => 'koordinator131kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator131',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -1097,9 +1122,9 @@ class TpsKoordinatorSeeder extends Seeder
             'districts_id' => 1101010,
             'villages_id' => 1,
             'nama_tps' => 'tps9',
-            'totallk_tps' => '2',
-            'totalpr_tps' => '3',
-            'totalsemua_tps' => '5',
+            'totallk_tps' => '0',
+            'totalpr_tps' => '0',
+            'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
             'target_tps' => '100',
@@ -1109,19 +1134,19 @@ class TpsKoordinatorSeeder extends Seeder
         // ==================
 
         $user = User::create([
-            'username' => 'caleg132',
+            'username' => 'koordinator132',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
         ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
+        $role = Role::where('nama_roles', 'like', '%koordinator%')->first();
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
-            'nama_profile' => 'caleg132 kpu',
-            'email_profile' => 'caleg132kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg132',
+            'nama_profile' => 'koordinator132 kpu',
+            'email_profile' => 'koordinator132kpu@gmail.com',
+            'alamat_profile' => 'alamat koordinator132',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'
@@ -1137,9 +1162,9 @@ class TpsKoordinatorSeeder extends Seeder
             'districts_id' => 1101010,
             'villages_id' => 1,
             'nama_tps' => 'tps10',
-            'totallk_tps' => '2',
-            'totalpr_tps' => '3',
-            'totalsemua_tps' => '5',
+            'totallk_tps' => '0',
+            'totalpr_tps' => '0',
+            'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
             'target_tps' => '100',
