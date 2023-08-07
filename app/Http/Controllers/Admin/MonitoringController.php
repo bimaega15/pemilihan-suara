@@ -255,7 +255,7 @@ class MonitoringController extends Controller
 
     public function fetchProgres(Request $request)
     {
-        $limit = 5;
+        $limit = 10;
         $provinces_id = $request->input('provinces_id');
         $regencies_id = $request->input('regencies_id');
         $districts_id = $request->input('districts_id');

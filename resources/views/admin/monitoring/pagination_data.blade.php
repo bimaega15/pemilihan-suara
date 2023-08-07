@@ -19,7 +19,7 @@
                     </p>
                     <footer>
                         <span class="blockquote-footer">
-                            <i class="fa-solid fa-users"></i> Total Dukungan: {{ $item->tpsDetail->count() }}
+                            <i class="fa-solid fa-users"></i> Total Dukungan: {{ $item->totalsemua_tps }}
                         </span>
                         <br>
                         <span class="blockquote-footer">

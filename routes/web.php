@@ -20,7 +20,7 @@ use App\Http\Controllers\Admin\TpsDetailController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
+use App\Http\Controllers\HomeController as ControllersHomeController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -101,3 +101,5 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::get('/monitoring/fetchDukungan', [MonitoringController::class, 'fetchDukungan'])->name('monitoring.fetchDukungan');
     Route::get('/monitoring/fetchProgres', [MonitoringController::class, 'fetchProgres'])->name('monitoring.fetchProgres');
 });
+
+Route::get('/', [ControllersHomeController::class, 'index'])->name('home.index');
