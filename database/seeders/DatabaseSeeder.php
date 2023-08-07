@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(JabatanSeeder::class);
         $this->call(KonfigurasiSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(TpsKoordinatorSeeder::class);
         $this->call(ManagementMenuSeeder::class);
     }
 }

@@ -71,18 +71,19 @@ class UserSeeder extends Seeder
 
         // caleg
         $user = User::create([
-            'username' => 'kepala123',
-            'password' => Hash::make('kepala123'),
+            'username' => 'caleg123',
+            'password' => Hash::make('caleg123'),
         ]);
         $role = Role::create([
             'nama_roles' => 'caleg'
         ]);
+        $roleCaleg = $role->id;
 
         $profile = Profile::create([
             'users_id' => $user->id,
             'jabatan_id' => 25,
             'nama_profile' => 'caleg kpu',
-            'email_profile' => 'kepalakepegawaiankpu@gmail.com',
+            'email_profile' => 'calegkpu@gmail.com',
             'alamat_profile' => 'alamat caleg',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',

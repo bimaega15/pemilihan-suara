@@ -140,7 +140,7 @@ class MonitoringController extends Controller
             $tps_id = $request->input('tps_id');
             $userAcess = session()->get('userAcess');
 
-            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile')
+            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile','profile.nik_profile','profile.alamat_profile')
                 ->with('tps')
                 ->join('users', 'tps_detail.users_id', '=', 'users.id')
                 ->join('profile', 'profile.users_id', '=', 'users.id')
@@ -156,9 +156,6 @@ class MonitoringController extends Controller
                 $result['data'] = [];
             }
             foreach ($data as $index => $v_data) {
-
-                $button = '';
-
                 $url_gambar_profile = asset('upload/profile/' . $v_data->gambar_profile);
                 $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_profile . '">
                     <img src="' . $url_gambar_profile . '" width="100%;"></img>
@@ -179,22 +176,41 @@ class MonitoringController extends Controller
                 ';
 
                 $detailVerification = $v_data->detail_verification;
-                $buttonVerification = null;
-                $outputVerification = null;
-                if($detailVerification == 0){
-                    $outputVerification = '
-                    <span class="badge badge-danger" title="Belum">
-                        <i class="fas fa-times"></i>
-                    </span>
+                $buttonVerification = '-';
+                if ($detailVerification == 0) {
+                    $buttonVerification = '
+                    <div class="text-center">
+                        <span class="badge bg-danger">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </div>
                     ';
                 }
 
 
+                if ($detailVerification == 1) {
+                    $buttonVerification = '
+                    <div class="text-center">
+                        <span class="badge bg-success">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </div>
+                    ';
+                }
+
+                $button = '
+                ' . $buttonVerification . '
+               ';
+
+
                 $result['data'][] = [
                     $no++,
+                    $v_data->nik_profile,
                     $v_data->nama_profile,
+                    $v_data->jenis_kelamin_profile == 'L' ? 'Laki-laki' : 'Perempuan',
                     $v_data->email_profile,
                     $v_data->nohp_profile,
+                    $v_data->alamat_profile,
                     $gambar_profile,
                     $bukticoblos_detail,
                     trim($button)

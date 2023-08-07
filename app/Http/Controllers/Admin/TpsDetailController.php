@@ -176,6 +176,7 @@ class TpsDetailController extends Controller
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
             'nik_profile' => 'required',
+            'alamat_profile' => 'required',
             'gambar_profile' => 'image|max:2048',
         ], [
             'required' => ':attribute wajib diisi',
@@ -307,6 +308,7 @@ class TpsDetailController extends Controller
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
             'nik_profile' => 'required',
+            'alamat_profile' => 'required',
             'gambar_profile' => 'image|max:2048',
         ], [
             'required' => ':attribute wajib diisi',

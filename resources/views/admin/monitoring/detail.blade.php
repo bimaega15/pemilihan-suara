@@ -74,13 +74,6 @@ $isCreate = session()->get('userAcess.is_create');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                @if ($isCreate != null)
-                                <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/monitoring/create') }}" class="btn btn-primary btn-add">
-                                        <i data-feather="plus"></i> Tambah
-                                    </a>
-                                </div>
-                                @endif
                                 <div class="row mb-1 mt-1">
                                     <div class="col-lg-6">
                                         <table>
@@ -160,7 +153,13 @@ $isCreate = session()->get('userAcess.is_create');
                                             <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">
+                                                    Nik
+                                                </th>
+                                                <th scope="col">
                                                     Nama
+                                                </th>
+                                                <th scope="col">
+                                                    Gender
                                                 </th>
                                                 <th scope="col">
                                                     Email
@@ -168,6 +167,7 @@ $isCreate = session()->get('userAcess.is_create');
                                                 <th scope="col">
                                                     No. HP
                                                 </th>
+                                                <th scope="col">Alamat</th>
                                                 <th scope="col" style="width: 100px;">
                                                     Gambar
                                                 </th>
