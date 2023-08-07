@@ -42,7 +42,7 @@ class KecamatanController extends Controller
                 $firstPage = $endPage - $limit;
 
                 $kecamatan = District::select('*');
-                $countDistricts = District::all()->count();
+                $countDistricts = District::where('regency_id',$regency_id)->get()->count();
                 if ($search != null) {
                     $kecamatan->where('name', 'like', '%' . $search . '%');
                 }
@@ -53,7 +53,7 @@ class KecamatanController extends Controller
                     ->limit($limit)
                     ->get();
 
-                if ($search != null && $search != '') {
+                if ($search != null) {
                     $countDistricts = $kecamatan->count();
                 }
 

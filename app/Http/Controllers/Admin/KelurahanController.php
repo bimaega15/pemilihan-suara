@@ -43,11 +43,10 @@ class KelurahanController extends Controller
                 $firstPage = $endPage - $limit;
 
                 $village = Village::select('*');
-                $countVillages = Village::all()->count();
+                $countVillages = Village::where('district_id', $district_id)->get()->count();
                 if ($search != null) {
                     $village->where('name', 'like', '%' . $search . '%');
                 }
-                $countVillages = Village::all()->count();
                 if ($district_id != null) {
                     $village->where('district_id', '=', $district_id);
                 }
@@ -55,7 +54,7 @@ class KelurahanController extends Controller
                     ->limit($limit)
                     ->get();
 
-                if ($search != null && $search != '') {
+                if ($search != null) {
                     $countVillages = $village->count();
                 }
 

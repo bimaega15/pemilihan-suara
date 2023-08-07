@@ -140,7 +140,7 @@ class MonitoringController extends Controller
             $tps_id = $request->input('tps_id');
             $userAcess = session()->get('userAcess');
 
-            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile','profile.nik_profile','profile.alamat_profile')
+            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.nik_profile', 'profile.alamat_profile')
                 ->with('tps')
                 ->join('users', 'tps_detail.users_id', '=', 'users.id')
                 ->join('profile', 'profile.users_id', '=', 'users.id')
@@ -225,5 +225,57 @@ class MonitoringController extends Controller
             'tps_id' => $tps_id,
             'tps' => Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps_id)
         ]);
+    }
+
+    public function fetchDukungan(Request $request)
+    {
+        $limit = 10;
+        $provinces_id = $request->input('provinces_id');
+        $regencies_id = $request->input('regencies_id');
+        $districts_id = $request->input('districts_id');
+        $villages_id = $request->input('villages_id');
+
+        $data = Tps::select('*');
+        if ($provinces_id != null) {
+            $data->where('provinces_id', $provinces_id);
+        }
+        if ($regencies_id != null) {
+            $data->where('regencies_id', $regencies_id);
+        }
+        if ($districts_id != null) {
+            $data->where('districts_id', $districts_id);
+        }
+        if ($villages_id != null) {
+            $data->where('villages_id', $villages_id);
+        }
+
+        $data = $data->paginate($limit);
+        return view('admin.monitoring.pagination_data', compact('data'))->render();
+    }
+
+    public function fetchProgres(Request $request)
+    {
+        $limit = 5;
+        $provinces_id = $request->input('provinces_id');
+        $regencies_id = $request->input('regencies_id');
+        $districts_id = $request->input('districts_id');
+        $villages_id = $request->input('villages_id');
+
+        $data = Tps::select('*');
+        if ($provinces_id != null) {
+            $data->where('provinces_id', $provinces_id);
+        }
+        if ($regencies_id != null) {
+            $data->where('regencies_id', $regencies_id);
+        }
+        if ($districts_id != null) {
+            $data->where('districts_id', $districts_id);
+        }
+        if ($villages_id != null) {
+            $data->where('villages_id', $villages_id);
+        }
+
+        $data = $data->paginate($limit);
+        return view('admin.monitoring.pagination_data_progres', compact('data'))->render();
     }
 }

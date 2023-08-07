@@ -40,7 +40,7 @@ class KabupatenController extends Controller
                 $firstPage = $endPage - $limit;
 
                 $regencies = Regencies::select('*');
-                $countRegencies = Regencies::all()->count();
+                $countRegencies = Regencies::where('province_id', $provinces_id)->get()->count();
                 if ($search != null) {
                     $regencies->where('name', 'like', '%' . $search . '%');
                 }
@@ -50,7 +50,7 @@ class KabupatenController extends Controller
                 $regencies = $regencies->offset($firstPage)
                     ->limit($limit)
                     ->get();
-                if ($search != null && $search != '') {
+                if ($search != null) {
                     $countRegencies = $regencies->count();
                 }
 
