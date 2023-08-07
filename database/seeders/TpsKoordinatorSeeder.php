@@ -439,7 +439,157 @@ class TpsKoordinatorSeeder extends Seeder
             'target_tps' => '100',
             'alamat_tps' => 'alamat_tps3',
         ];
-        Tps::create($tps);
+        $tps = Tps::create($tps);
+         // user
+         $user = User::create([
+            'username' => 'relawan6.1kpu@gmail.com',
+            'password' => Hash::make('123456'),
+            'is_aktif' => 1
+        ]);
+        $role = Role::where('nama_roles', 'like', '%relawan%')->first();
+
+        $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
+            'users_id' => $user->id,
+            'jabatan_id' => 27,
+            'nama_profile' => 'relawan6.1 kpu',
+            'email_profile' => 'relawan6.1kpu@gmail.com',
+            'alamat_profile' => 'alamat relawan6.1',
+            'nohp_profile' => '082277506232',
+            'jenis_kelamin_profile' => 'L',
+            'gambar_profile' => 'default.png'
+        ]);
+
+        $roleUser = RoleUser::create([
+            'role_id' => $role->id,
+            'user_id' => $user->id,
+        ]);
+        TpsDetail::create([
+            'users_id' => $user->id,
+            'tps_id' => $tps->id,
+            'bukticoblos_detail' => 'default.png',
+            'detail_verification' => 0
+        ]);
+         // user
+         $user = User::create([
+            'username' => 'relawan6.2kpu@gmail.com',
+            'password' => Hash::make('123456'),
+            'is_aktif' => 1
+        ]);
+        $role = Role::where('nama_roles', 'like', '%relawan%')->first();
+
+        $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
+            'users_id' => $user->id,
+            'jabatan_id' => 27,
+            'nama_profile' => 'relawan6.2 kpu',
+            'email_profile' => 'relawan6.2kpu@gmail.com',
+            'alamat_profile' => 'alamat relawan6.2',
+            'nohp_profile' => '082277506232',
+            'jenis_kelamin_profile' => 'L',
+            'gambar_profile' => 'default.png'
+        ]);
+
+        $roleUser = RoleUser::create([
+            'role_id' => $role->id,
+            'user_id' => $user->id,
+        ]);
+        TpsDetail::create([
+            'users_id' => $user->id,
+            'tps_id' => $tps->id,
+            'bukticoblos_detail' => 'default.png',
+            'detail_verification' => 0
+        ]);
+         // user
+         $user = User::create([
+            'username' => 'relawan6.3kpu@gmail.com',
+            'password' => Hash::make('123456'),
+            'is_aktif' => 1
+        ]);
+        $role = Role::where('nama_roles', 'like', '%relawan%')->first();
+
+        $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
+            'users_id' => $user->id,
+            'jabatan_id' => 27,
+            'nama_profile' => 'relawan6.3 kpu',
+            'email_profile' => 'relawan6.3kpu@gmail.com',
+            'alamat_profile' => 'alamat relawan6.3',
+            'nohp_profile' => '082277506232',
+            'jenis_kelamin_profile' => 'L',
+            'gambar_profile' => 'default.png'
+        ]);
+
+        $roleUser = RoleUser::create([
+            'role_id' => $role->id,
+            'user_id' => $user->id,
+        ]);
+        TpsDetail::create([
+            'users_id' => $user->id,
+            'tps_id' => $tps->id,
+            'bukticoblos_detail' => 'default.png',
+            'detail_verification' => 0
+        ]);
+         // user
+         $user = User::create([
+            'username' => 'relawan6.4kpu@gmail.com',
+            'password' => Hash::make('123456'),
+            'is_aktif' => 1
+        ]);
+        $role = Role::where('nama_roles', 'like', '%relawan%')->first();
+
+        $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
+            'users_id' => $user->id,
+            'jabatan_id' => 27,
+            'nama_profile' => 'relawan6.4 kpu',
+            'email_profile' => 'relawan6.4kpu@gmail.com',
+            'alamat_profile' => 'alamat relawan6.4',
+            'nohp_profile' => '082277506232',
+            'jenis_kelamin_profile' => 'L',
+            'gambar_profile' => 'default.png'
+        ]);
+
+        $roleUser = RoleUser::create([
+            'role_id' => $role->id,
+            'user_id' => $user->id,
+        ]);
+        TpsDetail::create([
+            'users_id' => $user->id,
+            'tps_id' => $tps->id,
+            'bukticoblos_detail' => 'default.png',
+            'detail_verification' => 0
+        ]);
+         // user
+         $user = User::create([
+            'username' => 'relawan6.5kpu@gmail.com',
+            'password' => Hash::make('123456'),
+            'is_aktif' => 1
+        ]);
+        $role = Role::where('nama_roles', 'like', '%relawan%')->first();
+
+        $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
+            'users_id' => $user->id,
+            'jabatan_id' => 27,
+            'nama_profile' => 'relawan6.5 kpu',
+            'email_profile' => 'relawan6.5kpu@gmail.com',
+            'alamat_profile' => 'alamat relawan6.5',
+            'nohp_profile' => '082277506232',
+            'jenis_kelamin_profile' => 'L',
+            'gambar_profile' => 'default.png'
+        ]);
+
+        $roleUser = RoleUser::create([
+            'role_id' => $role->id,
+            'user_id' => $user->id,
+        ]);
+        TpsDetail::create([
+            'users_id' => $user->id,
+            'tps_id' => $tps->id,
+            'bukticoblos_detail' => 'default.png',
+            'detail_verification' => 0
+        ]);
         // ==================
 
         $user = User::create([

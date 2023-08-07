@@ -48,6 +48,10 @@ class ProvinsiController extends Controller
                     ->limit($limit)
                     ->get();
 
+                if($search != null && $search != ''){
+                    $countProvince = $province->count();
+                }
+
                 $result = [];
                 foreach ($province as $key => $v_province) {
                     $result['results'][] =

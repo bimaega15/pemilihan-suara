@@ -41,24 +41,29 @@ class KecamatanController extends Controller
                 $endPage = $page * $limit;
                 $firstPage = $endPage - $limit;
 
-                $province = District::select('*');
+                $kecamatan = District::select('*');
                 $countDistricts = District::all()->count();
                 if ($search != null) {
-                    $province->where('name', 'like', '%' . $search . '%');
+                    $kecamatan->where('name', 'like', '%' . $search . '%');
                 }
                 if ($regency_id != null) {
-                    $province->where('regency_id', '=', $regency_id);
+                    $kecamatan->where('regency_id', '=', $regency_id);
                 }
-                $province = $province->offset($firstPage)
+                $kecamatan = $kecamatan->offset($firstPage)
                     ->limit($limit)
                     ->get();
 
+                if ($search != null && $search != '') {
+                    $countDistricts = $kecamatan->count();
+                }
+
+
                 $result = [];
-                foreach ($province as $key => $v_province) {
+                foreach ($kecamatan as $key => $v_kecamatan) {
                     $result['results'][] =
                         [
-                            'id' => $v_province->id,
-                            'text' => $v_province->name,
+                            'id' => $v_kecamatan->id,
+                            'text' => $v_kecamatan->name,
                         ];
                 }
                 $result['count_filtered'] = $countDistricts;

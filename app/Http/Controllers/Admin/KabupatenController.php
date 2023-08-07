@@ -50,6 +50,9 @@ class KabupatenController extends Controller
                 $regencies = $regencies->offset($firstPage)
                     ->limit($limit)
                     ->get();
+                if ($search != null && $search != '') {
+                    $countRegencies = $regencies->count();
+                }
 
                 $result = [];
                 foreach ($regencies as $key => $v_regencies) {
