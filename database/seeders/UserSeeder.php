@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
         ]);
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 25,
             'nama_profile' => 'Admin KPU',
@@ -53,6 +54,7 @@ class UserSeeder extends Seeder
         ]);
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 25,
             'nama_profile' => 'koordinator kpu',
@@ -80,6 +82,7 @@ class UserSeeder extends Seeder
         $roleCaleg = $role->id;
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 25,
             'nama_profile' => 'caleg kpu',
@@ -105,6 +108,7 @@ class UserSeeder extends Seeder
         ]);
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 25,
             'nama_profile' => 'relawan kpu',

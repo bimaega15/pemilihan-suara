@@ -23,50 +23,13 @@ class TpsKoordinatorSeeder extends Seeder
         //
         // user
         $user = User::create([
-            'username' => 'caleg123',
-            'password' => Hash::make('123456'),
-        ]);
-        $role = Role::where('nama_roles', 'like', '%caleg%')->first();
-
-        $profile = Profile::create([
-            'users_id' => $user->id,
-            'jabatan_id' => 27,
-            'nama_profile' => 'caleg123 kpu',
-            'email_profile' => 'caleg123kpu@gmail.com',
-            'alamat_profile' => 'alamat caleg123',
-            'nohp_profile' => '082277506232',
-            'jenis_kelamin_profile' => 'L',
-            'gambar_profile' => 'default.png'
-        ]);
-
-        $roleUser = RoleUser::create([
-            'role_id' => $role->id,
-            'user_id' => $user->id,
-        ]);
-        $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
-            'nama_tps' => 'tps1',
-            'totallk_tps' => '2',
-            'totalpr_tps' => '3',
-            'totalsemua_tps' => '5',
-            'users_id' => $user->id,
-            'minimal_tps' => '50',
-            'target_tps' => '100',
-            'alamat_tps' => 'alamat_tps1',
-        ];
-        $tps = Tps::create($tps);
-
-        // user
-        $user = User::create([
             'username' => 'relawan1.1kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan1.1 kpu',
@@ -81,20 +44,36 @@ class TpsKoordinatorSeeder extends Seeder
             'role_id' => $role->id,
             'user_id' => $user->id,
         ]);
+        $tps = [
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
+            'nama_tps' => 'tps1',
+            'totallk_tps' => '2',
+            'totalpr_tps' => '3',
+            'totalsemua_tps' => '5',
+            'users_id' => $user->id,
+            'minimal_tps' => '50',
+            'target_tps' => '100',
+            'alamat_tps' => 'alamat_tps1',
+        ];
+        $tps = Tps::create($tps);
         TpsDetail::create([
             'users_id' => $user->id,
             'tps_id' => $tps->id,
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan1.2kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan1.2 kpu',
@@ -115,14 +94,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan1.3kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan1.3 kpu',
@@ -143,14 +123,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan1.4kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan1.4 kpu',
@@ -171,14 +152,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan1.5kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan1.5 kpu',
@@ -207,6 +189,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg124 kpu',
@@ -222,10 +205,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps2',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -236,14 +219,15 @@ class TpsKoordinatorSeeder extends Seeder
             'alamat_tps' => 'alamat_tps2',
         ];
         $tps = Tps::create($tps);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan2.1kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan2.1 kpu',
@@ -264,14 +248,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan2.2kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan2.2 kpu',
@@ -292,14 +277,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan2.3kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan2.3 kpu',
@@ -320,14 +306,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan2.4kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan2.4 kpu',
@@ -348,14 +335,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan2.5kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan2.5 kpu',
@@ -385,6 +373,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg125 kpu',
@@ -400,10 +389,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps3',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -423,6 +412,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg126 kpu',
@@ -438,10 +428,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps4',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -452,14 +442,15 @@ class TpsKoordinatorSeeder extends Seeder
             'alamat_tps' => 'alamat_tps4',
         ];
         $tps = Tps::create($tps);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan3.1kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan3.1 kpu',
@@ -480,14 +471,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan3.2kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan3.2 kpu',
@@ -508,14 +500,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan3.3kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan3.3 kpu',
@@ -536,14 +529,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan3.4kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan3.4 kpu',
@@ -564,14 +558,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan3.5kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan3.5 kpu',
@@ -601,6 +596,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => '127 kpu',
@@ -616,10 +612,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps5',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -630,14 +626,15 @@ class TpsKoordinatorSeeder extends Seeder
             'alamat_tps' => 'alamat_tps5',
         ];
         $tps = Tps::create($tps);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan4.1kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan4.1 kpu',
@@ -658,14 +655,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan4.2kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan4.2 kpu',
@@ -686,14 +684,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan4.3kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan4.3 kpu',
@@ -714,14 +713,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan4.4kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan4.4 kpu',
@@ -742,14 +742,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan4.5kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan4.5 kpu',
@@ -779,6 +780,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg128 kpu',
@@ -794,10 +796,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps6',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -808,14 +810,15 @@ class TpsKoordinatorSeeder extends Seeder
             'alamat_tps' => 'alamat_tps6',
         ];
         $tps = Tps::create($tps);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan5.1kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan5.1 kpu',
@@ -836,14 +839,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan5.2kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan5.2 kpu',
@@ -864,14 +868,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan5.3kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan5.3 kpu',
@@ -892,14 +897,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan5.4kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan5.4 kpu',
@@ -920,14 +926,15 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan5.5kpu@gmail.com',
             'password' => Hash::make('123456'),
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'relawan5.5 kpu',
@@ -957,6 +964,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg129 kpu',
@@ -972,10 +980,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps7',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -995,6 +1003,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg130 kpu',
@@ -1010,10 +1019,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps8',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -1034,6 +1043,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg131 kpu',
@@ -1049,10 +1059,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps9',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
@@ -1072,6 +1082,7 @@ class TpsKoordinatorSeeder extends Seeder
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
         $profile = Profile::create([
+            'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 27,
             'nama_profile' => 'caleg132 kpu',
@@ -1087,10 +1098,10 @@ class TpsKoordinatorSeeder extends Seeder
             'user_id' => $user->id,
         ]);
         $tps = [
-            'provinces_id' => '11',
-            'regencies_id' => '1101',
-            'districts_id' => '1101010',
-            'villages_id' => '1',
+            'provinces_id' => 11,
+            'regencies_id' => 1101,
+            'districts_id' => 1101010,
+            'villages_id' => 1,
             'nama_tps' => 'tps10',
             'totallk_tps' => '2',
             'totalpr_tps' => '3',
