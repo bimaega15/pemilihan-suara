@@ -1,3 +1,13 @@
 <div class="preloader">
-    <div class="loading"><span></span><span></span><span></span><span></span></div>
+    <div class="sk-cube-grid">
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+        <span class="sk-cube"></span>
+    </div>
 </div><!-- /.preloader -->
