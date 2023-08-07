@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'username' => 'admin123',
             'password' => Hash::make('admin123'),
+            'is_aktif' => 1,
         ]);
         $role = Role::create([
             'nama_roles' => 'admin'
@@ -48,6 +49,8 @@ class UserSeeder extends Seeder
         $user = User::create([
             'username' => 'koordinator123',
             'password' => Hash::make('koordinator123'),
+            'is_aktif' => 1,
+
         ]);
         $role = Role::create([
             'nama_roles' => 'koordinator'
@@ -75,6 +78,8 @@ class UserSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg123',
             'password' => Hash::make('caleg123'),
+            'is_aktif' => 1,
+
         ]);
         $role = Role::create([
             'nama_roles' => 'caleg'
@@ -102,6 +107,8 @@ class UserSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan123',
             'password' => Hash::make('relawan123'),
+            'is_aktif' => 1,
+
         ]);
         $role = Role::create([
             'nama_roles' => 'relawan'

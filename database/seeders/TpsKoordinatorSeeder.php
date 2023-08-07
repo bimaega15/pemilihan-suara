@@ -25,6 +25,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan1.1kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -69,6 +70,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan1.2kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -98,6 +100,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan1.3kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -127,6 +130,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan1.4kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -156,6 +160,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan1.5kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -185,6 +190,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg124',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -223,6 +229,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan2.1kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -252,6 +259,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan2.2kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -281,6 +289,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan2.3kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -310,6 +319,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan2.4kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -339,6 +349,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan2.5kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -369,6 +380,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg125',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -408,6 +420,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg126',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -446,6 +459,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan3.1kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -475,6 +489,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan3.2kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -504,6 +519,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan3.3kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -533,6 +549,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan3.4kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -562,6 +579,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan3.5kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -592,6 +610,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => '127',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -630,6 +649,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan4.1kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -659,6 +679,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan4.2kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -688,6 +709,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan4.3kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -717,6 +739,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan4.4kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -746,6 +769,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan4.5kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -776,6 +800,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg128',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -814,6 +839,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan5.1kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -843,6 +869,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan5.2kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -872,6 +899,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan5.3kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -901,6 +929,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan5.4kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -930,6 +959,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'relawan5.5kpu@gmail.com',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%relawan%')->first();
 
@@ -960,6 +990,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg129',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -999,6 +1030,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg130',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -1039,6 +1071,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg131',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
@@ -1078,6 +1111,7 @@ class TpsKoordinatorSeeder extends Seeder
         $user = User::create([
             'username' => 'caleg132',
             'password' => Hash::make('123456'),
+            'is_aktif' => 1
         ]);
         $role = Role::where('nama_roles', 'like', '%caleg%')->first();
 
