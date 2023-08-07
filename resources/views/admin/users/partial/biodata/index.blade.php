@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="form-floating">
-                <input type="text" class="form-control nik_profile" id="floatingInput" placeholder="Nama..." name="nik_profile">
+                <input type="text" class="form-control nik_profile" id="floatingInput" placeholder="Nik..." name="nik_profile">
                 <small class="error_nik_profile text-danger"></small>
                 <label for="floatingInput">Nomor Induk</label>
             </div>

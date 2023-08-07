@@ -69,21 +69,21 @@ class UserSeeder extends Seeder
         ]);
 
 
-        // kepala kepegawaian
+        // caleg
         $user = User::create([
             'username' => 'kepala123',
             'password' => Hash::make('kepala123'),
         ]);
         $role = Role::create([
-            'nama_roles' => 'kepala kepegawaian'
+            'nama_roles' => 'caleg'
         ]);
 
         $profile = Profile::create([
             'users_id' => $user->id,
             'jabatan_id' => 25,
-            'nama_profile' => 'kepala kepegawaian kpu',
+            'nama_profile' => 'caleg kpu',
             'email_profile' => 'kepalakepegawaiankpu@gmail.com',
-            'alamat_profile' => 'alamat kepala kepegawaian',
+            'alamat_profile' => 'alamat caleg',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'

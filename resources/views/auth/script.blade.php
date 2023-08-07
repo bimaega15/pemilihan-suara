@@ -1,5 +1,8 @@
 <script>
     $(document).ready(function() {
+        $('.select2').select2({
+            theme: 'bootstrap-5'
+        });
         $(document).on('click', '.btn-submit', function(e) {
             e.preventDefault();
             $('.form-submit').submit();

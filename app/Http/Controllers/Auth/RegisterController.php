@@ -25,9 +25,11 @@ class RegisterController extends Controller
     {
         //
 
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Koordinator%')->first();
         return view('auth.register', [
             'role' => Role::all(),
-            'jabatan' => Jabatan::all()
+            'jabatan' => Jabatan::all(),
+            'getJabatan' => $getJabatan
         ]);
     }
 
@@ -88,7 +90,7 @@ class RegisterController extends Controller
         $user_id = User::create($dataUsers);
 
         // roles
-        $getRoles = Role::where('nama_roles', 'like', '%' . 'koordinator' . '%')->first();
+        $getRoles = Role::where('nama_roles', 'like', '%koordinator%')->first();
         $dataRoles = [
             'role_id' => $getRoles->id,
             'user_id' => $user_id->id,

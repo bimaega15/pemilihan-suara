@@ -50,6 +50,7 @@
                         )
                         .trigger("change");
                     $('.nama_tps').val(result.nama_tps);
+                    $('.alamat_tps').val(result.alamat_tps);
                     $('.minimal_tps').val(result.minimal_tps);
                     $('.target_tps').val(result.target_tps);
                     $('.users_id').append(

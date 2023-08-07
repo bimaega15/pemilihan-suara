@@ -20,6 +20,7 @@ class CreateTpsTable extends Migration
             $table->integer('districts_id')->unsigned();
             $table->integer('villages_id')->unsigned();
             $table->string('nama_tps', 50);
+            $table->text('alamat_tps');
             $table->integer('totallk_tps')->nullable();
             $table->integer('totalpr_tps')->nullable();
             $table->integer('totalsemua_tps')->nullable();

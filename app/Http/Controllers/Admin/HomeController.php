@@ -47,7 +47,7 @@ class HomeController extends Controller
             ->get()->count();
         $kepalaKepegawaian = User::join('role_user', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->where('roles.nama_roles', 'like', '%' . 'kepala kepegawaian' . '%')
+            ->where('roles.nama_roles', 'like', '%' . 'caleg' . '%')
             ->get()->count();
         $relawan = User::join('role_user', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')

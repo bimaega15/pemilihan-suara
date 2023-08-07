@@ -109,7 +109,7 @@ class UsersController extends Controller
         }
         $admin = Role::where("nama_roles", 'like', '%admin%')->first();
         $koordinator = Role::where("nama_roles", 'like', '%koordinator%')->first();
-        $kepalaKepegawaian = Role::where("nama_roles", 'like', '%kepala kepegawaian%')->first();
+        $kepalaKepegawaian = Role::where("nama_roles", 'like', '%caleg%')->first();
 
         return view('admin.users.index', [
             'role' => Role::all(),

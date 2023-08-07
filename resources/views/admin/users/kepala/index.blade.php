@@ -1,6 +1,6 @@
 @if ($isCreate != null)
 <div class="mb-3">
-    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-add" data-roles="kepala kepegawaian">
+    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-add" data-roles="caleg">
         <i data-feather="plus"></i> Tambah
     </a>
 </div>
@@ -38,4 +38,3 @@
         </tbody>
     </table>
 </div>
-

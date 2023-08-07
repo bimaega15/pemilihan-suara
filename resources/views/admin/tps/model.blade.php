@@ -77,6 +77,14 @@
                          </div>
                      </div>
                      <div style="height: 10px;"></div>
+                     <div class="form-floating">
+                         <textarea placeholder="Alamat tps..." class="form-control alamat_tps" id="floatingInput" name="alamat_tps" rows="3">
+                         </textarea>
+                         <small class="error_alamat_tps text-danger"></small>
+                         <label for="floatingInput">Alamat TPS</label>
+                     </div>
+                     <div style="height: 10px;"></div>
+
                      <div class="form-group">
                          <label for="">Koordinator</label>
                          <select class="form-control users_id" name="users_id" id="">

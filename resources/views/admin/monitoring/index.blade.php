@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-Tps
+Monitoring
 @endsection
 @section('content')
 <?php
@@ -12,20 +12,17 @@ $isCreate = session()->get('userAcess.is_create');
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i data-feather="settings"></i> <strong>Data tps</strong>
+                        <i data-feather="monitor"></i> <strong>Data monitoring</strong>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                @if ($isCreate != null)
-                                <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/tps/create') }}" class="btn btn-primary btn-add">
-                                        <i data-feather="plus"></i> Tambah
-                                    </a>
+                                <div class="mb-1">
+                                    <h5>Koordinator & Pendukung</h5>
+                                    <hr>
                                 </div>
-                                @endif
                                 <div class="table-responsive">
-                                    <table class="table" id="dataTable">
+                                    <table class="table" id="dataTableKoordinatorPendukung">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
@@ -54,9 +51,8 @@ $isCreate = session()->get('userAcess.is_create');
         </div>
     </div>
 </div>
-@include('admin.tps.model')
 @endsection
 
 @push('js')
-@include('admin.tps.script')
+@include('admin.monitoring.script')
 @endpush

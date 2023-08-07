@@ -72,7 +72,7 @@ $isCreate = session()->get('userAcess.is_create');
                                         <button class="nav-link active" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="true">Admin</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="kepala-tab" data-bs-toggle="tab" data-bs-target="#kepala" type="button" role="tab" aria-controls="kepala" aria-selected="false">Kepala Kepegawaian</button>
+                                        <button class="nav-link" id="kepala-tab" data-bs-toggle="tab" data-bs-target="#kepala" type="button" role="tab" aria-controls="kepala" aria-selected="false">Caleg</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="koordinator-tab" data-bs-toggle="tab" data-bs-target="#koordinator" type="button" role="tab" aria-controls="koordinator" aria-selected="false">Koordinator</button>

@@ -17,7 +17,7 @@
                 dataType: 'json',
                 type: 'get',
                 data: {
-                    roles: 'kepala kepegawaian'
+                    roles: 'caleg'
                 }
             },
         });
@@ -52,7 +52,7 @@
             if (roles == 'admin') {
                 $('.role_id').val(admin_id);
             }
-            if (roles == 'kepala kepegawaian') {
+            if (roles == 'caleg') {
                 $('.role_id').val(kepalaKepegawianId);
             }
             if (roles == 'koordinator') {
@@ -72,7 +72,7 @@
             if (roles == 'admin') {
                 $('.role_id').val(admin_id);
             }
-            if (roles == 'kepala kepegawaian') {
+            if (roles == 'caleg') {
                 $('.role_id').val(kepalaKepegawianId);
             }
             if (roles == 'koordinator') {
@@ -255,7 +255,7 @@
             if (roles == 'admin') {
                 $('.role_id').val(admin_id);
             }
-            if (roles == 'kepala kepegawaian') {
+            if (roles == 'caleg') {
                 $('.role_id').val(kepalaKepegawianId);
             }
             if (roles == 'koordinator') {
@@ -288,7 +288,7 @@
                                 if (roles == 'admin') {
                                     tableAdmin.ajax.reload();
                                 }
-                                if (roles == 'kepala kepegawaian') {
+                                if (roles == 'caleg') {
                                     tableKepala.ajax.reload();
                                 }
                                 if (roles == 'koordinator') {
@@ -361,14 +361,14 @@
                     if (roles == 'admin') {
                         tableAdmin.ajax.reload();
                     }
-                    if (roles == 'kepala kepegawaian') {
+                    if (roles == 'caleg') {
                         tableKepala.ajax.reload();
                     }
                     if (roles == 'koordinator') {
                         tableKoordinator.ajax.reload();
                     }
 
-                    
+
                 }
             })
         })

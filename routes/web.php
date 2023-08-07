@@ -3,36 +3,26 @@
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AccessController;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\DataTestingController;
 use App\Http\Controllers\Admin\GalleryController;
-use App\Http\Controllers\Admin\HasilController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\JabatanController;
-use App\Http\Controllers\Admin\JawabanKuisionerController;
 use App\Http\Controllers\Admin\KabupatenController;
 use App\Http\Controllers\Admin\KecamatanController;
 use App\Http\Controllers\Admin\KelurahanController;
 use App\Http\Controllers\Admin\KonfigurasiController;
-use App\Http\Controllers\Admin\KuisionerController;
-use App\Http\Controllers\Admin\PernyataanController;
-use App\Http\Controllers\Admin\PernyataanDetailController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProvinsiController;
-use App\Http\Controllers\Admin\RangeBobotController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\TpsController;
 use App\Http\Controllers\Admin\TpsDetailController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\User\HomeController as HomeControllerUser;
-use App\Http\Controllers\User\ContactsController;
-use App\Http\Controllers\User\DiagnosaController;
-use App\Http\Controllers\User\HasilController as HasilUsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +42,14 @@ Route::get('/clear', function () {
 });
 
 Route::group(['middleware' => ['checkAlreadyLogin', 'throttle:login']], function () {
-    Route::get('/', [LoginController::class, 'index'])->name('login.index');
-    Route::get('/login', [LoginController::class, 'index'])->name('login.index');
+    Route::get('/login', [AuthenticatedSessionController::class, 'index'])
+        ->middleware('guest')
+        ->name('login');
+
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware(['guest', 'throttle:10,1'])
+        ->name('login.attempt');
+
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
     Route::post('/register/store', [RegisterController::class, 'store'])->name('register.store');
 });
@@ -99,4 +95,7 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::resource('kabupaten', KabupatenController::class);
     Route::resource('kecamatan', KecamatanController::class);
     Route::resource('kelurahan', KelurahanController::class);
+
+    Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
+    Route::get('/monitoring/{id}/detail', [MonitoringController::class, 'detail'])->name('monitoring.detail');
 });

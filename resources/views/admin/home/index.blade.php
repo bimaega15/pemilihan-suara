@@ -29,14 +29,14 @@ Home
                                     <div class="card-body">
                                         <h5 class="card-title">Koordinator</h5>
                                         <h2>{{ $koordinator }}</h2>
-                                        <i class="fas fa-user-tie 2x"></i>
+                                        <i class="fas fa-user-tie fa-2x"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 col-xl-4">
                                 <div class="card stat-widget shadow-sm">
                                     <div class="card-body">
-                                        <h5 class="card-title">Kepala Kepegawaian</h5>
+                                        <h5 class="card-title">caleg</h5>
                                         <h2>{{ $kepalaKepegawaian }}</h2>
                                         <p>
                                             <i class="fas fa-user-secret fa-2x"></i>

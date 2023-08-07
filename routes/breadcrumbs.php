@@ -23,3 +23,12 @@ Breadcrumbs::for('tpsDetail', function (BreadcrumbTrail $trail) {
     $trail->parent('tps');
     $trail->push('Detail TPS');
 });
+
+Breadcrumbs::for('monitoring', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Monitoring', route('admin.monitoring.index'));
+});
+Breadcrumbs::for('monitoringDetail', function (BreadcrumbTrail $trail) {
+    $trail->parent('monitoring');
+    $trail->push('Detail');
+});

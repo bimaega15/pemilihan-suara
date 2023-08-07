@@ -67,7 +67,7 @@ $isCreate = session()->get('userAcess.is_create');
                                 <i data-feather="user"></i> <strong>Data TPS Detail</strong>
                             </div>
                             <div>
-                                {{ Breadcrumbs::render('tpsDetail') }}
+                                {{ Breadcrumbs::render('monitoringDetail') }}
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@ $isCreate = session()->get('userAcess.is_create');
                             <div class="col-lg-12">
                                 @if ($isCreate != null)
                                 <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/tpsDetail/create') }}" class="btn btn-primary btn-add">
+                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/monitoring/create') }}" class="btn btn-primary btn-add">
                                         <i data-feather="plus"></i> Tambah
                                     </a>
                                 </div>
@@ -176,7 +176,7 @@ $isCreate = session()->get('userAcess.is_create');
                                                 </th>
                                                 <th scope="col">
                                                     <div class="text-center">
-                                                        Actions
+                                                        Approve
                                                     </div>
                                                 </th>
                                             </tr>
@@ -193,10 +193,8 @@ $isCreate = session()->get('userAcess.is_create');
         </div>
     </div>
 </div>
-@include('admin.tpsDetail.model')
-@include('admin.tpsDetail.modelUploadBukti')
 @endsection
 
 @push('js')
-@include('admin.tpsDetail.script')
+@include('admin.monitoring.scriptDetail')
 @endpush

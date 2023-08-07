@@ -142,6 +142,7 @@ return [
             'confirmPassword' => true,
             // 'window' => 0,
         ]),
+        'remember_me' => true,
     ],
 
 ];

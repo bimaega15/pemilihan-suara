@@ -28,7 +28,7 @@ $getKonfigurasi = Check::getKonfigurasi();
                     </div>
 
                     <form method="post" action="{{ url('register/store') }}" class="form-submit">
-                        <div class="row" style="height: 450px;">
+                        <div class="row" style="height: 500px;">
                             <div class="col-lg-12">
                                 <div class="owl-carousel owl-theme">
                                     @include('auth.item.account')

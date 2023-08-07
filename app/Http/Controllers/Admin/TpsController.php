@@ -19,6 +19,7 @@ class TpsController extends Controller
         'districts_id' => 'required',
         'villages_id' => 'required',
         'nama_tps' => 'required',
+        'alamat_tps' => 'required',
         'minimal_tps' => 'required',
         'target_tps' => 'required',
         'users_id' => 'required',
@@ -120,13 +121,38 @@ class TpsController extends Controller
                 </div>
                 ';
 
+                $totalLKTps =  $v_data->totallk_tps == null ? 0 : $v_data->totallk_tps;
+                $totalPrTps =  $v_data->totalpr_tps == null ? 0 : $v_data->totalpr_tps;
+                $totalSemua =  $v_data->totalsemua_tps == null ? 0 : $v_data->totalsemua_tps;
+
+                $totalTps = '
+                <div>
+                    <strong class="text-dark">Total LK: </strong> <strong>' . $totalLKTps . '</strong>
+                </div>
+                <div>
+                    <strong class="text-dark">Total PR: </strong> <strong>' . $totalPrTps . '</strong>
+                </div>
+                <div>
+                    <strong class="text-dark">Total Semua: </strong> <strong>' . $totalSemua . '</strong>
+                </div>
+                ';
+
+
+                $capaianTps = '
+                <div>
+                    <strong class="text-dark">Minimal TPS: </strong> <strong>' . $v_data->minimal_tps . '</strong>
+                </div>
+                <div>
+                    <strong class="text-dark">Target TPS: </strong> <strong>' . $v_data->target_tps . '</strong>
+                </div>
+                ';
+
                 $result['data'][] = [
                     $no++,
                     $v_data->nama_tps,
-                    $v_data->minimal_tps,
-                    $v_data->totallk_tps == null ? 0 : $v_data->totallk_tps,
-                    $v_data->totalpr_tps == null ? 0 : $v_data->totalpr_tps,
-                    $v_data->totalsemua_tps == null ? 0 : $v_data->totalsemua_tps,
+                    $v_data->alamat_tps,
+                    $capaianTps,
+                    $totalTps,
                     $dataUsers,
                     $daerah,
                     trim($button)
@@ -172,6 +198,7 @@ class TpsController extends Controller
             'districts_id' => $request->input('districts_id'),
             'villages_id' => $request->input('villages_id'),
             'nama_tps' => $request->input('nama_tps'),
+            'alamat_tps' => $request->input('alamat_tps'),
             'users_id' => $request->input('users_id'),
             'minimal_tps' => $request->input('minimal_tps'),
             'target_tps' => $request->input('target_tps'),
@@ -250,6 +277,7 @@ class TpsController extends Controller
             'districts_id' => $request->input('districts_id'),
             'villages_id' => $request->input('villages_id'),
             'nama_tps' => $request->input('nama_tps'),
+            'alamat_tps' => $request->input('alamat_tps'),
             'users_id' => $request->input('users_id'),
             'minimal_tps' => $request->input('minimal_tps'),
             'target_tps' => $request->input('target_tps'),
