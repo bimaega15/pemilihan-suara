@@ -100,6 +100,8 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::get('/monitoring/{id}/detail', [MonitoringController::class, 'detail'])->name('monitoring.detail');
     Route::get('/monitoring/fetchDukungan', [MonitoringController::class, 'fetchDukungan'])->name('monitoring.fetchDukungan');
     Route::get('/monitoring/fetchProgres', [MonitoringController::class, 'fetchProgres'])->name('monitoring.fetchProgres');
+    Route::get('/monitoring/fetchGrafik', [MonitoringController::class, 'fetchGrafik'])->name('monitoring.fetchGrafik');
+    Route::get('/monitoring/fetchDisplayGrafik', [MonitoringController::class, 'fetchDisplayGrafik'])->name('monitoring.fetchDisplayGrafik');
 });
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home.index');
