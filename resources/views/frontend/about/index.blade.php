@@ -432,7 +432,7 @@
                         <i class="icon-programmer"></i>
                     </div><!-- /.cta__icon -->
                     <div class="cta__content">
-                        <h4 class="cta__title">Small/Growing Business!</h4>
+                        <h4 class="cta__title">Small/Grow ing Business!</h4>
                         <p class="cta__desc mb-0">Professional IT support packages tailored to align with your business
                             objectives
                             and meet your needs.</p>
@@ -450,9 +450,10 @@
                     </div><!-- /.cta__icon -->
                 </div><!-- /.cta__item -->
             </div><!-- /.cta -->
-            <p class="text__link text-center mt-40 mb-0">IT Management Solutions for your Business,
-                <a href="#" class="btn btn__link btn__secondary btn__icon px-0">
-                    <span>Explore Our Plans</span> <i class="icon-arrow-right"></i>
+            <p class="text__link text-center mt-40 mb-0">
+                Daftar List Tempat Penampungan Suara (TPS)
+                <a href="{{ url('/tps') }}" class="btn btn__link btn__secondary btn__icon px-0">
+                    <span>Lihat TPS </span> <i class="icon-arrow-right"></i>
                 </a>
             </p>
         </div><!-- /.container -->
@@ -469,8 +470,9 @@
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-5 d-flex flex-column justify-content-between pb-80">
                 <div class="heading heading-light mb-50 sticky-top">
                     <div class="divider divider-white"></div>
-                    <h3 class="heading__title mb-30">Easy solutions for all difficult IT problems, keep business safe &
-                        ensure high availability.
+                    <h3 class="heading__title mb-30">
+                        Menyampaikan suara masyarakat dalam menetapkan kebijakan negara, dan. Rekrutmen politik dalam
+                        proses pengisian jabatan politik
                     </h3>
                 </div><!-- /.heading -->
                 <div class="row">
