@@ -350,9 +350,8 @@
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support
-                            staff are
-                            ready to help.
+                            Sebagai gerakan nasional, untuk penyaluran aspirasi masyarakat dalam menetapkan kebijakan
+                            negara, serta turut berperan dalam pengisian jabatan politik.
                         </div>
                     </div><!-- /.testimonial-panel -->
                 </div><!-- /. testimonial-box -->
@@ -367,9 +366,8 @@
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support
-                            staff are
-                            ready to help.
+                            Sebagai gerakan nasional, untuk penyaluran aspirasi masyarakat dalam menetapkan kebijakan
+                            negara, serta turut berperan dalam pengisian jabatan politik.
                         </div>
                     </div><!-- /.testimonial-panel -->
                 </div><!-- /. testimonial-box -->
@@ -384,9 +382,8 @@
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support
-                            staff are
-                            ready to help.
+                            Sebagai gerakan nasional, untuk penyaluran aspirasi masyarakat dalam menetapkan kebijakan
+                            negara, serta turut berperan dalam pengisian jabatan politik.
                         </div>
                     </div><!-- /.testimonial-panel -->
                 </div><!-- /. testimonial-box -->
@@ -401,9 +398,8 @@
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support
-                            staff are
-                            ready to help.
+                            Sebagai gerakan nasional, untuk penyaluran aspirasi masyarakat dalam menetapkan kebijakan
+                            negara, serta turut berperan dalam pengisian jabatan politik.
                         </div>
                     </div><!-- /.testimonial-panel -->
                 </div><!-- /. testimonial-box -->
@@ -418,9 +414,8 @@
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support
-                            staff are
-                            ready to help.
+                            Sebagai gerakan nasional, untuk penyaluran aspirasi masyarakat dalam menetapkan kebijakan
+                            negara, serta turut berperan dalam pengisian jabatan politik.
                         </div>
                     </div><!-- /.testimonial-panel -->
                 </div><!-- /. testimonial-box -->
