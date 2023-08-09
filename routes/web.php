@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController as ControllersAboutController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AccessController;
 use App\Http\Controllers\Admin\BannerController;
@@ -20,7 +21,10 @@ use App\Http\Controllers\Admin\TpsDetailController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\GalleryController as ControllersGalleryController;
 use App\Http\Controllers\HomeController as ControllersHomeController;
+use App\Http\Controllers\TpsController as ControllersTpsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -105,3 +109,8 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
 });
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home.index');
+Route::get('/about', [ControllersAboutController::class, 'index'])->name('about.index');
+Route::get('/gallery', [ControllersGalleryController::class, 'index'])->name('gallery.index');
+Route::get('/contactUs', [ContactUsController::class, 'index'])->name('contactUs.index');
+Route::get('/tps', [ControllersTpsController::class, 'index'])->name('tps.index');
+
