@@ -229,7 +229,7 @@ class AboutController extends Controller
             ], 400);
         }
 
-        $file = $this->uploadFile($_FILES, null, 'teamdetail_about', 'team');
+        $file = $this->uploadFile($_FILES, $id, 'teamdetail_about', 'team');
         $teamdetail_about = ['default.png'];
         if (is_array($file)) {
             if (!empty($file[0])) {
@@ -238,7 +238,7 @@ class AboutController extends Controller
         }
         $teamdetail_about = json_encode($teamdetail_about);
 
-        $file = $this->uploadFile($_FILES, null, 'gambarsponsor_about', 'sponsor');
+        $file = $this->uploadFile($_FILES, $id, 'gambarsponsor_about', 'sponsor');
         $gambarsponsor_about = ['default.png'];
         if (is_array($file)) {
             if (!empty($file[0])) {
@@ -355,7 +355,18 @@ class AboutController extends Controller
                 $name = $namePush;
             }
         } else {
-            $name = 'default.png';
+            $name = ['default.png'];
+            if ($id != null) {
+                $gambar_detail = About::find($id);
+                if ($lokasi == 'sponsor') {
+                    $gambarsponsor_about = json_decode($gambar_detail->gambarsponsor_about, true);
+                    $name = $gambarsponsor_about;
+                }
+                if ($lokasi == 'team') {
+                    $teamdetail_about = json_decode($gambar_detail->teamdetail_about, true);
+                    $name = $teamdetail_about;
+                }
+            }
         }
 
         return $name;

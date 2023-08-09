@@ -1,3 +1,6 @@
+<?php
+$getKonfigurasi = Check::getKonfigurasi();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="description" content="Smart Data  IT Solutions &  Services Template">
-    <link href="{{ asset('frontend/SmartData/') }}/assets/images/favicon/favicon.png" rel="icon">
-    <title>Smart Data IT Solutions & Services Template</title>
+    <link href="{{ asset('upload/konfigurasi/') }}/{{$getKonfigurasi->logo_konfigurasi}}" alt="logo-aplikasi" rel="icon">
+    <title>@yield('title')</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800;900&family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800;900&family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
     <link rel="stylesheet" href="{{ asset('frontend/SmartData/') }}/assets/css/libraries.css">
     <link rel="stylesheet" href="{{ asset('frontend/SmartData/') }}/assets/css/style.css">

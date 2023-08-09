@@ -1,5 +1,7 @@
 @extends('layouts.user')
 
+@section('title','About Page')
+
 @section('content')
 
 
@@ -7,27 +9,29 @@
        page title 
     =========================== -->
 <section class="page-title page-title-layout1 text-center bg-overlay bg-overlay-gradient bg-parallax">
-    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/page-titles/1.jpg" alt="background"></div>
+    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/page-titles/1.jpg" alt="background">
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 offset-xl-3">
-                <h1 class="pagetitle__heading">Help Challenge Critical Activities</h1>
-                <p class="pagetitle__desc">We are experienced professionals who understand that It services is changing, and
-                    are true partners who care about your success.</p>
+                <h1 class="pagetitle__heading">Tentang Kami</h1>
+                <p class="pagetitle__desc">Partai Amanat Nasional (disingkat: PAN) adalah sebuah partai politik di
+                    Indonesia. Asas partai ini adalah Akhlak Politik Berlandaskan Agama yang Membawa Rahmat bagi
+                    Sekalian Alam</p>
                 <div class="d-flex justify-content-center align-items-center flex-wrap">
-                    <a href="projects-grid.html" class="btn btn__primary mx-3">Our Services</a>
-                    <a class="video__btn video__btn-rounded video__btn-white popup-video mx-3" href="https://www.youtube.com/watch?v=nrJtHemSPW4">
+                    <a href="{{ url('tps') }}" class="btn btn__primary mx-3">Lihat TPS</a>
+                    <a class="video__btn video__btn-rounded video__btn-white popup-video mx-3"
+                        href="https://www.youtube.com/watch?v=QunJfj8tMb4">
                         <div class="video__player">
                             <i class="fa fa-play"></i>
                         </div>
-                        <span class="video__btn-title color-white">Our Video!</span>
+                        <span class="video__btn-title color-white">Video Kami</span>
                     </a>
                 </div>
                 <nav>
                     <ol class="breadcrumb justify-content-center mb-0">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="about-us.html">Company</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">about</li>
+                        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">About</li>
                     </ol>
                 </nav>
             </div><!-- /.col-xl-6 -->
@@ -35,26 +39,6 @@
     </div><!-- /.container -->
 </section><!-- /.page-title -->
 
-<!-- ========================
-      Secondary Nav
-    =========================== -->
-<section class="secondary-nav sticky-top py-0">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <nav class="nav nav-tabs justify-content-center">
-                    <a href="about-us.html" class="nav__link active">About Us</a>
-                    <a href="why-us.html" class="nav__link">Why Choose Us</a>
-                    <a href="leadership-team.html" class="nav__link">Leadership Team</a>
-                    <a href="awards.html" class="nav__link">Awards & Recognition</a>
-                    <a href="pricing.html" class="nav__link">Pricing & Plans</a>
-                    <a href="faqs.html" class="nav__link">Help & FAQs</a>
-                    <a href="careers.html" class="nav__link">Careers</a>
-                </nav>
-            </div><!-- /.col-12 -->
-        </div><!-- /.row -->
-    </div><!-- /.container -->
-</section><!-- /.Secondary Nav -->
 
 <!-- ========================
       About Layout 1
@@ -66,38 +50,47 @@
                 <div class="heading mb-30">
                     <div class="d-flex align-items-center mb-20">
                         <div class="divider divider-primary mr-30"></div>
-                        <h2 class="heading__subtitle mb-0">Timely Service Delivery & Incident Resolutions!! </h2>
+                        <h2 class="heading__subtitle mb-0">Tugas dan fungsi partai PAN </h2>
                     </div>
-                    <h3 class="heading__title mb-40">Manages service delivery across various business like, HR, Legal and
-                        other IT departments!!
+                    <h3 class="heading__title mb-40">
+                        Apa saja kegiatan partai politik
                     </h3>
                 </div><!-- /heading -->
                 <div class="position-relative offset-xl-1">
                     <i class="icon-quote"></i>
-                    <p class="mb-40">SmartData has been helping organizations throughout the World to manage
-                        their IT with our unique approach to technology management and consultancy solutions with appropriate
-                        view and permissions to requests, problems, changes, contracts, assets..</p>
+                    <p class="mb-40">
+                        Penyerap, penghimpun, dan penyalur aspirasi politik masyarakat dalam merumuskan dan menetapkan
+                        kebijakan negara; Partisipasi politik warga negara Indonesia; dan. Rekrutmen politik dalam
+                        proses pengisian jabatan politik melalui mekanisme demokrasi dengan memperhatikan kesetaraan dan
+                        keadilan gender.
+                    </p>
                     <ul class="list-items list-items-layout2 list-unstyled d-flex flex-wrap list-horizontal mb-50">
-                        <li>Eliminate Repeat Entry</li>
-                        <li>Simplify Communication</li>
-                        <li>Drive Business Process</li>
-                        <li>Speed Up Transactions</li>
-                        <li>Structure Data & Docs</li>
-                        <li>Automate Workflows</li>
+                        <li>Memperjuangkan kepentingan</li>
+                        <li>Aspirasi</li>
+                        <li>Nilai-nilai masyarakat</li>
+                        <li>Perlindungan</li>
+                        <li>Rasa aman</li>
+                        <li>Lain-lain</li>
                     </ul>
-                    <img src="{{ asset('frontend/SmartData') }}/assets/images/about/singnture.png" alt="singnture">
+                    <div class="text-left">
+                        <img src="{{ asset('upload/assets/3916.jpg') }}" alt="map-indonesia" height="350px">
+                    </div>
                 </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-sm-12 col-md-12 col-lg-5 offset-lg-1">
                 <div class="about__img mb-40">
-                    <img src="{{ asset('frontend/SmartData') }}/assets/images/about/1.jpg" alt="about">
+                    <img src="{{ asset('upload/about/gambar/'.$about->gambar_about) }}" alt="about">
                     <blockquote class="blockquote d-flex align-items-end mb-0">
                         <div class="blockquote__avatar">
-                            <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png" alt="thumb">
+                            <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png"
+                                alt="thumb">
                         </div>
                         <div class="blockquote__content">
-                            <h4 class="blockquote__title mb-0">As one of the world's largest ITService Providers with over 120
-                                engineers and IT support staff are ready to help.
+                            <h4 class="blockquote__title mb-0">
+                                Kelahiran Partai Amanat Nasional (PAN) dibidani oleh
+                                Majelis Amanat Rakyat (MARA), salah satu organ gerakan reformasi pada era pemerintahan
+                                Soeharto, partai ini adalah partai
+                                berbasis muhammadiyah.
                             </h4>
                         </div><!-- /.blockquote__content -->
                     </blockquote><!-- /.blockquote -->
@@ -112,18 +105,19 @@
     ========================= -->
 <section class="history-timeline pb-0">
     <div class="history-timeline-bg">
-        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/1.jpg" alt="background"></div>
+        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/1.jpg"
+                alt="background"></div>
     </div>
     <div class="container">
         <div class="row heading mb-50">
             <div class="col-sm-12 col-md-12 col-lg-6">
                 <div class="d-flex align-items-center mb-20">
                     <div class="divider divider-primary mr-30"></div>
-                    <h2 class="heading__subtitle mb-0">Explore Our Great History!!</h2>
+                    <h2 class="heading__subtitle mb-0">Sejarah Partai PAN</h2>
                 </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-sm-12 col-md-12 col-lg-6">
-                <h3 class="heading__title color-white">One of the world's largest IT Providers since 2005.</h3>
+                <h3 class="heading__title color-white">Salah satu Partai Politik PAN terluas di Indonesia</h3>
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -140,20 +134,23 @@
             <div class="row">
                 <div class="col-12">
                     <div class="timeline-carousel-wrapper mb-70">
-                        <div class="slick-carousel carousel-arrows-light" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "arrows": true, "dots": false, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 1}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
+                        <div class="slick-carousel carousel-arrows-light"
+                            data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "arrows": true, "dots": false, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 1}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
                             <div class="carousel-block">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-6">
                                         <!-- timeline Item #1 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg"
+                                                    alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
-                                                <p class="timeline__desc">Our support works around the clock to ensure your work is
-                                                    secure and monitored safely access to over 99 IT professionals working to help you
+                                                <p class="timeline__desc">Partai PAN (Partai Amanat Nasional) didirikan
+                                                    pada 23 Agustus 1998 oleh sekelompok tokoh nasional yang terlibat
+                                                    dalam gerakan reformasi.
                                                 </p>
-                                                <h4 class="timeline__year mb-0">2005</h4>
+                                                <h4 class="timeline__year mb-0">1998</h4>
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -161,13 +158,17 @@
                                         <!-- timeline Item #2 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg"
+                                                    alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
-                                                <p class="timeline__desc">Providing consulting expertise on a specific technology,
-                                                    strategizing on IT, providing a security assessment, or managing IT infrastructure.
+                                                <p class="timeline__desc">
+                                                    Partai PAN didirikan oleh 50 tokoh nasional, termasuk Amien Rais,
+                                                    Faisal Basri M. A., Hatta Rajasa, Goenawan Mohammad, Rizal Ramli,
+                                                    dan lainnya. Pengesahan pendirian PAN dilakukan pada tanggal 27
+                                                    Agustus 2003 oleh Departemen Kehakiman dan Hak Asasi Manusia.
                                                 </p>
-                                                <h4 class="timeline__year mb-0">2010</h4>
+                                                <h4 class="timeline__year mb-0">2003</h4>
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -175,14 +176,16 @@
                                         <!-- timeline Item #3 -->
                                         <div class="timeline-item row">
                                             <div class="timeline__content col-sm-6">
-                                                <h4 class="timeline__year">2015</h4>
-                                                <p class="timeline__desc">We partner with you to enable your technology so you mfocus
-                                                    on
-                                                    your organization’s mission leverage our talent, and creativity.
+                                                <h4 class="timeline__year">2004</h4>
+                                                <p class="timeline__desc">
+                                                    Pemilu 2004, partai PAN mencatat perolehan suara sebesar 7.255.331
+                                                    suara, dengan persentase 6,41%, dan meningkatkan jumlah kursi di DPR
+                                                    menjadi 53.
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg"
+                                                    alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -190,13 +193,15 @@
                                         <!-- timeline Item #4 -->
                                         <div class="timeline-item row">
                                             <div class="timeline__content col-sm-6">
-                                                <h4 class="timeline__year">2020</h4>
-                                                <p class="timeline__desc">Our people are held to the highest level accountability to
-                                                    ensure you are always satisfied with your results and commitment
+                                                <h4 class="timeline__year">2009</h4>
+                                                <p class="timeline__desc">
+                                                    partai PAN mengalami penurunan perolehan suara menjadi 6.254.580
+                                                    suara (6,01%) dan memperoleh 46 kursi di DPR.
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg"
+                                                    alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -208,14 +213,15 @@
                                         <!-- timeline Item #1 -->
                                         <div class="timeline-item row">
                                             <div class="timeline__content col-sm-6">
-                                                <h4 class="timeline__year">2015</h4>
-                                                <p class="timeline__desc">We partner with you to enable your technology so you mfocus
-                                                    on
-                                                    your organization’s mission leverage our talent, and creativity.
+                                                <h4 class="timeline__year">2014</h4>
+                                                <p class="timeline__desc">
+                                                    Partai PAN berhasil meningkatkan perolehan
+                                                    suara menjadi 9.481.621 (7,59%) dan memperoleh 49 kursi di DPR
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg"
+                                                    alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -223,13 +229,16 @@
                                         <!-- timeline Item #2 -->
                                         <div class="timeline-item row">
                                             <div class="timeline__content col-sm-6">
-                                                <h4 class="timeline__year">2020</h4>
-                                                <p class="timeline__desc">Our people are held to the highest level accountability to
-                                                    ensure you are always satisfied with your results and commitment
+                                                <h4 class="timeline__year">2019</h4>
+                                                <p class="timeline__desc">
+                                                    PAN meraih 9.572.623 suara (6,84%) dan mengamankan 44 kursi di DPR.
+                                                    Dari data tersebut, terlihat fluktuasi dalam perolehan suara dan
+                                                    jumlah kursi PAN dari satu Pemilu ke Pemilu berikutnya
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg"
+                                                    alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -237,13 +246,16 @@
                                         <!-- timeline Item #3 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg"
+                                                    alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
-                                                <p class="timeline__desc">Our support works around the clock to ensure your work is
-                                                    secure and monitored safely access to over 99 IT professionals working to help you
+                                                <p class="timeline__desc">
+                                                    Amien Rais menghadiri pertemuan MARA di Hotel
+                                                    Borobudur yang membahas situasi politik terkini. Dalam pertemuan
+                                                    tersebut, diputuskan untuk mempersiapkan pendirian partai politik.
                                                 </p>
-                                                <h4 class="timeline__year mb-0">2005</h4>
+                                                <h4 class="timeline__year mb-0">1998</h4>
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -251,13 +263,15 @@
                                         <!-- timeline Item #4 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg" alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg"
+                                                    alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
-                                                <p class="timeline__desc">Providing consulting expertise on a specific technology,
-                                                    strategizing on IT, providing a security assessment, or managing IT infrastructure.
+                                                <p class="timeline__desc">
+                                                    Pengesahan pendirian PAN dilakukan pada tanggal 27 Agustus 2003 oleh
+                                                    Departemen Kehakiman dan Hak Asasi Manusia
                                                 </p>
-                                                <h4 class="timeline__year mb-0">2010</h4>
+                                                <h4 class="timeline__year mb-0">2003</h4>
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -284,33 +298,34 @@
                     </div><!-- /.col-lg-4 -->
                     <div class="col-sm-8">
                         <p class="read-note__text color-white">
-                            <span class="font-weight-bold text-underlined">99.9% Customer Satisfaction</span>
-                            based on 750+ reviews and 20,000 Objective Resource
+                            <span class="font-weight-bold text-underlined">95% Suara</span>
+                            berdasarkan 750+ ulasan dan 20.000 suara dari berbagai TPS
                         </p>
                     </div><!-- /.col-lg-8 -->
                 </div><!-- /.row -->
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
-                        <p class="mb-30 font-weight-bold sub__desc">As one of the world's largest ITService Providers with over
-                            120
-                            engineers and IT support staff are ready to help.</p>
-                        <a href="#" class="btn btn__primary btn__bordered btn__icon mb-30">
-                            <span>Request Demo</span>
+                        <p class="mb-30 font-weight-bold sub__desc">
+                            Partai politik berfungsi sebagai salah satu sarana sosialisasi politik, untuk dapat menjadi
+                            pemenang didalam Pemilihan Umum (Pemilu)
+                        </p>
+                        <a href="{{ url('/tps') }}" class="btn btn__primary btn__bordered btn__icon mb-30">
+                            <span>Lihat TPS</span>
                             <i class="icon-arrow-right"></i>
                         </a>
                     </div><!-- /.col-sm-6 -->
                     <div class="col-sm-12 col-md-6">
                         <ul class="list-items list-unstyled mb-30">
-                            <li>450,000 client’s interactions </li>
-                            <li>Help challenge critical activities</li>
-                            <li>Simplify & Automate Workflows</li>
-                            <li>Peer perspectives and advice</li>
+                            <li>20.000 TPS</li>
+                            <li>Memperjuangkan kepentingan</li>
+                            <li>Aspirasi</li>
+                            <li>Nilai-nilai masyarakat</li>
                         </ul>
                     </div><!-- /.col-sm-6 -->
                 </div><!-- /.row -->
             </div><!-- /.col-lg-6 -->
             <div class="col-sm-12 col-md-12 col-lg-6">
-                <img src="{{ asset('frontend/SmartData') }}/assets/images/banners/3.jpg" alt="banner">
+                <img src="{{ asset('upload/assets/pan.jpg') }}" alt="pan" height="400px" width="325px">
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -327,14 +342,16 @@
                 <!-- Testimonial #1 -->
                 <div class="testimonial-box">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png" alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png"
+                            alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support staff are
+                            As one of the world's largest ITService Providers with over 120 engineers and IT support
+                            staff are
                             ready to help.
                         </div>
                     </div><!-- /.testimonial-panel -->
@@ -342,14 +359,16 @@
                 <!-- Testimonial #2 -->
                 <div class="testimonial-box">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/2.png" alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/2.png"
+                            alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support staff are
+                            As one of the world's largest ITService Providers with over 120 engineers and IT support
+                            staff are
                             ready to help.
                         </div>
                     </div><!-- /.testimonial-panel -->
@@ -357,14 +376,16 @@
                 <!-- Testimonial #3 -->
                 <div class="testimonial-box">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/3.png" alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/3.png"
+                            alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support staff are
+                            As one of the world's largest ITService Providers with over 120 engineers and IT support
+                            staff are
                             ready to help.
                         </div>
                     </div><!-- /.testimonial-panel -->
@@ -372,14 +393,16 @@
                 <!-- Testimonial #4 -->
                 <div class="testimonial-box testimonial-hover-left">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/4.png" alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/4.png"
+                            alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support staff are
+                            As one of the world's largest ITService Providers with over 120 engineers and IT support
+                            staff are
                             ready to help.
                         </div>
                     </div><!-- /.testimonial-panel -->
@@ -387,14 +410,16 @@
                 <!-- Testimonial #5 -->
                 <div class="testimonial-box testimonial-hover-left">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/5.png" alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/5.png"
+                            alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
                     </div><!-- /.testimonial-thumb -->
                     <div class="testimonial__panel">
                         <div class="testimonial__desc">
-                            As one of the world's largest ITService Providers with over 120 engineers and IT support staff are
+                            As one of the world's largest ITService Providers with over 120 engineers and IT support
+                            staff are
                             ready to help.
                         </div>
                     </div><!-- /.testimonial-panel -->
@@ -403,7 +428,8 @@
         </div><!-- /.row -->
     </div><!-- /.container -->
     <div class="pb-100">
-        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/2.jpg" alt="background"></div>
+        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/2.jpg"
+                alt="background"></div>
         <div class="container">
             <div class="cta d-flex align-items-center">
                 <div class="cta__item d-flex align-items-center">
@@ -475,16 +501,19 @@
             </div><!-- /.col-xl-6 -->
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 offset-xl-1">
                 <div class="banner__content">
-                    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/3.png" alt="background"></div>
+                    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/3.png"
+                            alt="background"></div>
                     <div class="scroll__icon"><i class="icon-mouse"></i></div>
                     <div class="row heading heading-light">
                         <div class="col-sm-6">
                             <h3 class="heading__title mb-30">450,000 client’s interactions!</h3>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
-                            <p class="heading__desc mb-20">Provide users with appropriate view access to requests, problems,
+                            <p class="heading__desc mb-20">Provide users with appropriate view access to requests,
+                                problems,
                                 changes, contracts & solutions with experienced professionals.</p>
-                            <p class="heading__desc mb-20">As one of the world's largest ITService Providers, we are ready to
+                            <p class="heading__desc mb-20">As one of the world's largest ITService Providers, we are
+                                ready to
                                 help.
                             </p>
                             <a href="#" class="btn btn__white btn__bordered btn__xl btn__icon">
@@ -523,16 +552,21 @@
                             <div class="semi-banner__content">
                                 <div class="heading">
                                     <h3 class="heading__title mb-30">Timely Service, and incident resolutions!!</h3>
-                                    <p class="heading_desc mb-30">Improve efficiency, leverage tech, and provide better customer
-                                        experiences with the modern technology services available allover the world. </p>
-                                    <p class="heading_desc mb-30">Our skilled personnel, utilising the latest processing software,
+                                    <p class="heading_desc mb-30">Improve efficiency, leverage tech, and provide better
+                                        customer
+                                        experiences with the modern technology services available allover the world.
+                                    </p>
+                                    <p class="heading_desc mb-30">Our skilled personnel, utilising the latest processing
+                                        software,
                                         combined with decades of experience.</p>
                                 </div><!-- /.heading -->
-                                <img src="{{ asset('frontend/SmartData') }}/assets/images/about/singnture.png" alt="singnture">
+                                <img src="{{ asset('frontend/SmartData') }}/assets/images/about/singnture.png"
+                                    alt="singnture">
                             </div>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6 d-none d-md-block">
-                            <img src="{{ asset('frontend/SmartData') }}/assets/images/banners/7.jpg" alt="banner" class="w-100">
+                            <img src="{{ asset('frontend/SmartData') }}/assets/images/banners/7.jpg" alt="banner"
+                                class="w-100">
                         </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
                 </div><!-- /.semi-banner -->
@@ -557,12 +591,15 @@
                                     <h3 class="heading__title mb-30">We have decades of work experience!</h3>
                                 </div><!-- /.heading -->
                                 <h4 class="banner__subheading">Consulting & Insights</h4>
-                                <p class="heading_desc">Our objective insights steer you toward the right decisions on issues that
+                                <p class="heading_desc">Our objective insights steer you toward the right decisions on
+                                    issues that
                                     matter.</p>
                                 <h4 class="banner__subheading">Research & Advisory</h4>
-                                <p class="heading_desc">Our combination of research, problem solving and hands-on experience.</p>
+                                <p class="heading_desc">Our combination of research, problem solving and hands-on
+                                    experience.</p>
                                 <h4 class="banner__subheading">Strategic Advice</h4>
-                                <p class="heading_desc">Tools to help turn strategy into decisions, and execute for measurable
+                                <p class="heading_desc">Tools to help turn strategy into decisions, and execute for
+                                    measurable
                                     results.</p>
                             </div>
                         </div><!-- /.col-sm-6 -->
@@ -574,23 +611,28 @@
                             <h3 class="heading__title">Our awards and recognitions</h3>
                         </div><!-- /col-lg-5 -->
                         <div class="col-sm-6">
-                            <p class="heading__desc">Trusted by the world's best organizations, for 21 years and running, it has
-                                been delivering smiles to hundreds of IT advisors, developers, users, and business owners.
+                            <p class="heading__desc">Trusted by the world's best organizations, for 21 years and
+                                running, it has
+                                been delivering smiles to hundreds of IT advisors, developers, users, and business
+                                owners.
                             </p>
                         </div><!-- /.col-lg-5 -->
                     </div><!-- /.row -->
                     <div class="row awards-wrapper">
                         <div class="col-sm-12">
                             <div class="awards-carousel-wrapper">
-                                <div class="slick-carousel" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "arrows": false, "dots": true,"autoplay": true, "autoplaySpeed": 4000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
+                                <div class="slick-carousel"
+                                    data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "arrows": false, "dots": true,"autoplay": true, "autoplaySpeed": 4000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
                                     <!-- fancybox item #1 -->
                                     <div class="fancybox-item">
                                         <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/1.png" alt="icon">
+                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/1.png"
+                                                alt="icon">
                                         </div><!-- /.fancybox__icon-img -->
                                         <div class="fancybox__content">
                                             <h4 class="fancybox__title">CSS Design Award</h4>
-                                            <p class="fancybox__desc">A web design & development award platform for digital folk,
+                                            <p class="fancybox__desc">A web design & development award platform for
+                                                digital folk,
                                                 UI/UX
                                                 peeps
                                                 and inspiring leaders of the web.
@@ -601,11 +643,13 @@
                                     <div class="fancybox-item">
                                         <span class="pinned-ribbon"></span>
                                         <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/2.png" alt="icon">
+                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/2.png"
+                                                alt="icon">
                                         </div><!-- /.fancybox__icon-img -->
                                         <div class="fancybox__content">
                                             <h4 class="fancybox__title">W3 Design Award</h4>
-                                            <p class="fancybox__desc">Awards celebrates digital by honoring outstanding Websites, Web
+                                            <p class="fancybox__desc">Awards celebrates digital by honoring outstanding
+                                                Websites, Web
                                                 Marketing, Video, Sites, Apps & Social content.
                                             </p>
                                         </div><!-- /.fancybox-content -->
@@ -613,11 +657,13 @@
                                     <!-- fancybox item #3 -->
                                     <div class="fancybox-item">
                                         <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/3.png" alt="icon">
+                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/3.png"
+                                                alt="icon">
                                         </div><!-- /.fancybox__icon-img -->
                                         <div class="fancybox__content">
                                             <h4 class="fancybox__title">The FWA Award</h4>
-                                            <p class="fancybox__desc">Showcasing innovation every day since 2000, our mission is to
+                                            <p class="fancybox__desc">Showcasing innovation every day since 2000, our
+                                                mission is to
                                                 showcase
                                                 cutting edge creativity, regardless
                                             </p>
@@ -626,11 +672,13 @@
                                     <!-- fancybox item #4 -->
                                     <div class="fancybox-item">
                                         <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/3.png" alt="icon">
+                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/3.png"
+                                                alt="icon">
                                         </div><!-- /.fancybox__icon-img -->
                                         <div class="fancybox__content">
                                             <h4 class="fancybox__title">WWW Awards</h4>
-                                            <p class="fancybox__desc">The awards that recognize the talent and effort of the best web
+                                            <p class="fancybox__desc">The awards that recognize the talent and effort of
+                                                the best web
                                                 designers, developers and agencies in the world.
                                             </p>
                                         </div><!-- /.fancybox-content -->
@@ -677,8 +725,10 @@
                         <h4 class="post__title"><a href="#">Five Ways to Develop a World Class Sales Operations
                                 Function</a>
                         </h4>
-                        <p class="post__desc">Outsourcing IT infrastructure is a concept that has been around for a while.
-                            Characterized in terms of technicians and engineers, workstations and servers, the idea of outsourcing
+                        <p class="post__desc">Outsourcing IT infrastructure is a concept that has been around for a
+                            while.
+                            Characterized in terms of technicians and engineers, workstations and servers, the idea of
+                            outsourcing
                             your basic IT needs...
                         </p>
                         <a href="blog-single-post.html" class="btn btn__secondary btn__link">
@@ -734,8 +784,10 @@
                         <h4 class="post__title"><a href="#">What Do Employee Engagement Surveys Tell You About
                                 Employee?</a>
                         </h4>
-                        <p class="post__desc">Outsourcing IT infrastructure is a concept that has been around for a while.
-                            Characterized in terms of technicians and engineers, workstations and servers, the idea of outsourcing
+                        <p class="post__desc">Outsourcing IT infrastructure is a concept that has been around for a
+                            while.
+                            Characterized in terms of technicians and engineers, workstations and servers, the idea of
+                            outsourcing
                             your basic IT needs...
                         </p>
                         <a href="blog-single-post.html" class="btn btn__secondary btn__link">
