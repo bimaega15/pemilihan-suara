@@ -432,18 +432,19 @@
                         <i class="icon-programmer"></i>
                     </div><!-- /.cta__icon -->
                     <div class="cta__content">
-                        <h4 class="cta__title">Small/Grow ing Business!</h4>
-                        <p class="cta__desc mb-0">Professional IT support packages tailored to align with your business
-                            objectives
-                            and meet your needs.</p>
+                        <h4 class="cta__title">Pemilu</h4>
+                        <p class="cta__desc mb-0">
+                            Pemilu memiliki arti penting sebagai salah satu prosedur utama dalam demokrasi.
+                        </p>
                     </div><!-- /.cta__content -->
                 </div><!-- /.cta__item -->
                 <div class="or-seperator">or</div>
                 <div class="cta__item d-flex align-items-center">
                     <div class="cta__content text-right">
-                        <h4 class="cta__title">Enterprise Level Organization</h4>
-                        <p class="cta__desc mb-0">Professional IT support packages tailored to align with your business
-                            objectives and meet your needs.</p>
+                        <h4 class="cta__title">Kedaulatan Rakyat</h4>
+                        <p class="cta__desc mb-0">
+                            kedaulatan rakyat hanya bisa dikelola secara optimal melalui lembaga perwakilan.
+                        </p>
                     </div><!-- /.cta__content -->
                     <div class="cta__icon">
                         <i class="icon-developer"></i>
