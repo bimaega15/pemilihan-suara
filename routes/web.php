@@ -102,15 +102,15 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
 
     Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
     Route::get('/monitoring/{id}/detail', [MonitoringController::class, 'detail'])->name('monitoring.detail');
-    Route::get('/monitoring/fetchDukungan', [MonitoringController::class, 'fetchDukungan'])->name('monitoring.fetchDukungan');
-    Route::get('/monitoring/fetchProgres', [MonitoringController::class, 'fetchProgres'])->name('monitoring.fetchProgres');
-    Route::get('/monitoring/fetchGrafik', [MonitoringController::class, 'fetchGrafik'])->name('monitoring.fetchGrafik');
-    Route::get('/monitoring/fetchDisplayGrafik', [MonitoringController::class, 'fetchDisplayGrafik'])->name('monitoring.fetchDisplayGrafik');
 });
+
+Route::get('/admin/monitoring/fetchDukungan', [MonitoringController::class, 'fetchDukungan'])->name('monitoring.fetchDukungan');
+Route::get('/admin/monitoring/fetchProgres', [MonitoringController::class, 'fetchProgres'])->name('monitoring.fetchProgres');
+Route::get('/admin/monitoring/fetchGrafik', [MonitoringController::class, 'fetchGrafik'])->name('monitoring.fetchGrafik');
+Route::get('/admin/monitoring/fetchDisplayGrafik', [MonitoringController::class, 'fetchDisplayGrafik'])->name('monitoring.fetchDisplayGrafik');
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home.index');
 Route::get('/about', [ControllersAboutController::class, 'index'])->name('about.index');
 Route::get('/gallery', [ControllersGalleryController::class, 'index'])->name('gallery.index');
 Route::get('/contactUs', [ContactUsController::class, 'index'])->name('contactUs.index');
 Route::get('/tps', [ControllersTpsController::class, 'index'])->name('tps.index');
-

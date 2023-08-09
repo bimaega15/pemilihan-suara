@@ -1,5 +1,7 @@
 @extends('layouts.user')
 
+@section('title','Gallery Page')
+
 @section('content')
 <!-- ========================
        page title 

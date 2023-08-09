@@ -335,7 +335,7 @@ class AboutController extends Controller
     {
         if ($file != null && floatval($file[$nameFile]['size'][0]) > 0) {
             // delete file
-            $this->deleteFile($id, $lokasi);
+            // $this->deleteFile($id, $lokasi);
 
             if (!empty($file[$nameFile])) {
                 foreach ($file[$nameFile]['name'] as $index => $item) {
@@ -353,6 +353,19 @@ class AboutController extends Controller
                     }
                 }
                 $name = $namePush;
+                if ($id != null) {
+                    $getAbout = About::find($id);
+                    if (count($name) > 0) {
+                        if ($lokasi == 'sponsor') {
+                            $gambarsponsor_about = json_decode($getAbout->gambarsponsor_about, true);
+                            $name = array_merge($name, $gambarsponsor_about);
+                        }
+                        if ($lokasi == 'team') {
+                            $teamdetail_about = json_decode($getAbout->teamdetail_about, true);
+                            $name = array_merge($name, $teamdetail_about);
+                        }
+                    }
+                }
             }
         } else {
             $name = ['default.png'];
