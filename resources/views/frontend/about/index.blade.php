@@ -3,7 +3,9 @@
 @section('title','About Page')
 
 @section('content')
-
+@php
+use Carbon\Carbon;
+@endphp
 
 <!-- ========================
        page title 
@@ -20,8 +22,7 @@
                     Sekalian Alam</p>
                 <div class="d-flex justify-content-center align-items-center flex-wrap">
                     <a href="{{ url('tps') }}" class="btn btn__primary mx-3">Lihat TPS</a>
-                    <a class="video__btn video__btn-rounded video__btn-white popup-video mx-3"
-                        href="https://www.youtube.com/watch?v=QunJfj8tMb4">
+                    <a class="video__btn video__btn-rounded video__btn-white popup-video mx-3" href="https://www.youtube.com/watch?v=QunJfj8tMb4">
                         <div class="video__player">
                             <i class="fa fa-play"></i>
                         </div>
@@ -82,8 +83,7 @@
                     <img src="{{ asset('upload/about/gambar/'.$about->gambar_about) }}" alt="about">
                     <blockquote class="blockquote d-flex align-items-end mb-0">
                         <div class="blockquote__avatar">
-                            <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png"
-                                alt="thumb">
+                            <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png" alt="thumb">
                         </div>
                         <div class="blockquote__content">
                             <h4 class="blockquote__title mb-0">
@@ -105,8 +105,7 @@
     ========================= -->
 <section class="history-timeline pb-0">
     <div class="history-timeline-bg">
-        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/1.jpg"
-                alt="background"></div>
+        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/1.jpg" alt="background"></div>
     </div>
     <div class="container">
         <div class="row heading mb-50">
@@ -134,16 +133,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="timeline-carousel-wrapper mb-70">
-                        <div class="slick-carousel carousel-arrows-light"
-                            data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "arrows": true, "dots": false, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 1}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
+                        <div class="slick-carousel carousel-arrows-light" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "arrows": true, "dots": false, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 1}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
                             <div class="carousel-block">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-6">
                                         <!-- timeline Item #1 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg" alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
                                                 <p class="timeline__desc">Partai PAN (Partai Amanat Nasional) didirikan
@@ -158,8 +155,7 @@
                                         <!-- timeline Item #2 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg" alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
                                                 <p class="timeline__desc">
@@ -184,8 +180,7 @@
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg" alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -200,8 +195,7 @@
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg" alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -220,8 +214,7 @@
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/3.jpg" alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -237,8 +230,7 @@
                                                 </p>
                                             </div>
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/4.jpg" alt="timeline">
                                             </div>
                                         </div><!-- /.timeline-item -->
                                     </div><!-- /.col-lg-6 -->
@@ -246,8 +238,7 @@
                                         <!-- timeline Item #3 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/1.jpg" alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
                                                 <p class="timeline__desc">
@@ -263,8 +254,7 @@
                                         <!-- timeline Item #4 -->
                                         <div class="timeline-item row align-items-end">
                                             <div class="timeline__img col-sm-6">
-                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg"
-                                                    alt="timeline">
+                                                <img src="{{ asset('frontend/SmartData') }}/assets/images/timeline/2.jpg" alt="timeline">
                                             </div>
                                             <div class="timeline__content col-sm-6">
                                                 <p class="timeline__desc">
@@ -342,8 +332,7 @@
                 <!-- Testimonial #1 -->
                 <div class="testimonial-box">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png"
-                            alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png" alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
@@ -358,8 +347,7 @@
                 <!-- Testimonial #2 -->
                 <div class="testimonial-box">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/2.png"
-                            alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/2.png" alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
@@ -374,8 +362,7 @@
                 <!-- Testimonial #3 -->
                 <div class="testimonial-box">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/3.png"
-                            alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/3.png" alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
@@ -390,8 +377,7 @@
                 <!-- Testimonial #4 -->
                 <div class="testimonial-box testimonial-hover-left">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/4.png"
-                            alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/4.png" alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
@@ -406,8 +392,7 @@
                 <!-- Testimonial #5 -->
                 <div class="testimonial-box testimonial-hover-left">
                     <div class="testimonial__thumb">
-                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/5.png"
-                            alt="author thumb">
+                        <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/5.png" alt="author thumb">
                         <span class="pulsing-animation pulsing-animation-1"></span>
                         <span class="pulsing-animation pulsing-animation-2"></span>
                         <span class="pulsing-animation pulsing-animation-3"></span>
@@ -423,8 +408,7 @@
         </div><!-- /.row -->
     </div><!-- /.container -->
     <div class="pb-100">
-        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/2.jpg"
-                alt="background"></div>
+        <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/2.jpg" alt="background"></div>
         <div class="container">
             <div class="cta d-flex align-items-center">
                 <div class="cta__item d-flex align-items-center">
@@ -481,7 +465,7 @@
                         <div class="contact-info">
                             <div class="contact__icon"><i class="icon-map-marker"></i></div>
                             <ul class="contact__list list-unstyled">
-                                <li>2307 Beverley Rd Brooklyn, New York 11226 United States.</li>
+                                <li>{{ $konfigurasi->alamat_konfigurasi }}</li>
                             </ul>
                         </div><!-- /.contact-item-->
                     </div><!-- /.col-sm-6 -->
@@ -489,8 +473,8 @@
                         <div class="contact-item">
                             <div class="contact__icon"><i class="icon-mail"></i></div>
                             <ul class="contact__list list-unstyled">
-                                <li><a href="mailto:SmartData@7oroof.com">Email: SmartData@7oroof.com</a></li>
-                                <li><a href="tel:5565454117">Phone: +55 654 541 17</a></li>
+                                <li><a href="mailto:{{$konfigurasi->email_konfigurasi}}">Email: {{$konfigurasi->email_konfigurasi}}</a></li>
+                                <li><a href="tel:{{$konfigurasi->nohp_konfigurasi}}">Phone: {{$konfigurasi->nohp_konfigurasi}}</a></li>
                             </ul>
                         </div><!-- /.contact-item-->
                     </div><!-- /.col-sm-6 -->
@@ -499,49 +483,51 @@
             </div><!-- /.col-xl-6 -->
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 offset-xl-1">
                 <div class="banner__content">
-                    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/3.png"
-                            alt="background"></div>
+                    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/backgrounds/3.png" alt="background"></div>
                     <div class="scroll__icon"><i class="icon-mouse"></i></div>
                     <div class="row heading heading-light">
                         <div class="col-sm-6">
-                            <h3 class="heading__title mb-30">450,000 client’s interactions!</h3>
+                            <h3 class="heading__title mb-30">20.000 Tps diseluruh indonesia</h3>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
-                            <p class="heading__desc mb-20">Provide users with appropriate view access to requests,
-                                problems,
-                                changes, contracts & solutions with experienced professionals.</p>
-                            <p class="heading__desc mb-20">As one of the world's largest ITService Providers, we are
-                                ready to
-                                help.
+                            <p class="heading__desc mb-20">Siap siaga untuk pengabdian kemasyarakat, bersedia untuk turut berperan dalam kesuksesan pemilihan pejabat sebagai kader partai politik.</p>
+                            <p class="heading__desc mb-20">
+                                Sebagai salah satu partai terbaik di indonesia, untuk membangun negeri dan memberantas korupsi
                             </p>
-                            <a href="#" class="btn btn__white btn__bordered btn__xl btn__icon">
-                                <span>Download Brochure</span>
+                            <a href="{{ url('/tps') }}" class="btn btn__white btn__bordered btn__xl btn__icon">
+                                <span>Lihat TPS</span>
                                 <i class="icon-arrow-right"></i>
                             </a>
                         </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
                     <div class="row counters-wrapper counters-light mt-70">
                         <!-- counter item #1 -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">6,154</h4>
-                                <p class="counter__desc">Projects And Software Developed in 2021</p>
+                                <h4 class="counter">{{ number_format($about->project_about,0) }}</h4>
+                                <p class="counter__desc">Project</p>
                             </div><!-- /.counter-item -->
-                        </div><!-- /.col-sm-4 -->
+                        </div><!-- /.col-sm-6 -->
                         <!-- counter item #2 -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">2,512</h4>
-                                <p class="counter__desc">Qualified Employees And Developers With Us</p>
+                                <h4 class="counter">{{ number_format($about->customers_about,0) }}</h4>
+                                <p class="counter__desc">Pelanggan</p>
                             </div><!-- /.counter-item -->
-                        </div><!-- /.col-sm-4 -->
+                        </div><!-- /.col-sm-6 -->
                         <!-- counter item #3 -->
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">1,784</h4>
-                                <p class="counter__desc">Satisfied Clients We Have Served Globally</p>
+                                <h4 class="counter">{{ number_format($about->team_about,0) }}</h4>
+                                <p class="counter__desc">Tim</p>
                             </div><!-- /.counter-item -->
-                        </div><!-- /.col-sm-4 -->
+                        </div><!-- /.col-sm-6 -->
+                        <div class="col-sm-6">
+                            <div class="counter-item">
+                                <h4 class="counter">{{ number_format($about->awards_about,0) }}</h4>
+                                <p class="counter__desc">Pencapaian</p>
+                            </div><!-- /.counter-item -->
+                        </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
                 </div><!-- /.banner__content -->
                 <div class="semi-banner bg-gray">
@@ -549,22 +535,19 @@
                         <div class="col-sm-6">
                             <div class="semi-banner__content">
                                 <div class="heading">
-                                    <h3 class="heading__title mb-30">Timely Service, and incident resolutions!!</h3>
-                                    <p class="heading_desc mb-30">Improve efficiency, leverage tech, and provide better
-                                        customer
-                                        experiences with the modern technology services available allover the world.
+                                    <h3 class="heading__title mb-30">Tujuan Partai PAN</h3>
+                                    <p class="heading_desc mb-30">
+                                        PAN memperjuangkan agar Indonesia tersucikan dari pelanggaran hak-hak asasi manusia dan memberi jaminan agar tidak terjadi penghancuran terhadap sumber daya perekonomian rakyat. PAN memandang bahwa hal esensial dalam berbangsa dan bernegara adalah mewujudkan kedaulatan rakyat.
                                     </p>
-                                    <p class="heading_desc mb-30">Our skilled personnel, utilising the latest processing
-                                        software,
-                                        combined with decades of experience.</p>
+                                    <p class="heading_desc mb-30">
+                                        Pengabdian kami, untuk negara kesatuan republik indonesia yang kami cintai ini.
+                                    </p>
                                 </div><!-- /.heading -->
-                                <img src="{{ asset('frontend/SmartData') }}/assets/images/about/singnture.png"
-                                    alt="singnture">
+                                <img src="{{ asset('frontend/SmartData') }}/assets/images/about/singnture.png" alt="singnture">
                             </div>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6 d-none d-md-block">
-                            <img src="{{ asset('frontend/SmartData') }}/assets/images/banners/7.jpg" alt="banner"
-                                class="w-100">
+                            <img src="{{ asset('upload/assets/pan.jpg') }}" alt="pan" class="w-100">
                         </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
                 </div><!-- /.semi-banner -->
@@ -573,32 +556,24 @@
                         <div class="col-sm-6">
                             <div class="cta-banner bg-primary">
                                 <div class="cta__icon color-white"><i class="icon-developer"></i></div>
-                                <h4 class="cta__title color-white">Since 1999</h4>
-                                <p class="cta__desc color-white mb-25">Provide users with appropriate view and access to
-                                    requests,
-                                    problems, changes,
-                                    contracts, solutions, and reports.</p>
-                                <a href="#" class="btn btn__link btn__white btn__icon px-0">
-                                    <span>Find Your Solution</span> <i class="icon-arrow-right"></i>
+                                <h4 class="cta__title color-white">Sejak 1998</h4>
+                                <p class="cta__desc color-white mb-25">Partai Amanat Nasional (PAN) adalah salah satu partai politik di Indonesia yang didirikan pada tanggal 23 Mei 1998. Partai ini memiliki sejarah yang panjang dan berperan penting dalam perkembangan politik di Indonesia..</p>
+                                <a href="{{ url('/tps') }}" class="btn btn__link btn__white btn__icon px-0">
+                                    <span>Lihat TPS</span> <i class="icon-arrow-right"></i>
                                 </a>
                             </div>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
                             <div class="semi-banner__content pb-0">
                                 <div class="heading">
-                                    <h3 class="heading__title mb-30">We have decades of work experience!</h3>
+                                    <h3 class="heading__title mb-30">Kita memiliki dedikasi dalam pengalaman bekerja</h3>
                                 </div><!-- /.heading -->
-                                <h4 class="banner__subheading">Consulting & Insights</h4>
-                                <p class="heading_desc">Our objective insights steer you toward the right decisions on
-                                    issues that
-                                    matter.</p>
-                                <h4 class="banner__subheading">Research & Advisory</h4>
-                                <p class="heading_desc">Our combination of research, problem solving and hands-on
-                                    experience.</p>
-                                <h4 class="banner__subheading">Strategic Advice</h4>
-                                <p class="heading_desc">Tools to help turn strategy into decisions, and execute for
-                                    measurable
-                                    results.</p>
+                                <h4 class="banner__subheading">Berantas Korupsi</h4>
+                                <p class="heading_desc">Sejak berdiri, selalu mengusung isu pemberantasan korupsi. Membingkai hukum untuk kepastian berusaha.</p>
+                                <h4 class="banner__subheading">Ekonomi berbingkai kepastian hukum</h4>
+                                <p class="heading_desc">Mulfachri mengatakan perkembangan perekonomian harus ditopang bingkai kepastian hukum. Dan itu bisa dicapai dengan proses legislasi yang berkualitas.</p>
+                                <h4 class="banner__subheading">Delapan Pandangan Hatta</h4>
+                                <p class="heading_desc">Flatform dan arahan Pan menghadapi Pemilu 2014 juga bisa dibaca dari pidato politik Hatta Rajasa saat bertemu temu kader</p>
                             </div>
                         </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
@@ -606,81 +581,35 @@
                 <section class="awards bg-secondary">
                     <div class="row heading heading-light mb-60">
                         <div class="col-sm-6">
-                            <h3 class="heading__title">Our awards and recognitions</h3>
+                            <h3 class="heading__title">Beberapa Lembaga yang support kami</h3>
                         </div><!-- /col-lg-5 -->
                         <div class="col-sm-6">
-                            <p class="heading__desc">Trusted by the world's best organizations, for 21 years and
-                                running, it has
-                                been delivering smiles to hundreds of IT advisors, developers, users, and business
-                                owners.
+                            <p class="heading__desc">Percayalah pada organisasi yang kami bangun, kami dengan tulus hati akan mementingkan kepentingan rakyat, dan bertujuan untuk menjadikan indonesia menjadi lebih bersih, aman, dan sejahtera.
                             </p>
                         </div><!-- /.col-lg-5 -->
                     </div><!-- /.row -->
                     <div class="row awards-wrapper">
                         <div class="col-sm-12">
                             <div class="awards-carousel-wrapper">
-                                <div class="slick-carousel"
-                                    data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "arrows": false, "dots": true,"autoplay": true, "autoplaySpeed": 4000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
+                                <div class="slick-carousel" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "arrows": false, "dots": true,"autoplay": true, "autoplaySpeed": 4000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
+                                    @php
+                                    $parseSponsor = json_decode($about->gambarsponsor_about, true);
+                                    @endphp
+                                    @foreach ($parseSponsor as $item)
                                     <!-- fancybox item #1 -->
                                     <div class="fancybox-item">
                                         <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/1.png"
-                                                alt="icon">
+                                            <img src="{{ asset('upload/about/sponsor/'.$item) }}" alt="icon">
                                         </div><!-- /.fancybox__icon-img -->
                                         <div class="fancybox__content">
-                                            <h4 class="fancybox__title">CSS Design Award</h4>
-                                            <p class="fancybox__desc">A web design & development award platform for
-                                                digital folk,
-                                                UI/UX
-                                                peeps
-                                                and inspiring leaders of the web.
+                                            <h4 class="fancybox__title"></h4>
+                                            <p class="fancybox__desc">
                                             </p>
                                         </div><!-- /.fancybox-content -->
+                                        <div style="height: 25px;"></div>
                                     </div><!-- /.fancybox-item -->
-                                    <!-- fancybox item #2 -->
-                                    <div class="fancybox-item">
-                                        <span class="pinned-ribbon"></span>
-                                        <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/2.png"
-                                                alt="icon">
-                                        </div><!-- /.fancybox__icon-img -->
-                                        <div class="fancybox__content">
-                                            <h4 class="fancybox__title">W3 Design Award</h4>
-                                            <p class="fancybox__desc">Awards celebrates digital by honoring outstanding
-                                                Websites, Web
-                                                Marketing, Video, Sites, Apps & Social content.
-                                            </p>
-                                        </div><!-- /.fancybox-content -->
-                                    </div><!-- /.fancybox-item -->
-                                    <!-- fancybox item #3 -->
-                                    <div class="fancybox-item">
-                                        <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/3.png"
-                                                alt="icon">
-                                        </div><!-- /.fancybox__icon-img -->
-                                        <div class="fancybox__content">
-                                            <h4 class="fancybox__title">The FWA Award</h4>
-                                            <p class="fancybox__desc">Showcasing innovation every day since 2000, our
-                                                mission is to
-                                                showcase
-                                                cutting edge creativity, regardless
-                                            </p>
-                                        </div><!-- /.fancybox-content -->
-                                    </div><!-- /.fancybox-item -->
-                                    <!-- fancybox item #4 -->
-                                    <div class="fancybox-item">
-                                        <div class="fancybox__icon-img">
-                                            <img src="{{ asset('frontend/SmartData') }}/assets/images/awards/icons/3.png"
-                                                alt="icon">
-                                        </div><!-- /.fancybox__icon-img -->
-                                        <div class="fancybox__content">
-                                            <h4 class="fancybox__title">WWW Awards</h4>
-                                            <p class="fancybox__desc">The awards that recognize the talent and effort of
-                                                the best web
-                                                designers, developers and agencies in the world.
-                                            </p>
-                                        </div><!-- /.fancybox-content -->
-                                    </div><!-- /.fancybox-item -->
+                                    @endforeach
+
                                 </div><!-- /.carousel  -->
                             </div><!-- /.awards-carousel-wrapper -->
                         </div><!-- /.col-12 -->
@@ -699,102 +628,35 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
                 <div class="heading text-center mb-40">
-                    <h2 class="heading__subtitle">Recent Articles</h2>
-                    <h3 class="heading__title">Resource Library</h3>
+                    <h2 class="heading__subtitle">Gallery</h2>
+                    <h3 class="heading__title">Gambar Dokumentasi</h3>
                 </div><!-- /.heading -->
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
         <div class="row">
+            @foreach ($gallery as $item)
             <!-- Blog Item #1 -->
             <div class="col-sm-12 col-md-4 col-lg-4">
                 <div class="post-item">
                     <div class="post__img">
-                        <a href="blog-single-post.html">
-                            <img src="{{ asset('frontend/SmartData') }}/assets/images/blog/grid/1.jpg" alt="blog image">
+                        <a href="{{url('/gallery')}}">
+                            <img src="{{ asset('upload/gallery/'.$item->gambar_gallery) }}" alt="" style="width: 100%; height: 250px;">
                         </a>
                     </div><!-- /.blog-img -->
                     <div class="post__content">
                         <div class="post__meta d-flex flex-wrap">
-                            <div class="post__meta-cat">
-                                <a href="#">Consulting</a><a href="#">Sales</a>
-                            </div><!-- /.blog-meta-cat -->
-                            <span class="post__meta-date">May 13, 2020</span>
+                            <span class="post__meta-date">{{ Carbon::parse($item->waktu_gallery)->format('d F Y H:i') }}</span>
                         </div>
-                        <h4 class="post__title"><a href="#">Five Ways to Develop a World Class Sales Operations
-                                Function</a>
+                        <h4 class="post__title"><a href="#">{{ $item->judul_gallery }}</a>
                         </h4>
-                        <p class="post__desc">Outsourcing IT infrastructure is a concept that has been around for a
-                            while.
-                            Characterized in terms of technicians and engineers, workstations and servers, the idea of
-                            outsourcing
-                            your basic IT needs...
+                        <p class="post__desc">
+                            {{$item->keterangan_gallery}}
                         </p>
-                        <a href="blog-single-post.html" class="btn btn__secondary btn__link">
-                            <span>Read More</span>
-                            <i class="icon-arrow-right"></i>
-                        </a>
                     </div><!-- /.blog-content -->
                 </div><!-- /.post-item -->
             </div><!-- /.col-lg-4 -->
-            <!-- Blog Item #2 -->
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <div class="post-item">
-                    <div class="post__img">
-                        <a href="blog-single-post.html">
-                            <img src="{{ asset('frontend/SmartData') }}/assets/images/blog/grid/2.jpg" alt="blog image">
-                        </a>
-                    </div><!-- /.blog-img -->
-                    <div class="post__content">
-                        <div class="post__meta d-flex flex-wrap">
-                            <div class="post__meta-cat">
-                                <a href="#">Tech</a><a href="#">Communications</a>
-                            </div><!-- /.blog-meta-cat -->
-                            <span class="post__meta-date">April 17, 2020</span>
-                        </div>
-                        <h4 class="post__title"><a href="#">Succession Risks That Threaten Your Leadership Strategy</a>
-                        </h4>
-                        <p class="post__desc">Today’s organizations need a quality bench of leaders to drive business
-                            outcomes and satisfy employees, customers and investors who now demand more transparency and
-                            accountability...
-                        </p>
-                        <a href="blog-single-post.html" class="btn btn__secondary btn__link">
-                            <span>Read More</span>
-                            <i class="icon-arrow-right"></i>
-                        </a>
-                    </div><!-- /.blog-content -->
-                </div><!-- /.post-item -->
-            </div><!-- /.col-lg-4 -->
-            <!-- Blog Item #3 -->
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <div class="post-item">
-                    <div class="post__img">
-                        <a href="blog-single-post.html">
-                            <img src="{{ asset('frontend/SmartData') }}/assets/images/blog/grid/3.jpg" alt="blog image">
-                        </a>
-                    </div><!-- /.blog-img -->
-                    <div class="post__content">
-                        <div class="post__meta d-flex flex-wrap">
-                            <div class="post__meta-cat">
-                                <a href="#">Digital Business</a><a href="#">Cloud</a>
-                            </div><!-- /.blog-meta-cat -->
-                            <span class="post__meta-date">March 20, 2020</span>
-                        </div>
-                        <h4 class="post__title"><a href="#">What Do Employee Engagement Surveys Tell You About
-                                Employee?</a>
-                        </h4>
-                        <p class="post__desc">Outsourcing IT infrastructure is a concept that has been around for a
-                            while.
-                            Characterized in terms of technicians and engineers, workstations and servers, the idea of
-                            outsourcing
-                            your basic IT needs...
-                        </p>
-                        <a href="blog-single-post.html" class="btn btn__secondary btn__link">
-                            <span>Read More</span>
-                            <i class="icon-arrow-right"></i>
-                        </a>
-                    </div><!-- /.blog-content -->
-                </div><!-- /.post-item -->
-            </div><!-- /.col-lg-4 -->
+            @endforeach
+
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section><!-- /.blog Grid -->

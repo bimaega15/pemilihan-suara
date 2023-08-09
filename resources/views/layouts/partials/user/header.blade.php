@@ -27,7 +27,7 @@ $currentUrl = Check::getCurrentUrl();
                             class="nav__item-link {{$currentUrl == '/about' ? 'active' : ''}}">About</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
-                        <a href="{{ url('/') }}"
+                        <a href="{{ url('/gallery') }}"
                             class="nav__item-link {{$currentUrl == '/gallery' ? 'active' : ''}}">Gallery</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">

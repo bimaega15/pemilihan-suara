@@ -1,16 +1,31 @@
 @extends('layouts.user')
 
+@section('title', 'Contact Page')
+
 @section('content')
 
+<section class="page-title page-title-layout16 text-center bg-overlay bg-overlay-gradient bg-parallax">
+    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/page-titles/12.jpg" alt="background"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="pagetitle__heading mb-10">Kontak Kami</h1>
+                <nav>
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Kontak Kami</li>
+                    </ol>
+                </nav>
+            </div><!-- /.col-12 -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</section><!-- /.page-title -->
 
 <!-- ========================= 
             Google Map
     =========================  -->
 <section class="google-map py-0">
-    <div id="map" class="height-500"></div>
-    <script src="assets/js/google-map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
-    <!-- CLICK HERE (https://developers.google.com/maps/documentation/embed/get-api-key) TO  LERAN MORE ABOUT GOOGLE MAPS API KEY -->
+    <div id="map" style="height: 600px;"></div>
 </section><!-- /.GoogleMap -->
 
 <!-- ==========================
@@ -23,35 +38,16 @@
                 <form class="contact-form" method="post" action="assets/php/contact.php" id="contactForm">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h4 class="contact-panel__title">Get In Touch</h4>
+                            <h4 class="contact-panel__title">
+                                My Contact
+                            </h4>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name" id="contact-name" name="contact-name" required>
-                            </div>
-                        </div><!-- /.col-lg-6 -->
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Email" id="contact-email" name="contact-email" required>
-                            </div>
-                        </div><!-- /.col-lg-6 -->
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Phone" id="contact-Phone" name="contact-phone" required>
-                            </div>
-                        </div><!-- /.col-lg-6 -->
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Website" id="contact-website" name="contact-website">
-                            </div>
-                        </div><!-- /.col-lg-6 -->
-                        <div class="col-12">
-                            <div class="form-group mb-20">
-                                <textarea class="form-control" placeholder="Additional Details!" id="contact-message" name="contact-message"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn__primary btn__xhight mt-10">Submit Request</button>
-                            <div class="contact-result"></div>
-                        </div><!-- /.col-12 -->
+                        <div class="col-sm-12">
+                            <span class="text-dark">
+                                {!! $about->keterangan_about !!}
+
+                            </span>
+                        </div>
                     </div><!-- /.row -->
                 </form>
             </div><!-- /.col-lg-6 -->
@@ -59,14 +55,13 @@
                 <div class="contact-info d-flex flex-column justify-content-between">
                     <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/contact/1.jpg" alt="banner"></div>
                     <div>
-                        <h4 class="contact-info__title">450,000 client’s interactions!</h4>
-                        <p class="contact-info__desc">Provide users with appropriate view access to requests, problems, changes,
-                            contracts & solutions with experienced professionals.</p>
-                        <p class="contact-info__desc">As one of the world's largest ITService Providers, we are ready to help.
+                        <h4 class="contact-info__title">20.000 Tps diseluruh indonesia</h4>
+                        <p class="contact-info__desc">Siap siaga untuk pengabdian kemasyarakat, bersedia untuk turut berperan dalam kesuksesan pemilihan pejabat sebagai kader partai politik.</p>
+                        <p class="contact-info__desc">Sebagai salah satu partai terbaik di indonesia, untuk membangun negeri dan memberantas korupsi.
                         </p>
                     </div>
-                    <a href="contact-us.html" class="btn btn__white btn__bordered btn__icon">
-                        <span>Download Brochure</span>
+                    <a href="{{ url('/tps') }}" class="btn btn__white btn__bordered btn__icon">
+                        <span>Lihat TPS</span>
                         <i class="icon-arrow-right"></i>
                     </a>
                 </div><!-- /.contact-info -->
@@ -84,36 +79,42 @@
             <!-- Contact panel #1 -->
             <div class="col-sm-12 col-md-4 col-lg-4">
                 <div class="contact-info-box">
-                    <h4 class="contact__info-box-title">London Office</h4>
+                    <h4 class="contact__info-box-title">Alamat</h4>
                     <ul class="contact__info-list list-unstyled">
-                        <li>Email: <a href="mailto:smartdata@7oroof.com">SmartData@7oroof.com</a></li>
-                        <li>Address: 2307 Beverley Rd Brooklyn, NY</li>
-                        <li>Phone: <a href="tel:5565454117">55 654 541 17</a></li>
-                        <li>Hours: Mon-Fri: 8am – 7pm</li>
+                        <li>Alamat: {{$konfigurasi->alamat_konfigurasi}}</li>
                     </ul><!-- /.contact__info-list -->
                 </div><!-- /.contact-info-box -->
             </div><!-- /.col-lg-4 -->
             <!-- Contact panel #2 -->
             <div class="col-sm-12 col-md-4 col-lg-4">
                 <div class="contact-info-box">
-                    <h4 class="contact__info-box-title">Berlin Office</h4>
+                    <h4 class="contact__info-box-title">Kontak</h4>
                     <ul class="contact__info-list list-unstyled">
-                        <li>Email: <a href="mailto:smartdata@7oroof.com">SmartData@7oroof.com</a></li>
-                        <li>Address: 2307 Beverley Rd Brooklyn, NY</li>
-                        <li>Phone: <a href="tel:5565454117">55 654 541 17</a></li>
-                        <li>Hours: Mon-Fri: 8am – 7pm</li>
+                        <li>Email: <a href="mailto:{{$konfigurasi->email_konfigurasi}}">
+                                {{$konfigurasi->email_konfigurasi}}
+                            </a>
+                        </li>
+                        <li>Phone: <a href="tel:{{$konfigurasi->nohp_konfigurasi}}">
+                                {{$konfigurasi->nohp_konfigurasi}}
+                            </a>
+                        </li>
                     </ul><!-- /.contact__info-list -->
                 </div><!-- /.contact-info-box -->
             </div><!-- /.col-lg-4 -->
             <!-- Contact panel #3 -->
             <div class="col-sm-12 col-md-4 col-lg-4">
                 <div class="contact-info-box">
-                    <h4 class="contact__info-box-title">Manchester Office</h4>
+                    <h4 class="contact__info-box-title">Sosial Media</h4>
                     <ul class="contact__info-list list-unstyled">
-                        <li>Email: <a href="mailto:smartdata@7oroof.com">SmartData@7oroof.com</a></li>
-                        <li>Address: 2307 Beverley Rd Brooklyn, NY</li>
-                        <li>Phone: <a href="tel:5565454117">55 654 541 17</a></li>
-                        <li>Hours: Mon-Fri: 8am – 7pm</li>
+                        <li>Facebook: <a href="{{$konfigurasi->facebook_konfigurasi}}">
+                                <i class="fab fa-facebook"></i>
+                            </a></li>
+                        <li>Instagram: <a href="{{$konfigurasi->instagram_konfigurasi}}">
+                                <i class="fab fa-instagram"></i>
+                            </a></li>
+                        <li>Facebook: <a href="{{$konfigurasi->facebook_konfigurasi}}">
+                                <i class="fab fa-youtube"></i>
+                            </a></li>
                     </ul><!-- /.contact__info-list -->
                 </div><!-- /.contact-info-box -->
             </div><!-- /.col-lg-4 -->
@@ -122,3 +123,6 @@
 </section><!-- /.Contact layout 2 -->
 
 @endsection
+@push('js')
+@include('frontend.contact.partial.script')
+@endpush
