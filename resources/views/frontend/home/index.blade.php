@@ -96,34 +96,15 @@ use Carbon\Carbon;
                         <a href="{{url('/about')}}" class="btn btn__link btn__primary btn__underlined">Best Organisasi</a>
                     </p>
                     <div class="slick-carousel" data-slick='{"slidesToShow": 3, "arrows": false, "dots": false, "autoplay": true,"autoplaySpeed": 2000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 767, "settings": {"slidesToShow": 2}}, {"breakpoint": 480, "settings": {"slidesToShow": 2}}]}'>
+                        @php
+                        $parseSponsor = json_decode($about->gambarsponsor_about, true);
+                        @endphp
+                        @foreach ($parseSponsor as $item)
                         <div class="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/1.png" alt="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/1.png" alt="client">
+                            <img src="{{ asset('upload/about/sponsor/'.$item) }}" alt="{{$item}}" style="width: 100%; height: 120px;">
+                            <img src="{{ asset('upload/about/sponsor/'.$item) }}" alt="{{$item}}" style="width: 100%; height: 120px;">
                         </div><!-- /.client -->
-                        <div class="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/2.png" alt="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/2.png" alt="client">
-                        </div><!-- /.client -->
-                        <div class="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/3.png" alt="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/3.png" alt="client">
-                        </div><!-- /.client -->
-                        <div class="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/4.png" alt="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/4.png" alt="client">
-                        </div><!-- /.client -->
-                        <div class="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/5.png" alt="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/5.png" alt="client">
-                        </div><!-- /.client -->
-                        <div class="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/6.png" alt="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/6.png" alt="client">
-                        </div><!-- /.client -->
-                        <div class="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/7.png" alt="client">
-                            <img src="{{ asset('frontend/SmartData/') }}/assets/images/clients/7.png" alt="client">
-                        </div><!-- /.client -->
+                        @endforeach
                     </div><!-- /.carousel -->
                 </div>
             </div><!-- /.col-lg-6 -->
