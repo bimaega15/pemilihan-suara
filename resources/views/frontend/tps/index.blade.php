@@ -92,7 +92,17 @@
             </div>
         </div>
     </div>
+    <div style="height: 60px;"></div>
     <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
+                <div class="heading text-center mb-40">
+                    <h2 class="heading__subtitle">Berikut Beberapa Visualisasi Data TPS</h2>
+                    <h3 class="heading__title">Visualisasi Data TPS</h3>
+                </div><!-- /.heading -->
+            </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
