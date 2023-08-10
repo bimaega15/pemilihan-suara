@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\TpsDetail as EventsTpsDetail;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
@@ -235,6 +236,7 @@ class TpsDetailController extends Controller
         $tps_id = $request->input('tps_id');
         $this->updateCountTps($tps_id);
         if ($user_id || $roleUser || $profile || $tps) {
+            EventsTpsDetail::dispatch();
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil insert data',
@@ -350,6 +352,8 @@ class TpsDetailController extends Controller
         $this->updateCountTps($tps_id);
 
         if ($profile) {
+            EventsTpsDetail::dispatch();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil update data',
@@ -380,6 +384,8 @@ class TpsDetailController extends Controller
         $delete = TpsDetail::destroy($id);
         User::destroy($users_id);
         if ($delete) {
+            EventsTpsDetail::dispatch();
+
             $this->updateCountTps($tps_id);
             return response()->json([
                 'status' => 200,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\TpsCreated;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\Province;
@@ -205,6 +206,8 @@ class TpsController extends Controller
         ];
         $insert = Tps::create($data);
         if ($insert) {
+            TpsCreated::dispatch();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil insert data',
@@ -284,6 +287,8 @@ class TpsController extends Controller
         ];
         $insert = Tps::find($id)->update($data);
         if ($insert) {
+            TpsCreated::dispatch();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil insert data',
@@ -308,6 +313,8 @@ class TpsController extends Controller
         //
         $delete = Tps::destroy($id);
         if ($delete) {
+            TpsCreated::dispatch();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil delete data',

@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class HelloEvent implements ShouldBroadcast
+class TpsCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,6 +31,7 @@ class HelloEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('hello-channel');
+        // return new PrivateChannel('channel-name');
+        return new Channel('socket-tps');
     }
 }

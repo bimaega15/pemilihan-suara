@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        $('#dataTableKoordinatorPendukung').DataTable({
+        var table = $('#dataTableKoordinatorPendukung').DataTable({
             responsive: true,
             ajax: {
                 url: "{{ route('admin.monitoring.index') }}",
@@ -231,6 +231,14 @@
             fetch_user_data(active, getWhere);
         })
 
+        window.Echo.channel("socket-tps").listen("TpsCreated", (event) => {
+            fetch_user_data();
+            table.ajax.reload();
+        });
 
+        window.Echo.channel("socket-tps-detail").listen("TpsDetail", (event) => {
+            fetch_user_data();
+            table.ajax.reload();
+        });
     })
 </script>

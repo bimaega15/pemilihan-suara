@@ -54,7 +54,7 @@
                     let getOutput = fetch_display_grafik(page, setData);
                     if (getOutput.data != null) {
                         getOutput.data.map((v, i) => {
-                            
+
                             let id = v.id;
                             let totallk_tps = v.totallk_tps;
                             let totalpr_tps = v.totalpr_tps;
@@ -271,5 +271,13 @@
             let active = $('#output_grafik ul.pagination li.page-item.active span.page-link').text();
             fetch_user_data_grafik(active, getWhere);
         })
+
+        window.Echo.channel("socket-tps").listen("TpsCreated", (event) => {
+            fetch_user_data_grafik();
+        });
+
+        window.Echo.channel("socket-tps-detail").listen("TpsDetail", (event) => {
+            fetch_user_data_grafik();
+        });
     })
 </script>

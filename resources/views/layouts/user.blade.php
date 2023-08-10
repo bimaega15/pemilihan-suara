@@ -59,15 +59,6 @@ $getKonfigurasi = Check::getKonfigurasi();
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function(e) {
-            Echo.channel('hello-channel')
-                .listen('HelloEvent', (e) => {
-                    console.log('Event From Hello');
-                    console.log(e);
-                });
-        })
-    </script>
     @stack('js')
 </body>
 

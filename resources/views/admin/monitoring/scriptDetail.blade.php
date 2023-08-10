@@ -29,6 +29,5 @@
 
             new PhotoViewer(items, options);
         });
-
     })
 </script>
