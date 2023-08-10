@@ -21,6 +21,7 @@ $getKonfigurasi = Check::getKonfigurasi();
     <link rel="stylesheet" href="{{ asset('library/select2-develop/dist/css/select2.min.css') }}" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('css')
 </head>
 
@@ -56,6 +57,17 @@ $getKonfigurasi = Check::getKonfigurasi();
     <script src="{{ asset('library/datatable/DataTables-1.13.1/js/jquery.dataTables.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(e) {
+            Echo.channel('hello-channel')
+                .listen('HelloEvent', (e) => {
+                    console.log('Event From Hello');
+                    console.log(e);
+                });
+        })
+    </script>
     @stack('js')
 </body>
 

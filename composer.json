@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "beyondcode/laravel-websockets": "^1.14",
         "davejamesmiller/laravel-breadcrumbs": "5.x",
         "diglactic/laravel-breadcrumbs": "^6.1",
         "fruitcake/laravel-cors": "^2.0",
@@ -19,7 +20,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
-        "phpoffice/phpspreadsheet": "^1.28"
+        "phpoffice/phpspreadsheet": "^1.28",
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

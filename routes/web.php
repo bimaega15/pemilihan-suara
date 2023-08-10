@@ -114,3 +114,8 @@ Route::get('/about', [ControllersAboutController::class, 'index'])->name('about.
 Route::get('/gallery', [ControllersGalleryController::class, 'index'])->name('gallery.index');
 Route::get('/contactUs', [ContactUsController::class, 'index'])->name('contactUs.index');
 Route::get('/tps', [ControllersTpsController::class, 'index'])->name('tps.index');
+
+
+Route::get('/send-event', function(){
+    broadcast(new App\Events\HelloEvent());
+});
