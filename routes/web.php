@@ -83,6 +83,8 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     // 
     Route::resource('tps', TpsController::class)->except(['show']);
     Route::get('/tps/getKoordinator', [TpsController::class, 'getKoordinator'])->name('tps.getKoordinator');
+    Route::get('/tps/{id}/getAddKoordinator', [TpsController::class, 'getAddKoordinator'])->name('tps.getAddKoordinator');
+    Route::post('/tps/{id}/addKoordinator', [TpsController::class, 'addKoordinator'])->name('tps.addKoordinator');
 
     Route::resource('tpsDetail', TpsDetailController::class)->except(['show']);
     Route::post('/tpsDetail/{id}/uploadBuktiCoblos', [TpsDetailController::class, 'uploadBuktiCoblos'])->name('tpsDetail.uploadBuktiCoblos');

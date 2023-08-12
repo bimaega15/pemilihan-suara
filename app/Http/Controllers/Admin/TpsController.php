@@ -23,7 +23,7 @@ class TpsController extends Controller
         'alamat_tps' => 'required',
         'minimal_tps' => 'required',
         'target_tps' => 'required',
-        'users_id' => 'required',
+        'kuota_tps' => 'required',
     ];
     public $customValidation = [
         'required' => ':attribute wajib diisi',
@@ -35,7 +35,6 @@ class TpsController extends Controller
      */
     public function index(Request $request)
     {
-
         $getCurrentUrl = Check::getCurrentUrl();
         if (!isset(Check::getMenu($getCurrentUrl)[0])) {
             abort(403, 'Cannot access page');
@@ -109,18 +108,28 @@ class TpsController extends Controller
                 </div>
                 ';
 
-                $dataUsers = '
-                <div class="row">
-                    <div class="col-12">
-                     <span>Nama / No. Induk</span><br>
-                     <strong class="text-success">' . $v_data->users->profile->nama_profile . ' / ' . ' ' . $v_data->users->profile->nik_profile . '</strong>
-                    </div>
-                    <div class="col-12">
-                     <span>Jabatan / No. HP</span><br>
-                     <strong class="text-success">' . $v_data->users->profile->jabatan->nama_jabatan . ' / ' . ' ' . $v_data->users->profile->nohp_profile . '</strong>
-                    </div>
-                </div>
+                $dataUsers = '<ul>';
+                $explodeUsersId = explode(',', $v_data->users_id);
+                $joinUsers = User::join('profile', 'users.id', '=', 'profile.users_id')
+                    ->whereIn('users.id', $explodeUsersId)
+                    ->get();
+
+                foreach ($joinUsers as $key => $value) {
+                    $dataUsers .= '<li>' . $value->nama_profile . ' / ' . $value->nik_profile . '</li>';
+                }
+
+                $dataUsers .= '</ul>';
+
+                $penyebut = 'Tambah';
+                if ($v_data->kuota_tps == count($explodeUsersId)) {
+                    $penyebut = 'Update';
+                }
+                $dataUsers .= '
+                <button type="button" class="btn btn-primary btn-add-koordinator" data-id="' . $v_data->id . '">
+                    <i class="fas fa-user-tag"></i> ' . $penyebut . '
+                </button>
                 ';
+
 
                 $totalLKTps =  $v_data->totallk_tps == null ? 0 : $v_data->totallk_tps;
                 $totalPrTps =  $v_data->totalpr_tps == null ? 0 : $v_data->totalpr_tps;
@@ -145,6 +154,9 @@ class TpsController extends Controller
                 </div>
                 <div>
                     <strong class="text-dark">Target TPS: </strong> <strong>' . $v_data->target_tps . '</strong>
+                </div>
+                <div>
+                    <strong class="text-dark">Kuota TPS: </strong> <strong>' . $v_data->kuota_tps . '</strong>
                 </div>
                 ';
 
@@ -200,9 +212,9 @@ class TpsController extends Controller
             'villages_id' => $request->input('villages_id'),
             'nama_tps' => $request->input('nama_tps'),
             'alamat_tps' => $request->input('alamat_tps'),
-            'users_id' => $request->input('users_id'),
             'minimal_tps' => $request->input('minimal_tps'),
             'target_tps' => $request->input('target_tps'),
+            'kuota_tps' => $request->input('kuota_tps'),
         ];
         $insert = Tps::create($data);
         if ($insert) {
@@ -240,7 +252,7 @@ class TpsController extends Controller
     public function edit($id)
     {
         //
-        $Tps = Tps::with('users', 'users.profile', 'provinces', 'regencies', 'districts', 'villages')->find($id);
+        $Tps = Tps::with('provinces', 'regencies', 'districts', 'villages')->find($id);
         if ($Tps) {
             return response()->json([
                 'status' => 200,
@@ -281,9 +293,9 @@ class TpsController extends Controller
             'villages_id' => $request->input('villages_id'),
             'nama_tps' => $request->input('nama_tps'),
             'alamat_tps' => $request->input('alamat_tps'),
-            'users_id' => $request->input('users_id'),
             'minimal_tps' => $request->input('minimal_tps'),
             'target_tps' => $request->input('target_tps'),
+            'kuota_tps' => $request->input('kuota_tps'),
         ];
         $insert = Tps::find($id)->update($data);
         if ($insert) {
@@ -350,7 +362,8 @@ class TpsController extends Controller
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->where('roles.nama_roles', 'koordinator');
-        $countDistricts =  User::select('users.*', 'profile.nama_profile')
+
+        $countKoordinator =  User::select('users.*', 'profile.nama_profile')
             ->join('profile', 'profile.users_id', '=', 'users.id')
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
@@ -368,6 +381,10 @@ class TpsController extends Controller
             ->limit($limit)
             ->get();
 
+        if ($search != null) {
+            $countKoordinator = $usersKoordinator->count();
+        }
+
         $result = [];
         foreach ($usersKoordinator as $key => $v_usersKoordinator) {
             $result['results'][] =
@@ -376,7 +393,74 @@ class TpsController extends Controller
                     'text' => $v_usersKoordinator->nama_profile,
                 ];
         }
-        $result['count_filtered'] = $countDistricts;
+        $result['count_filtered'] = $countKoordinator;
         return response()->json($result, 200);
+    }
+
+    public function getAddKoordinator(Request $request, $id)
+    {
+        $users_id = $id;
+        $getData = Tps::find($users_id);
+
+        $explodeUsersId = explode(',', $getData->users_id);
+        $joinUsers = User::join('profile', 'users.id', '=', 'profile.users_id')
+            ->whereIn('users.id', $explodeUsersId)
+            ->get();
+
+
+        if ($getData) {
+            return response()->json($joinUsers, 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal update data',
+            ], 400);
+        }
+    }
+
+    public function addKoordinator(Request $request, $id)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'users_id' => [function ($attribute, $value, $fail) use ($request, $id) {
+                $users_id = $request->input('users_id');
+                $countUsers = count($users_id);
+
+                $getTps = Tps::find($id);
+                if ($countUsers > $getTps->kuota_tps) {
+                    $fail('Kuota untuk Koordinator TPS = ' . $getTps->kuota_tps);
+                }
+            }]
+        ], [
+            'required' => ':attribute wajib diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'invalid form validation',
+                'result' => $validator->errors()
+            ], 400);
+        }
+
+        $users_id = $request->input('users_id');
+        if ($users_id != null) {
+            $set_users_id = implode(',', $users_id);
+            Tps::find($id)->update([
+                'users_id' => $set_users_id
+            ]);
+        } else {
+            Tps::find($id)->update([
+                'users_id' => null
+            ]);
+        }
+
+        TpsCreated::dispatch();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil update data',
+            'result' => $request->all(),
+        ], 200);
     }
 }

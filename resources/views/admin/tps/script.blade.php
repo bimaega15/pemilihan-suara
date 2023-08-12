@@ -11,7 +11,7 @@
 
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
-            $('input[name="_method"]').val('post');
+            $('.form-submit input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/tps');
 
@@ -53,12 +53,8 @@
                     $('.alamat_tps').val(result.alamat_tps);
                     $('.minimal_tps').val(result.minimal_tps);
                     $('.target_tps').val(result.target_tps);
-                    $('.users_id').append(
-                            new Option(result.users.profile.nama_profile, result.users_id, true, true)
-                        )
-                        .trigger("change");
-
-                    $('input[name="_method"]').val('put');
+                    $('.kuota_tps').val(result.kuota_tps);
+                    $('.form-submit input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/tps/' + result.id);
@@ -76,6 +72,17 @@
             $('.regencies_id option').attr('selected', false).trigger('change');
             $('.districts_id option').attr('selected', false).trigger('change');
             $('.villages_id option').attr('selected', false).trigger('change');
+
+            if (attribute != null && attribute != '') {
+                $.each(attribute, function(v, i) {
+                    $('.' + v).removeClass("border border-danger");
+                    $('.error_' + v).html('');
+                })
+            }
+        }
+
+        function resetFormKoordinator(attribute = null) {
+            $('.form-submit-koordinator').trigger("reset");
             $('.users_id option').attr('selected', false).trigger('change');
 
             if (attribute != null && attribute != '') {
@@ -368,30 +375,155 @@
             });
         }
 
-        $('.users_id').select2({
-            theme: 'bootstrap-5',
-            ajax: {
-                url: `{{ url('/admin/tps/getKoordinator') }}`,
+        function getAddKoordinator(users_id) {
+            let getUrl = "{{ url('/') }}";
+            var output = null;
+            $.ajax({
+                url: `${getUrl}/admin/tps/${users_id}/getAddKoordinator`,
+                type: 'get',
                 dataType: 'json',
-                data: function(params) {
-                    return {
-                        search: params.term,
-                        page: params.page || 1,
-                    };
+                async: false,
+                success: function(data) {
+                    output = data;
+                }
+            })
+
+            return output;
+        }
+
+        $(document).on('click', '.btn-add-koordinator', function(e) {
+            e.preventDefault();
+            $('.form-submit-koordinator input[name="_method"]').val('post');
+
+            let id = $(this).data('id');
+            let url = "{{ url('/admin/tps/') }}";
+            let setUrl = `${url}/${id}/addKoordinator`;
+
+            var getKoordinator = getAddKoordinator(id);
+
+            let pushOptions = [];
+            getKoordinator.map((v, i) => {
+                let setOption = new Option(v.nama_profile, v.users_id, true, true);
+                pushOptions.push(setOption);
+            })
+            if (pushOptions.length > 0) {
+                $('.users_id').append(pushOptions)
+                    .trigger("change");
+            }
+
+
+            $('.form-submit-koordinator').attr('action', setUrl);
+            $('#modalFormKoordinator').modal('show');
+
+            $('.users_id').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: `{{ url('/admin/tps/getKoordinator') }}`,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            search: params.term,
+                            page: params.page || 1,
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page * 10) < data.count_filtered
+                            }
+                        };
+                    },
+                    cache: true,
                 },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.results,
-                        pagination: {
-                            more: (params.page * 10) < data.count_filtered
-                        }
-                    };
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        })
+
+        $(document).on('click', '.btn-submit-koordinator', function(e) {
+            e.preventDefault();
+            $('.form-submit-koordinator').submit();
+        })
+
+        $(document).on('submit', '.form-submit-koordinator', function(e) {
+            e.preventDefault();
+            var form = $('.form-submit-koordinator')[0];
+            var data = new FormData(form);
+            var action = $('.form-submit-koordinator').attr('action');
+            onSubmitKoordinator(action, data);
+        })
+
+        function onSubmitKoordinator(action, data) {
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: data,
+                enctype: 'multipart/form-data',
+                processData: false, // Important!
+                contentType: false,
+                cache: false,
+                dataType: 'json',
+                beforeSend: function() {
+                    $('.btn-submit-koordinator').attr('disabled', true);
                 },
-                cache: true,
-            },
-            templateResult: formatRepo,
-            templateSelection: formatRepoSelection
-        });
+                success: function(data) {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Successfully',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        $('#modalFormKoordinator').modal('hide');
+                        table.ajax.reload();
+
+                        const {
+                            result
+                        } = data;
+                        resetFormKoordinator(result);
+                    }
+
+                    if (data.status == 400) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        $('#modalFormKoordinator').modal('hide');
+                        table.ajax.reload();
+                    }
+                },
+                error: function(xhr) {
+                    const {
+                        responseJSON,
+                        responseText
+                    } = xhr;
+                    if (responseText != null) {
+                        console.log(responseText);
+                    }
+
+                    if (responseJSON.result != undefined) {
+                        let outputResult = responseJSON.result;
+                        $.each(outputResult, function(v, i) {
+                            let textError = outputResult[v][0];
+                            let keyError = v;
+                            $('.' + keyError).addClass("border border-danger");
+                            $('.error_' + keyError).html(textError);
+                        })
+                    }
+                },
+                complete: function() {
+                    $('.btn-submit-koordinator').attr('disabled', false);
+                }
+            });
+        }
+
     })
 </script>

@@ -21,11 +21,6 @@ class Tps extends Model
         return $this->hasMany(Pengumuman::class);
     }
 
-    public function users()
-    {
-        return $this->belongsTo(User::class, 'users_id', 'id');
-    }
-
     public function provinces()
     {
         return $this->belongsTo(Province::class, 'provinces_id', 'id');

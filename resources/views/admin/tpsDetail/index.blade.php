@@ -136,21 +136,6 @@ $isCreate = session()->get('userAcess.is_create');
                                                     {{ $tps->target_tps }}
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Total Laki-laki</td>
-                                                <td class="px-4">:</td>
-                                                <td><span id="totallk_tps">{{ $tps->totallk_tps }}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total Perempuan</td>
-                                                <td class="px-4">:</td>
-                                                <td><span id="totalpr_tps">{{ $tps->totalpr_tps }}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total Keseluruhan</td>
-                                                <td class="px-4">:</td>
-                                                <td><span id="totalsemua_tps">{{ $tps->totalsemua_tps }}</span></td>
-                                            </tr>
                                         </table>
                                     </div>
                                 </div>

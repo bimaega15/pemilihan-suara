@@ -24,12 +24,13 @@ class CreateTpsTable extends Migration
             $table->integer('totallk_tps')->nullable();
             $table->integer('totalpr_tps')->nullable();
             $table->integer('totalsemua_tps')->nullable();
-            $table->integer('users_id')->unsigned();
+            $table->string('users_id')->nullable();
             $table->integer('minimal_tps');
             $table->integer('target_tps');
+            $table->integer('kuota_tps');
             $table->timestamps();
 
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
             $table->foreign('provinces_id')->references('id')->on('provinces')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('regencies_id')->references('id')->on('regencies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('districts_id')->references('id')->on('districts')->onDelete('cascade')->onUpdate('cascade');
