@@ -32,7 +32,7 @@
                         <br>
                         <hr>
                         <cite title="Source Title" class="w-100 py-2">
-                            <i class="fa-solid fa-user-tie"></i> {{ $item->users->profile->nama_profile }}
+                            <i class="fa-solid fa-user-tie"></i> {{ Check::getUsersId($item->users_id) }}
                         </cite>
                     </footer>
                 </blockquote>

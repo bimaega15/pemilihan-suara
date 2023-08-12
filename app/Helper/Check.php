@@ -102,4 +102,26 @@ class Check
         $implodeTime = implode(' ', $timeMerge);
         return $implodeTime;
     }
+
+    public static function getUsersId($users_id = null)
+    {
+        $output = '-';
+        if ($users_id != null) {
+            $dataUsers = '<ul>';
+            $explodeUsersId = explode(',', $users_id);
+            $joinUsers = User::join('profile', 'users.id', '=', 'profile.users_id')
+                ->whereIn('users.id', $explodeUsersId)
+                ->get();
+
+            foreach ($joinUsers as $key => $value) {
+                $dataUsers .= '<li>' . $value->nama_profile . ' / ' . $value->nik_profile . '</li>';
+            }
+
+            $dataUsers .= '</ul>';
+
+            $output = $dataUsers;
+        }
+
+        return $output;
+    }
 }

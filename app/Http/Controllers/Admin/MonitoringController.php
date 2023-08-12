@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tps;
 use App\Models\TpsDetail;
+use App\Models\User;
 
 class MonitoringController extends Controller
 {
@@ -67,18 +68,17 @@ class MonitoringController extends Controller
                 </div>
                 ';
 
-                $dataUsers = '
-                <div class="row">
-                    <div class="col-12">
-                     <span>Nama / No. Induk</span><br>
-                     <strong class="text-success">' . $v_data->users->profile->nama_profile . ' / ' . ' ' . $v_data->users->profile->nik_profile . '</strong>
-                    </div>
-                    <div class="col-12">
-                     <span>Jabatan / No. HP</span><br>
-                     <strong class="text-success">' . $v_data->users->profile->jabatan->nama_jabatan . ' / ' . ' ' . $v_data->users->profile->nohp_profile . '</strong>
-                    </div>
-                </div>
-                ';
+                $dataUsers = '<ul>';
+                $explodeUsersId = explode(',', $v_data->users_id);
+                $joinUsers = User::join('profile', 'users.id', '=', 'profile.users_id')
+                    ->whereIn('users.id', $explodeUsersId)
+                    ->get();
+
+                foreach ($joinUsers as $key => $value) {
+                    $dataUsers .= '<li>' . $value->nama_profile . ' / ' . $value->nik_profile . '</li>';
+                }
+
+                $dataUsers .= '</ul>';
 
                 $totalLKTps =  $v_data->totallk_tps == null ? 0 : $v_data->totallk_tps;
                 $totalPrTps =  $v_data->totalpr_tps == null ? 0 : $v_data->totalpr_tps;

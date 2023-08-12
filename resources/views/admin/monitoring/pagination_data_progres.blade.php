@@ -7,7 +7,7 @@
                 <p class="card-description">
                     <i class="fa-solid fa-location-dot"></i> Kelurahan: {{ $item->villages->name }} <br>
                     <i class="fa-solid fa-location-dot"></i> Alamat: {{ $item->alamat_tps }} <br>
-                    <i class="fa-solid fa-user-tie"></i> Koordinator: {{ $item->users->profile->nama_profile }} <br>
+                    <i class="fa-solid fa-user-tie"></i> Koordinator: {{ Check::getUsersId($item->users_id) }} <br>
                 </p>
                 <hr>
                 <p class="card-description">
