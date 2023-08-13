@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
+use App\Models\Tps;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -22,6 +23,9 @@ class DashboardController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-        return view('admin.dashboard.index');
+        $dataTps = Tps::all();
+        return view('admin.dashboard.index', [
+            'tps' => $dataTps
+        ]);
     }
 }

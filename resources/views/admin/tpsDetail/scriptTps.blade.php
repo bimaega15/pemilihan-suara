@@ -113,18 +113,30 @@
                 setData.tps_id = tps_id;
 
                 var outputData = getTpsPendukung(setData);
-                var {
-                    tps
-                } = outputData.tps_detail;
+                if (outputData.provinces != null) {
+                    var {
+                        tps
+                    } = outputData.tps_detail;
 
-                $('.provinces_id').append(
-                    new Option(tps.provinces.name, tps.provinces.id, true, true));
-                $('.regencies_id').append(
-                    new Option(tps.regencies.name, tps.regencies.id, true, true));
-                $('.districts_id').append(
-                    new Option(tps.districts.name, tps.districts.id, true, true));
-                $('.villages_id').append(
-                    new Option(tps.villages.name, tps.villages.id, true, true));
+                    $('.provinces_id').append(
+                        new Option(tps.provinces.name, tps.provinces.id, true, true));
+                    $('.regencies_id').append(
+                        new Option(tps.regencies.name, tps.regencies.id, true, true));
+                    $('.districts_id').append(
+                        new Option(tps.districts.name, tps.districts.id, true, true));
+                    $('.villages_id').append(
+                        new Option(tps.villages.name, tps.villages.id, true, true));
+                } else {
+                    $('.provinces_id').append(
+                        new Option(outputData.provinces_name, outputData.provinces_id, true, true));
+                    $('.regencies_id').append(
+                        new Option(outputData.regencies_name, outputData.regencies_id, true, true));
+                    $('.districts_id').append(
+                        new Option(outputData.districts_name, outputData.districts_id, true, true));
+                    $('.villages_id').append(
+                        new Option(outputData.villages_name, outputData.villages_id, true, true));
+                }
+
             }
 
             $('#dataTableTps').DataTable().destroy();
@@ -158,13 +170,23 @@
         }
 
         function displayTps(data) {
-            $('#modalForm span#kuota_tps').html(data.kuota_tps);
-            $('#modalForm input.tps_id').val(data.id);
-            $('#modalForm span#provinces_id').html(data.provinces.name);
-            $('#modalForm span#districts_id').html(data.regencies.name);
-            $('#modalForm span#regencies_id').html(data.districts.name);
-            $('#modalForm span#villages_id').html(data.villages.name);
-            $('#modalForm span#alamat_tps').html(data.alamat_tps);
+            if (data.provinces != null) {
+                $('#modalForm span#kuota_tps').html(data.kuota_tps);
+                $('#modalForm input.tps_id').val(data.id);
+                $('#modalForm span#provinces_id').html(data.provinces.name);
+                $('#modalForm span#districts_id').html(data.regencies.name);
+                $('#modalForm span#regencies_id').html(data.districts.name);
+                $('#modalForm span#villages_id').html(data.villages.name);
+                $('#modalForm span#alamat_tps').html(data.alamat_tps);
+            } else {
+                $('#modalForm span#kuota_tps').html(data.kuota_tps);
+                $('#modalForm input.tps_id').val(data.id);
+                $('#modalForm span#provinces_id').html(data.provinces_name);
+                $('#modalForm span#districts_id').html(data.regencies_name);
+                $('#modalForm span#regencies_id').html(data.districts_name);
+                $('#modalForm span#villages_id').html(data.villages_name);
+                $('#modalForm span#alamat_tps').html(data.alamat_tps);
+            }
 
             $('#modalFormTps').modal('hide');
             $('#outputNoData').addClass('d-none');
@@ -425,11 +447,7 @@
                     setData.tps_id = tps_id;
 
                     var outputData = getTpsPendukung(setData);
-                    var {
-                        tps
-                    } = outputData.tps_detail;
-
-                    displayTps(tps);
+                    displayTps(outputData);
                 },
                 error: function(x, t, m) {
                     console.log(x.responseText);
@@ -476,16 +494,25 @@
             setData.tps_id = tps_id;
 
             var outputData = getTpsPendukung(setData);
-            var {
-                tps
-            } = outputData.tps_detail;
+            if (outputData.provinces != null) {
+                var {
+                    tps
+                } = outputData;
+                $('#modalDetail span#nama_tps').html(tps.nama_tps);
+                $('#modalDetail span#alamat_tps').html(tps.alamat_tps);
+                $('#modalDetail span#provinces_id').html(tps.provinces.name);
+                $('#modalDetail span#regencies_id').html(tps.regencies.name);
+                $('#modalDetail span#districts_id').html(tps.districts.name);
+                $('#modalDetail span#villages_id').html(tps.villages.name);
+            } else {
+                $('#modalDetail span#nama_tps').html(outputData.nama_tps);
+                $('#modalDetail span#alamat_tps').html(outputData.alamat_tps);
+                $('#modalDetail span#provinces_id').html(outputData.provinces_name);
+                $('#modalDetail span#regencies_id').html(outputData.regencies_name);
+                $('#modalDetail span#districts_id').html(outputData.districts_name);
+                $('#modalDetail span#villages_id').html(outputData.villages_name);
+            }
 
-            $('#modalDetail span#nama_tps').html(tps.nama_tps);
-            $('#modalDetail span#alamat_tps').html(tps.alamat_tps);
-            $('#modalDetail span#provinces_id').html(tps.provinces.name);
-            $('#modalDetail span#regencies_id').html(tps.regencies.name);
-            $('#modalDetail span#districts_id').html(tps.districts.name);
-            $('#modalDetail span#villages_id').html(tps.villages.name);
         })
 
         function getTpsPendukung(setData = {}) {

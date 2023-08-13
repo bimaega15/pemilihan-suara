@@ -7,6 +7,7 @@
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
              <form action="{{ route('admin.pendukung.store') }}" class="form-submit">
+                 <input type="hidden" name="tps_id_db" class="tps_id_db" value="{{ $tps_id }}">
                  <input type="hidden" name="tps_id" class="tps_id" value="">
                  <input type="hidden" name="_method" class="_method" value="post">
                  <input type="hidden" name="id" class="id" value="">

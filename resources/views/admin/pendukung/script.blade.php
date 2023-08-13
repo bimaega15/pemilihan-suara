@@ -33,6 +33,17 @@
             }
         })
 
+        function resetTps() {
+            $('#modalForm span#kuota_tps').html('');
+            $('#modalForm input.tps_id').val('');
+            $('#modalForm span#users_id').html('');
+            $('#modalForm span#provinces_id').html('');
+            $('#modalForm span#districts_id').html('');
+            $('#modalForm span#regencies_id').html('');
+            $('#modalForm span#villages_id').html('');
+            $('#modalForm span#alamat_tps').html('');
+        }
+
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
             $('.form-submit-upload').trigger("reset");
@@ -48,6 +59,8 @@
                     $('.error_' + v).html('');
                 })
             }
+
+            resetTps();
         }
 
         $(document).on('click', '.btn-submit', function(e) {

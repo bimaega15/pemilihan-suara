@@ -43,7 +43,6 @@ class TpsDetailController extends Controller
         $tps = Tps::find($tps_id);
         $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Koordinator%')->first();
 
-
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
@@ -736,14 +735,26 @@ class TpsDetailController extends Controller
     public function getTpsPendukung(Request $request)
     {
         $tps_detail_id = $request->input('tps_detail_id');
+        $users_id_koordinator = $request->input('users_id_koordinator');
         $users_id_pendukung = $request->input('users_id');
-        $tps_id = $request->input('tps_id');
 
-        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id)
-            ->where('users_id_pendukung', $users_id_pendukung)
-            ->where('tps_id', $tps_id)
-            ->with('tpsDetail', 'TpsDetail.tps', 'TpsDetail.tps.provinces', 'TpsDetail.tps.regencies', 'TpsDetail.tps.districts', 'TpsDetail.tps.villages')
-            ->first();
+        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id);
+        if ($users_id_koordinator != null) {
+            $data->where('users_id_koordinator', $users_id_koordinator);
+        }
+        if ($users_id_pendukung != null) {
+            $data->where('users_id_pendukung', $users_id_pendukung);
+        }
+        if ($tps_detail_id != null) {
+            $data->where('tps_detail_id', $tps_detail_id);
+        }
+        $data->join('tps', 'tps.id', '=', 'tps_pendukung.tps_id')
+            ->join('provinces', 'provinces.id', '=', 'tps.provinces_id')
+            ->join('regencies', 'regencies.id', '=', 'tps.regencies_id')
+            ->join('districts', 'districts.id', '=', 'tps.districts_id')
+            ->join('villages', 'villages.id', '=', 'tps.villages_id')
+            ->select('tps_pendukung.*', 'tps.nama_tps', 'tps.alamat_tps', 'tps.kuota_tps', 'provinces.name as provinces_name', 'provinces.id as provinces_id', 'regencies.name as regencies_name', 'regencies.id as regencies_id', 'districts.name as districts_name', 'districts.id as districts_id', 'villages.name as villages_name', 'villages.id as villages_id');
+        $data = $data->first();
 
         return response()->json($data, 200);
     }

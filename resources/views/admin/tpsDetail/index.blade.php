@@ -74,7 +74,7 @@ $isCreate = session()->get('userAcess.is_create');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                @if ($isCreate != null)
+                                @if ($isCreate != null && Check::getRolesUsers()['nama_roles'] != 'admin')
                                 <div class="mb-3">
                                     <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/pendukung/create') }}" class="btn btn-primary btn-add">
                                         <i data-feather="plus"></i> Tambah

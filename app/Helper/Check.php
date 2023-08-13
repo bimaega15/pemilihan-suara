@@ -45,6 +45,12 @@ class Check
         $myProfile = User::with('profile', 'roles')->where('users.id', $users_id)->first();
         return $myProfile;
     }
+
+    public static function getRolesUsers()
+    {
+        $usersLogin = Auth::user()->roles()->get()->toArray();
+        return $usersLogin[0];
+    }
     public static function getCurrentUrl()
     {
         $urlCurrent = url()->current();
