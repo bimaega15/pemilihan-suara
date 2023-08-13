@@ -79,19 +79,43 @@ class UsersController extends Controller
                     <img src="' . $url_gambar_profile . '" width="100%;"></img>
                 </a>';
 
-                $checkedStatus = '';
-                if ($v_data->is_aktif == 1) {
-                    $checkedStatus = 'checked';
+                $outputAktif = '';
+                $span = '';
+                if ((string) $v_data->is_aktif == '0') {
+                    $outputAktif = '
+                    <button type="button" data-roles="' . $roles . '" class="btn btn-success btn-sm check-input" data-is_aktif="1" data-id="' . $v_data->id . '" data-title="Verifikasi">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    ';
+                    $span = '<span class="badge bg-danger">Ditolak</span>';
+                }
+                if ((string) $v_data->is_aktif == '1') {
+                    $outputAktif = '
+                    <button type="button" data-roles="' . $roles . '" class="btn btn-danger btn-sm check-input" data-is_aktif="0" data-id="' . $v_data->id . '" data-title="Tolak">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    ';
+                    $span = '<span class="badge bg-success">Diverifikasi</span>';
+                }
+                if ((string) $v_data->is_aktif == null) {
+                    $outputAktif = '
+                    <button type="button" data-roles="' . $roles . '" class="btn btn-danger btn-sm check-input" data-is_aktif="0" data-id="' . $v_data->id . '" data-title="Tolak">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button type="button" data-roles="' . $roles . '" class="btn btn-success btn-sm check-input" data-is_aktif="1" data-id="' . $v_data->id . '" data-title="Verifikasi">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    ';
+                    $span = '<span class="badge bg-info">Menunggu Verifikasi</span>';
                 }
 
-                $outputAktif = '
+                $outputAktifSet = '
                 <div class="text-center">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input check-input" data-id="' . $v_data->id . '" type="checkbox" id="is_aktif_' . $v_data->id . '" style="height: 20px; width: 40px;" ' . $checkedStatus . ' data-roles="' . $roles . '">
-                        <label class="form-check-label" for="is_aktif_' . $v_data->id . '"></label>
-                    </div>
+                    ' . $outputAktif . ' <br>
+                    ' . $span . '
                 </div>
-              ';
+                ';
+
 
                 $result['data'][] = [
                     $no++,
@@ -100,7 +124,7 @@ class UsersController extends Controller
                     $v_data->profile->email_profile,
                     $v_data->profile->nohp_profile,
                     $gambar_profile,
-                    $outputAktif,
+                    $outputAktifSet,
                     trim($button)
                 ];
             }
@@ -457,16 +481,11 @@ class UsersController extends Controller
     public function setAktif()
     {
         $id = request()->input('id');
-        $getUsers = User::find($id);
-        $setAktif = null;
-        if ($getUsers->is_aktif == 1) {
-            $setAktif = 0;
-        } else {
-            $setAktif = 1;
-        }
+        $is_aktif = request()->input('is_aktif');
+
 
         User::find($id)->update([
-            'is_aktif' => $setAktif
+            'is_aktif' => intval($is_aktif)
         ]);
 
         return response()->json('Berhasil update is aktif');

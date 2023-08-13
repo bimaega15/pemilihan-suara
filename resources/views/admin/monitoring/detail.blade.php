@@ -123,10 +123,10 @@ $isCreate = session()->get('userAcess.is_create');
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Target TPS</td>
+                                                <td>Minimal Pendukung</td>
                                                 <td class="px-4">:</td>
                                                 <td>
-                                                    {{ $tps->target_tps }}
+                                                    {{ $tps->pendukung_tps }}
                                                 </td>
                                             </tr>
                                             <tr>

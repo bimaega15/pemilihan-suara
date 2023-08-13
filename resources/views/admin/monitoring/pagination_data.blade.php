@@ -19,7 +19,7 @@
                     </p>
                     <footer>
                         <span class="blockquote-footer">
-                            <i class="fa-solid fa-users"></i> Total Dukungan: {{ $item->totalsemua_tps }}
+                            <i class="fas fa-users"></i> Total Dukungan: {{ $item->totalsemua_tps }}
                         </span>
                         <br>
                         <span class="blockquote-footer">
@@ -27,12 +27,12 @@
                         </span>
                         <br>
                         <span class="blockquote-footer">
-                            <i class="fas fa-flag"></i> Target Dukungan: {{ $item->target_tps }}
+                            <i class="fas fa-flag"></i> Target Dukungan: {{ $item->pendukung_tps }}
                         </span>
                         <br>
                         <hr>
                         <cite title="Source Title" class="w-100 py-2">
-                            <i class="fa-solid fa-user-tie"></i> {{ Check::getUsersId($item->users_id) }}
+                            <i class="fas fa-user-tie"></i> {{ Check::getUsersId($item->users_id) }}
                         </cite>
                     </footer>
                 </blockquote>

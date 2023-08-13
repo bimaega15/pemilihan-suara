@@ -33,6 +33,8 @@ $getKonfigurasi = Check::getKonfigurasi();
     <link rel="stylesheet" href="{{ asset('library/sweetalert2/dist/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/select2-develop/dist/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('library/select2-bootstrap-5-theme-1.3.0/dist/select2-bootstrap-5-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('library/datatable/DataTables-1.13.1/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -56,6 +58,9 @@ $getKonfigurasi = Check::getKonfigurasi();
     <script src="{{ asset('library/owl-carousel/dist/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('library/sweetalert2/dist/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('library/select2-develop/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('library/datatable/DataTables-1.13.1/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('library/datatable/DataTables-1.13.1/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
     <script>
         $(document).ready(function() {

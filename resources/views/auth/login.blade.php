@@ -64,6 +64,7 @@ $getKonfigurasi = Check::getKonfigurasi();
                     </form>
                     <div class="authent-reg">
                         <p>Not registered? <a href="{{ url('register') }}">Create an account</a></p>
+                        <p>Periksa status? <a href="{{ url('/register/checkStatus') }}">Lihat Status Pendaftaran</a></p>
                     </div>
                 </div>
             </div>

@@ -52,7 +52,7 @@
                     $('.nama_tps').val(result.nama_tps);
                     $('.alamat_tps').val(result.alamat_tps);
                     $('.minimal_tps').val(result.minimal_tps);
-                    $('.target_tps').val(result.target_tps);
+                    $('.pendukung_tps').val(result.pendukung_tps);
                     $('.kuota_tps').val(result.kuota_tps);
                     $('.form-submit input[name="_method"]').val('put');
 
@@ -393,6 +393,8 @@
 
         $(document).on('click', '.btn-add-koordinator', function(e) {
             e.preventDefault();
+            $('.users_id option').remove();
+
             $('.form-submit-koordinator input[name="_method"]').val('post');
 
             let id = $(this).data('id');

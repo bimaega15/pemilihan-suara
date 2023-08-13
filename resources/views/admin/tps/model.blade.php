@@ -73,9 +73,9 @@
                      <div class="row">
                          <div class="col-lg-6">
                              <div class="form-floating">
-                                 <input type="number" class="form-control target_tps" id="floatingInput" name="target_tps" />
-                                 <small class="error_target_tps text-danger"></small>
-                                 <label for="floatingInput">Target TPS</label>
+                                 <input type="number" class="form-control pendukung_tps" id="floatingInput" name="pendukung_tps" />
+                                 <small class="error_pendukung_tps text-danger"></small>
+                                 <label for="floatingInput">Minimal Pendukung</label>
                              </div>
                          </div>
                          <div class="col-lg-6">

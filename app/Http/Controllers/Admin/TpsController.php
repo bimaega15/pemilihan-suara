@@ -22,7 +22,7 @@ class TpsController extends Controller
         'nama_tps' => 'required',
         'alamat_tps' => 'required',
         'minimal_tps' => 'required',
-        'target_tps' => 'required',
+        'pendukung_tps' => 'required',
         'kuota_tps' => 'required',
     ];
     public $customValidation = [
@@ -150,10 +150,10 @@ class TpsController extends Controller
 
                 $capaianTps = '
                 <div>
-                    <strong class="text-dark">Minimal TPS: </strong> <strong>' . $v_data->minimal_tps . '</strong>
+                    <strong class="text-dark">Min. TPS: </strong> <strong>' . $v_data->minimal_tps . '</strong>
                 </div>
                 <div>
-                    <strong class="text-dark">Target TPS: </strong> <strong>' . $v_data->target_tps . '</strong>
+                    <strong class="text-dark">Min. Pendukung: </strong> <strong>' . $v_data->pendukung_tps . '</strong>
                 </div>
                 <div>
                     <strong class="text-dark">Kuota TPS: </strong> <strong>' . $v_data->kuota_tps . '</strong>
@@ -213,7 +213,7 @@ class TpsController extends Controller
             'nama_tps' => $request->input('nama_tps'),
             'alamat_tps' => $request->input('alamat_tps'),
             'minimal_tps' => $request->input('minimal_tps'),
-            'target_tps' => $request->input('target_tps'),
+            'pendukung_tps' => $request->input('pendukung_tps'),
             'kuota_tps' => $request->input('kuota_tps'),
         ];
         $insert = Tps::create($data);
@@ -294,7 +294,7 @@ class TpsController extends Controller
             'nama_tps' => $request->input('nama_tps'),
             'alamat_tps' => $request->input('alamat_tps'),
             'minimal_tps' => $request->input('minimal_tps'),
-            'target_tps' => $request->input('target_tps'),
+            'pendukung_tps' => $request->input('pendukung_tps'),
             'kuota_tps' => $request->input('kuota_tps'),
         ];
         $insert = Tps::find($id)->update($data);
@@ -361,13 +361,16 @@ class TpsController extends Controller
         $usersKoordinator = User::select('users.*', 'profile.nama_profile')->join('profile', 'profile.users_id', '=', 'users.id')
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->where('roles.nama_roles', 'koordinator');
+            ->where('roles.nama_roles', 'koordinator')
+            ->where('users.is_aktif', 1);
 
         $countKoordinator =  User::select('users.*', 'profile.nama_profile')
             ->join('profile', 'profile.users_id', '=', 'users.id')
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->where('roles.nama_roles', 'koordinator')->get()->count();
+            ->where('roles.nama_roles', 'koordinator')
+            ->where('users.is_aktif', 1)
+            ->get()->count();
 
         if ($search != null) {
             $usersKoordinator

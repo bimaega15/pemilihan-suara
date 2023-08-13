@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\KelurahanController;
 use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MonitoringController;
+use App\Http\Controllers\Admin\PendukungController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProvinsiController;
 use App\Http\Controllers\Admin\RolesController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\GalleryController as ControllersGalleryController;
 use App\Http\Controllers\HomeController as ControllersHomeController;
+use App\Http\Controllers\StatusRegisController;
 use App\Http\Controllers\TpsController as ControllersTpsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -55,9 +57,15 @@ Route::group(['middleware' => ['checkAlreadyLogin', 'throttle:login']], function
         ->middleware(['guest', 'throttle:10,1'])
         ->name('login.attempt');
 
+
     Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
+    Route::get('/register/{tps_id}/getTps', [RegisterController::class, 'getTps'])->name('register.getTps');
     Route::post('/register/store', [RegisterController::class, 'store'])->name('register.store');
+    Route::get('/register/checkStatus', [RegisterController::class, 'checkStatus'])->name('register.checkStatus');
+    Route::post('/register/checkStatus/postCheckStatus', [RegisterController::class, 'postCheckStatus'])->name('register.checkStatus.postCheckStatus');
 });
+
+
 
 Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNotLogin']], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home.index');
@@ -90,6 +98,13 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::post('/tpsDetail/{id}/uploadBuktiCoblos', [TpsDetailController::class, 'uploadBuktiCoblos'])->name('tpsDetail.uploadBuktiCoblos');
     Route::post('/tpsDetail/{id}/verificationCoblos', [TpsDetailController::class, 'verificationCoblos'])->name('tpsDetail.verificationCoblos');
 
+    Route::resource('pendukung', PendukungController::class)->except(['show']);
+    Route::post('/pendukung/{id}/uploadBuktiCoblos', [PendukungController::class, 'uploadBuktiCoblos'])->name('pendukung.uploadBuktiCoblos');
+    Route::post('/pendukung/{id}/verificationCoblos', [PendukungController::class, 'verificationCoblos'])->name('pendukung.verificationCoblos');
+
+    Route::get('/pendukung/tpsPendukung', [PendukungController::class, 'tpsPendukung'])->name('pendukung.tpsPendukung');
+    Route::get('/pendukung/{tps_id}/getTps', [PendukungController::class, 'getTps'])->name('pendukung.getTps');
+
 
     Route::resource('jabatan', JabatanController::class);
     Route::resource('banner', BannerController::class);
@@ -112,8 +127,10 @@ Route::get('/admin/monitoring/fetchProgres', [MonitoringController::class, 'fetc
 Route::get('/admin/monitoring/fetchGrafik', [MonitoringController::class, 'fetchGrafik'])->name('monitoring.fetchGrafik');
 Route::get('/admin/monitoring/fetchDisplayGrafik', [MonitoringController::class, 'fetchDisplayGrafik'])->name('monitoring.fetchDisplayGrafik');
 
+
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home.index');
 Route::get('/about', [ControllersAboutController::class, 'index'])->name('about.index');
 Route::get('/gallery', [ControllersGalleryController::class, 'index'])->name('gallery.index');
 Route::get('/contactUs', [ContactUsController::class, 'index'])->name('contactUs.index');
 Route::get('/tps', [ControllersTpsController::class, 'index'])->name('tps.index');
+Route::get('/statusPendaftaran', [StatusRegisController::class, 'index'])->name('tps.index');

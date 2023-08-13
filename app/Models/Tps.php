@@ -40,4 +40,9 @@ class Tps extends Model
     {
         return $this->belongsTo(Village::class, 'villages_id', 'id');
     }
+
+    public function tpsPendukung()
+    {
+        return $this->hasMany(TpsPendukung::class);
+    }
 }

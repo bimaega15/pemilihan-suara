@@ -102,7 +102,7 @@ class MonitoringController extends Controller
                     <strong class="text-dark">Minimal TPS: </strong> <strong>' . $v_data->minimal_tps . '</strong>
                 </div>
                 <div>
-                    <strong class="text-dark">Target TPS: </strong> <strong>' . $v_data->target_tps . '</strong>
+                    <strong class="text-dark">Minimal Pendukung: </strong> <strong>' . $v_data->pendukung_tps . '</strong>
                 </div>
                 ';
 

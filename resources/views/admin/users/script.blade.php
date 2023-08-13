@@ -349,13 +349,16 @@
             let id = $(this).data('id');
             let url = "{{ url('/') }}";
             let roles = $(this).data('roles');
+            let is_aktif = $(this).data('is_aktif');
 
             $.ajax({
                 url: `${url}/admin/users/setAktif`,
                 dataType: 'json',
                 type: 'post',
                 data: {
-                    id: id
+                    id: id,
+                    roles: roles,
+                    is_aktif: is_aktif,
                 },
                 success: function(data) {
                     if (roles == 'admin') {
