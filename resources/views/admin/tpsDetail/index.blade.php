@@ -62,21 +62,14 @@ $isCreate = session()->get('userAcess.is_create');
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <i data-feather="user"></i> <strong>Data TPS Detail</strong>
-                            </div>
-                            <div>
-                                {{ Breadcrumbs::render('tpsDetail') }}
-                            </div>
-                        </div>
+                        <i data-feather="user"></i> <strong>Data Pendukung</strong>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
                                 @if ($isCreate != null)
                                 <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/tpsDetail/create') }}" class="btn btn-primary btn-add">
+                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/pendukung/create') }}" class="btn btn-primary btn-add">
                                         <i data-feather="plus"></i> Tambah
                                     </a>
                                 </div>
@@ -178,10 +171,11 @@ $isCreate = session()->get('userAcess.is_create');
         </div>
     </div>
 </div>
-@include('admin.tpsDetail.model')
-@include('admin.tpsDetail.modelUploadBukti')
+@include('admin.pendukung.model')
+@include('admin.pendukung.modelUploadBukti')
 @endsection
 
 @push('js')
-@include('admin.tpsDetail.script')
+@include('admin.pendukung.script')
+@include('admin.pendukung.scriptTps')
 @endpush

@@ -4,7 +4,6 @@ $isUpdate = session()->get('userAcess.is_update');
 <div class="item">
     <h4>Biodata</h4>
     <hr>
-    <input type="hidden" name="tps_id" value="{{ $tps_id }}">
     <div class="row">
         <div class="col-lg-12">
             <div class="form-floating">
@@ -82,13 +81,8 @@ $isUpdate = session()->get('userAcess.is_update');
     <hr>
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-flex justify-content-between">
-                <div>
-                </div>
-                <div>
-                    <button {{ $isUpdate == 1 ? '' : 'disabled' }} type="submit" class="btn btn-primary"><i data-feather="send"></i>
-                        Simpan</button>
-                </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-dark m-b-xs customNextBtn"><i data-feather="arrow-right"></i> Selanjutnya</button>
             </div>
         </div>
     </div>

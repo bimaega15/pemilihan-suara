@@ -98,6 +98,12 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::post('/tpsDetail/{id}/uploadBuktiCoblos', [TpsDetailController::class, 'uploadBuktiCoblos'])->name('tpsDetail.uploadBuktiCoblos');
     Route::post('/tpsDetail/{id}/verificationCoblos', [TpsDetailController::class, 'verificationCoblos'])->name('tpsDetail.verificationCoblos');
 
+    Route::get('/pendukung/tpsPendukung', [TpsDetailController::class, 'tpsPendukung'])->name('pendukung.tpsPendukung');
+    Route::get('/pendukung/{tps_id}/getTps', [TpsDetailController::class, 'getTps'])->name('pendukung.getTps');
+    Route::get('/pendukung/getTpsPendukung', [TpsDetailController::class, 'getTpsPendukung'])->name('pendukung.getTpsPendukung');
+
+
+
     Route::resource('pendukung', PendukungController::class)->except(['show']);
     Route::post('/pendukung/{id}/uploadBuktiCoblos', [PendukungController::class, 'uploadBuktiCoblos'])->name('pendukung.uploadBuktiCoblos');
     Route::post('/pendukung/{id}/verificationCoblos', [PendukungController::class, 'verificationCoblos'])->name('pendukung.verificationCoblos');

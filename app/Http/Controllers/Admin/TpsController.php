@@ -433,6 +433,21 @@ class TpsController extends Controller
                 if ($countUsers > $getTps->kuota_tps) {
                     $fail('Kuota untuk Koordinator TPS = ' . $getTps->kuota_tps);
                 }
+
+                $users_id = $request->input('users_id');
+                $message = '';
+                foreach ($users_id as $key => $value) {
+                    $checkTps = Tps::where('users_id', 'like', '%' . $value . '%')->get()->count();
+                    if ($checkTps > 0) {
+                        $getTps = Tps::where('users_id', 'like', '%' . $value . '%')
+                            ->first();
+                        $checkProfile = Check::getUserProfile($value);
+                        $message .= 'Koordinator: ' . $checkProfile->profile->nama_profile . ' terdaftar pada tps: ' . $getTps->nama_tps . '<br>';
+                    }
+                }
+                if ($message != '') {
+                    $fail($message);
+                }
             }]
         ], [
             'required' => ':attribute wajib diisi',

@@ -37,9 +37,12 @@ class Check
         $menu =  ManagementMenu::whereIn('id', $arr_id)->get();
         return $menu;
     }
-    public static function getUserProfile()
+    public static function getUserProfile($users_id = null)
     {
-        $myProfile = User::with('profile', 'roles')->where('users.id', Auth::id())->first();
+        if ($users_id == null) {
+            $users_id = Auth::id();
+        }
+        $myProfile = User::with('profile', 'roles')->where('users.id', $users_id)->first();
         return $myProfile;
     }
     public static function getCurrentUrl()
