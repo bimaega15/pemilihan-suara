@@ -18,51 +18,9 @@
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/pendukung');
+            $('.detail-tps').data('mode_form', 'add');
 
             resetForm();
-        })
-
-        $(document).on('click', '.btn-edit', function(e) {
-            e.preventDefault();
-            const id = $(this).data('id');
-            const action = $(this).attr('href');
-            const root = "{{ asset('/') }}";
-            $.ajax({
-                url: action,
-                method: 'get',
-                dataType: 'json',
-                success: function(data) {
-                    const {
-                        result
-                    } = data;
-
-                    $('.id').val(result.id);
-
-                    $('.nik_profile').val(result.users.profile.nik_profile);
-                    $('.nama_profile').val(result.users.profile.nama_profile);
-                    $('.email_profile').val(result.users.profile.email_profile);
-                    $('.nohp_profile').val(result.users.profile.nohp_profile);
-                    $('.jenis_kelamin_profile[value="' + result.users.profile.jenis_kelamin_profile + '"]')
-                        .attr('checked', true);
-
-                    $('.alamat_profile').val(result.users.profile.alamat_profile);
-                    let linkGambar =
-                        `${root}upload/profile/${result.users.profile.gambar_profile}`;
-                    $('#load_gambar_profile').html(`
-                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.users.profile.gambar_profile}">
-                        <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
-                    </a>
-                    `);
-                    $('input[name="_method"]').val('put');
-
-                    let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/pendukung/' + result.id);
-                    $('#modalForm').modal('show');
-                },
-                error: function(x, t, m) {
-                    console.log(x.responseText);
-                }
-            })
         })
 
         let owl = $('.owl-carousel').owlCarousel({
@@ -288,11 +246,16 @@
             let setUrl = `${url}/admin/pendukung/${id}/uploadBuktiCoblos`;
             let bukticoblos_detail = $(this).data('bukticoblos_detail');
 
+            let setGambar = bukticoblos_detail;
+            if (bukticoblos_detail == '') {
+                setGambar = 'default.png';
+            }
+
             let assetUrl = "{{ asset('/') }}";
-            let uploadGambarUrl = `${assetUrl}upload/tps/${bukticoblos_detail}`;
+            let uploadGambarUrl = `${assetUrl}upload/tps/${setGambar}`;
 
             $('#load-bukticoblos_detail').html(
-                `<a class="photoviewer" href="${uploadGambarUrl}" data-gallery="photoviewer" data-title="${bukticoblos_detail}" class="d-block">
+                `<a class="photoviewer" href="${uploadGambarUrl}" data-gallery="photoviewer" data-title="${setGambar}" class="d-block">
                         <img src="${uploadGambarUrl}" width="100%;"></img>
                     </a>`
             );
@@ -395,6 +358,8 @@
         $(document).on('click', '.btn-verification', function(e) {
             e.preventDefault();
             let action = $(this).attr('href');
+            let detail_verification = $(this).data('detail_verification');
+
             Swal.fire({
                 title: 'Verification',
                 text: "Apakah anda yakin ingin konfirmasi verifikasi data ini ?",
@@ -409,6 +374,9 @@
                         url: action,
                         dataType: 'json',
                         type: 'post',
+                        data: {
+                            detail_verification: detail_verification
+                        },
                         success: function(data) {
                             Swal.fire({
                                 icon: 'success',

@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Tps;
 use App\Models\TpsDetail;
+use App\Models\TpsPendukung;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,18 +43,21 @@ class PendukungController extends Controller
         $tps = Tps::where('users_id', 'like', '%' . strval($users_id) . '%')->first();
         $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Koordinator%')->first();
 
+
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
-            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile')
-                ->with('pendukung')
+
+            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'tps.provinces_id', 'tps.regencies_id', 'tps.districts_id', 'tps.villages_id')
+                ->join('tps', 'tps.id', '=', 'tps_detail.tps_id')
                 ->join('users', 'tps_detail.users_id', '=', 'users.id')
                 ->join('profile', 'profile.users_id', '=', 'users.id')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
                 ->where('roles.nama_roles', '=', 'relawan')
-                ->where('tps_detail.tps_id', $tps->id)
-                ->get();
+                ->where('tps_detail.tps_id', $tps->id);
+
+            $data = $data->get();
 
             $result = [];
             $no = 1;
@@ -82,27 +86,64 @@ class PendukungController extends Controller
 
 
                 $buttonVerification = '';
-                if ($v_data->detail_verification == 1) {
+                $spanVerification = '';
+                if (strval($v_data->detail_verification) == null) {
 
                     $buttonVerification = '
-                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" style="border-color: #EA1179 !important;">
+                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" data-detail_verification="0" style="border-color: #EA1179 !important;" title="Ditolak">
                         <i class="fas fa-times"></i>
                     </a>
                     ';
-                }
-                if ($v_data->detail_verification == 0) {
-                    $buttonVerification = '
-                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" style="border-color: #4477CE !important;">
+
+                    $buttonVerification .= '
+                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" data-detail_verification="1"  style="border-color: #4477CE !important;" title="Verifikasi">
                         <i class="fas fa-check"></i>
                     </a>
                     ';
+                    $span = '<span class="badge bg-info">Menunggu Verifikasi</span>';
                 }
+
+                if (strval($v_data->detail_verification) == '1') {
+
+                    $buttonVerification = '
+                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" data-detail_verification="0" style="border-color: #EA1179 !important;" title="Ditolak">
+                        <i class="fas fa-times"></i>
+                    </a>
+                    ';
+
+                    $span = '<span class="badge bg-success">Diverifikasi</span>';
+                }
+                if (strval($v_data->detail_verification) == '0') {
+                    $buttonVerification = '
+                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" data-detail_verification="1"  style="border-color: #4477CE !important;" title="Verifikasi">
+                        <i class="fas fa-check"></i>
+                    </a>
+                    ';
+
+                    $span = '<span class="badge bg-danger">Ditolak</span>';
+                }
+
+                $outputVerification = '
+                <div class="text-center">
+                    ' . $buttonVerification . ' <br>
+                    ' . $span . '
+                </div>
+                ';
+
+
+                $buttonDetail = '
+                <a href="' . route('admin.pendukung.edit', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #4477CE !important;" data-id="' . $v_data->id . '">
+                    <i class="fas fa-eye"></i>
+                </a>
+                ';
+
 
                 $button = '
             <div class="text-center">
             ' . $buttonUpdate . '               
             ' . $buttonDelete . '
-            ' . $buttonVerification . '               
+            ' . $buttonDetail . '
+            ' . $outputVerification . '               
             </div>
             ';
 
@@ -116,7 +157,7 @@ class PendukungController extends Controller
                     $gambarCoblos = 'default.png';
                 }
 
-                $url_bukticoblos_detail = asset('upload/pendukung/' . $gambarCoblos);
+                $url_bukticoblos_detail = asset('upload/tps/' . $gambarCoblos);
                 $bukticoblos_detail = '
                 <div style="width: 100%">
                     <a class="photoviewer" href="' . $url_bukticoblos_detail . '" data-gallery="photoviewer" data-title="' . $gambarCoblos . '" class="d-block">
@@ -171,6 +212,7 @@ class PendukungController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->all();
         $validator = Validator::make($request->all(), [
             'nama_profile' => 'required',
             'email_profile' => ['required', 'email', function ($attribute, $value, $fail) {
@@ -236,13 +278,23 @@ class PendukungController extends Controller
         // pendukung
         $data = [
             'users_id' => $user_id->id,
-            'pendukung_id' => $request->input('pendukung_id')
+            'tps_id' => $request->input('tps_id')
         ];
-        $pendukung = TpsDetail::create($data);
+        $tpsDetail = TpsDetail::create($data);
 
-        $pendukung_id = $request->input('pendukung_id');
-        $this->updateCountTps($pendukung_id);
-        if ($user_id || $roleUser || $profile || $pendukung) {
+        $tps_id = $request->input('tps_id');
+        $this->updateCountTps($tps_id);
+
+        // tps pendukung
+        $dataTpsPendukung = [
+            'tps_detail_id' => $tpsDetail->id,
+            'users_id_koordinator' => Auth::id(),
+            'users_id_pendukung' => $user_id->id,
+            'tps_id' => $tps_id
+        ];
+        $tpsPendukung = TpsPendukung::create($dataTpsPendukung);
+
+        if ($user_id || $roleUser || $profile || $tpsDetail || $tpsPendukung) {
             EventsTpsDetail::dispatch();
             return response()->json([
                 'status' => 200,
@@ -277,7 +329,7 @@ class PendukungController extends Controller
     public function edit($id)
     {
         //
-        $pendukung =  TpsDetail::with('users', 'users.profile', 'users.roles')->find($id);
+        $pendukung =  TpsDetail::with('users', 'users.profile', 'users.roles', 'tps', 'tps.provinces', 'tps.regencies', 'tps.districts', 'tps.villages')->find($id);
         if ($pendukung) {
             return response()->json([
                 'status' => 200,
@@ -356,8 +408,8 @@ class PendukungController extends Controller
         ];
         $profile = Profile::where('users_id', $users_id)->update($dataBiodata);
 
-        $pendukung_id = $pendukung->pendukung_id;
-        $this->updateCountTps($pendukung_id);
+        $tps_id = $pendukung->tps_id;
+        $this->updateCountTps($tps_id);
 
         if ($profile) {
             EventsTpsDetail::dispatch();
@@ -385,16 +437,18 @@ class PendukungController extends Controller
     {
         //
         $pendukung = TpsDetail::find($id);
-        $pendukung_id = $pendukung->pendukung_id;
+        $tps_id = $pendukung->tps_id;
 
         $users_id = $pendukung->users_id;
         $this->deleteFile($users_id);
+        $this->deleteFileBukti($id);
+
         $delete = TpsDetail::destroy($id);
         User::destroy($users_id);
         if ($delete) {
             EventsTpsDetail::dispatch();
 
-            $this->updateCountTps($pendukung_id);
+            $this->updateCountTps($tps_id);
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil delete data',
@@ -407,11 +461,11 @@ class PendukungController extends Controller
         }
     }
 
-    private function updateCountTps($pendukung_id)
+    private function updateCountTps($tps_id)
     {
         $totalLK = [];
         $totalPR = [];
-        $getTpsDetail = TpsDetail::with('users', 'users.profile')->where('pendukung_id', $pendukung_id)->get();
+        $getTpsDetail = TpsDetail::with('users', 'users.profile')->where('tps_id', $tps_id)->get();
         foreach ($getTpsDetail as $key => $value) {
             if ($value->users->profile->jenis_kelamin_profile == 'L') {
                 $totalLK[$value->users->profile->jenis_kelamin_profile][] = $value->users->profile->jenis_kelamin_profile;
@@ -430,8 +484,8 @@ class PendukungController extends Controller
             $hitungPR = count($totalPR['P']);
         }
         $totalAll = $hitungLK + $hitungPR;
-        $pendukung_id = $pendukung_id;
-        Tps::find($pendukung_id)->update([
+        $tps_id = $tps_id;
+        Tps::find($tps_id)->update([
             'totallk_pendukung' => $hitungLK,
             'totalpr_pendukung' => $hitungPR,
             'totalsemua_pendukung' => $totalAll
@@ -491,7 +545,7 @@ class PendukungController extends Controller
             $name = time() . '-' . str_replace(' ', '-', $name) . '.' . $ext;
 
             // isi dengan nama folder tempat kemana file diupload
-            $tujuan_upload =  public_path() . '/upload/pendukung/';
+            $tujuan_upload =  public_path() . '/upload/tps/';
 
             // upload file
             $file->move($tujuan_upload, $name);
@@ -511,7 +565,7 @@ class PendukungController extends Controller
     {
         if ($id != null) {
             $pendukung = TpsDetail::where('id', '=', $id)->first();
-            $gambar = public_path() . '/upload/pendukung/' . $pendukung->bukticoblos_detail;
+            $gambar = public_path() . '/upload/tps/' . $pendukung->bukticoblos_detail;
             if (file_exists($gambar)) {
                 if ($pendukung->bukticoblos_detail != 'default.png') {
                     File::delete($gambar);
@@ -561,20 +615,10 @@ class PendukungController extends Controller
 
     public function verificationCoblos(Request $request, $id)
     {
+        $detail_verification = $request->input('detail_verification');
         $pendukung = TpsDetail::find($id);
-        $isVerification = null;
-        if ($pendukung->detail_verification == null) {
-            $isVerification = 1;
-        }
-        if ($pendukung->detail_verification == 1) {
-            $isVerification = 0;
-        }
-        if ($pendukung->detail_verification == 0) {
-            $isVerification = 1;
-        }
-
         TpsDetail::find($id)->update([
-            'detail_verification' => $isVerification
+            'detail_verification' => $detail_verification
         ]);
 
         return response()->json([
@@ -586,7 +630,26 @@ class PendukungController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = Tps::all();
+            $provinces_id = $request->input('provinces_id');
+            $regencies_id = $request->input('regencies_id');
+            $districts_id = $request->input('districts_id');
+            $villages_id = $request->input('villages_id');
+
+            $data = Tps::select('*');
+            if ($provinces_id != null) {
+                $data->where('provinces_id', $provinces_id);
+            }
+            if ($regencies_id != null) {
+                $data->where('regencies_id', $regencies_id);
+            }
+            if ($districts_id != null) {
+                $data->where('districts_id', $districts_id);
+            }
+            if ($villages_id != null) {
+                $data->where('villages_id', $villages_id);
+            }
+            $data = $data->get();
+
             $result = [];
             $no = 1;
             if ($data->count() == 0) {
@@ -638,7 +701,6 @@ class PendukungController extends Controller
                     $no++,
                     $v_data->nama_tps,
                     $v_data->alamat_tps,
-                    $capaianTps,
                     $daerah,
                     trim($button)
                 ];

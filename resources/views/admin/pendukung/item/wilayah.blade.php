@@ -2,7 +2,7 @@
     <h4>Wilayah TPS</h4>
     <hr>
     <div class="mb-3">
-        <a href="#" class="btn btn-outline-info m-b-xs detail-tps" style="border-color: #91C8E4 !important;">
+        <a href="#" class="btn btn-outline-info m-b-xs detail-tps" data-mode_form="add" data-tps_detail_id="" style="border-color: #91C8E4 !important;">
             <i class="fas fa-arrow-right"></i> Pilih TPS
         </a>
     </div>
