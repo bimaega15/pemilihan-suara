@@ -102,11 +102,22 @@
 
             if (modeForm == 'edit') {
                 let tpsDetailId = $(this).data('tps_detail_id');
-                var output = getTpsDetail(tpsDetailId);
+                let btnDetail = $('.btn-detail[data-id="' + tpsDetailId + '"]')
+                let tps_detail_id = btnDetail.data('tps_detail_id');
+                let users_id = btnDetail.data('users_id');
+                let tps_id = btnDetail.data('tps_id');
+                let users_id_koordinator = btnDetail.data('users_id_koordinator');
 
-                const {
+                let setData = {};
+                setData.tps_detail_id = tps_detail_id;
+                setData.users_id = users_id;
+                setData.tps_id = tps_id;
+                setData.users_id_koordinator = users_id_koordinator;
+
+                var outputData = getTpsPendukung(setData);
+                var {
                     tps
-                } = output;
+                } = outputData.tps_detail;
 
                 $('.provinces_id').append(
                     new Option(tps.provinces.name, tps.provinces.id, true, true));
@@ -149,13 +160,13 @@
         }
 
         function displayTps(data) {
-            $('span#kuota_tps').html(data.kuota_tps);
-            $('input.tps_id').val(data.id);
-            $('span#provinces_id').html(data.provinces.name);
-            $('span#districts_id').html(data.regencies.name);
-            $('span#regencies_id').html(data.districts.name);
-            $('span#villages_id').html(data.villages.name);
-            $('span#alamat_tps').html(data.alamat_tps);
+            $('#modalForm span#kuota_tps').html(data.kuota_tps);
+            $('#modalForm input.tps_id').val(data.id);
+            $('#modalForm span#provinces_id').html(data.provinces.name);
+            $('#modalForm span#districts_id').html(data.regencies.name);
+            $('#modalForm span#regencies_id').html(data.districts.name);
+            $('#modalForm span#villages_id').html(data.villages.name);
+            $('#modalForm span#alamat_tps').html(data.alamat_tps);
 
             $('#modalFormTps').modal('hide');
             $('#outputNoData').addClass('d-none');
@@ -177,14 +188,14 @@
         })
 
         function resetTps() {
-            $('span#kuota_tps').html('');
-            $('input.tps_id').val('');
-            $('span#users_id').html('');
-            $('span#provinces_id').html('');
-            $('span#districts_id').html('');
-            $('span#regencies_id').html('');
-            $('span#villages_id').html('');
-            $('span#alamat_tps').html('');
+            $('#modalForm span#kuota_tps').html('');
+            $('#modalForm input.tps_id').val('');
+            $('#modalForm span#users_id').html('');
+            $('#modalForm span#provinces_id').html('');
+            $('#modalForm span#districts_id').html('');
+            $('#modalForm span#regencies_id').html('');
+            $('#modalForm span#villages_id').html('');
+            $('#modalForm span#alamat_tps').html('');
         }
 
         $(document).on('click', '.btn-cancel-tps', function(e) {
@@ -379,10 +390,6 @@
                         result
                     } = data;
 
-                    const {
-                        tps
-                    } = result;
-
                     $('.id').val(result.id);
                     $('.detail-tps').data('mode_form', 'edit');
                     $('.detail-tps').data('tps_detail_id', result.id);
@@ -409,6 +416,22 @@
                     $('.form-submit').attr('action', url + '/admin/pendukung/' + result.id);
                     $('#modalForm').modal('show');
 
+                    let btnDetail = $('.btn-detail[data-id="' + result.id + '"]')
+                    let tps_detail_id = btnDetail.data('tps_detail_id');
+                    let users_id = btnDetail.data('users_id');
+                    let tps_id = btnDetail.data('tps_id');
+                    let users_id_koordinator = btnDetail.data('users_id_koordinator');
+
+                    let setData = {};
+                    setData.tps_detail_id = tps_detail_id;
+                    setData.users_id = users_id;
+                    setData.tps_id = tps_id;
+                    setData.users_id_koordinator = users_id_koordinator;
+
+                    var outputData = getTpsPendukung(setData);
+                    var {
+                        tps
+                    } = outputData.tps_detail;
 
                     displayTps(tps);
                 },
@@ -430,35 +453,68 @@
                 profile
             } = output.users;
 
-            const {
-                tps
-            } = output;
-
-
             let assetUrl = "{{ asset('/') }}";
             let uploadGambarUrl = `${assetUrl}upload/profile/${profile.gambar_profile}`;
 
-
-
-            $('span#nik_profile').html(profile.nik_profile);
-            $('span#nama_profile').html(profile.nama_profile);
-            $('span#jenis_kelamin_profile').html(profile.jenis_kelamin_profile);
-            $('span#gambar_profile').html(
+            $('#modalDetail span#nik_profile').html(profile.nik_profile);
+            $('#modalDetail span#nama_profile').html(profile.nama_profile);
+            $('#modalDetail span#jenis_kelamin_profile').html(profile.jenis_kelamin_profile);
+            $('#modalDetail span#gambar_profile').html(
                 `<a class="photoviewer" href="${uploadGambarUrl}" data-gallery="photoviewer" data-title="${profile.gambar_profile}" class="d-block">
                         <img src="${uploadGambarUrl}" height="200px"></img>
                     </a>`
             );
 
-            $('span#email_profile').html(profile.email_profile);
-            $('span#nohp_profile').html(profile.nohp_profile);
+            $('#modalDetail span#email_profile').html(profile.email_profile);
+            $('#modalDetail span#nohp_profile').html(profile.nohp_profile);
 
 
-            $('span#nama_tps').html(tps.nama_tps);
-            $('span#alamat_tps').html(tps.alamat_tps);
-            $('span#provinces_id').html(tps.provinces.name);
-            $('span#regencies_id').html(tps.regencies.name);
-            $('span#districts_id').html(tps.districts.name);
-            $('span#villages_id').html(tps.villages.name);
+            // alamat tps pendukung
+            let tps_detail_id = $(this).data('tps_detail_id');
+            let users_id = $(this).data('users_id');
+            let tps_id = $(this).data('tps_id');
+            let users_id_koordinator = $(this).data('users_id_koordinator');
+
+            let setData = {};
+            setData.tps_detail_id = tps_detail_id;
+            setData.users_id = users_id;
+            setData.tps_id = tps_id;
+            setData.users_id_koordinator = users_id_koordinator;
+
+            var outputData = getTpsPendukung(setData);
+            var {
+                tps
+            } = outputData.tps_detail;
+
+            $('#modalDetail span#nama_tps').html(tps.nama_tps);
+            $('#modalDetail span#alamat_tps').html(tps.alamat_tps);
+            $('#modalDetail span#provinces_id').html(tps.provinces.name);
+            $('#modalDetail span#regencies_id').html(tps.regencies.name);
+            $('#modalDetail span#districts_id').html(tps.districts.name);
+            $('#modalDetail span#villages_id').html(tps.villages.name);
         })
+
+        function getTpsPendukung(setData = {}) {
+            var output = null;
+            const url = "{{ url('/') }}";
+            const action = `${url}/admin/pendukung/getTpsPendukung`;
+            $.ajax({
+                url: action,
+                method: 'get',
+                dataType: 'json',
+                async: false,
+                data: {
+                    ...setData
+                },
+                success: function(data) {
+                    output = data;
+                },
+                error: function(x, t, m) {
+                    console.log(x.responseText);
+                }
+            })
+
+            return output;
+        }
     })
 </script>

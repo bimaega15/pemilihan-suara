@@ -7,8 +7,8 @@
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
              <form action="{{ route('admin.pendukung.store') }}" class="form-submit">
-                 <input type="hidden" name="tps_id" value="">
-                 <input type="hidden" name="_method" value="post">
+                 <input type="hidden" name="tps_id" class="tps_id" value="">
+                 <input type="hidden" name="_method" class="_method" value="post">
                  <input type="hidden" name="id" class="id" value="">
                  <input type="hidden" name="password_profile_old" class="password_profile_old" value="">
                  <div class="modal-body">

@@ -131,8 +131,9 @@ class PendukungController extends Controller
                 ';
 
 
+                $users_id_koordinator = Auth::id();
                 $buttonDetail = '
-                <a href="' . route('admin.pendukung.edit', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #4477CE !important;" data-id="' . $v_data->id . '">
+                <a href="' . route('admin.pendukung.edit', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #4477CE !important;" data-id="' . $v_data->id . '" data-tps_detail_id="' . $v_data->id . '" data-users_id="' . $v_data->users_id . '" data-tps_id="' . $v_data->tps_id . '" data-users_id_koordinator="' . $users_id_koordinator . '">
                     <i class="fas fa-eye"></i>
                 </a>
                 ';
@@ -391,8 +392,8 @@ class PendukungController extends Controller
         $getJabatan = Jabatan::where('nama_jabatan', 'like', '%relawan%')->first();
 
         // biodata
-        $pendukung = TpsDetail::find($id);
-        $users_id = $pendukung->users_id;
+        $tpsDetail = TpsDetail::find($id);
+        $users_id = $tpsDetail->users_id;
         $file = $request->file('gambar_profile');
         $gambar_profile = $this->uploadFile($file, $users_id);
         $dataBiodata = [
@@ -408,8 +409,26 @@ class PendukungController extends Controller
         ];
         $profile = Profile::where('users_id', $users_id)->update($dataBiodata);
 
-        $tps_id = $pendukung->tps_id;
+        $tps_id = $tpsDetail->tps_id;
         $this->updateCountTps($tps_id);
+
+        // tps pendukung 
+        $tps_detail_id = $tpsDetail->id;
+        $users_id_koordinator = Auth::id();
+        $users_id_pendukung = $users_id;
+        $tps_id = $tps_id;
+
+        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id)
+            ->where('users_id_koordinator', $users_id_koordinator)
+            ->where('users_id_pendukung', $users_id_pendukung)
+            ->where('tps_id', $tps_id)
+            ->with('tpsDetail', 'TpsDetail.tps', 'TpsDetail.tps.provinces', 'TpsDetail.tps.regencies', 'TpsDetail.tps.districts', 'TpsDetail.tps.villages')
+            ->first();
+        $tps_pendukung_id = $data->id;
+        $dataSet = [
+            'tps_id' => $request->input('tps_id')
+        ];
+        TpsPendukung::find($tps_pendukung_id)->update($dataSet);
 
         if ($profile) {
             EventsTpsDetail::dispatch();
@@ -713,6 +732,23 @@ class PendukungController extends Controller
     public function getTps($tps_id)
     {
         $data = Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps_id);
+        return response()->json($data, 200);
+    }
+
+    public function getTpsPendukung(Request $request)
+    {
+        $tps_detail_id = $request->input('tps_detail_id');
+        $users_id_koordinator = $request->input('users_id_koordinator');
+        $users_id_pendukung = $request->input('users_id');
+        $tps_id = $request->input('tps_id');
+
+        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id)
+            ->where('users_id_koordinator', $users_id_koordinator)
+            ->where('users_id_pendukung', $users_id_pendukung)
+            ->where('tps_id', $tps_id)
+            ->with('tpsDetail', 'TpsDetail.tps', 'TpsDetail.tps.provinces', 'TpsDetail.tps.regencies', 'TpsDetail.tps.districts', 'TpsDetail.tps.villages')
+            ->first();
+
         return response()->json($data, 200);
     }
 }

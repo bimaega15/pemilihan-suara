@@ -8,7 +8,6 @@
     </div>
     <small class="error_tps_id text-danger"></small>
     <div class="d-flex justify-content-center d-none" id="outputTps">
-        <input type="hidden" name="tps_id" class="tps_id" value="">
         <div class="card shadow" style="width: 35rem;">
             <div class="card-header p-3">
                 <div class="d-flex justify-content-between align-items-center p-0">

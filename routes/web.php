@@ -102,8 +102,10 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::post('/pendukung/{id}/uploadBuktiCoblos', [PendukungController::class, 'uploadBuktiCoblos'])->name('pendukung.uploadBuktiCoblos');
     Route::post('/pendukung/{id}/verificationCoblos', [PendukungController::class, 'verificationCoblos'])->name('pendukung.verificationCoblos');
 
+
     Route::get('/pendukung/tpsPendukung', [PendukungController::class, 'tpsPendukung'])->name('pendukung.tpsPendukung');
     Route::get('/pendukung/{tps_id}/getTps', [PendukungController::class, 'getTps'])->name('pendukung.getTps');
+    Route::get('/pendukung/getTpsPendukung', [PendukungController::class, 'getTpsPendukung'])->name('pendukung.getTpsPendukung');
 
 
     Route::resource('jabatan', JabatanController::class);
