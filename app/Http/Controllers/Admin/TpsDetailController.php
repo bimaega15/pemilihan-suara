@@ -29,7 +29,7 @@ class TpsDetailController extends Controller
     public function index(Request $request)
     {
 
-        $getCurrentUrl = '/admin/pendukung';
+        $getCurrentUrl = '/admin/tps';
         if (!isset(Check::getMenu($getCurrentUrl)[0])) {
             abort(403, 'Cannot access page');
         }
@@ -39,14 +39,16 @@ class TpsDetailController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-        $users_id = Auth::id();
-        $tps = Tps::where('users_id', 'like', '%' . strval($users_id) . '%')->first();
+        $tps_id = $request->input('tps_id');
+        $tps = Tps::find($tps_id);
         $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Koordinator%')->first();
 
 
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
+            $tps_id = $request->input('tps_id');
+            $tps = Tps::find($tps_id);
 
             $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'tps.provinces_id', 'tps.regencies_id', 'tps.districts_id', 'tps.villages_id')
                 ->join('tps', 'tps.id', '=', 'tps_detail.tps_id')
@@ -131,9 +133,8 @@ class TpsDetailController extends Controller
                 ';
 
 
-                $users_id_koordinator = Auth::id();
                 $buttonDetail = '
-                <a href="' . route('admin.tpsDetail.edit', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #4477CE !important;" data-id="' . $v_data->id . '" data-tps_detail_id="' . $v_data->id . '" data-users_id="' . $v_data->users_id . '" data-tps_id="' . $v_data->tps_id . '" data-users_id_koordinator="' . $users_id_koordinator . '">
+                <a href="' . route('admin.tpsDetail.edit', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #4477CE !important;" data-id="' . $v_data->id . '" data-tps_detail_id="' . $v_data->id . '" data-users_id="' . $v_data->users_id . '" data-tps_id="' . $v_data->tps_id . '">
                     <i class="fas fa-eye"></i>
                 </a>
                 ';
@@ -184,8 +185,8 @@ class TpsDetailController extends Controller
 
             return response()->json($result, 200);
         }
-        $users_id = Auth::id();
-        $tps = Tps::where('users_id', 'like', '%' . strval($users_id) . '%')->first();
+        $tps_id = $request->input('tps_id');
+        $tps = Tps::find($tps_id);
 
         return view('admin.tpsDetail.index', [
             'tps_id' => $tps->id,
@@ -289,9 +290,8 @@ class TpsDetailController extends Controller
         // tps pendukung
         $dataTpsPendukung = [
             'tps_detail_id' => $tpsDetail->id,
-            'users_id_koordinator' => Auth::id(),
             'users_id_pendukung' => $user_id->id,
-            'tps_id' => $tps_id
+            'tps_id' => $tps_id,
         ];
         $tpsPendukung = TpsPendukung::create($dataTpsPendukung);
 
@@ -414,12 +414,10 @@ class TpsDetailController extends Controller
 
         // tps pendukung 
         $tps_detail_id = $tpsDetail->id;
-        $users_id_koordinator = Auth::id();
         $users_id_pendukung = $users_id;
         $tps_id = $tps_id;
 
         $data = TpsPendukung::where('tps_detail_id', $tps_detail_id)
-            ->where('users_id_koordinator', $users_id_koordinator)
             ->where('users_id_pendukung', $users_id_pendukung)
             ->where('tps_id', $tps_id)
             ->with('tpsDetail', 'TpsDetail.tps', 'TpsDetail.tps.provinces', 'TpsDetail.tps.regencies', 'TpsDetail.tps.districts', 'TpsDetail.tps.villages')
@@ -738,12 +736,10 @@ class TpsDetailController extends Controller
     public function getTpsPendukung(Request $request)
     {
         $tps_detail_id = $request->input('tps_detail_id');
-        $users_id_koordinator = $request->input('users_id_koordinator');
         $users_id_pendukung = $request->input('users_id');
         $tps_id = $request->input('tps_id');
 
         $data = TpsPendukung::where('tps_detail_id', $tps_detail_id)
-            ->where('users_id_koordinator', $users_id_koordinator)
             ->where('users_id_pendukung', $users_id_pendukung)
             ->where('tps_id', $tps_id)
             ->with('tpsDetail', 'TpsDetail.tps', 'TpsDetail.tps.provinces', 'TpsDetail.tps.regencies', 'TpsDetail.tps.districts', 'TpsDetail.tps.villages')

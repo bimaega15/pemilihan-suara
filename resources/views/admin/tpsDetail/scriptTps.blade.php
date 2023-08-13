@@ -6,7 +6,7 @@
             var table = $('#dataTableTps').DataTable({
                 responsive: true,
                 ajax: {
-                    url: "{{ route('admin.pendukung.tpsPendukung') }}",
+                    url: "{{ route('admin.tpsDetail.tpsPendukung') }}",
                     dataType: 'json',
                     type: 'get',
                     data: {
@@ -106,13 +106,11 @@
                 let tps_detail_id = btnDetail.data('tps_detail_id');
                 let users_id = btnDetail.data('users_id');
                 let tps_id = btnDetail.data('tps_id');
-                let users_id_koordinator = btnDetail.data('users_id_koordinator');
 
                 let setData = {};
                 setData.tps_detail_id = tps_detail_id;
                 setData.users_id = users_id;
                 setData.tps_id = tps_id;
-                setData.users_id_koordinator = users_id_koordinator;
 
                 var outputData = getTpsPendukung(setData);
                 var {
@@ -139,7 +137,7 @@
         function getTpsDetail(id) {
             var output = null;
             const url = "{{ url('/') }}";
-            const action = `${url}/admin/pendukung/${id}/edit`;
+            const action = `${url}/admin/tpsDetail/${id}/edit`;
             $.ajax({
                 url: action,
                 method: 'get',
@@ -178,7 +176,7 @@
             let id = $(this).data('id');
             let setUrl = "{{ url('/') }}";
             $.ajax({
-                url: `${setUrl}/admin/pendukung/${id}/getTps`,
+                url: `${setUrl}/admin/tpsDetail/${id}/getTps`,
                 dataType: 'json',
                 type: 'get',
                 success: function(data) {
@@ -413,20 +411,18 @@
                     $('input[name="_method"]').val('put');
 
                     let url = "{{ url('/') }}";
-                    $('.form-submit').attr('action', url + '/admin/pendukung/' + result.id);
+                    $('.form-submit').attr('action', url + '/admin/tpsDetail/' + result.id);
                     $('#modalForm').modal('show');
 
                     let btnDetail = $('.btn-detail[data-id="' + result.id + '"]')
                     let tps_detail_id = btnDetail.data('tps_detail_id');
                     let users_id = btnDetail.data('users_id');
                     let tps_id = btnDetail.data('tps_id');
-                    let users_id_koordinator = btnDetail.data('users_id_koordinator');
 
                     let setData = {};
                     setData.tps_detail_id = tps_detail_id;
                     setData.users_id = users_id;
                     setData.tps_id = tps_id;
-                    setData.users_id_koordinator = users_id_koordinator;
 
                     var outputData = getTpsPendukung(setData);
                     var {
@@ -469,17 +465,15 @@
             $('#modalDetail span#nohp_profile').html(profile.nohp_profile);
 
 
-            // alamat tps pendukung
+            // alamat tps tpsDetail
             let tps_detail_id = $(this).data('tps_detail_id');
             let users_id = $(this).data('users_id');
             let tps_id = $(this).data('tps_id');
-            let users_id_koordinator = $(this).data('users_id_koordinator');
 
             let setData = {};
             setData.tps_detail_id = tps_detail_id;
             setData.users_id = users_id;
             setData.tps_id = tps_id;
-            setData.users_id_koordinator = users_id_koordinator;
 
             var outputData = getTpsPendukung(setData);
             var {
@@ -497,7 +491,7 @@
         function getTpsPendukung(setData = {}) {
             var output = null;
             const url = "{{ url('/') }}";
-            const action = `${url}/admin/pendukung/getTpsPendukung`;
+            const action = `${url}/admin/tpsDetail/getTpsPendukung`;
             $.ajax({
                 url: action,
                 method: 'get',

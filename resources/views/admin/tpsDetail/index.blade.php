@@ -62,7 +62,14 @@ $isCreate = session()->get('userAcess.is_create');
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i data-feather="user"></i> <strong>Data Pendukung</strong>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <i data-feather="user"></i> <strong>Data Pendukung</strong>
+                            </div>
+                            <div>
+                                {{ Breadcrumbs::render('tpsDetail') }}
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -171,11 +178,11 @@ $isCreate = session()->get('userAcess.is_create');
         </div>
     </div>
 </div>
-@include('admin.pendukung.model')
-@include('admin.pendukung.modelUploadBukti')
+@include('admin.tpsDetail.model')
+@include('admin.tpsDetail.modelUploadBukti')
 @endsection
 
 @push('js')
-@include('admin.pendukung.script')
-@include('admin.pendukung.scriptTps')
+@include('admin.tpsDetail.script')
+@include('admin.tpsDetail.scriptTps')
 @endpush

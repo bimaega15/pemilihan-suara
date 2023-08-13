@@ -24,8 +24,7 @@
             </div>
             <div class="card-body">
                 <h5>
-                    <span class="text-dark"><i class="fas fa-volume-down"></i> Kuota TPS: </span> <span id="#kuota_tps">3</span> <br>
-                    <span class="text-dark"><i class="fas fa-users"></i> Sudah terdaftar: </span> <span id="users_id">1</span>
+                    <i class="fas fa-map-marker-alt"></i> <span id="alamat_tps" class="text-dark"> JL. Diponegoro Gg. Nenas LK. VI Kisaran Baru </span>
                 </h5>
                 <hr>
                 <p class="card-text">
@@ -33,7 +32,7 @@
                     <i class="fas fa-map-marker-alt"></i> <span id="regencies_id"> Asahan </span> <br>
                     <i class="fas fa-map-marker-alt"></i> <span id="districts_id"> Kisaran Barat</span> <br>
                     <i class="fas fa-map-marker-alt"></i> <span id="villages_id"> Kisaran Baru </span> <br>
-                    <i class="fas fa-map-marker-alt"></i> <span id="alamat_tps"> JL. Diponegoro Gg. Nenas LK. VI Kisaran Baru </span>
+
                 </p>
             </div>
         </div>

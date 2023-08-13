@@ -98,9 +98,9 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::post('/tpsDetail/{id}/uploadBuktiCoblos', [TpsDetailController::class, 'uploadBuktiCoblos'])->name('tpsDetail.uploadBuktiCoblos');
     Route::post('/tpsDetail/{id}/verificationCoblos', [TpsDetailController::class, 'verificationCoblos'])->name('tpsDetail.verificationCoblos');
 
-    Route::get('/pendukung/tpsPendukung', [TpsDetailController::class, 'tpsPendukung'])->name('pendukung.tpsPendukung');
-    Route::get('/pendukung/{tps_id}/getTps', [TpsDetailController::class, 'getTps'])->name('pendukung.getTps');
-    Route::get('/pendukung/getTpsPendukung', [TpsDetailController::class, 'getTpsPendukung'])->name('pendukung.getTpsPendukung');
+    Route::get('/tpsDetail/tpsPendukung', [TpsDetailController::class, 'tpsPendukung'])->name('tpsDetail.tpsPendukung');
+    Route::get('/tpsDetail/{tps_id}/getTps', [TpsDetailController::class, 'getTps'])->name('tpsDetail.getTps');
+    Route::get('/tpsDetail/getTpsPendukung', [TpsDetailController::class, 'getTpsPendukung'])->name('tpsDetail.getTpsPendukung');
 
 
 

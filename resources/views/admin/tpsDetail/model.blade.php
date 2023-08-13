@@ -6,7 +6,7 @@
                  <h5 class="modal-title" id="modalFormLabel">Form Pendukung</h5>
                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
              </div>
-             <form action="{{ route('admin.pendukung.store') }}" class="form-submit">
+             <form action="{{ route('admin.tpsDetail.store') }}" class="form-submit">
                  <input type="hidden" name="tps_id" class="tps_id" value="">
                  <input type="hidden" name="_method" class="_method" value="post">
                  <input type="hidden" name="id" class="id" value="">
@@ -15,8 +15,8 @@
                      <div class="row">
                          <div class="col-lg-12">
                              <div class="owl-carousel owl-theme">
-                                 @include('admin.pendukung.item.biodata')
-                                 @include('admin.pendukung.item.wilayah')
+                                 @include('admin.tpsDetail.item.biodata')
+                                 @include('admin.tpsDetail.item.wilayah')
                              </div>
                          </div>
                      </div>
@@ -127,8 +127,8 @@
                      </li>
                  </ul>
                  <div class="tab-content" id="myTabDetailPendukung">
-                     @include('admin.pendukung.detail.biodata')
-                     @include('admin.pendukung.detail.wilayah')
+                     @include('admin.tpsDetail.detail.biodata')
+                     @include('admin.tpsDetail.detail.wilayah')
                  </div>
 
              </div>

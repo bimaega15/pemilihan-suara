@@ -7,9 +7,12 @@
         var table = $('#dataTable').DataTable({
             responsive: true,
             ajax: {
-                url: "{{ route('admin.pendukung.index') }}",
+                url: "{{ route('admin.tpsDetail.index') }}",
                 dataType: 'json',
                 type: 'get',
+                data: {
+                    tps_id: "{{ $tps_id }}"
+                }
             },
         });
 
@@ -17,7 +20,7 @@
             e.preventDefault();
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
-            $('.form-submit').attr('action', url + '/admin/pendukung');
+            $('.form-submit').attr('action', url + '/admin/tpsDetail');
             $('.detail-tps').data('mode_form', 'add');
 
             resetForm();
@@ -243,7 +246,7 @@
         $(document).on('click', '.btn-upload-bukti', function() {
             let id = $(this).data('id');
             let url = "{{ url('/') }}";
-            let setUrl = `${url}/admin/pendukung/${id}/uploadBuktiCoblos`;
+            let setUrl = `${url}/admin/tpsDetail/${id}/uploadBuktiCoblos`;
             let bukticoblos_detail = $(this).data('bukticoblos_detail');
 
             let setGambar = bukticoblos_detail;
