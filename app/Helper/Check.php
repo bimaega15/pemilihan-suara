@@ -37,10 +37,19 @@ class Check
         $menu =  ManagementMenu::whereIn('id', $arr_id)->get();
         return $menu;
     }
-    public static function getUserProfile()
+    public static function getUserProfile($users_id = null)
     {
-        $myProfile = User::with('profile', 'roles')->where('users.id', Auth::id())->first();
+        if ($users_id == null) {
+            $users_id = Auth::id();
+        }
+        $myProfile = User::with('profile', 'roles')->where('users.id', $users_id)->first();
         return $myProfile;
+    }
+
+    public static function getRolesUsers()
+    {
+        $usersLogin = Auth::user()->roles()->get()->toArray();
+        return $usersLogin[0];
     }
     public static function getCurrentUrl()
     {
@@ -101,5 +110,27 @@ class Check
         $timeMerge[] = $explodeEnd[1];
         $implodeTime = implode(' ', $timeMerge);
         return $implodeTime;
+    }
+
+    public static function getUsersId($users_id = null)
+    {
+        $output = '-';
+        if ($users_id != null) {
+            $dataUsers = '<ul>';
+            $explodeUsersId = explode(',', $users_id);
+            $joinUsers = User::join('profile', 'users.id', '=', 'profile.users_id')
+                ->whereIn('users.id', $explodeUsersId)
+                ->get();
+
+            foreach ($joinUsers as $key => $value) {
+                $dataUsers .= '<li>' . $value->nama_profile . ' / ' . $value->nik_profile . '</li>';
+            }
+
+            $dataUsers .= '</ul>';
+
+            $output = $dataUsers;
+        }
+
+        return $output;
     }
 }

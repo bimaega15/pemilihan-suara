@@ -8,6 +8,7 @@ use App\Models\Jabatan;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
+use App\Models\Tps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,11 +22,76 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
 
         $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Koordinator%')->first();
+
+        if ($request->ajax()) {
+            $userAcess = session()->get('userAcess');
+
+            $data = Tps::all();
+            $result = [];
+            $no = 1;
+            if ($data->count() == 0) {
+                $result['data'] = [];
+            }
+            foreach ($data as $index => $v_data) {
+                $buttonDetail = '
+                <a href="#" class="btn btn-outline-info m-b-xs btn-choose-tps" style="border-color: #91C8E4 !important;" data-id="' . $v_data->id . '">
+                    <i class="fas fa-arrow-right"></i> Pilih TPS
+                </a>
+                ';
+                $button = '
+                <div class="text-center">
+                    ' . $buttonDetail . '
+                </div>
+                ';
+
+                $daerah = '
+                <div class="row">
+                    <div class="col-lg-6">
+                    Provinsi: <br> <strong class="text-success">' . $v_data->provinces->name . ' </strong>
+                    </div>
+                    <div class="col-lg-6">
+                    Kabupaten: <br> <strong class="text-success">' . $v_data->regencies->name . ' </strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                    Kecamatan: <br> <strong class="text-success">' . $v_data->districts->name . ' </strong>
+                    </div>
+                    <div class="col-lg-6">
+                    Kelurahan: <br> <strong class="text-success">' . $v_data->villages->name . ' </strong>
+                    </div>
+                </div>
+                ';
+
+                $terdaftar = $v_data->users_id;
+                $countTerdaftar = count(explode(',', $terdaftar));
+
+
+                $capaianTps = '
+                <div>
+                    <strong class="text-dark">Kuota TPS: </strong> <strong>' . $v_data->kuota_tps . '</strong> <br>
+                    <strong class="text-dark">Sudah terdaftar: </strong> <strong><i class="fas fa-users"></i> ' . $countTerdaftar . '</strong>
+                </div>
+                ';
+
+                $result['data'][] = [
+                    $no++,
+                    $v_data->nama_tps,
+                    $v_data->alamat_tps,
+                    $capaianTps,
+                    $daerah,
+                    trim($button)
+                ];
+            }
+
+            return response()->json($result, 200);
+        }
+
         return view('auth.register', [
             'role' => Role::all(),
             'jabatan' => Jabatan::all(),
@@ -37,6 +103,7 @@ class RegisterController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
+            'tps_id' => 'required',
             'username' => [
                 'required', function ($attribute, $value, $fail) {
                     $username = $_POST['username'];
@@ -113,12 +180,37 @@ class RegisterController extends Controller
         ];
         $profile = Profile::create($dataBiodata);
 
+        // tps
+        $tps_id = $request->input('tps_id');
+        $getTps = Tps::find($tps_id);
+        $usersTps = $getTps->users_id;
+        if ($usersTps != null) {
+            $explodeUsersId = explode(',', $usersTps);
+            $result = array_merge($explodeUsersId, [$user_id->id]);
+            $implode = implode(',', $result);
+            Tps::find($tps_id)->update([
+                'users_id' => $implode
+            ]);
+        } else {
+            Tps::find($tps_id)->update([
+                'users_id' => $user_id->id,
+            ]);
+        }
+
         $data = array_merge($dataUsers, $dataRoles, $dataBiodata);
         if ($user_id || $roleUser || $profile) {
             return response()->json([
                 'status' => 200,
-                'message' => 'Berhasil tambah account data <br>
-                <strong>Silahkan login</strong>
+                'message' => '
+                Berhasil tambah account data <br>
+                <strong>Mohon disimpan informasi berikut, 
+                untuk keperluan check status pendaftaran koordinator <br>
+                </strong>
+                <ul>
+                    <li>Username: ' . $dataUsers['username'] . '</li>
+                    <li>NIK: ' . $dataBiodata['nik_profile'] . '</li>
+                    <li>Email: ' . $dataBiodata['email_profile'] . '</li>
+                </ul>
                 ',
                 'result' => $data,
             ], 200);
@@ -169,5 +261,59 @@ class RegisterController extends Controller
                 }
             }
         }
+    }
+
+    public function getTps($tps_id)
+    {
+        $data = Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps_id);
+        return response()->json($data, 200);
+    }
+
+    public function checkStatus()
+    {
+        return view('auth.checkStatus');
+    }
+
+    public function postCheckStatus(Request $request)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'identitas' => 'required',
+        ], [
+            'required' => ':attribute wajib diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'invalid form validation',
+                'result' => $validator->errors()
+            ], 400);
+        }
+
+        $identitas = $request->input('identitas');
+        $checkIdentitas = User::join('profile', 'profile.users_id', '=', 'users.id')
+            ->where('users.username', $identitas)
+            ->orWhere('profile.nik_profile', $identitas)
+            ->orWhere('profile.email_profile', $identitas)
+            ->first();
+
+        $message = 'Account tidak terdaftar';
+        if ($checkIdentitas != null) {
+            if ($checkIdentitas->is_aktif == 1) {
+                $message = 'Pendaftaran anda telah aktif, dan silahkan login';
+            }
+            if ($checkIdentitas->is_aktif == 0) {
+                $message = 'Pendaftaran anda ditolak';
+            }
+            if ($checkIdentitas->is_aktif == null) {
+                $message = 'Pendaftaran anda belum diverifikasi, silahkan check secara berkala';
+            }
+        }
+
+        return response()->json([
+            'message' => $message,
+            'result' => $request->all()
+        ]);
     }
 }

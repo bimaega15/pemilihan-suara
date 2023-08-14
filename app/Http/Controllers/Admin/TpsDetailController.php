@@ -11,10 +11,12 @@ use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Tps;
 use App\Models\TpsDetail;
+use App\Models\TpsPendukung;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use File;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class TpsDetailController extends Controller
@@ -37,19 +39,26 @@ class TpsDetailController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
+        $tps_id = $request->input('tps_id');
+        $tps = Tps::find($tps_id);
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Koordinator%')->first();
+
         if ($request->ajax()) {
-            $tps_id = $request->input('tps_id');
             $userAcess = session()->get('userAcess');
 
-            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile')
-                ->with('tps')
+            $tps_id = $request->input('tps_id');
+            $tps = Tps::find($tps_id);
+
+            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'tps.provinces_id', 'tps.regencies_id', 'tps.districts_id', 'tps.villages_id')
+                ->join('tps', 'tps.id', '=', 'tps_detail.tps_id')
                 ->join('users', 'tps_detail.users_id', '=', 'users.id')
                 ->join('profile', 'profile.users_id', '=', 'users.id')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
                 ->where('roles.nama_roles', '=', 'relawan')
-                ->where('tps_detail.tps_id', $tps_id)
-                ->get();
+                ->where('tps_detail.tps_id', $tps->id);
+
+            $data = $data->get();
 
             $result = [];
             $no = 1;
@@ -78,27 +87,64 @@ class TpsDetailController extends Controller
 
 
                 $buttonVerification = '';
-                if ($v_data->detail_verification == 1) {
+                $spanVerification = '';
+                if (strval($v_data->detail_verification) == null) {
 
                     $buttonVerification = '
-                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" style="border-color: #EA1179 !important;">
+                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" data-detail_verification="0" style="border-color: #EA1179 !important;" title="Ditolak">
                         <i class="fas fa-times"></i>
                     </a>
                     ';
-                }
-                if ($v_data->detail_verification == 0) {
-                    $buttonVerification = '
-                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" style="border-color: #4477CE !important;">
+
+                    $buttonVerification .= '
+                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" data-detail_verification="1"  style="border-color: #4477CE !important;" title="Verifikasi">
                         <i class="fas fa-check"></i>
                     </a>
                     ';
+                    $span = '<span class="badge bg-info">Menunggu Verifikasi</span>';
                 }
+
+                if (strval($v_data->detail_verification) == '1') {
+
+                    $buttonVerification = '
+                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" data-detail_verification="0" style="border-color: #EA1179 !important;" title="Ditolak">
+                        <i class="fas fa-times"></i>
+                    </a>
+                    ';
+
+                    $span = '<span class="badge bg-success">Diverifikasi</span>';
+                }
+                if (strval($v_data->detail_verification) == '0') {
+                    $buttonVerification = '
+                    <a href="' . route('admin.tpsDetail.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" data-detail_verification="1"  style="border-color: #4477CE !important;" title="Verifikasi">
+                        <i class="fas fa-check"></i>
+                    </a>
+                    ';
+
+                    $span = '<span class="badge bg-danger">Ditolak</span>';
+                }
+
+                $outputVerification = '
+                <div class="text-center">
+                    ' . $buttonVerification . ' <br>
+                    ' . $span . '
+                </div>
+                ';
+
+
+                $buttonDetail = '
+                <a href="' . route('admin.tpsDetail.edit', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #4477CE !important;" data-id="' . $v_data->id . '" data-tps_detail_id="' . $v_data->id . '" data-users_id="' . $v_data->users_id . '" data-tps_id="' . $v_data->tps_id . '">
+                    <i class="fas fa-eye"></i>
+                </a>
+                ';
+
 
                 $button = '
             <div class="text-center">
             ' . $buttonUpdate . '               
             ' . $buttonDelete . '
-            ' . $buttonVerification . '               
+            ' . $buttonDetail . '
+            ' . $outputVerification . '               
             </div>
             ';
 
@@ -139,10 +185,12 @@ class TpsDetailController extends Controller
             return response()->json($result, 200);
         }
         $tps_id = $request->input('tps_id');
+        $tps = Tps::find($tps_id);
 
         return view('admin.tpsDetail.index', [
-            'tps_id' => $tps_id,
-            'tps' => Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps_id)
+            'tps_id' => $tps->id,
+            'tps' => Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps->id),
+            'getJabatan' => $getJabatan
         ]);
     }
 
@@ -165,6 +213,7 @@ class TpsDetailController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->all();
         $validator = Validator::make($request->all(), [
             'nama_profile' => 'required',
             'email_profile' => ['required', 'email', function ($attribute, $value, $fail) {
@@ -179,6 +228,7 @@ class TpsDetailController extends Controller
             'nik_profile' => 'required',
             'alamat_profile' => 'required',
             'gambar_profile' => 'image|max:2048',
+            'tps_id' => 'required',
         ], [
             'required' => ':attribute wajib diisi',
             'numeric' => ':attribute harus berupa angka',
@@ -194,7 +244,7 @@ class TpsDetailController extends Controller
             ], 400);
         }
 
-        // tpsDetail
+        // pendukung
         $dataUsers = [
             'username' => $request->input('email_profile'),
             'password' => Hash::make('123456'),
@@ -226,16 +276,25 @@ class TpsDetailController extends Controller
         ];
         $profile = Profile::create($dataBiodata);
 
-        // tps
+        // pendukung
         $data = [
             'users_id' => $user_id->id,
             'tps_id' => $request->input('tps_id')
         ];
-        $tps = TpsDetail::create($data);
+        $tpsDetail = TpsDetail::create($data);
 
         $tps_id = $request->input('tps_id');
         $this->updateCountTps($tps_id);
-        if ($user_id || $roleUser || $profile || $tps) {
+
+        // tps pendukung
+        $dataTpsPendukung = [
+            'tps_detail_id' => $tpsDetail->id,
+            'users_id_pendukung' => $user_id->id,
+            'tps_id' => $tps_id,
+        ];
+        $tpsPendukung = TpsPendukung::create($dataTpsPendukung);
+
+        if ($user_id || $roleUser || $profile || $tpsDetail || $tpsPendukung) {
             EventsTpsDetail::dispatch();
             return response()->json([
                 'status' => 200,
@@ -270,12 +329,12 @@ class TpsDetailController extends Controller
     public function edit($id)
     {
         //
-        $tpsDetail =  TpsDetail::with('users', 'users.profile', 'users.roles')->find($id);
-        if ($tpsDetail) {
+        $pendukung =  TpsDetail::with('users', 'users.profile', 'users.roles', 'tps', 'tps.provinces', 'tps.regencies', 'tps.districts', 'tps.villages')->find($id);
+        if ($pendukung) {
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil ambil data',
-                'result' => $tpsDetail,
+                'result' => $pendukung,
             ], 200);
         } else {
             return response()->json([
@@ -298,10 +357,10 @@ class TpsDetailController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_profile' => 'required',
             'email_profile' => ['required', 'email', function ($attribute, $value, $fail) use ($id) {
-                $tpsDetail = TpsDetail::find($id);
+                $pendukung = TpsDetail::find($id);
                 $email_profile = $_POST['email_profile'];
                 $checkEmailProfile = Profile::where('email_profile', $email_profile)
-                    ->where('users_id', '<>', $tpsDetail->users_id)
+                    ->where('users_id', '<>', $pendukung->users_id)
                     ->count();
                 if ($checkEmailProfile > 0) {
                     $fail('Email sudah digunakan');
@@ -312,6 +371,7 @@ class TpsDetailController extends Controller
             'nik_profile' => 'required',
             'alamat_profile' => 'required',
             'gambar_profile' => 'image|max:2048',
+            'tps_id' => 'required',
         ], [
             'required' => ':attribute wajib diisi',
             'numeric' => ':attribute harus berupa angka',
@@ -351,6 +411,22 @@ class TpsDetailController extends Controller
         $tps_id = $tpsDetail->tps_id;
         $this->updateCountTps($tps_id);
 
+        // tps pendukung 
+        $tps_detail_id = $tpsDetail->id;
+        $users_id_pendukung = $users_id;
+        $tps_id = $tps_id;
+
+        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id)
+            ->where('users_id_pendukung', $users_id_pendukung)
+            ->where('tps_id', $tps_id)
+            ->with('tpsDetail', 'TpsDetail.tps', 'TpsDetail.tps.provinces', 'TpsDetail.tps.regencies', 'TpsDetail.tps.districts', 'TpsDetail.tps.villages')
+            ->first();
+        $tps_pendukung_id = $data->id;
+        $dataSet = [
+            'tps_id' => $request->input('tps_id')
+        ];
+        TpsPendukung::find($tps_pendukung_id)->update($dataSet);
+
         if ($profile) {
             EventsTpsDetail::dispatch();
 
@@ -376,11 +452,13 @@ class TpsDetailController extends Controller
     public function destroy($id)
     {
         //
-        $tpsDetail = TpsDetail::find($id);
-        $tps_id = $tpsDetail->tps_id;
+        $pendukung = TpsDetail::find($id);
+        $tps_id = $pendukung->tps_id;
 
-        $users_id = $tpsDetail->users_id;
+        $users_id = $pendukung->users_id;
         $this->deleteFile($users_id);
+        $this->deleteFileBukti($id);
+
         $delete = TpsDetail::destroy($id);
         User::destroy($users_id);
         if ($delete) {
@@ -424,9 +502,9 @@ class TpsDetailController extends Controller
         $totalAll = $hitungLK + $hitungPR;
         $tps_id = $tps_id;
         Tps::find($tps_id)->update([
-            'totallk_tps' => $hitungLK,
-            'totalpr_tps' => $hitungPR,
-            'totalsemua_tps' => $totalAll
+            'totallk_pendukung' => $hitungLK,
+            'totalpr_pendukung' => $hitungPR,
+            'totalsemua_pendukung' => $totalAll
         ]);
     }
 
@@ -502,10 +580,10 @@ class TpsDetailController extends Controller
     private function deleteFileBukti($id = null)
     {
         if ($id != null) {
-            $tpsDetail = TpsDetail::where('id', '=', $id)->first();
-            $gambar = public_path() . '/upload/tps/' . $tpsDetail->bukticoblos_detail;
+            $pendukung = TpsDetail::where('id', '=', $id)->first();
+            $gambar = public_path() . '/upload/tps/' . $pendukung->bukticoblos_detail;
             if (file_exists($gambar)) {
-                if ($tpsDetail->bukticoblos_detail != 'default.png') {
+                if ($pendukung->bukticoblos_detail != 'default.png') {
                     File::delete($gambar);
                 }
             }
@@ -553,24 +631,131 @@ class TpsDetailController extends Controller
 
     public function verificationCoblos(Request $request, $id)
     {
-        $tpsDetail = TpsDetail::find($id);
-        $isVerification = null;
-        if ($tpsDetail->detail_verification == null) {
-            $isVerification = 1;
-        }
-        if ($tpsDetail->detail_verification == 1) {
-            $isVerification = 0;
-        }
-        if ($tpsDetail->detail_verification == 0) {
-            $isVerification = 1;
-        }
-
+        $detail_verification = $request->input('detail_verification');
+        $pendukung = TpsDetail::find($id);
         TpsDetail::find($id)->update([
-            'detail_verification' => $isVerification
+            'detail_verification' => $detail_verification
         ]);
 
         return response()->json([
             'message' => 'Berhasil verifikasi relawan ini'
         ], 200);
+    }
+
+    public function tpsPendukung(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $provinces_id = $request->input('provinces_id');
+            $regencies_id = $request->input('regencies_id');
+            $districts_id = $request->input('districts_id');
+            $villages_id = $request->input('villages_id');
+
+            $data = Tps::select('*');
+            if ($provinces_id != null) {
+                $data->where('provinces_id', $provinces_id);
+            }
+            if ($regencies_id != null) {
+                $data->where('regencies_id', $regencies_id);
+            }
+            if ($districts_id != null) {
+                $data->where('districts_id', $districts_id);
+            }
+            if ($villages_id != null) {
+                $data->where('villages_id', $villages_id);
+            }
+            $data = $data->get();
+
+            $result = [];
+            $no = 1;
+            if ($data->count() == 0) {
+                $result['data'] = [];
+            }
+            foreach ($data as $index => $v_data) {
+                $buttonDetail = '
+                <a href="#" class="btn btn-outline-info m-b-xs btn-choose-tps" style="border-color: #91C8E4 !important;" data-id="' . $v_data->id . '">
+                    <i class="fas fa-arrow-right"></i> Pilih TPS
+                </a>
+                ';
+                $button = '
+                <div class="text-center">
+                    ' . $buttonDetail . '
+                </div>
+                ';
+
+                $daerah = '
+                <div class="row">
+                    <div class="col-lg-6">
+                    Provinsi: <br> <strong class="text-success">' . $v_data->provinces->name . ' </strong>
+                    </div>
+                    <div class="col-lg-6">
+                    Kabupaten: <br> <strong class="text-success">' . $v_data->regencies->name . ' </strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                    Kecamatan: <br> <strong class="text-success">' . $v_data->districts->name . ' </strong>
+                    </div>
+                    <div class="col-lg-6">
+                    Kelurahan: <br> <strong class="text-success">' . $v_data->villages->name . ' </strong>
+                    </div>
+                </div>
+                ';
+
+                $terdaftar = $v_data->users_id;
+                $countTerdaftar = count(explode(',', $terdaftar));
+
+
+                $capaianTps = '
+                <div>
+                    <strong class="text-dark">Kuota TPS: </strong> <strong>' . $v_data->kuota_tps . '</strong> <br>
+                    <strong class="text-dark">Sudah terdaftar: </strong> <strong><i class="fas fa-users"></i> ' . $countTerdaftar . '</strong>
+                </div>
+                ';
+
+                $result['data'][] = [
+                    $no++,
+                    $v_data->nama_tps,
+                    $v_data->alamat_tps,
+                    $daerah,
+                    trim($button)
+                ];
+            }
+
+            return response()->json($result, 200);
+        }
+    }
+
+    public function getTps($tps_id)
+    {
+        $data = Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps_id);
+        return response()->json($data, 200);
+    }
+
+    public function getTpsPendukung(Request $request)
+    {
+        $tps_detail_id = $request->input('tps_detail_id');
+        $users_id_koordinator = $request->input('users_id_koordinator');
+        $users_id_pendukung = $request->input('users_id');
+
+        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id);
+        if ($users_id_koordinator != null) {
+            $data->where('users_id_koordinator', $users_id_koordinator);
+        }
+        if ($users_id_pendukung != null) {
+            $data->where('users_id_pendukung', $users_id_pendukung);
+        }
+        if ($tps_detail_id != null) {
+            $data->where('tps_detail_id', $tps_detail_id);
+        }
+        $data->join('tps', 'tps.id', '=', 'tps_pendukung.tps_id')
+            ->join('provinces', 'provinces.id', '=', 'tps.provinces_id')
+            ->join('regencies', 'regencies.id', '=', 'tps.regencies_id')
+            ->join('districts', 'districts.id', '=', 'tps.districts_id')
+            ->join('villages', 'villages.id', '=', 'tps.villages_id')
+            ->select('tps_pendukung.*', 'tps.nama_tps', 'tps.alamat_tps', 'tps.kuota_tps', 'provinces.name as provinces_name', 'provinces.id as provinces_id', 'regencies.name as regencies_name', 'regencies.id as regencies_id', 'districts.name as districts_name', 'districts.id as districts_id', 'villages.name as villages_name', 'villages.id as villages_id');
+        $data = $data->first();
+
+        return response()->json($data, 200);
     }
 }

@@ -56,7 +56,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '5',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps1',
         ];
         $tps = Tps::create($tps);
@@ -246,7 +246,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '5',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps2',
         ];
         $tps = Tps::create($tps);
@@ -436,12 +436,12 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '5',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps3',
         ];
         $tps = Tps::create($tps);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan6.1kpu@gmail.com',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
@@ -470,8 +470,8 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan6.2kpu@gmail.com',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
@@ -500,8 +500,8 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan6.3kpu@gmail.com',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
@@ -530,8 +530,8 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan6.4kpu@gmail.com',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
@@ -560,8 +560,8 @@ class TpsKoordinatorSeeder extends Seeder
             'bukticoblos_detail' => 'default.png',
             'detail_verification' => 0
         ]);
-         // user
-         $user = User::create([
+        // user
+        $user = User::create([
             'username' => 'relawan6.5kpu@gmail.com',
             'password' => Hash::make('123456'),
             'is_aktif' => 1
@@ -626,7 +626,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '5',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps4',
         ];
         $tps = Tps::create($tps);
@@ -816,7 +816,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '5',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps5',
         ];
         $tps = Tps::create($tps);
@@ -1006,7 +1006,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '5',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps6',
         ];
         $tps = Tps::create($tps);
@@ -1196,7 +1196,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps7',
         ];
         Tps::create($tps);
@@ -1236,7 +1236,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps8',
         ];
         Tps::create($tps);
@@ -1277,7 +1277,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps9',
         ];
         Tps::create($tps);
@@ -1317,7 +1317,7 @@ class TpsKoordinatorSeeder extends Seeder
             'totalsemua_tps' => '0',
             'users_id' => $user->id,
             'minimal_tps' => '50',
-            'target_tps' => '100',
+            'pendukung_tps' => '100',
             'alamat_tps' => 'alamat_tps10',
         ];
         Tps::create($tps);

@@ -20,4 +20,9 @@ class TpsDetail extends Model
     {
         return $this->belongsTo(User::class, 'users_id', 'id');
     }
+
+    public function tpsPendukung()
+    {
+        return $this->hasMany(TpsPendukung::class);
+    }
 }

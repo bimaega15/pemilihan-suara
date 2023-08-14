@@ -62,9 +62,9 @@ $isCreate = session()->get('userAcess.is_create');
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between">
                             <div>
-                                <i data-feather="user"></i> <strong>Data TPS Detail</strong>
+                                <i data-feather="user"></i> <strong>Data Pendukung</strong>
                             </div>
                             <div>
                                 {{ Breadcrumbs::render('tpsDetail') }}
@@ -74,9 +74,9 @@ $isCreate = session()->get('userAcess.is_create');
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                @if ($isCreate != null)
+                                @if ($isCreate != null && Check::getRolesUsers()['nama_roles'] != 'admin')
                                 <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/tpsDetail/create') }}" class="btn btn-primary btn-add">
+                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/pendukung/create') }}" class="btn btn-primary btn-add">
                                         <i data-feather="plus"></i> Tambah
                                     </a>
                                 </div>
@@ -130,26 +130,11 @@ $isCreate = session()->get('userAcess.is_create');
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Target TPS</td>
+                                                <td>Minimal Pendukung</td>
                                                 <td class="px-4">:</td>
                                                 <td>
-                                                    {{ $tps->target_tps }}
+                                                    {{ $tps->pendukung_tps }}
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total Laki-laki</td>
-                                                <td class="px-4">:</td>
-                                                <td><span id="totallk_tps">{{ $tps->totallk_tps }}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total Perempuan</td>
-                                                <td class="px-4">:</td>
-                                                <td><span id="totalpr_tps">{{ $tps->totalpr_tps }}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total Keseluruhan</td>
-                                                <td class="px-4">:</td>
-                                                <td><span id="totalsemua_tps">{{ $tps->totalsemua_tps }}</span></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -199,4 +184,5 @@ $isCreate = session()->get('userAcess.is_create');
 
 @push('js')
 @include('admin.tpsDetail.script')
+@include('admin.tpsDetail.scriptTps')
 @endpush

@@ -58,8 +58,7 @@ class HomeController extends Controller
         $gallery = Gallery::all()->count();
         $pengumuman = Pengumuman::all()->count();
         $tps = Tps::all()->count();
-
-
+        $dataTps = Tps::all();
 
         return view('admin.home.index', [
             'admin' => $admin,
@@ -71,6 +70,7 @@ class HomeController extends Controller
             'gallery' => $gallery,
             'pengumuman' => $pengumuman,
             'tps' => $tps,
+            'dataTps' => $dataTps
         ]);
     }
 }

@@ -53,13 +53,14 @@ class User extends Authenticatable
         return $this->hasMany(HasilUsers::class);
     }
 
-    public function tps()
-    {
-        return $this->hasMany(Tps::class, 'users_id', 'id');
-    }
 
     public function tpsDetail()
     {
         return $this->hasMany(TpsDetail::class, 'users_id', 'id');
+    }
+
+    public function tpsPendukung()
+    {
+        return $this->hasMany(TpsPendukung::class);
     }
 }

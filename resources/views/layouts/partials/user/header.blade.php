@@ -28,8 +28,12 @@ $currentUrl = Check::getCurrentUrl();
                     <li class="nav__item">
                         <a href="{{ url('/contactUs') }}" class="nav__item-link {{$currentUrl == '/contactUs' ? 'active' : ''}}">Contact Us</a>
                     </li><!-- /.nav-item -->
-                    <li class="nav__item">
+                    <!-- <li class="nav__item">
                         <a href="{{ url('/tps') }}" class="nav__item-link {{$currentUrl == '/tps' ? 'active' : ''}}">TPS</a>
+                    </li> -->
+                    <!-- /.nav-item -->
+                    <li class="nav__item">
+                        <a href="{{ url('/statusPendaftaran') }}" class="nav__item-link {{$currentUrl == '/statusPendaftaran' ? 'active' : ''}}">Status Pendaftaran</a>
                     </li><!-- /.nav-item -->
 
                 </ul><!-- /.navbar-nav -->

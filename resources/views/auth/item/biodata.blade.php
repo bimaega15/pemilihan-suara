@@ -95,8 +95,7 @@
                     <button type="button" class="btn btn-outline-dark m-b-xs customPrevBtn"> <i data-feather="arrow-left"></i> Sebelumnya</button>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-primary btn-submit"><i data-feather="send"></i>
-                        Simpan</button>
+                    <button type="button" class="btn btn-outline-dark m-b-xs customNextBtn"><i data-feather="arrow-right"></i> Selanjutnya</button>
                 </div>
             </div>
         </div>

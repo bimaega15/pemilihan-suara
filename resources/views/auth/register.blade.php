@@ -33,18 +33,21 @@ $getKonfigurasi = Check::getKonfigurasi();
                                 <div class="owl-carousel owl-theme">
                                     @include('auth.item.account')
                                     @include('auth.item.biodata')
+                                    @include('auth.item.wilayah')
                                 </div>
                             </div>
                         </div>
                     </form>
                     <div class="authent-reg">
-                        <p>Already account ? <a href="{{ url('/') }}">Login account</a></p>
+                        <p>Already account ? <a href="{{ url('/login') }}">Login account</a></p>
+                        <p>Periksa status? <a href="{{ url('/register/checkStatus') }}">Lihat Status Pendaftaran</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@include('auth.partial.model')
 
 @push('js')
 @include('auth.script')

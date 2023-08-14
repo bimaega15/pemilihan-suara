@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
                         return redirect()->intended('/admin/home');
                     }
                 } else {
-                    session()->flash('error', 'Account anda belum aktif, silahkan hubungi admin');
+                    session()->flash('error', 'Account anda belum diverifikasi oleh admin, silahkan check secara berkala dihalaman check status pendaftaran');
                     return redirect()->intended('/login');
                 }
             } else {
