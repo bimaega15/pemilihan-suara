@@ -37,7 +37,7 @@ $currentUrl = Check::getCurrentUrl();
             <ul class="navbar-actions list-unstyled mb-0 d-flex align-items-center">
                 <li class="d-none d-xl-block">
                     <a href="{{ url('/register') }}" class="btn action__btn-contact"><i class="fas fa-user-tag"></i>
-                        Pendaftaran C.O
+                        Registrasi
                     </a>
                 </li>
                 <li>
