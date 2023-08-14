@@ -418,7 +418,6 @@ class TpsDetailController extends Controller
 
         $data = TpsPendukung::where('tps_detail_id', $tps_detail_id)
             ->where('users_id_pendukung', $users_id_pendukung)
-            ->where('tps_id', $tps_id)
             ->with('tpsDetail', 'TpsDetail.tps', 'TpsDetail.tps.provinces', 'TpsDetail.tps.regencies', 'TpsDetail.tps.districts', 'TpsDetail.tps.villages')
             ->first();
         $tps_pendukung_id = $data->id;
@@ -500,11 +499,10 @@ class TpsDetailController extends Controller
             $hitungPR = count($totalPR['P']);
         }
         $totalAll = $hitungLK + $hitungPR;
-        $tps_id = $tps_id;
         Tps::find($tps_id)->update([
-            'totallk_pendukung' => $hitungLK,
-            'totalpr_pendukung' => $hitungPR,
-            'totalsemua_pendukung' => $totalAll
+            'totallk_tps' => $hitungLK,
+            'totalpr_tps' => $hitungPR,
+            'totalsemua_tps' => $totalAll
         ]);
     }
 

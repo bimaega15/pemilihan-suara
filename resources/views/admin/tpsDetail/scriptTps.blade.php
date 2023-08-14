@@ -457,7 +457,7 @@
 
             $('#modalDetail span#nik_profile').html(profile.nik_profile);
             $('#modalDetail span#nama_profile').html(profile.nama_profile);
-            $('#modalDetail span#jenis_kelamin_profile').html(profile.jenis_kelamin_profile);
+            $('#modalDetail span#jenis_kelamin_profile').html(profile.jenis_kelamin_profile == 'L' ? 'Laki-laki' : 'Perempuan');
             $('#modalDetail span#gambar_profile').html(
                 `<a class="photoviewer" href="${uploadGambarUrl}" data-gallery="photoviewer" data-title="${profile.gambar_profile}" class="d-block">
                         <img src="${uploadGambarUrl}" height="200px"></img>

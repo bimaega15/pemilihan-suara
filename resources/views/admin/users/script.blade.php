@@ -113,6 +113,9 @@
                     </a>
                     `);
                     $('input[name="_method"]').val('put');
+                    if (result.is_aktif == 1) {
+                        $('input[name="is_aktif"]').attr('checked', true);
+                    }
 
                     let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/users/' + result.id);

@@ -472,9 +472,9 @@ class PendukungController extends Controller
         $delete = TpsDetail::destroy($id);
         User::destroy($users_id);
         if ($delete) {
-            EventsTpsDetail::dispatch();
-
             $this->updateCountTps($tps_id);
+
+            EventsTpsDetail::dispatch();
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil delete data',
@@ -510,11 +510,10 @@ class PendukungController extends Controller
             $hitungPR = count($totalPR['P']);
         }
         $totalAll = $hitungLK + $hitungPR;
-        $tps_id = $tps_id;
         Tps::find($tps_id)->update([
-            'totallk_pendukung' => $hitungLK,
-            'totalpr_pendukung' => $hitungPR,
-            'totalsemua_pendukung' => $totalAll
+            'totallk_tps' => $hitungLK,
+            'totalpr_tps' => $hitungPR,
+            'totalsemua_tps' => $totalAll
         ]);
     }
 
