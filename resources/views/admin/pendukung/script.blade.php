@@ -61,6 +61,9 @@
             }
 
             resetTps();
+            $('#modalFormTps').modal('hide');
+            $('#outputNoData').removeClass('d-none');
+            $('#outputTps').addClass('d-none');
         }
 
         $(document).on('click', '.btn-submit', function(e) {
