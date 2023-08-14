@@ -73,4 +73,58 @@ class HomeController extends Controller
             'dataTps' => $dataTps
         ]);
     }
+
+    public function fetchGrafik(Request $request)
+    {
+        $limit = 6;
+        $provinces_id = $request->input('provinces_id');
+        $regencies_id = $request->input('regencies_id');
+        $districts_id = $request->input('districts_id');
+        $villages_id = $request->input('villages_id');
+
+        $data = Tps::select('*');
+        if ($provinces_id != null) {
+            $data->where('provinces_id', $provinces_id);
+        }
+        if ($regencies_id != null) {
+            $data->where('regencies_id', $regencies_id);
+        }
+        if ($districts_id != null) {
+            $data->where('districts_id', $districts_id);
+        }
+        if ($villages_id != null) {
+            $data->where('villages_id', $villages_id);
+        }
+
+        $data = $data->paginate($limit);
+        return view('admin.home.fetchGrafik', [
+            'data' => $data
+        ]);
+    }
+
+    public function fetchDisplayGrafik(Request $request)
+    {
+        $limit = 6;
+        $provinces_id = $request->input('provinces_id');
+        $regencies_id = $request->input('regencies_id');
+        $districts_id = $request->input('districts_id');
+        $villages_id = $request->input('villages_id');
+
+        $data = Tps::select('*');
+        if ($provinces_id != null) {
+            $data->where('provinces_id', $provinces_id);
+        }
+        if ($regencies_id != null) {
+            $data->where('regencies_id', $regencies_id);
+        }
+        if ($districts_id != null) {
+            $data->where('districts_id', $districts_id);
+        }
+        if ($villages_id != null) {
+            $data->where('villages_id', $villages_id);
+        }
+
+        $data = $data->paginate($limit);
+        return response()->json($data, 200);
+    }
 }

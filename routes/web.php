@@ -69,6 +69,8 @@ Route::group(['middleware' => ['checkAlreadyLogin', 'throttle:login']], function
 
 Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNotLogin']], function () {
     Route::get('home', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/home/fetchGrafik', [HomeController::class, 'fetchGrafik'])->name('monitoring.fetchGrafik');
+    Route::get('/home/fetchDisplayGrafik', [HomeController::class, 'fetchDisplayGrafik'])->name('home.fetchDisplayGrafik');
 
     Route::resource('roles', RolesController::class);
 

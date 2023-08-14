@@ -133,4 +133,21 @@ class Check
 
         return $output;
     }
+    public static function countUsersTps($users_id)
+    {
+        $data = explode(',', $users_id);
+        return count($data);
+    }
+    public static function targetPemenangan($tps)
+    {
+        $hitung = $tps->minimal_tps * $tps->pendukung_tps * $tps->totalsemua_tps;
+        return $hitung;
+    }
+    public static function presentasePemenangan($tps)
+    {
+        $targetPemenangan = Check::targetPemenangan($tps);
+        $totalSuara = $tps->totalsemua_tps;
+        $presentase = ($totalSuara / $targetPemenangan) * 100;
+        return $presentase;
+    }
 }

@@ -281,7 +281,7 @@ class MonitoringController extends Controller
 
     public function fetchGrafik(Request $request)
     {
-        $limit = 10;
+        $limit = 3;
         $provinces_id = $request->input('provinces_id');
         $regencies_id = $request->input('regencies_id');
         $districts_id = $request->input('districts_id');
