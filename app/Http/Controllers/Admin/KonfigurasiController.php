@@ -77,6 +77,8 @@ class KonfigurasiController extends Controller
             'logo_konfigurasi' => 'image|max:2048',
             'longitude_konfigurasi' => 'required',
             'latitude_konfigurasi' => 'required',
+            'cominimal_konfigurasi' => 'required',
+            'volminimal_konfigurasi' => 'required',
 
         ], [
             'required' => ':attribute wajib diisi',
@@ -107,6 +109,8 @@ class KonfigurasiController extends Controller
                 'created_konfigurasi' => $request->input('created_konfigurasi'),
                 'longitude_konfigurasi' => $request->input('longitude_konfigurasi'),
                 'latitude_konfigurasi' => $request->input('latitude_konfigurasi'),
+                'cominimal_konfigurasi' => $request->input('cominimal_konfigurasi'),
+                'volminimal_konfigurasi' => $request->input('volminimal_konfigurasi'),
                 'logo_konfigurasi' => $logo_konfigurasi
             ];
             $insert = Konfigurasi::create($dataBiodata);
@@ -136,6 +140,8 @@ class KonfigurasiController extends Controller
                 'created_konfigurasi' => $request->input('created_konfigurasi'),
                 'longitude_konfigurasi' => $request->input('longitude_konfigurasi'),
                 'latitude_konfigurasi' => $request->input('latitude_konfigurasi'),
+                'cominimal_konfigurasi' => $request->input('cominimal_konfigurasi'),
+                'volminimal_konfigurasi' => $request->input('volminimal_konfigurasi'),
                 'logo_konfigurasi' => $logo_konfigurasi,
             ];
             $update = Konfigurasi::find($id)->update($dataBiodata);

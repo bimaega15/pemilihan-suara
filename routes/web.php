@@ -72,6 +72,11 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::get('/home/fetchGrafik', [HomeController::class, 'fetchGrafik'])->name('monitoring.fetchGrafik');
     Route::get('/home/fetchDisplayGrafik', [HomeController::class, 'fetchDisplayGrafik'])->name('home.fetchDisplayGrafik');
 
+    Route::get('/home/semuaSuara', [HomeController::class, 'semuaSuara'])->name('home.semuaSuara');
+    Route::get('/home/semuaSuaraGrafik', [HomeController::class, 'semuaSuaraGrafik'])->name('home.semuaSuaraGrafik');
+    Route::get('/home/wilayah', [HomeController::class, 'wilayah'])->name('home.wilayah');
+
+
     Route::resource('roles', RolesController::class);
 
     Route::resource('profile', ProfileController::class);

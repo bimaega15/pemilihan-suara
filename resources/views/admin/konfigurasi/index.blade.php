@@ -71,102 +71,122 @@ konfigurasi
                                             <i data-feather="send"></i> Submit
                                         </button>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control nama_konfigurasi" id="floatingInput" placeholder="Nama konfigurasi..." name="nama_konfigurasi">
-                                                <small class="error_nama_konfigurasi text-danger"></small>
-                                                <label for="floatingInput">Nama aplikasi</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-floating">
-                                                <input type="number" class="form-control nohp_konfigurasi" id="floatingInput" placeholder="No. HP..." name="nohp_konfigurasi">
-                                                <small class="error_nohp_konfigurasi text-danger"></small>
-                                                <label for="floatingInput">No. Handphone</label>
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control cominimal_konfigurasi" id="floatingInput" placeholder="Minimal Koordinator..." name="cominimal_konfigurasi">
+                                        <small class="error_cominimal_konfigurasi text-danger"></small>
+                                        <label for="floatingInput">Minimal Koordinator</label>
                                     </div>
-                                    <div style="height: 10px;"></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-floating">
-                                                <textarea class="form-control alamat_konfigurasi" id="floatingInput" placeholder="Alamat..." name="alamat_konfigurasi" style="height: 80px;"></textarea>
-                                                <small class="error_alamat_konfigurasi text-danger"></small>
-                                                <label for="floatingInput">Alamat</label>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control volminimal_konfigurasi" id="floatingInput" placeholder="Minimal Pendukung" name="volminimal_konfigurasi">
+                                        <small class="error_volminimal_konfigurasi text-danger"></small>
+                                        <label for="floatingInput">Minimal Pendukung</label>
                                     </div>
-                                    <div style="height: 10px;"></div>
+                                </div>
+                            </div>
+                            <div style="height: 10px;"></div>
 
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control email_konfigurasi" id="floatingInput" placeholder="Email..." name="email_konfigurasi">
-                                                <small class="error_email_konfigurasi text-danger"></small>
-                                                <label for="floatingInput">Email</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control created_konfigurasi" id="floatingInput" placeholder="Created by..." name="created_konfigurasi">
-                                                <small class="error_created_konfigurasi text-danger"></small>
-                                                <label for="floatingInput">Created By</label>
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control nama_konfigurasi" id="floatingInput" placeholder="Nama konfigurasi..." name="nama_konfigurasi">
+                                        <small class="error_nama_konfigurasi text-danger"></small>
+                                        <label for="floatingInput">Nama aplikasi</label>
                                     </div>
-                                    <div style="height: 10px;"></div>
+                                </div>
+                            </div>
+                            <div style="height: 10px;"></div>
 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control nohp_konfigurasi" id="floatingInput" placeholder="No. HP..." name="nohp_konfigurasi">
+                                        <small class="error_nohp_konfigurasi text-danger"></small>
+                                        <label for="floatingInput">No. Handphone</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 10px;"></div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control alamat_konfigurasi" id="floatingInput" placeholder="Alamat..." name="alamat_konfigurasi" style="height: 80px;"></textarea>
+                                        <small class="error_alamat_konfigurasi text-danger"></small>
+                                        <label for="floatingInput">Alamat</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 10px;"></div>
 
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="deskripsi_konfigurasi">Deskripsi aplikasi</label>
-                                                <textarea class="form-control deskripsi_konfigurasi summernote" id="deskripsi_konfigurasi" placeholder="Deskripsi..." name="deskripsi_konfigurasi" style="height: 80px;"></textarea>
-                                                <small class="error_deskripsi_konfigurasi text-danger"></small>
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control email_konfigurasi" id="floatingInput" placeholder="Email..." name="email_konfigurasi">
+                                        <small class="error_email_konfigurasi text-danger"></small>
+                                        <label for="floatingInput">Email</label>
                                     </div>
-                                    <div style="height: 10px;"></div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="formFile" class="form-label">Longitude</label>
-                                                <input class="form-control longitude_konfigurasi" type="text" name="longitude_konfigurasi" placeholder="Longitude...">
-                                                <span id="load_longitude_konfigurasi"></span>
-                                                <small class="error_longitude_konfigurasi text-danger"></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="formFile" class="form-label">Latitude</label>
-                                                <input class="form-control latitude_konfigurasi" type="text" name="latitude_konfigurasi" placeholder="Latitude...">
-                                                <span id="load_latitude_konfigurasi"></span>
-                                                <small class="error_latitude_konfigurasi text-danger"></small>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control created_konfigurasi" id="floatingInput" placeholder="Created by..." name="created_konfigurasi">
+                                        <small class="error_created_konfigurasi text-danger"></small>
+                                        <label for="floatingInput">Created By</label>
                                     </div>
-                                    <div style="height: 10px;"></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="map-contact" style="width: 100%; height: 500px;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div style="height: 10px;"></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="form-group">
-                                                <label for="formFile" class="form-label">Logo aplikasi</label>
-                                                <input class="form-control logo_konfigurasi" type="file" id="formFile" name="logo_konfigurasi">
-                                                <span id="load_logo_konfigurasi"></span>
-                                                <small class="error_logo_konfigurasi text-danger"></small>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 10px;"></div>
 
 
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="deskripsi_konfigurasi">Deskripsi aplikasi</label>
+                                        <textarea class="form-control deskripsi_konfigurasi summernote" id="deskripsi_konfigurasi" placeholder="Deskripsi..." name="deskripsi_konfigurasi" style="height: 80px;"></textarea>
+                                        <small class="error_deskripsi_konfigurasi text-danger"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 10px;"></div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="formFile" class="form-label">Longitude</label>
+                                        <input class="form-control longitude_konfigurasi" type="text" name="longitude_konfigurasi" placeholder="Longitude...">
+                                        <span id="load_longitude_konfigurasi"></span>
+                                        <small class="error_longitude_konfigurasi text-danger"></small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="formFile" class="form-label">Latitude</label>
+                                        <input class="form-control latitude_konfigurasi" type="text" name="latitude_konfigurasi" placeholder="Latitude...">
+                                        <span id="load_latitude_konfigurasi"></span>
+                                        <small class="error_latitude_konfigurasi text-danger"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="height: 10px;"></div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="map-contact" style="width: 100%; height: 500px;"></div>
+                                </div>
+                            </div>
+
+                            <div style="height: 10px;"></div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="formFile" class="form-label">Logo aplikasi</label>
+                                        <input class="form-control logo_konfigurasi" type="file" id="formFile" name="logo_konfigurasi">
+                                        <span id="load_logo_konfigurasi"></span>
+                                        <small class="error_logo_konfigurasi text-danger"></small>
+                                    </div>
                                 </div>
                             </div>
                         </form>

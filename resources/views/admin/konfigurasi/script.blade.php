@@ -18,31 +18,7 @@
                         result
                     } = data;
 
-                    let root = "{{ asset('/') }}"
-                    if (result != null && result != '') {
-                        $('.id').val(result.id);
-                        $('.page').val('edit');
-                        $('.nama_konfigurasi').val(result.nama_konfigurasi);
-                        $('.nohp_konfigurasi').val(result.nohp_konfigurasi);
-                        $('.alamat_konfigurasi').val(result.alamat_konfigurasi);
-                        $('.email_konfigurasi').val(result.email_konfigurasi);
-                        $('.created_konfigurasi').val(result.created_konfigurasi);
-                        $('.deskripsi_konfigurasi').val(result.deskripsi_konfigurasi);
-                        $('.longitude_konfigurasi').val(result.longitude_konfigurasi);
-                        $('.latitude_konfigurasi').val(result.latitude_konfigurasi);
-
-                        let linkGambar =
-                            `${root}upload/konfigurasi/${result.logo_konfigurasi}`;
-                        $('#load_logo_konfigurasi').html(`
-                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${result.logo_konfigurasi}">
-                        <img width="150px;" class="img-thumbnail" src="${linkGambar}"></img>    
-                    </a>
-                    `);
-                        output = result;
-                    } else {
-                        $('.page').val('edit');
-                    }
-
+                    output = result;
                 },
                 error: function(x, t, m) {
                     console.log(x.responseText);
@@ -51,6 +27,8 @@
 
             return output;
         }
+
+        loadData();
 
         function loadData() {
             $.ajax({
@@ -74,7 +52,10 @@
                         $('.deskripsi_konfigurasi').val(result.deskripsi_konfigurasi);
                         $('.longitude_konfigurasi').val(result.longitude_konfigurasi);
                         $('.latitude_konfigurasi').val(result.latitude_konfigurasi);
-                        $('.summernote').summernote('code', result.deskripsi_konfigurasi);
+                        $('.cominimal_konfigurasi').val(result.cominimal_konfigurasi);
+                        $('.volminimal_konfigurasi').val(result.volminimal_konfigurasi);
+
+                        $('.summernote').summernote('editor.pasteHTML', result.deskripsi_konfigurasi);
 
 
                         let linkGambar =
@@ -96,9 +77,6 @@
         }
 
         function resetForm(attribute = null) {
-            $('.form-submit').trigger("reset");
-            $('#load_logo_konfigurasi').html('');
-
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
                     $('.' + v).removeClass("border border-danger");
@@ -143,7 +121,6 @@
                             timer: 1500
                         })
 
-                        loadData();
 
                         const {
                             result

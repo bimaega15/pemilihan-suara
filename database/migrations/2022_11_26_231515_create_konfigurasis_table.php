@@ -15,6 +15,8 @@ class CreateKonfigurasisTable extends Migration
     {
         Schema::create('konfigurasi', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('cominimal_konfigurasi');
+            $table->integer('volminimal_konfigurasi');
             $table->string('nama_konfigurasi', 200);
             $table->string('logo_konfigurasi', 250);
             $table->string('nohp_konfigurasi', 200);

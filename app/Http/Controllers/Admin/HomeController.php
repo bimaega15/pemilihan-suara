@@ -11,8 +11,9 @@ use App\Models\Pengumuman;
 use App\Models\Role;
 use App\Models\Tps;
 use App\Models\User;
+use App\Models\Village;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -25,7 +26,6 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         //
-
         $getCurrentUrl = Check::getCurrentUrl();
         if (!isset(Check::getMenu($getCurrentUrl)[0])) {
             abort(403, 'Cannot access page');
@@ -126,5 +126,100 @@ class HomeController extends Controller
 
         $data = $data->paginate($limit);
         return response()->json($data, 200);
+    }
+
+    public function semuaSuara()
+    {
+        $provinsi = Tps::select(DB::raw('count(*) as provinces_all'))
+            ->groupBy('provinces_id')
+            ->get()
+            ->count();
+        $kabupaten = Tps::select(DB::raw('count(*) as regencies_all'))
+            ->groupBy('regencies_id')
+            ->get()
+            ->count();
+        $kecamatan = Tps::select(DB::raw('count(*) as districts_all'))
+            ->groupBy('districts_id')
+            ->get()
+            ->count();
+        $kelurahan = Tps::select(DB::raw('count(*) as villages_all'))
+            ->groupBy('villages_id')
+            ->get()
+            ->count();
+        $totalDukungan = Tps::select('*')->sum('totalsemua_tps');
+        $totalDukunganLk = Tps::select('*')->sum('totallk_tps');
+        $totalDukunganPr = Tps::select('*')->sum('totalpr_tps');
+
+        $totalKoordinator = Tps::all();
+        $calcCo = 0;
+        foreach ($totalKoordinator as $key => $item) {
+            $getUsersId = $item->users_id;
+            $explode = explode(',', $getUsersId);
+            $countExplode = count($explode);
+            $calcCo += $countExplode;
+        }
+
+        $getConfig = Check::getKonfigurasi();
+        $volunter = $getConfig->volminimal_konfigurasi;
+        $koordinator = $getConfig->cominimal_konfigurasi;
+        $totalTps = Tps::all()->count();
+
+        $targetPemenangan = $volunter * $koordinator * $totalTps;
+
+        $presentaseKemenangan = $totalDukungan / $targetPemenangan * 100;
+        return view('admin.home.fetchSemuaSuara', [
+            'provinsi' => $provinsi,
+            'kabupaten' => $kabupaten,
+            'kecamatan' => $kecamatan,
+            'kelurahan' => $kelurahan,
+            'totalDukungan' => $totalDukungan,
+            'totalkoordinator' => $calcCo,
+            'targetPemenangan' => $targetPemenangan,
+            'presentasePemenangan' => $presentaseKemenangan,
+            'totalDukunganLk' => $totalDukunganLk,
+            'totalDukunganPr' => $totalDukunganPr
+        ])->render();
+    }
+
+    public function semuaSuaraGrafik()
+    {
+
+        $totalDukunganLk = Tps::select('*')->sum('totallk_tps');
+        $totalDukunganPr = Tps::select('*')->sum('totalpr_tps');
+        return response()->json([
+            'totalDukunganLk' => $totalDukunganLk,
+            'totalDukunganPr' => $totalDukunganPr
+        ]);
+    }
+
+    public function wilayah(Request $request)
+    {
+        //
+        $wilayah_all = $request->input('wilayah_all');
+        $whereWilayah = $wilayah_all;
+        if ($wilayah_all == '') {
+            $whereWilayah = 'villages';
+        }
+        $data = Tps::select('tps.id', $whereWilayah . '.name as wilayah_name', DB::raw('sum(totalsemua_tps) as total_semua_dukungan'))
+            ->join($whereWilayah, $whereWilayah . '.id', '=', 'tps.' . $whereWilayah . '_id')
+            ->groupBy($whereWilayah . '_id')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $result = [];
+        $no = 1;
+        if ($data->count() == 0) {
+            $result['data'] = [];
+        }
+        foreach ($data as $index => $v_data) {
+
+            $result['data'][] = [
+                $no++,
+                $v_data->wilayah_name,
+                $v_data->total_semua_dukungan,
+            ];
+        }
+
+        return response()->json($result, 200);
     }
 }

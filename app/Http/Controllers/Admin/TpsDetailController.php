@@ -284,11 +284,11 @@ class TpsDetailController extends Controller
         $tpsDetail = TpsDetail::create($data);
 
         $tps_id = $request->input('tps_id');
-        $this->updateCountTps($tps_id);
 
         // tps pendukung
         $dataTpsPendukung = [
             'tps_detail_id' => $tpsDetail->id,
+            'users_id_koordinator' => Auth::id(),
             'users_id_pendukung' => $user_id->id,
             'tps_id' => $tps_id,
         ];
@@ -409,7 +409,6 @@ class TpsDetailController extends Controller
         $profile = Profile::where('users_id', $users_id)->update($dataBiodata);
 
         $tps_id = $tpsDetail->tps_id;
-        $this->updateCountTps($tps_id);
 
         // tps pendukung 
         $tps_detail_id = $tpsDetail->id;
@@ -614,6 +613,11 @@ class TpsDetailController extends Controller
             'bukticoblos_detail' => $bukticoblos_detail
         ]);
         if ($update) {
+            $tpsDetail = TpsDetail::find($id);
+            $tpsDetail->detail_verification = true;
+            $tpsDetail->save();
+            $this->updateCountTps($tpsDetail->tps_id);
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil upload bukti coblos',
