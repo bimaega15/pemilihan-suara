@@ -34,7 +34,7 @@ class ManagementMenuSeeder extends Seeder
                 'membawahi_menu_management_menu' => '7, 8, 9, 10, 11, 12, 17, 18, 19, 20',
                 'is_node_management_menu' => '1',
             ],
-            
+
             [
                 'id' => 7,
                 'no_management_menu' => 7,
@@ -125,7 +125,7 @@ class ManagementMenuSeeder extends Seeder
                 'membawahi_menu_management_menu' => '',
                 'is_node_management_menu' => '',
             ],
-           
+
 
             [
                 'id' => 3,
@@ -163,22 +163,13 @@ class ManagementMenuSeeder extends Seeder
                 'membawahi_menu_management_menu' => '',
                 'is_node_management_menu' => '',
             ],
-                    
+
             [
                 'id' => 13,
                 'no_management_menu' => 13,
                 'nama_management_menu' => 'My Profile',
                 'icon_management_menu' => 'user',
                 'link_management_menu' => '/admin/profile',
-                'membawahi_menu_management_menu' => '',
-                'is_node_management_menu' => '',
-            ],
-            [
-                'id' => 14,
-                'no_management_menu' => 14,
-                'nama_management_menu' => 'Monitoring',
-                'icon_management_menu' => 'monitor',
-                'link_management_menu' => '/admin/monitoring',
                 'membawahi_menu_management_menu' => '',
                 'is_node_management_menu' => '',
             ],
@@ -201,7 +192,7 @@ class ManagementMenuSeeder extends Seeder
                 'is_node_management_menu' => '',
             ],
 
-            
+
 
         ];
         ManagementMenu::insert($data);
@@ -293,13 +284,6 @@ class ManagementMenuSeeder extends Seeder
             ],
             [
                 'management_menu_id' => 13,
-                'roles_id' => 1,
-                'is_create' => 1,
-                'is_update' => 1,
-                'is_delete' => 1,
-            ],
-            [
-                'management_menu_id' => 14,
                 'roles_id' => 1,
                 'is_create' => 1,
                 'is_update' => 1,

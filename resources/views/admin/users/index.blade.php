@@ -77,6 +77,9 @@ $isCreate = session()->get('userAcess.is_create');
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="koordinator-tab" data-bs-toggle="tab" data-bs-target="#koordinator" type="button" role="tab" aria-controls="koordinator" aria-selected="false">Koordinator</button>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="relawan-tab" data-bs-toggle="tab" data-bs-target="#relawan" type="button" role="tab" aria-controls="relawan" aria-selected="false">Pendukung</button>
+                                    </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
@@ -88,6 +91,9 @@ $isCreate = session()->get('userAcess.is_create');
                                     </div>
                                     <div class="tab-pane fade" id="koordinator" role="tabpanel" aria-labelledby="koordinator-tab">
                                         @include('admin.users.koordinator.index')
+                                    </div>
+                                    <div class="tab-pane fade" id="relawan" role="tabpanel" aria-labelledby="relawan-tab">
+                                        @include('admin.users.relawan.index')
                                     </div>
                                 </div>
                             </div>

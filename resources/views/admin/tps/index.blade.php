@@ -29,12 +29,11 @@ $isCreate = session()->get('userAcess.is_create');
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
+                                                <th>Kelurahan</th>
                                                 <th>Nama Tps</th>
                                                 <th>Alamat</th>
-                                                <th>Capaian</th>
-                                                <th style="width: 120px;">Total</th>
-                                                <th style="width: 200px;">Koordinator</th>
-                                                <th style="width: 300px;">Daerah</th>
+                                                <th>Koordinator</th>
+                                                <th>Pendukung</th>
                                                 <th scope="col">
                                                     <div class="text-center">
                                                         Actions

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use DataTables;
 
 class JabatanController extends Controller
 {
@@ -34,69 +34,60 @@ class JabatanController extends Controller
         session()->put('userAcess.is_create', $getMenu->is_create);
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
-
         $userAcess = session()->get('userAcess');
+
         //
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
+            $data = Jabatan::query();
 
-            $data = Jabatan::all();
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.jabatan.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                    <i class="fa-solid fa-pencil"></i>
-                    </a>
-                    ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.jabatan.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
-
-                $stringJabatan = '';
-                $dataMembawahiJabatan = $v_data->membawahi_jabatan;
-                if ($dataMembawahiJabatan != null) {
-                    $expJabatan = explode(',', $dataMembawahiJabatan);
-                    foreach ($expJabatan as $key => $value) {
-                        $rowJabatan = Jabatan::find($value);
-                        $stringJabatan .= '<span class="badge badge-info">
-                        <strong class="text-white">' . $rowJabatan->nama_jabatan . '</strong> <br>
-                        ' . $rowJabatan->keterangan_jabatan . '
-                    </span> ';
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.jabatan.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                        <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
                     }
-                }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.jabatan.destroy', $row->id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
 
-                $button = '
-                <div class="text-center">
-                    ' . $buttonUpdate . '
-                    ' . $buttonDelete . '
-                </div>
-                ';
 
-
-                $result['data'][] = [
-                    $no++,
-                    $v_data->nama_jabatan,
-                    $v_data->keterangan_jabatan,
-                    $stringJabatan,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
+                    </div>
+                    ';
+                    return $button;
+                })
+                ->addColumn('membawahi_jabatan', function ($row) {
+                    $stringJabatan = '';
+                    $dataMembawahiJabatan = $row->membawahi_jabatan;
+                    if ($dataMembawahiJabatan != null) {
+                        $expJabatan = explode(',', $dataMembawahiJabatan);
+                        foreach ($expJabatan as $key => $value) {
+                            $rowJabatan = Jabatan::find($value);
+                            $stringJabatan .= '<span class="badge badge-info">
+                            <strong class="text-white">' . $rowJabatan->nama_jabatan . '</strong> <br>
+                            ' . $rowJabatan->keterangan_jabatan . '
+                        </span> ';
+                        }
+                    }
+                    return $stringJabatan;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
         }
         return view('admin.jabatan.index');
     }

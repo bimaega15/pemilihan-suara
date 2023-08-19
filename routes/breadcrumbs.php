@@ -19,9 +19,9 @@ Breadcrumbs::for('tps', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('TPS', route('admin.tps.index'));
 });
-Breadcrumbs::for('tpsDetail', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('koordinator', function (BreadcrumbTrail $trail) {
     $trail->parent('tps');
-    $trail->push('Detail TPS');
+    $trail->push('Koordinator');
 });
 
 Breadcrumbs::for('monitoring', function (BreadcrumbTrail $trail) {

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Regencies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 
 class KabupatenController extends Controller
@@ -68,82 +69,40 @@ class KabupatenController extends Controller
 
             $userAcess = session()->get('userAcess');
 
-            $draw = $request->input('draw');
-            $order = $request->input('order');
-            $start = $request->input('start');
-            $length = $request->input('length');
-            $search = $request->input('search')['value'];
+            $data = Regencies::query()->select('regencies.*', 'provinces.name as provinces_name')->join('provinces', 'provinces.id', '=', 'regencies.province_id');
 
-            $orderColumn = ["regencies.id", "provinces.name", "regencies.name", "regencies.id"];
-            $indexColumn = intval($order[0]['column']);
-            $dir = $order[0]['dir'];
-            $sortDir = $dir == "asc" ? 'asc' : 'desc';
-            $sortColumn = $orderColumn[$indexColumn];
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.kabupaten.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                        <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.kabupaten.destroy', $row->id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
 
-            $data = Regencies::select('regencies.*')->join('provinces', 'provinces.id', '=', 'regencies.province_id');
-            if ($search != '' && $search != null) {
-                $data->where('provinces.name', 'like', '%' . $search . '%')
-                    ->orWhere('regencies.name', 'like', '%' . $search . '%');
-            }
-
-            $data = $data
-                ->offset($start)
-                ->limit($length)
-                ->orderBy($sortColumn, $sortDir)
-                ->get();
-
-            $countDocuments = Regencies::join('provinces', 'provinces.id', '=', 'regencies.province_id')->get()->count();
-            $countAllData = $countDocuments;
-
-            if ($search != null && $search != '') {
-                $countAllData = $data->count();
-            }
-
-            $result = [];
-            $result['draw'] = $draw;
-            $result['recordsTotal'] = $countAllData;
-            $result['recordsFiltered'] = $countAllData;
-
-            $no = intval($start) + 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.kabupaten.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                    <i class="fa-solid fa-pencil"></i>
-                    </a>
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
+                    </div>
                     ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.kabupaten.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
 
-                $button = '
-                <div class="text-center">
-                    ' . $buttonUpdate . '
-                    ' . $buttonDelete . '
-                </div>
-                ';
-
-                $result['data'][] = [
-                    $no++,
-                    $v_data->provinces->name,
-                    $v_data->name,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
         }
         return view('admin.kabupaten.index');
     }

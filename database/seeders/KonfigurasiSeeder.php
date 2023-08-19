@@ -16,6 +16,8 @@ class KonfigurasiSeeder extends Seeder
     {
         //
         Konfigurasi::create([
+            'cominimal_konfigurasi' => 0,
+            'volminimal_konfigurasi' => 0,
             'nama_konfigurasi' => 'Rancang Bangun Aplikasi
             Pemetaan dan Pengelolaan Data Pemenangan Calon Legislatif DPD PAN',
             'logo_konfigurasi' => 'default.png',

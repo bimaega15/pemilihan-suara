@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Psy\Readline\Hoa\Console;
+use DataTables;
+
 
 class AccessController extends Controller
 {
@@ -34,70 +36,62 @@ class AccessController extends Controller
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
 
-        //
-        // session()->forget('saveMenu');
-        $data = ManagementMenuRoles::with('role', 'managementMenu')
-            ->orderBy('id', 'asc')
-            ->groupBy('roles_id')
-            ->get();
-
-
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
-            $data = ManagementMenuRoles::with('role', 'managementMenu')
+            $data = ManagementMenuRoles::query()->with('role', 'managementMenu')
                 ->orderBy('id', 'asc')
-                ->groupBy('roles_id')
-                ->get();
+                ->groupBy('roles_id');
 
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.access.edit', $v_data->roles_id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.access.edit', $row->roles_id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.access.destroy', $row->roles_id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
+                        
+                    </div>
                     ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.access.destroy', $v_data->roles_id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
-                $button = '
+
+
+                    $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
                     ' . $buttonDelete . '
-                    
                 </div>
                 ';
-
-                $result['data'][] = [
-                    $no++,
-                    $v_data->role->nama_roles,
-                    '
+                    return $button;
+                })
+                ->addColumn('menu_access', function ($row) {
+                    $output = '
                     <div class="text-center">
-                        <button data-roles_id="' . $v_data->roles_id . '" type="button" class="btn btn-primary m-b-xs btn-menu-access" data-bs-toggle="modal" data-bs-target="#modalAccessMenu">
+                        <button data-roles_id="' . $row->roles_id . '" type="button" class="btn btn-primary m-b-xs btn-menu-access" data-bs-toggle="modal" data-bs-target="#modalAccessMenu">
                         <i class="fa-solid fa-list"></i> Menu access</button>
                     </div>
-                    ',
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                        ';
+                    return $output;
+                })
+                ->rawColumns(['action', 'menu_access'])
+                ->toJson();
         }
 
-        $session = $request->session()->get('saveGejalaId');
 
         return view('admin.access.index', [
             'role' => Role::orderBy('nama_roles', 'asc')->get(),

@@ -2073,6 +2073,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var offcanvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! offcanvas */ "./node_modules/offcanvas/dist/offcanvas.js");
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 /**
@@ -2098,6 +2099,1231 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   cluster: "ap1",
   forceTLS: true
 });
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/domassist.default.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/domassist/domassist.default.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _lib_addClass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/addClass */ "./node_modules/domassist/lib/addClass.js");
+/* harmony import */ var _lib_delegate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/delegate */ "./node_modules/domassist/lib/delegate.js");
+/* harmony import */ var _lib_find__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/find */ "./node_modules/domassist/lib/find.js");
+/* harmony import */ var _lib_findOne__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/findOne */ "./node_modules/domassist/lib/findOne.js");
+/* harmony import */ var _lib_fire__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/fire */ "./node_modules/domassist/lib/fire.js");
+/* harmony import */ var _lib_hasClass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/hasClass */ "./node_modules/domassist/lib/hasClass.js");
+/* harmony import */ var _lib_hide__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/hide */ "./node_modules/domassist/lib/hide.js");
+/* harmony import */ var _lib_hover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/hover */ "./node_modules/domassist/lib/hover.js");
+/* harmony import */ var _lib_isWindow__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/isWindow */ "./node_modules/domassist/lib/isWindow.js");
+/* harmony import */ var _lib_off__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/off */ "./node_modules/domassist/lib/off.js");
+/* harmony import */ var _lib_on__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./lib/on */ "./node_modules/domassist/lib/on.js");
+/* harmony import */ var _lib_once__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/once */ "./node_modules/domassist/lib/once.js");
+/* harmony import */ var _lib_prefixedTransform__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./lib/prefixedTransform */ "./node_modules/domassist/lib/prefixedTransform.js");
+/* harmony import */ var _lib_removeClass__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./lib/removeClass */ "./node_modules/domassist/lib/removeClass.js");
+/* harmony import */ var _lib_scrollableContainer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./lib/scrollableContainer */ "./node_modules/domassist/lib/scrollableContainer.js");
+/* harmony import */ var _lib_show__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./lib/show */ "./node_modules/domassist/lib/show.js");
+/* harmony import */ var _lib_matches__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./lib/matches */ "./node_modules/domassist/lib/matches.js");
+/* harmony import */ var _lib_toggleClass__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./lib/toggleClass */ "./node_modules/domassist/lib/toggleClass.js");
+/* harmony import */ var _lib_closest__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./lib/closest */ "./node_modules/domassist/lib/closest.js");
+/* harmony import */ var _lib_ready__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./lib/ready */ "./node_modules/domassist/lib/ready.js");
+/* harmony import */ var _lib_styles__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./lib/styles */ "./node_modules/domassist/lib/styles.js");
+/* harmony import */ var _lib_addAttrs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./lib/addAttrs */ "./node_modules/domassist/lib/addAttrs.js");
+/* harmony import */ var _lib_html__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./lib/html */ "./node_modules/domassist/lib/html.js");
+/* harmony import */ var _lib_isTouch__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./lib/isTouch */ "./node_modules/domassist/lib/isTouch.js");
+/* harmony import */ var _lib_modify__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./lib/modify */ "./node_modules/domassist/lib/modify.js");
+/* harmony import */ var _lib_append__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./lib/append */ "./node_modules/domassist/lib/append.js");
+/* harmony import */ var _lib_toArray__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./lib/toArray */ "./node_modules/domassist/lib/toArray.js");
+/* harmony import */ var _lib_remove__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./lib/remove */ "./node_modules/domassist/lib/remove.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  addClass: _lib_addClass__WEBPACK_IMPORTED_MODULE_0__["default"],
+  delegate: _lib_delegate__WEBPACK_IMPORTED_MODULE_1__["default"],
+  find: _lib_find__WEBPACK_IMPORTED_MODULE_2__["default"],
+  findOne: _lib_findOne__WEBPACK_IMPORTED_MODULE_3__["default"],
+  fire: _lib_fire__WEBPACK_IMPORTED_MODULE_4__["default"],
+  hasClass: _lib_hasClass__WEBPACK_IMPORTED_MODULE_5__["default"],
+  hide: _lib_hide__WEBPACK_IMPORTED_MODULE_6__["default"],
+  hover: _lib_hover__WEBPACK_IMPORTED_MODULE_7__["default"],
+  isWindow: _lib_isWindow__WEBPACK_IMPORTED_MODULE_8__["default"],
+  off: _lib_off__WEBPACK_IMPORTED_MODULE_9__["default"],
+  on: _lib_on__WEBPACK_IMPORTED_MODULE_10__["default"],
+  once: _lib_once__WEBPACK_IMPORTED_MODULE_11__["default"],
+  prefixedTransform: _lib_prefixedTransform__WEBPACK_IMPORTED_MODULE_12__["default"],
+  removeClass: _lib_removeClass__WEBPACK_IMPORTED_MODULE_13__["default"],
+  scrollableContainer: _lib_scrollableContainer__WEBPACK_IMPORTED_MODULE_14__["default"],
+  show: _lib_show__WEBPACK_IMPORTED_MODULE_15__["default"],
+  matches: _lib_matches__WEBPACK_IMPORTED_MODULE_16__["default"],
+  toggleClass: _lib_toggleClass__WEBPACK_IMPORTED_MODULE_17__["default"],
+  closest: _lib_closest__WEBPACK_IMPORTED_MODULE_18__["default"],
+  ready: _lib_ready__WEBPACK_IMPORTED_MODULE_19__["default"],
+  styles: _lib_styles__WEBPACK_IMPORTED_MODULE_20__["default"],
+  addAttrs: _lib_addAttrs__WEBPACK_IMPORTED_MODULE_21__["default"],
+  html: _lib_html__WEBPACK_IMPORTED_MODULE_22__["default"],
+  isTouch: _lib_isTouch__WEBPACK_IMPORTED_MODULE_23__["default"],
+  modify: _lib_modify__WEBPACK_IMPORTED_MODULE_24__["default"],
+  append: _lib_append__WEBPACK_IMPORTED_MODULE_25__["default"],
+  toArray: _lib_toArray__WEBPACK_IMPORTED_MODULE_26__["default"],
+  remove: _lib_remove__WEBPACK_IMPORTED_MODULE_27__["default"]
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/domassist.js":
+/*!*********************************************!*\
+  !*** ./node_modules/domassist/domassist.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addAttrs": () => (/* reexport safe */ _lib_addAttrs__WEBPACK_IMPORTED_MODULE_21__["default"]),
+/* harmony export */   "addClass": () => (/* reexport safe */ _lib_addClass__WEBPACK_IMPORTED_MODULE_0__["default"]),
+/* harmony export */   "append": () => (/* reexport safe */ _lib_append__WEBPACK_IMPORTED_MODULE_25__["default"]),
+/* harmony export */   "closest": () => (/* reexport safe */ _lib_closest__WEBPACK_IMPORTED_MODULE_18__["default"]),
+/* harmony export */   "default": () => (/* reexport safe */ _domassist_default__WEBPACK_IMPORTED_MODULE_28__["default"]),
+/* harmony export */   "delegate": () => (/* reexport safe */ _lib_delegate__WEBPACK_IMPORTED_MODULE_1__["default"]),
+/* harmony export */   "find": () => (/* reexport safe */ _lib_find__WEBPACK_IMPORTED_MODULE_2__["default"]),
+/* harmony export */   "findOne": () => (/* reexport safe */ _lib_findOne__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   "fire": () => (/* reexport safe */ _lib_fire__WEBPACK_IMPORTED_MODULE_4__["default"]),
+/* harmony export */   "hasClass": () => (/* reexport safe */ _lib_hasClass__WEBPACK_IMPORTED_MODULE_5__["default"]),
+/* harmony export */   "hide": () => (/* reexport safe */ _lib_hide__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   "hover": () => (/* reexport safe */ _lib_hover__WEBPACK_IMPORTED_MODULE_7__["default"]),
+/* harmony export */   "html": () => (/* reexport safe */ _lib_html__WEBPACK_IMPORTED_MODULE_22__["default"]),
+/* harmony export */   "isTouch": () => (/* reexport safe */ _lib_isTouch__WEBPACK_IMPORTED_MODULE_23__["default"]),
+/* harmony export */   "isWindow": () => (/* reexport safe */ _lib_isWindow__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   "matches": () => (/* reexport safe */ _lib_matches__WEBPACK_IMPORTED_MODULE_16__["default"]),
+/* harmony export */   "modify": () => (/* reexport safe */ _lib_modify__WEBPACK_IMPORTED_MODULE_24__["default"]),
+/* harmony export */   "off": () => (/* reexport safe */ _lib_off__WEBPACK_IMPORTED_MODULE_9__["default"]),
+/* harmony export */   "on": () => (/* reexport safe */ _lib_on__WEBPACK_IMPORTED_MODULE_10__["default"]),
+/* harmony export */   "once": () => (/* reexport safe */ _lib_once__WEBPACK_IMPORTED_MODULE_11__["default"]),
+/* harmony export */   "prefixedTransform": () => (/* reexport safe */ _lib_prefixedTransform__WEBPACK_IMPORTED_MODULE_12__["default"]),
+/* harmony export */   "ready": () => (/* reexport safe */ _lib_ready__WEBPACK_IMPORTED_MODULE_19__["default"]),
+/* harmony export */   "remove": () => (/* reexport safe */ _lib_remove__WEBPACK_IMPORTED_MODULE_27__["default"]),
+/* harmony export */   "removeClass": () => (/* reexport safe */ _lib_removeClass__WEBPACK_IMPORTED_MODULE_13__["default"]),
+/* harmony export */   "scrollableContainer": () => (/* reexport safe */ _lib_scrollableContainer__WEBPACK_IMPORTED_MODULE_14__["default"]),
+/* harmony export */   "show": () => (/* reexport safe */ _lib_show__WEBPACK_IMPORTED_MODULE_15__["default"]),
+/* harmony export */   "styles": () => (/* reexport safe */ _lib_styles__WEBPACK_IMPORTED_MODULE_20__["default"]),
+/* harmony export */   "toArray": () => (/* reexport safe */ _lib_toArray__WEBPACK_IMPORTED_MODULE_26__["default"]),
+/* harmony export */   "toggleClass": () => (/* reexport safe */ _lib_toggleClass__WEBPACK_IMPORTED_MODULE_17__["default"])
+/* harmony export */ });
+/* harmony import */ var _lib_addClass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/addClass */ "./node_modules/domassist/lib/addClass.js");
+/* harmony import */ var _lib_delegate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/delegate */ "./node_modules/domassist/lib/delegate.js");
+/* harmony import */ var _lib_find__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/find */ "./node_modules/domassist/lib/find.js");
+/* harmony import */ var _lib_findOne__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/findOne */ "./node_modules/domassist/lib/findOne.js");
+/* harmony import */ var _lib_fire__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib/fire */ "./node_modules/domassist/lib/fire.js");
+/* harmony import */ var _lib_hasClass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib/hasClass */ "./node_modules/domassist/lib/hasClass.js");
+/* harmony import */ var _lib_hide__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/hide */ "./node_modules/domassist/lib/hide.js");
+/* harmony import */ var _lib_hover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/hover */ "./node_modules/domassist/lib/hover.js");
+/* harmony import */ var _lib_isWindow__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/isWindow */ "./node_modules/domassist/lib/isWindow.js");
+/* harmony import */ var _lib_off__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./lib/off */ "./node_modules/domassist/lib/off.js");
+/* harmony import */ var _lib_on__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./lib/on */ "./node_modules/domassist/lib/on.js");
+/* harmony import */ var _lib_once__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/once */ "./node_modules/domassist/lib/once.js");
+/* harmony import */ var _lib_prefixedTransform__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./lib/prefixedTransform */ "./node_modules/domassist/lib/prefixedTransform.js");
+/* harmony import */ var _lib_removeClass__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./lib/removeClass */ "./node_modules/domassist/lib/removeClass.js");
+/* harmony import */ var _lib_scrollableContainer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./lib/scrollableContainer */ "./node_modules/domassist/lib/scrollableContainer.js");
+/* harmony import */ var _lib_show__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./lib/show */ "./node_modules/domassist/lib/show.js");
+/* harmony import */ var _lib_matches__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./lib/matches */ "./node_modules/domassist/lib/matches.js");
+/* harmony import */ var _lib_toggleClass__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./lib/toggleClass */ "./node_modules/domassist/lib/toggleClass.js");
+/* harmony import */ var _lib_closest__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./lib/closest */ "./node_modules/domassist/lib/closest.js");
+/* harmony import */ var _lib_ready__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./lib/ready */ "./node_modules/domassist/lib/ready.js");
+/* harmony import */ var _lib_styles__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./lib/styles */ "./node_modules/domassist/lib/styles.js");
+/* harmony import */ var _lib_addAttrs__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./lib/addAttrs */ "./node_modules/domassist/lib/addAttrs.js");
+/* harmony import */ var _lib_html__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./lib/html */ "./node_modules/domassist/lib/html.js");
+/* harmony import */ var _lib_isTouch__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./lib/isTouch */ "./node_modules/domassist/lib/isTouch.js");
+/* harmony import */ var _lib_modify__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./lib/modify */ "./node_modules/domassist/lib/modify.js");
+/* harmony import */ var _lib_append__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./lib/append */ "./node_modules/domassist/lib/append.js");
+/* harmony import */ var _lib_toArray__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./lib/toArray */ "./node_modules/domassist/lib/toArray.js");
+/* harmony import */ var _lib_remove__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./lib/remove */ "./node_modules/domassist/lib/remove.js");
+/* harmony import */ var _domassist_default__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./domassist.default */ "./node_modules/domassist/domassist.default.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/addAttrs.js":
+/*!************************************************!*\
+  !*** ./node_modules/domassist/lib/addAttrs.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function addAttrs(selector, attrs) {
+  if (Array.isArray(selector)) {
+    return selector.forEach((item) => addAttrs(item, attrs));
+  }
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    els.forEach((item) => {
+      Object.keys(attrs).forEach((attr) => {
+        if (attr in item) {
+          item[attr] = attrs[attr];
+        } else {
+          item.dataset[attr] = attrs[attr];
+        }
+      });
+    });
+  }
+  return els;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addAttrs);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/addClass.js":
+/*!************************************************!*\
+  !*** ./node_modules/domassist/lib/addClass.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function addClass(selector, cls) {
+  if (Array.isArray(selector)) {
+    return selector.forEach((item) => addClass(item, cls));
+  }
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    const clsArray = [].concat(cls);
+    els.forEach((el) => {
+      clsArray.forEach((item) => {
+        el.classList.add(item);
+      });
+    });
+    return els;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addClass);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/append.js":
+/*!**********************************************!*\
+  !*** ./node_modules/domassist/lib/append.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function append(selector, value) {
+  if (Array.isArray(selector)) {
+    return selector.forEach((item) => append(item, value));
+  }
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    els.forEach((el) => {
+      if (typeof value === 'string') {
+        el.insertAdjacentHTML('beforeend', value);
+      } else {
+        el.appendChild(value);
+      }
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (append);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/closest.js":
+/*!***********************************************!*\
+  !*** ./node_modules/domassist/lib/closest.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _matches__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./matches */ "./node_modules/domassist/lib/matches.js");
+
+
+function closest(el, selector) {
+  do {
+    if ((0,_matches__WEBPACK_IMPORTED_MODULE_0__["default"])(el, selector)) {
+      return el;
+    }
+
+    el = el.parentElement || el.parentNode;
+  } while (el !== null && el.nodeType === 1);
+
+  return null;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (closest);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/delegate.js":
+/*!************************************************!*\
+  !*** ./node_modules/domassist/lib/delegate.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _on__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./on */ "./node_modules/domassist/lib/on.js");
+/* harmony import */ var _closest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./closest */ "./node_modules/domassist/lib/closest.js");
+
+
+
+function delegate(el, event, selector, cb, capture = false) {
+  (0,_on__WEBPACK_IMPORTED_MODULE_0__["default"])(el, event, e => {
+    if (e.target && (0,_closest__WEBPACK_IMPORTED_MODULE_1__["default"])(e.target, selector)) {
+      return cb(e);
+    }
+  }, capture);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (delegate);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/find.js":
+/*!********************************************!*\
+  !*** ./node_modules/domassist/lib/find.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _isWindow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isWindow */ "./node_modules/domassist/lib/isWindow.js");
+
+
+function find(selector, context = null) {
+  if (selector instanceof HTMLElement || selector instanceof Node || (0,_isWindow__WEBPACK_IMPORTED_MODULE_0__["default"])(selector)) {
+    return [selector];
+  } else if (selector instanceof NodeList) {
+    return [].slice.call(selector);
+  } else if (typeof selector === 'string') {
+    const startElement = (context) ? find(context)[0] : document;
+    return [].slice.call(startElement.querySelectorAll(selector));
+  }
+  return [];
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (find);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/findOne.js":
+/*!***********************************************!*\
+  !*** ./node_modules/domassist/lib/findOne.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function findOne(selector, el) {
+  const found = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector, el);
+
+  if (found.length) {
+    return found[0];
+  }
+
+  return null;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (findOne);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/fire.js":
+/*!********************************************!*\
+  !*** ./node_modules/domassist/lib/fire.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+//
+// Check for the usage of native support for CustomEvents which is lacking
+// completely on IE.
+//
+function canIuseNativeCustom() {
+  try {
+    const p = new CustomEvent('t', {
+      detail: {
+        a: 'b'
+      }
+    });
+    return p.type === 't' && p.detail.a === 'b';
+  } catch (e) {
+    return false;
+  }
+}
+
+// Lousy polyfill for the Custom Event constructor for IE.
+const IECustomEvent = function CustomEvent(type, params) {
+  const e = document.createEvent('CustomEvent');
+
+  if (params) {
+    e.initCustomEvent(type, params.bubbles, params.cancelable, params.detail);
+  } else {
+    e.initCustomEvent(type, false, false, undefined);
+  }
+
+  return e;
+};
+
+let DomassistCustomEvent = false;
+
+function fire(selector, type, params = {}) {
+  if (Array.isArray(selector)) {
+    return selector.forEach(item => fire(item, type, params));
+  }
+
+  if (!DomassistCustomEvent) {
+    DomassistCustomEvent = canIuseNativeCustom() ? CustomEvent : IECustomEvent;
+  }
+
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+
+  if (els.length) {
+    if (params.bubbles !== false) {
+      params.bubbles = true;
+    }
+
+    els.forEach(el => {
+      const event = new DomassistCustomEvent(type, params);
+      el.dispatchEvent(event);
+    });
+
+    return els;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (fire);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/hasClass.js":
+/*!************************************************!*\
+  !*** ./node_modules/domassist/lib/hasClass.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _findOne__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./findOne */ "./node_modules/domassist/lib/findOne.js");
+
+function hasClass(selector, cls) {
+  const el = (0,_findOne__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (!el) {
+    return false;
+  }
+  return el.classList.contains(cls);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (hasClass);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/hide.js":
+/*!********************************************!*\
+  !*** ./node_modules/domassist/lib/hide.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function hide(selector) {
+  if (Array.isArray(selector)) {
+    selector.forEach((item) => hide(item));
+  }
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    els.forEach((el) => {
+      const currentDisplay = window.getComputedStyle(el).getPropertyValue('display');
+
+      if (currentDisplay !== 'none') {
+        el.dataset._currentDisplay = currentDisplay;
+        el.style.display = 'none';
+      }
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (hide);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/hover.js":
+/*!*********************************************!*\
+  !*** ./node_modules/domassist/lib/hover.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _on__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./on */ "./node_modules/domassist/lib/on.js");
+
+
+function hover(el, enter, exit) {
+  (0,_on__WEBPACK_IMPORTED_MODULE_0__["default"])(el, 'mouseenter', enter);
+  (0,_on__WEBPACK_IMPORTED_MODULE_0__["default"])(el, 'mouseleave', exit);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (hover);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/html.js":
+/*!********************************************!*\
+  !*** ./node_modules/domassist/lib/html.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function html(selector, value) {
+  if (Array.isArray(selector)) {
+    selector.forEach((item) => html(item, value));
+  }
+  const el = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (el.length) {
+    const length = el.length;
+    for (let i = 0; i < length; i += 1) {
+      el[i].innerHTML = value;
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (html);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/isTouch.js":
+/*!***********************************************!*\
+  !*** ./node_modules/domassist/lib/isTouch.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ isTouch)
+/* harmony export */ });
+/* global DocumentTouch */
+
+function isTouch() {
+  return (('ontouchstart' in window) ||
+  window.DocumentTouch && document instanceof DocumentTouch);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/isWindow.js":
+/*!************************************************!*\
+  !*** ./node_modules/domassist/lib/isWindow.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function isWindow(obj) {
+  return obj != null && obj === obj.window;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (isWindow);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/matches.js":
+/*!***********************************************!*\
+  !*** ./node_modules/domassist/lib/matches.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function matches(el, selector) {
+  const proto = Element.prototype;
+  let match = false;
+
+  const prefixes = [
+    'matches',
+    'matchesSelector',
+    'webkitMatchesSelector',
+    'mozMatchesSelector',
+    'msMatchesSelector',
+    'oMatchesSelector'
+  ];
+
+  prefixes.forEach(prefix => {
+    if (proto.hasOwnProperty(prefix)) {
+      match = proto[prefix];
+    }
+  });
+
+  if (match) {
+    return (el) ? match.call(el, selector) : null;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (matches);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/modify.js":
+/*!**********************************************!*\
+  !*** ./node_modules/domassist/lib/modify.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+/* harmony import */ var _addClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addClass */ "./node_modules/domassist/lib/addClass.js");
+/* harmony import */ var _removeClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./removeClass */ "./node_modules/domassist/lib/removeClass.js");
+/* harmony import */ var _html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./html */ "./node_modules/domassist/lib/html.js");
+/* harmony import */ var _on__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./on */ "./node_modules/domassist/lib/on.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles */ "./node_modules/domassist/lib/styles.js");
+
+
+
+
+
+
+
+function bindEvents(el, events) {
+  Object.keys(events).forEach((event) => {
+    (0,_on__WEBPACK_IMPORTED_MODULE_4__["default"])(el, event, events[event]);
+  });
+}
+
+function modify(selector, params) {
+  if (Array.isArray(selector)) {
+    selector.forEach((item) => modify(item, params));
+  }
+  const modules = {
+    addClass: _addClass__WEBPACK_IMPORTED_MODULE_1__["default"],
+    removeClass: _removeClass__WEBPACK_IMPORTED_MODULE_2__["default"],
+    html: _html__WEBPACK_IMPORTED_MODULE_3__["default"],
+    events: _on__WEBPACK_IMPORTED_MODULE_4__["default"],
+    styles: _styles__WEBPACK_IMPORTED_MODULE_5__["default"],
+  };
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    els.forEach((el) => {
+      Object.keys(params).forEach((param, index) => {
+        if (param in modules) {
+          if (param === 'events') {
+            bindEvents(el, params[param]);
+          }
+          modules[param](el, params[param]);
+        }
+      });
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modify);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/off.js":
+/*!*******************************************!*\
+  !*** ./node_modules/domassist/lib/off.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function off(selector, event) {
+  if (Array.isArray(selector)) {
+    selector.forEach((item) => off(item, event));
+  }
+  if (!window._domassistevents) {
+    window._domassistevents = {};
+  }
+
+  // only disable events that were registered with domassist.on,
+  // don't de-register events that were registered by other libs:
+  const data = window._domassistevents[`_${event}`];
+
+  if (!data) {
+    return;
+  }
+
+  const el = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+
+  if (el.length) {
+    el.forEach((item) => {
+      item.removeEventListener(event, data.cb, data.options);
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (off);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/on.js":
+/*!******************************************!*\
+  !*** ./node_modules/domassist/lib/on.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function on(selector, event, cb, options) {
+  if (Array.isArray(selector)) {
+    selector.forEach((item) => on(item, event, cb, options));
+    return;
+  }
+
+  let eventOptions = {};
+
+  if (typeof options === 'boolean') {
+    eventOptions.capture = options;
+  } else if (typeof options === 'object') {
+    eventOptions = Object.assign({}, options);
+  }
+
+  const data = {
+    cb,
+    options: eventOptions
+  };
+
+  // _domassistevents keeps track of events we registered
+  // with 'domassist.on' so they can be deregistered by
+  // 'domassist.off' without affecting events registered
+  // by other libraries:
+  if (!window._domassistevents) {
+    window._domassistevents = {};
+  }
+
+  window._domassistevents[`_${event}`] = data;
+  const el = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+
+  if (el.length) {
+    el.forEach((item) => {
+      item.addEventListener(event, cb, eventOptions);
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (on);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/once.js":
+/*!********************************************!*\
+  !*** ./node_modules/domassist/lib/once.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _on__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./on */ "./node_modules/domassist/lib/on.js");
+/* harmony import */ var _off__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./off */ "./node_modules/domassist/lib/off.js");
+
+
+
+function once(el, event, run, capture = false) {
+  (0,_on__WEBPACK_IMPORTED_MODULE_0__["default"])(el, event, e => {
+    (0,_off__WEBPACK_IMPORTED_MODULE_1__["default"])(el, event);
+    run(e);
+  }, capture);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (once);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/prefixedTransform.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/domassist/lib/prefixedTransform.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ prefixedTransform)
+/* harmony export */ });
+let transform = null;
+
+function prefixedTransform() {
+  if (transform) {
+    return transform;
+  }
+
+  const testEl = document.createElement('div');
+
+  if (testEl.style.transform === null) {
+    const vendors = ['Webkit', 'webkit', 'Moz', 'ms'];
+    let property = null;
+
+    for (let i = 0, len = vendors.length; i < len && !property; i++) {
+      const tProperty = `${vendors[i]}Transform`;
+      if (typeof testEl.style[tProperty] !== 'undefined') {
+        property = tProperty;
+      }
+    }
+
+    transform = property;
+  } else {
+    transform = 'transform';
+  }
+
+  return transform;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/ready.js":
+/*!*********************************************!*\
+  !*** ./node_modules/domassist/lib/ready.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const setupReady = (callbacks) => (callback) => {
+  callbacks.push(callback);
+  function execute() {
+    while (callbacks.length) {
+      const fn = callbacks.shift();
+      if (typeof fn === 'function') {
+        fn();
+      }
+    }
+  }
+  function loaded() {
+    document.removeEventListener('DOMContentLoaded', loaded);
+    execute();
+  }
+
+  setTimeout(() => {
+    if (document.readyState !== 'loading') {
+      return execute();
+    }
+  }, 0);
+
+  document.addEventListener('DOMContentLoaded', loaded);
+};
+const ready = setupReady([]);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ready);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/remove.js":
+/*!**********************************************!*\
+  !*** ./node_modules/domassist/lib/remove.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function remove(selector, context) {
+  if (Array.isArray(selector)) {
+    return selector.forEach(item => remove(item, context));
+  }
+
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector, context);
+
+  if (els.length) {
+    els.forEach(el => {
+      if (el.prototype && el.prototype.remove) {
+        el.remove();
+      } else if (el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (remove);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/removeClass.js":
+/*!***************************************************!*\
+  !*** ./node_modules/domassist/lib/removeClass.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function removeClass(selector, cls) {
+  if (Array.isArray(selector)) {
+    return selector.forEach((item) => removeClass(item, cls));
+  }
+
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    const clsArray = [].concat(cls);
+    els.forEach((el) => {
+      clsArray.forEach((item) => {
+        el.classList.remove(item);
+      });
+    });
+    return els;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (removeClass);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/scrollableContainer.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/domassist/lib/scrollableContainer.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+let SCROLLABLE_CONTAINER;
+
+function getScrollableContainer() {
+  if (SCROLLABLE_CONTAINER) {
+    return SCROLLABLE_CONTAINER;
+  }
+
+  const documentElement = window.document.documentElement;
+  let scrollableContainer;
+
+  documentElement.scrollTop = 1;
+
+  if (documentElement.scrollTop === 1) {
+    documentElement.scrollTop = 0;
+    scrollableContainer = documentElement;
+  } else {
+    scrollableContainer = document.body;
+  }
+
+  SCROLLABLE_CONTAINER = scrollableContainer;
+
+  return scrollableContainer;
+}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getScrollableContainer);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/show.js":
+/*!********************************************!*\
+  !*** ./node_modules/domassist/lib/show.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function show(selector) {
+  if (Array.isArray(selector)) {
+    selector.forEach((item) => show(item));
+  }
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    els.forEach((el) => {
+      el.style.display = el.dataset._currentDisplay || 'block';
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (show);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/styles.js":
+/*!**********************************************!*\
+  !*** ./node_modules/domassist/lib/styles.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function styles(selector, css) {
+  if (Array.isArray(selector)) {
+    selector.forEach((item) => styles(item, css));
+  }
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+  if (els.length) {
+    els.forEach((el) => {
+      Object.keys(css).forEach((key) => {
+        el.style[key] = css[key];
+      });
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (styles);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/toArray.js":
+/*!***********************************************!*\
+  !*** ./node_modules/domassist/lib/toArray.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function toArray(value) {
+  if (!value) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (value instanceof Node) {
+    return [value];
+  }
+  return [].slice.call(value);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (toArray);
+
+
+/***/ }),
+
+/***/ "./node_modules/domassist/lib/toggleClass.js":
+/*!***************************************************!*\
+  !*** ./node_modules/domassist/lib/toggleClass.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./find */ "./node_modules/domassist/lib/find.js");
+
+
+function toggleClass(selector, cls) {
+  if (Array.isArray(selector)) {
+    return selector.forEach(item => toggleClass(item, cls));
+  }
+
+  const els = (0,_find__WEBPACK_IMPORTED_MODULE_0__["default"])(selector);
+
+  if (els.length) {
+    const clsArray = [].concat(cls);
+
+    els.forEach(el => {
+      clsArray.forEach(item => {
+        el.classList.toggle(item);
+      });
+    });
+
+    return els;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (toggleClass);
+
 
 /***/ }),
 
@@ -21010,6 +22236,201 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./node_modules/offcanvas/dist/offcanvas.js":
+/*!**************************************************!*\
+  !*** ./node_modules/offcanvas/dist/offcanvas.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var domassist__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! domassist */ "./node_modules/domassist/domassist.js");
+
+
+var CLASSES = {
+  OVERLAY: 'offcanvas-overlay',
+  VISIBLE: 'visible',
+  OPEN: 'open',
+  LOCK_OVERFLOW: 'offcanvas-is-open',
+  READY: 'offcanvas-ready'
+};
+var SELECTORS = {
+  CANVAS: '[data-offcanvas]',
+  FIXED: '[data-offcanvas-fixed]'
+};
+
+var OffCanvas = /*#__PURE__*/function () {
+  function OffCanvas(options) {
+    this.name = options.name;
+    this.el = options.el;
+    this.options = options;
+    this.visible = false;
+    this.boundSetup = this.setup.bind(this);
+    this.boundToggle = this.toggle.bind(this);
+    this.boundHide = this.hide.bind(this);
+    this.fixedEl = (0,domassist__WEBPACK_IMPORTED_MODULE_0__.find)(SELECTORS.FIXED);
+    this.transitionTime = parseFloat(window.getComputedStyle(this.el).transitionDuration) * 1000;
+    this.setup();
+    this.setupEvents();
+  }
+
+  var _proto = OffCanvas.prototype;
+
+  _proto.setupEvents = function setupEvents() {
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.on)(window, 'resize', this.boundSetup);
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.on)(window, 'orientationchange', this.boundSetup);
+  };
+
+  _proto.destroy = function destroy() {
+    var _this = this;
+
+    this.overlay.removeEventListener('click', this.boundHide);
+    this.options.trigger.forEach(function (trigger) {
+      return trigger.removeEventListener('click', _this.boundToggle);
+    });
+    this.overlay.parentNode.removeChild(this.overlay);
+    this.overlay = null;
+    this.initialized = false;
+  };
+
+  _proto.setup = function setup() {
+    if (this.options.match && !window.matchMedia(this.options.match).matches) {
+      if (this.initialized) {
+        this.destroy();
+      }
+
+      return;
+    }
+
+    if (this.initialized) {
+      return;
+    }
+
+    this.initialized = true; // Setting some default id for ARIA to work
+
+    if (!this.el.id) {
+      this.el.id = "offcanvas-" + this.name;
+    }
+
+    this.updateAria(); // Creating overlay
+
+    this.setupOverlay(); // Setting up the rest
+
+    this.setupTriggers(this.options.trigger); // Making it ready to fix browser issues
+
+    setTimeout(function () {
+      (0,domassist__WEBPACK_IMPORTED_MODULE_0__.addClass)(document.body, CLASSES.READY);
+    }, this.transitionTime);
+  };
+
+  _proto.setupOverlay = function setupOverlay() {
+    if (!this.overlay) {
+      this.overlay = document.createElement('div');
+      (0,domassist__WEBPACK_IMPORTED_MODULE_0__.addClass)(this.overlay, CLASSES.OVERLAY);
+      document.body.appendChild(this.overlay);
+      this.overlay.addEventListener('click', this.boundHide);
+    }
+  };
+
+  _proto.setupTriggers = function setupTriggers(els) {
+    var _this2 = this;
+
+    els.forEach(function (el) {
+      el.addEventListener('click', _this2.boundToggle);
+      el.setAttribute('aria-controls', _this2.el.id);
+    });
+  };
+
+  _proto.updateAria = function updateAria() {
+    var _this3 = this;
+
+    this.options.trigger.forEach(function (trigger) {
+      trigger.setAttribute('aria-expanded', "" + _this3.visible);
+    });
+    this.el.setAttribute('aria-hidden', "" + !this.visible);
+  };
+
+  _proto.show = function show() {
+    if (this.visible) {
+      return;
+    }
+
+    this.visible = true;
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.addClass)(this.el, CLASSES.OPEN);
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.addClass)(this.overlay, CLASSES.VISIBLE);
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.addClass)(document.body, CLASSES.LOCK_OVERFLOW);
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.fire)(this.el, 'offcanvas:show');
+
+    if (this.fixedEl) {
+      this.fixedEl.forEach(function (el) {
+        el.style.top = (document.documentElement.scrollTop || document.body.scrollTop) + "px";
+      });
+    }
+
+    this.updateAria();
+  };
+
+  _proto.hide = function hide() {
+    var _this4 = this;
+
+    if (!this.visible) {
+      return;
+    }
+
+    this.visible = false;
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.removeClass)(this.el, CLASSES.OPEN);
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.removeClass)(this.overlay, CLASSES.VISIBLE);
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.removeClass)(document.body, CLASSES.LOCK_OVERFLOW);
+    (0,domassist__WEBPACK_IMPORTED_MODULE_0__.fire)(this.el, 'offcanvas:hide');
+
+    if (this.fixedEl) {
+      setTimeout(function () {
+        _this4.fixedEl.forEach(function (el) {
+          el.style.top = '';
+        });
+      }, this.transitionTime);
+    }
+
+    this.updateAria();
+  };
+
+  _proto.toggle = function toggle() {
+    if (!this.visible) {
+      this.show();
+    } else {
+      this.hide();
+    }
+  };
+
+  return OffCanvas;
+}();
+
+OffCanvas.autoLoad = true;
+(0,domassist__WEBPACK_IMPORTED_MODULE_0__.ready)(function () {
+  if (OffCanvas.autoLoad === false) {
+    return;
+  }
+
+  (0,domassist__WEBPACK_IMPORTED_MODULE_0__.find)(SELECTORS.CANVAS).forEach(function (el) {
+    var name = el.getAttribute('data-offcanvas');
+    new OffCanvas({
+      name: name,
+      el: el,
+      trigger: (0,domassist__WEBPACK_IMPORTED_MODULE_0__.find)("[data-offcanvas-trigger=\"" + name + "\"]"),
+      match: el.getAttribute('data-offcanvas-match')
+    });
+  });
+});
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OffCanvas);
+//# sourceMappingURL=offcanvas.js.map
 
 
 /***/ }),

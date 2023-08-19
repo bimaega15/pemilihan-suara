@@ -8,6 +8,7 @@ use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 
 class KecamatanController extends Controller
@@ -42,7 +43,7 @@ class KecamatanController extends Controller
                 $firstPage = $endPage - $limit;
 
                 $kecamatan = District::select('*');
-                $countDistricts = District::where('regency_id',$regency_id)->get()->count();
+                $countDistricts = District::where('regency_id', $regency_id)->get()->count();
                 if ($search != null) {
                     $kecamatan->where('name', 'like', '%' . $search . '%');
                 }
@@ -71,85 +72,42 @@ class KecamatanController extends Controller
             }
 
             $userAcess = session()->get('userAcess');
+            $data = District::query()->select('districts.*', 'regencies.name as regencies_name')->join('regencies', 'districts.regency_id', '=', 'regencies.id');
 
-            $draw = $request->input('draw');
-            $order = $request->input('order');
-            $start = $request->input('start');
-            $length = $request->input('length');
-            $search = $request->input('search')['value'];
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.kecamatan.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                        <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.kecamatan.destroy', $row->id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
 
-            $orderColumn = ["districts.id", "regencies.name", "districts.name", "districts.id"];
-            $indexColumn = intval($order[0]['column']);
-            $dir = $order[0]['dir'];
-            $sortDir = $dir == "asc" ? 'asc' : 'desc';
-            $sortColumn = $orderColumn[$indexColumn];
 
-            $data = District::select('districts.*')->join('regencies', 'districts.regency_id', '=', 'regencies.id');
-            if ($search != '' && $search != null) {
-                $data->where('districts.name', 'like', '%' . $search . '%')
-                    ->orWhere('regencies.name', 'like', '%' . $search . '%');
-            }
-
-            $data = $data
-                ->offset($start)
-                ->limit($length)
-                ->orderBy($sortColumn, $sortDir)
-                ->get();
-
-            $countDocuments = District::join('regencies', 'districts.regency_id', '=', 'regencies.id')->get()->count();
-            $countAllData = $countDocuments;
-
-            if ($search != null && $search != '') {
-                $countAllData = $data->count();
-            }
-
-            $result = [];
-            $result['draw'] = $draw;
-            $result['recordsTotal'] = $countAllData;
-            $result['recordsFiltered'] = $countAllData;
-
-            $no = intval($start) + 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.kecamatan.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                    <i class="fa-solid fa-pencil"></i>
-                    </a>
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
+                    </div>
                     ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.kecamatan.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
 
 
-                $button = '
-                <div class="text-center">
-                    ' . $buttonUpdate . '
-                    ' . $buttonDelete . '
-                </div>
-                ';
-
-                $result['data'][] = [
-                    $no++,
-                    $v_data->regencies->name,
-                    $v_data->name,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->toJson();
         }
         return view('admin.kecamatan.index');
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\TpsDetail as EventsTpsDetail;
+use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
@@ -284,7 +284,6 @@ class PendukungController extends Controller
         $tpsDetail = TpsDetail::create($data);
 
         $tps_id = $tps_id_db;
-        $this->updateCountTps($tps_id);
 
         // tps pendukung
         $tps_id = $request->input('tps_id');
@@ -297,7 +296,6 @@ class PendukungController extends Controller
         $tpsPendukung = TpsPendukung::create($dataTpsPendukung);
 
         if ($user_id || $roleUser || $profile || $tpsDetail || $tpsPendukung) {
-            EventsTpsDetail::dispatch();
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil insert data',
@@ -411,7 +409,6 @@ class PendukungController extends Controller
         $profile = Profile::where('users_id', $users_id)->update($dataBiodata);
 
         $tps_id = $tpsDetail->tps_id;
-        $this->updateCountTps($tps_id);
 
         // tps pendukung 
         $tps_detail_id = $tpsDetail->id;
@@ -438,7 +435,6 @@ class PendukungController extends Controller
         TpsPendukung::find($tps_pendukung_id)->update($dataSet);
 
         if ($profile) {
-            EventsTpsDetail::dispatch();
 
             return response()->json([
                 'status' => 200,
@@ -474,7 +470,7 @@ class PendukungController extends Controller
         if ($delete) {
             $this->updateCountTps($tps_id);
 
-            EventsTpsDetail::dispatch();
+            SuaraBroadcast::dispatch();
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil delete data',
@@ -625,6 +621,13 @@ class PendukungController extends Controller
             'bukticoblos_detail' => $bukticoblos_detail
         ]);
         if ($update) {
+            $tpsDetail = TpsDetail::find($id);
+            $tpsDetail->detail_verification = true;
+            $tpsDetail->save();
+            
+            $this->updateCountTps($tpsDetail->tps_id);
+            SuaraBroadcast::dispatch();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil upload bukti coblos',

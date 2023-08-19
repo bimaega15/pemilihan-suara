@@ -80,7 +80,7 @@ use Carbon\Carbon;
             </div><!-- /.col-lg-6 -->
             <div class="col-sm-12 col-md-12 col-lg-5 offset-lg-1">
                 <div class="about__img mb-40">
-                    <img src="{{ asset('upload/about/gambar/'.$about->gambar_about) }}" alt="about">
+                    <img src="{{ asset('upload/about/gambar/'. @$about->gambar_about) }}" alt="about">
                     <blockquote class="blockquote d-flex align-items-end mb-0">
                         <div class="blockquote__avatar">
                             <img src="{{ asset('frontend/SmartData') }}/assets/images/testimonials/thumbs/1.png" alt="thumb">
@@ -504,27 +504,27 @@ use Carbon\Carbon;
                         <!-- counter item #1 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->project_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->project_about,0) }}</h4>
                                 <p class="counter__desc">Project</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <!-- counter item #2 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->customers_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->customers_about,0) }}</h4>
                                 <p class="counter__desc">Pelanggan</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <!-- counter item #3 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->team_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->team_about,0) }}</h4>
                                 <p class="counter__desc">Tim</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->awards_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->awards_about,0) }}</h4>
                                 <p class="counter__desc">Pencapaian</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
@@ -592,6 +592,7 @@ use Carbon\Carbon;
                         <div class="col-sm-12">
                             <div class="awards-carousel-wrapper">
                                 <div class="slick-carousel" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "arrows": false, "dots": true,"autoplay": true, "autoplaySpeed": 4000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
+                                    @if ($about != null)
                                     @php
                                     $parseSponsor = json_decode($about->gambarsponsor_about, true);
                                     @endphp
@@ -609,6 +610,8 @@ use Carbon\Carbon;
                                         <div style="height: 25px;"></div>
                                     </div><!-- /.fancybox-item -->
                                     @endforeach
+                                    @endif
+
 
                                 </div><!-- /.carousel  -->
                             </div><!-- /.awards-carousel-wrapper -->

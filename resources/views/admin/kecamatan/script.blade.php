@@ -49,12 +49,47 @@
         });
 
         var table = $('#dataTable').DataTable({
-            processing: true,
             serverSide: true,
-            ajax: {
-                url: "{{ route('admin.kecamatan.index') }}",
-                dataType: 'json',
-                type: 'get',
+            processing: true,
+            searching: true,
+            search: {
+                caseInsensitive: true,
+            },
+            searchHighlight: true,
+            ajax: "{{ route('admin.kecamatan.index') }}",
+            columns: [{
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center",
+                },
+                {
+                    data: "regencies_name",
+                    name: "regencies_name",
+                    searchable: true
+                },
+                {
+                    data: "name",
+                    name: "name",
+                    searchable: true
+                },
+                {
+                    data: "action",
+                    orderable: false,
+                    searchable: false
+                },
+            ],
+            drawCallback: function(settings) {
+                var info = table.page.info();
+                table
+                    .column(0, {
+                        search: "applied",
+                        order: "applied"
+                    })
+                    .nodes()
+                    .each(function(cell, i) {
+                        cell.innerHTML = info.start + i + 1;
+                    });
             },
         });
 

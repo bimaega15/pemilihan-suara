@@ -8,6 +8,7 @@ use App\Models\About;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use File;
+use DataTables;
 
 
 class AboutController extends Controller
@@ -41,71 +42,64 @@ class AboutController extends Controller
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
-            $data = About::all();
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.about.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                    <i class="fa-solid fa-pencil"></i>
-                    </a>
-                    ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.about.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #EA1179 !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
+            $data = About::query();
 
-                $button = '
-                <div class="text-center">
-                    ' . $buttonUpdate . '
-                    ' . $buttonDelete . '
-                </div>
-                ';
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.about.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                        <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.about.destroy', $row->id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #EA1179 !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
 
-                $url_gambar_about = asset('upload/about/gambar/' . $v_data->gambar_about);
-                $gambar_about = '<a class="photoviewer" href="' . $url_gambar_about . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_about . '">
-                    <img src="' . $url_gambar_about . '" width="100%;"></img>
-                </a>';
-
-                $checkedStatus = '';
-                if ($v_data->about_aktif == 1) {
-                    $checkedStatus = 'checked';
-                }
-
-                $outputAktif = '
-                <div class="text-center">
-                    <div class="form-check form-switch">
-                        <input data-url="' . route("admin.about.setAktif") . '" class="form-check-input check-input" data-id="' . $v_data->id . '" type="checkbox" id="is_aktif_' . $v_data->id . '" style="height: 20px; width: 40px;" ' . $checkedStatus . '>
-                        <label class="form-check-label" for="is_aktif_' . $v_data->id . '"></label>
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
                     </div>
-                </div>
-              ';
+                    ';
+                    return $button;
+                })
+                ->addColumn('about_aktif', function ($row) {
+                    $checkedStatus = '';
+                    if ($row->about_aktif == 1) {
+                        $checkedStatus = 'checked';
+                    }
 
-                $result['data'][] = [
-                    $no++,
-                    $v_data->project_about,
-                    $v_data->customers_about,
-                    $v_data->team_about,
-                    $v_data->awards_about,
-                    $gambar_about,
-                    $outputAktif,
-                    trim($button)
-                ];
-            }
+                    $outputAktif = '
+                    <div class="text-center">
+                        <div class="form-check form-switch">
+                            <input data-url="' . route("admin.about.setAktif") . '" class="form-check-input check-input" data-id="' . $row->id . '" type="checkbox" id="is_aktif_' . $row->id . '" style="height: 20px; width: 40px;" ' . $checkedStatus . '>
+                            <label class="form-check-label" for="is_aktif_' . $row->id . '"></label>
+                        </div>
+                    </div>
+                  ';
 
-            return response()->json($result, 200);
+                    return $outputAktif;
+                })
+                ->addColumn('gambar_about', function ($row) {
+                    $url_gambar_about = asset('upload/about/gambar/' . $row->gambar_about);
+                    $gambar_about = '<a class="photoviewer" href="' . $url_gambar_about . '" data-gallery="photoviewer" data-title="' . $row->gambar_about . '">
+                        <img src="' . $url_gambar_about . '" width="100%;"></img>
+                    </a>';
+
+                    return $gambar_about;
+                })
+                ->rawColumns(['action', 'about_aktif', 'gambar_about'])
+                ->toJson();
         }
         return view('admin.about.index');
     }

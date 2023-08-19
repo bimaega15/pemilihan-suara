@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Gallery;
 use App\Models\Jabatan;
-use App\Models\Pengumuman;
 use App\Models\Role;
 use App\Models\Tps;
 use App\Models\User;
@@ -56,7 +55,6 @@ class HomeController extends Controller
         $jabatan = Jabatan::all()->count();
         $banner = Banner::all()->count();
         $gallery = Gallery::all()->count();
-        $pengumuman = Pengumuman::all()->count();
         $tps = Tps::all()->count();
         $dataTps = Tps::all();
 
@@ -68,7 +66,6 @@ class HomeController extends Controller
             'jabatan' => $jabatan,
             'banner' => $banner,
             'gallery' => $gallery,
-            'pengumuman' => $pengumuman,
             'tps' => $tps,
             'dataTps' => $dataTps
         ]);

@@ -1,12 +1,56 @@
 <script>
     $(document).ready(function(e) {
         var table = $('#dataTable').DataTable({
-            ajax: {
-                url: "{{ route('admin.jabatan.index') }}",
-                dataType: 'json',
-                type: 'get',
+            serverSide: true,
+            processing: true,
+            searching: true,
+            search: {
+                caseInsensitive: true,
+            },
+            searchHighlight: true,
+            ajax: "{{ route('admin.jabatan.index') }}",
+            columns: [{
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center",
+                },
+                {
+                    data: "nama_jabatan",
+                    name: "nama_jabatan",
+                    searchable: true
+                },
+                {
+                    data: "keterangan_jabatan",
+                    name: "keterangan_jabatan",
+                    searchable: true
+                },
+                {
+                    data: "membawahi_jabatan",
+                    name: "membawahi_jabatan",
+                    searchable: false,
+                    orderable: false,
+                },
+                {
+                    data: "action",
+                    orderable: false,
+                    searchable: false
+                },
+            ],
+            drawCallback: function(settings) {
+                var info = table.page.info();
+                table
+                    .column(0, {
+                        search: "applied",
+                        order: "applied"
+                    })
+                    .nodes()
+                    .each(function(cell, i) {
+                        cell.innerHTML = info.start + i + 1;
+                    });
             },
         });
+
 
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();

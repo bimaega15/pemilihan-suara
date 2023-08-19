@@ -45,4 +45,9 @@ class Tps extends Model
     {
         return $this->hasMany(TpsPendukung::class);
     }
+
+    public function koordinatorTps()
+    {
+        return $this->hasMany(KoordinatorTps::class);
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use File;
+use DataTables;
 
 
 class BannerController extends Controller
@@ -22,68 +23,66 @@ class BannerController extends Controller
 
         $getCurrentUrl = Check::getCurrentUrl();
         if (!isset(Check::getMenu($getCurrentUrl)[0])) {
-            abort(403, 'Cannot access page');
+            abort(403, 'Cannot banner page');
         }
         $getMenu = Check::getMenu($getCurrentUrl)[0];
 
-        session()->put('bannerAcess.is_create', $getMenu->is_create);
-        session()->put('bannerAcess.is_update', $getMenu->is_update);
-        session()->put('bannerAcess.is_delete', $getMenu->is_delete);
+        session()->put('userAcess.is_create', $getMenu->is_create);
+        session()->put('userAcess.is_update', $getMenu->is_update);
+        session()->put('userAcess.is_delete', $getMenu->is_delete);
 
 
         //
         if ($request->ajax()) {
-            $bannerAcess = session()->get('bannerAcess');
+            $userAcess = session()->get('userAcess');
 
-            $data = Banner::all();
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($bannerAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.banner.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                    <i class="fa-solid fa-pencil"></i>
-                    </a>
+            $data = Banner::query();
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.banner.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.banner.destroy', $row->id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
+                        
+                    </div>
                     ';
-                }
-                $buttonDelete = '';
-                if ($bannerAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.banner.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
 
 
-                $button = '
+                    $button = '
                 <div class="text-center">
                     ' . $buttonUpdate . '
                     ' . $buttonDelete . '
                 </div>
                 ';
-
-                $url_gambar_banner = asset('upload/banner/' . $v_data->gambar_banner);
-                $gambar_banner = '<a class="photoviewer" href="' . $url_gambar_banner . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_banner . '">
-                    <img src="' . $url_gambar_banner . '" width="100%;"></img>
-                </a>';
-
-                $result['data'][] = [
-                    $no++,
-                    $gambar_banner,
-                    $v_data->judul_banner,
-                    $v_data->keterangan_banner,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                    return $button;
+                })
+                ->addColumn('gambar_banner', function ($row) {
+                    $url_gambar_banner = asset('upload/banner/' . $row->gambar_banner);
+                    $gambar_banner = '<a class="photoviewer" href="' . $url_gambar_banner . '" data-gallery="photoviewer" data-title="' . $row->gambar_banner . '">
+                        <img src="' . $url_gambar_banner . '" width="100%;"></img>
+                    </a>';
+                    return $gambar_banner;
+                })
+                ->rawColumns(['action', 'gambar_banner'])
+                ->toJson();
         }
         return view('admin.banner.index');
     }

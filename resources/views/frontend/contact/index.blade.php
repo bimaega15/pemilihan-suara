@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-sm-12">
                             <span class="text-dark">
-                                {!! $about->keterangan_about !!}
+                                {!! @$about->keterangan_about !!}
 
                             </span>
                         </div>
@@ -81,7 +81,7 @@
                 <div class="contact-info-box">
                     <h4 class="contact__info-box-title">Alamat</h4>
                     <ul class="contact__info-list list-unstyled">
-                        <li>Alamat: {{$konfigurasi->alamat_konfigurasi}}</li>
+                        <li>Alamat: {{ $konfigurasi->alamat_konfigurasi}}</li>
                     </ul><!-- /.contact__info-list -->
                 </div><!-- /.contact-info-box -->
             </div><!-- /.col-lg-4 -->

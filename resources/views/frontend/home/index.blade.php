@@ -96,6 +96,7 @@ use Carbon\Carbon;
                         <a href="{{url('/about')}}" class="btn btn__link btn__primary btn__underlined">Best Organisasi</a>
                     </p>
                     <div class="slick-carousel" data-slick='{"slidesToShow": 3, "arrows": false, "dots": false, "autoplay": true,"autoplaySpeed": 2000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 767, "settings": {"slidesToShow": 2}}, {"breakpoint": 480, "settings": {"slidesToShow": 2}}]}'>
+                        @if($about != null)
                         @php
                         $parseSponsor = json_decode($about->gambarsponsor_about, true);
                         @endphp
@@ -105,6 +106,7 @@ use Carbon\Carbon;
                             <img src="{{ asset('upload/about/sponsor/'.$item) }}" alt="{{$item}}" style="width: 100%; height: 120px;">
                         </div><!-- /.client -->
                         @endforeach
+                        @endif
                     </div><!-- /.carousel -->
                 </div>
             </div><!-- /.col-lg-6 -->
@@ -134,6 +136,7 @@ use Carbon\Carbon;
         <div class="row">
             <div class="col-12">
                 <div class="slick-carousel" data-slick='{"slidesToShow": 3, "slidesToScroll": 2, "arrows": true, "dots": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 767, "settings": {"slidesToShow": 2}}, {"breakpoint": 480, "settings": {"slidesToShow": 1}}]}'>
+                    @if ($about != null)
                     @php
                     $parseSponsor = json_decode($about->teamdetail_about, true);
                     @endphp
@@ -148,6 +151,8 @@ use Carbon\Carbon;
                         </div><!-- /.service-content -->
                     </div><!-- /.service-item -->
                     @endforeach
+                    @endif
+
                 </div><!-- /.carousel -->
             </div><!-- /.col-12 -->
         </div><!-- /.row -->
@@ -190,6 +195,7 @@ use Carbon\Carbon;
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
         <div class="row">
+            @if($about != null)
             @php
             $parseSponsor = json_decode($about->teamdetail_about, true);
             @endphp
@@ -205,6 +211,7 @@ use Carbon\Carbon;
                 @endif
 
                 @endforeach
+                @endif
         </div><!-- /.row -->
         <div class="row mt-40">
             <div class="col-sm-12 col-md-12 col-lg-6 d-flex flex-column justify-content-between">
@@ -355,27 +362,27 @@ use Carbon\Carbon;
                         <!-- counter item #1 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->project_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->project_about,0) }}</h4>
                                 <p class="counter__desc">Project</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <!-- counter item #2 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->customers_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->customers_about,0) }}</h4>
                                 <p class="counter__desc">Pelanggan</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <!-- counter item #3 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->team_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->team_about,0) }}</h4>
                                 <p class="counter__desc">Tim</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format($about->awards_about,0) }}</h4>
+                                <h4 class="counter">{{ number_format(@$about->awards_about,0) }}</h4>
                                 <p class="counter__desc">Pencapaian</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
@@ -443,6 +450,8 @@ use Carbon\Carbon;
                         <div class="col-sm-12">
                             <div class="awards-carousel-wrapper">
                                 <div class="slick-carousel" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "arrows": false, "dots": true,"autoplay": true, "autoplaySpeed": 4000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
+                                    @if ($about != null)
+
                                     @php
                                     $parseSponsor = json_decode($about->gambarsponsor_about, true);
                                     @endphp
@@ -460,6 +469,8 @@ use Carbon\Carbon;
                                         <div style="height: 25px;"></div>
                                     </div><!-- /.fancybox-item -->
                                     @endforeach
+                                    @endif
+
 
                                 </div><!-- /.carousel  -->
                             </div><!-- /.awards-carousel-wrapper -->

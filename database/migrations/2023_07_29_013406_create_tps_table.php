@@ -24,7 +24,7 @@ class CreateTpsTable extends Migration
             $table->integer('totallk_tps')->nullable();
             $table->integer('totalpr_tps')->nullable();
             $table->integer('totalsemua_tps')->nullable();
-            $table->string('users_id')->nullable();
+            $table->integer('totalco_tps')->nullable();
             $table->integer('minimal_tps');
             $table->integer('pendukung_tps');
             $table->integer('kuota_tps');

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\KabupatenController;
 use App\Http\Controllers\Admin\KecamatanController;
 use App\Http\Controllers\Admin\KelurahanController;
 use App\Http\Controllers\Admin\KonfigurasiController;
+use App\Http\Controllers\Admin\KoordinatorController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\PendukungController;
@@ -135,6 +136,12 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
 
     Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
     Route::get('/monitoring/{id}/detail', [MonitoringController::class, 'detail'])->name('monitoring.detail');
+
+
+    Route::resource('koordinator', KoordinatorController::class)->except(['show']);
+    Route::get('koordinator/usersKoordinator', [KoordinatorController::class, 'usersKoordinator'])->name('koordinator.usersKoordinator');
+    Route::get('koordinator/selectKoordinator', [KoordinatorController::class, 'selectKoordinator'])->name('koordinator.selectKoordinator');
+    Route::get('koordinator/saveSession', [KoordinatorController::class, 'saveSession'])->name('koordinator.saveSession');
 });
 
 Route::get('/admin/monitoring/fetchDukungan', [MonitoringController::class, 'fetchDukungan'])->name('monitoring.fetchDukungan');

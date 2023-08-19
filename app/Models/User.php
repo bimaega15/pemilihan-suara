@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(TpsPendukung::class);
     }
+
+    public function koordinatorTps()
+    {
+        return $this->hasMany(KoordinatorTps::class);
+    }
 }

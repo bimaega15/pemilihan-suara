@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use File;
+use DataTables;
 
 
 class GalleryController extends Controller
@@ -35,55 +36,51 @@ class GalleryController extends Controller
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
-            $data = Gallery::all();
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.gallery.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                    <i class="fa-solid fa-pencil"></i>
-                    </a>
+            $data = Gallery::query();
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.gallery.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                        <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.gallery.destroy', $row->id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
+
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
+                    </div>
                     ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.gallery.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #F11A7B !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
 
-                $url_gambar_gallery = asset('upload/gallery/' . $v_data->gambar_gallery);
-                $gambar_gallery = '<a class="photoviewer" href="' . $url_gambar_gallery . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_gallery . '">
-                    <img src="' . $url_gambar_gallery . '" width="100%;"></img>
-                </a>';
+                    return $button;
+                })
+                ->addColumn('gambar_gallery', function ($row) {
+                    $url_gambar_gallery = asset('upload/gallery/' . $row->gambar_gallery);
+                    $gambar_gallery = '<a class="photoviewer" href="' . $url_gambar_gallery . '" data-gallery="photoviewer" data-title="' . $row->gambar_gallery . '">
+                        <img src="' . $url_gambar_gallery . '" width="100%;"></img>
+                    </a>';
 
-                $button = '
-                <div class="text-center">
-                    ' . $buttonUpdate . '
-                    ' . $buttonDelete . '
-                </div>
-                ';
-
-                $result['data'][] = [
-                    $no++,
-                    Check::waktuDateTimeView($v_data->waktu_gallery),
-                    $v_data->judul_gallery,
-                    $v_data->keterangan_gallery,
-                    $gambar_gallery,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                    return $gambar_gallery;
+                })
+                ->addColumn('waktu_gallery', function ($row) {
+                    $waktu_gallery = Check::waktuDateTimeView($row->waktu_gallery);
+                    return $waktu_gallery;
+                })
+                ->rawColumns(['action', 'gambar_gallery', 'waktu_gallery'])
+                ->toJson();
         }
         return view('admin.gallery.index');
     }

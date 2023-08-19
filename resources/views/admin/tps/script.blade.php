@@ -1,13 +1,65 @@
 <script>
     $(document).ready(function(e) {
-        var table = $('#dataTable').DataTable({
-            responsive: true,
-            ajax: {
-                url: "{{ route('admin.tps.index') }}",
-                dataType: 'json',
-                type: 'get',
-            },
-        });
+        var table = $('#dataTable')
+            .DataTable({
+                serverSide: true,
+                processing: true,
+                searching: true,
+                search: {
+                    caseInsensitive: true,
+                },
+                searchHighlight: true,
+                ajax: "{{ route('admin.tps.index') }}",
+                columns: [{
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                    },
+                    {
+                        data: "villages.name",
+                        name: "villages.name",
+                        searchable: true
+                    },
+                    {
+                        data: "nama_tps",
+                        name: "nama_tps",
+                        searchable: true
+                    },
+                    {
+                        data: "alamat_tps",
+                        name: "alamat_tps",
+                        searchable: true
+                    },
+                    {
+                        data: "koordinator",
+                        name: "koordinator",
+                        searchable: true
+                    },
+                    {
+                        data: "pendukung",
+                        name: "pendukung",
+                        searchable: true
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                drawCallback: function(settings) {
+                    var info = table.page.info();
+                    table
+                        .column(0, {
+                            search: "applied",
+                            order: "applied"
+                        })
+                        .nodes()
+                        .each(function(cell, i) {
+                            cell.innerHTML = info.start + i + 1;
+                        });
+                },
+            });
 
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();

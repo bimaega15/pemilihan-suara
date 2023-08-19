@@ -1,13 +1,71 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>
 <script>
     $(document).ready(function(e) {
-        var table = $('#dataTable').DataTable({
-            ajax: {
-                url: "{{ route('admin.about.index') }}",
-                dataType: 'json',
-                type: 'get',
-            },
-        });
+        var table = $('#dataTable')
+            .DataTable({
+                serverSide: true,
+                processing: true,
+                searching: true,
+                search: {
+                    caseInsensitive: true,
+                },
+                searchHighlight: true,
+                ajax: "{{ route('admin.about.index') }}",
+                columns: [{
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                    },
+                    {
+                        data: "project_about",
+                        name: "project_about",
+                        searchable: true
+                    },
+                    {
+                        data: "customers_about",
+                        name: "customers_about",
+                        searchable: true
+                    },
+                    {
+                        data: "team_about",
+                        name: "team_about",
+                        searchable: true
+                    },
+                    {
+                        data: "awards_about",
+                        name: "awards_about",
+                        searchable: true
+                    },
+                    {
+                        data: "gambar_about",
+                        name: "gambar_about",
+                        searchable: true
+                    },
+                    {
+                        data: "about_aktif",
+                        name: "about_aktif",
+                        searchable: true
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                drawCallback: function(settings) {
+                    var info = table.page.info();
+                    table
+                        .column(0, {
+                            search: "applied",
+                            order: "applied"
+                        })
+                        .nodes()
+                        .each(function(cell, i) {
+                            cell.innerHTML = info.start + i + 1;
+                        });
+                },
+            });
 
 
         function resetForm(attribute = null) {

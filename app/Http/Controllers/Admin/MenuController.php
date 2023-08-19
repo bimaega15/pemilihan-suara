@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ManagementMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use DataTables;
 
 
 class MenuController extends Controller
@@ -41,110 +42,93 @@ class MenuController extends Controller
         //
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
-            $data = ManagementMenu::orderBy('no_management_menu', 'asc')->get();
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.menu.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
-                    ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.menu.destroy', $v_data->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </form>
-                    ';
-                }
-                $button = '
-                <div class="text-center">
-                    ' . $buttonUpdate . '
-                    ' . $buttonDelete . '
-                </div>
-                ';
+            $data = ManagementMenu::query()->orderBy('no_management_menu', 'asc');
 
-                $linkSubMenu = $v_data->is_node_management_menu;
-                $addLinkSubMenu = null;
-                $iconLinkSubMenu = null;
-                $pageLinkSubMenu = null;
-                if ($linkSubMenu != '1') {
-                    $iconLinkSubMenu = '<i class="fas fa-plus"></i>';
-                    $addLinkSubMenu = '
-                    <span class="text-dark p-3">
-                        ' . $iconLinkSubMenu . '
-                    </span>
-                    ';
-                    $pageLinkSubMenu = 'add';
-                } else {
-                    $iconLinkSubMenu = '<i class="fa-solid fa-pencil"></i>';
-                    $addLinkSubMenu = '
-                    <span class="text-dark p-3">
-                        ' . $iconLinkSubMenu . '
-                    </span>
-                    ';
-                    $pageLinkSubMenu = 'edit';
-                }
-
-                $arrSubMenu = $v_data->membawahi_menu_management_menu;
-                $arrSubMenu = explode(',', $arrSubMenu);
-                $getDataSubMenu = ManagementMenu::whereIn('id', $arrSubMenu)->get();
-                $outputSubMenu = '
-                <button class="btn btn-info m-b-xs w-100" data-bs-toggle="collapse"
-                href="#membawahi_menu_management_menu" role="button"
-                aria-expanded="false"
-                aria-controls="membawahi_menu_management_menu">
-                    ' . $addLinkSubMenu . '
-                </button>
-                
-                
-                <div class="collapse" id="membawahi_menu_management_menu">
-                    <div class="card card-body p-0 m-0">
-                        <a href="' . route('admin.menu.showMenu') . '" data-id="' . $v_data->id . '" data-page="' . $pageLinkSubMenu . '" class="btn btn-outline-primary m-b-xs btn-show-menu" style="border: 1px solid #7888fc !important;" data-bs-toggle="modal" data-bs-target="#modalSubMenu">
-                                ' . $iconLinkSubMenu . '
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.menu.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                            <i class="fa-solid fa-pencil"></i>
                         </a>
-                        <div style="background-color: #5b5b5b; height: 1px;"></div>
-                        <div style="height:10px;"></div>
-                        <ul>';
-                foreach ($getDataSubMenu as $key => $vSubMenu) {
-                    $outputSubMenu .= '
-                    <li>' . $vSubMenu->icon_management_menu . ' | ' . $vSubMenu->nama_management_menu . '</li>
-                   ';
-                }
-                $outputSubMenu .= '
-                        </ul>
-                    </div>
-                </div>
-                ';
-
-                $outputLinkAddMenu = '
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.menu.destroy', $row->id) . ' class="d-inline">
+                            <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                        ';
+                    }
+                    $button = '
                     <div class="text-center">
-                        <a href="' . route('admin.menu.showMenu') . '" data-id="' . $v_data->id . '" data-page="' . $pageLinkSubMenu . '" class="btn btn-outline-primary m-b-xs btn-show-menu" style="border: 1px solid #7888fc !important;" data-bs-toggle="modal" data-bs-target="#modalSubMenu">
-                        ' . $iconLinkSubMenu . '
-                        </a>
+                        ' . $buttonUpdate . '
+                        ' . $buttonDelete . '
                     </div>
-                ';
+                    ';
+                    return $button;
+                })
+                ->addColumn('membawahi_menu_management_menu', function ($row) {
+                    $linkSubMenu = $row->is_node_management_menu;
+                    $addLinkSubMenu = null;
+                    $iconLinkSubMenu = null;
+                    $pageLinkSubMenu = null;
+                    if ($linkSubMenu != '1') {
+                        $iconLinkSubMenu = '<i class="fas fa-plus"></i>';
+                        $addLinkSubMenu = '
+                        <span class="text-dark p-3">
+                            ' . $iconLinkSubMenu . '
+                        </span>
+                        ';
+                        $pageLinkSubMenu = 'add';
+                    } else {
+                        $iconLinkSubMenu = '<i class="fa-solid fa-pencil"></i>';
+                        $addLinkSubMenu = '
+                        <span class="text-dark p-3">
+                            ' . $iconLinkSubMenu . '
+                        </span>
+                        ';
+                        $pageLinkSubMenu = 'edit';
+                    }
 
-                $result['data'][] = [
-                    $v_data->no_management_menu,
-                    $v_data->icon_management_menu,
-                    $v_data->nama_management_menu,
-                    $v_data->link_management_menu,
-                    $v_data->membawahi_menu_management_menu != null ? $outputSubMenu : $outputLinkAddMenu,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                    $arrSubMenu = $row->membawahi_menu_management_menu;
+                    $arrSubMenu = explode(',', $arrSubMenu);
+                    $getDataSubMenu = ManagementMenu::whereIn('id', $arrSubMenu)->get();
+                    $outputSubMenu = '
+                    <button class="btn btn-info m-b-xs w-100" data-bs-toggle="collapse"
+                    href="#membawahi_menu_management_menu' . $row->id . '" role="button"
+                    aria-expanded="false"
+                    aria-controls="membawahi_menu_management_menu' . $row->id . '">
+                        ' . $addLinkSubMenu . '
+                    </button>
+                    
+                    
+                    <div class="collapse" id="membawahi_menu_management_menu' . $row->id . '">
+                        <div class="card card-body p-0 m-0">
+                            <a href="' . route('admin.menu.showMenu') . '" data-id="' . $row->id . '" data-page="' . $pageLinkSubMenu . '" class="btn btn-outline-primary m-b-xs btn-show-menu" style="border: 1px solid #7888fc !important;" data-bs-toggle="modal" data-bs-target="#modalSubMenu">
+                                    ' . $iconLinkSubMenu . '
+                            </a>
+                            <div style="background-color: #5b5b5b; height: 1px;"></div>
+                            <div style="height:10px;"></div>
+                            <ul>';
+                    foreach ($getDataSubMenu as $key => $vSubMenu) {
+                        $outputSubMenu .= '
+                        <li>' . $vSubMenu->icon_management_menu . ' | ' . $vSubMenu->nama_management_menu . '</li>
+                       ';
+                    }
+                    $outputSubMenu .= '
+                            </ul>
+                        </div>
+                    </div>
+                    ';
+                    return $outputSubMenu;
+                })
+                ->rawColumns(['action', 'membawahi_menu_management_menu'])
+                ->toJson();
         }
         return view('admin.menu.index');
     }

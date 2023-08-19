@@ -1,10 +1,60 @@
 <script>
     $(document).ready(function(e) {
+
         var table = $('#dataTable').DataTable({
-            ajax: {
-                url: "{{ route('admin.menu.index') }}",
-                dataType: 'json',
-                type: 'get',
+            serverSide: true,
+            processing: true,
+            searching: true,
+            search: {
+                caseInsensitive: true,
+            },
+            searchHighlight: true,
+            ajax: "{{ route('admin.menu.index') }}",
+            columns: [{
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center",
+                },
+                {
+                    data: "icon_management_menu",
+                    name: "icon_management_menu",
+                    searchable: true
+                },
+                {
+                    data: "nama_management_menu",
+                    name: "nama_management_menu",
+                    searchable: true
+                },
+                {
+                    data: "link_management_menu",
+                    name: "link_management_menu",
+                    searchable: false,
+                    orderable: false,
+                },
+                {
+                    data: "membawahi_menu_management_menu",
+                    name: "membawahi_menu_management_menu",
+                    searchable: false,
+                    orderable: false,
+                },
+                {
+                    data: "action",
+                    orderable: false,
+                    searchable: false
+                },
+            ],
+            drawCallback: function(settings) {
+                var info = table.page.info();
+                table
+                    .column(0, {
+                        search: "applied",
+                        order: "applied"
+                    })
+                    .nodes()
+                    .each(function(cell, i) {
+                        cell.innerHTML = info.start + i + 1;
+                    });
             },
         });
 
@@ -325,8 +375,13 @@
                         `;
                         $.each(result, function(i, v) {
                             if (id != v.id) {
-                                let checkArraySubMenu = dataSubMenu.includes(String(
-                                    v.id));
+                                let checkArraySubMenu = dataSubMenu.find((val, ind) => {
+                                    if (val.trim() == v.id) {
+                                        return true;
+                                    }
+                                });
+
+                                checkArraySubMenu = checkArraySubMenu != null ? true : false;
                                 output += `
                             <option value="${v.id}" ${checkArraySubMenu == true ? 'selected' : ''}>${v.icon_management_menu} | ${v.nama_management_menu}</option>
                             `;
@@ -334,7 +389,7 @@
                         })
                         let url = "{{url('/')}}";
                         $('.form-submit-sub-menu').attr('action',
-                        url + '/admin/menu/'+id+'/postSubMenu');
+                            url + '/admin/menu/' + id + '/postSubMenu');
 
                         $('.management_menu_id').html(output);
 
@@ -359,8 +414,7 @@
 
         $('.multiple-select-field').select2({
             theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
-                'style',
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),
             closeOnSelect: false,
         });

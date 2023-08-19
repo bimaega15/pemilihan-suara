@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\TpsDetail as EventsTpsDetail;
+use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
@@ -295,7 +295,6 @@ class TpsDetailController extends Controller
         $tpsPendukung = TpsPendukung::create($dataTpsPendukung);
 
         if ($user_id || $roleUser || $profile || $tpsDetail || $tpsPendukung) {
-            EventsTpsDetail::dispatch();
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil insert data',
@@ -426,7 +425,6 @@ class TpsDetailController extends Controller
         TpsPendukung::find($tps_pendukung_id)->update($dataSet);
 
         if ($profile) {
-            EventsTpsDetail::dispatch();
 
             return response()->json([
                 'status' => 200,
@@ -460,8 +458,7 @@ class TpsDetailController extends Controller
         $delete = TpsDetail::destroy($id);
         User::destroy($users_id);
         if ($delete) {
-            EventsTpsDetail::dispatch();
-
+            SuaraBroadcast::dispatch();
             $this->updateCountTps($tps_id);
             return response()->json([
                 'status' => 200,

@@ -48,15 +48,51 @@
             templateSelection: formatRepoSelection
         });
 
-        var table = $('#dataTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('admin.kabupaten.index') }}",
-                dataType: 'json',
-                type: 'get',
-            },
-        });
+        var table = $('#dataTable')
+            .DataTable({
+                serverSide: true,
+                processing: true,
+                searching: true,
+                search: {
+                    caseInsensitive: true,
+                },
+                searchHighlight: true,
+                ajax: "{{ route('admin.kabupaten.index') }}",
+                columns: [{
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                    },
+                    {
+                        data: "provinces_name",
+                        name: "provinces_name",
+                        searchable: true
+                    },
+                    {
+                        data: "name",
+                        name: "name",
+                        searchable: true
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                drawCallback: function(settings) {
+                    var info = table.page.info();
+                    table
+                        .column(0, {
+                            search: "applied",
+                            order: "applied"
+                        })
+                        .nodes()
+                        .each(function(cell, i) {
+                            cell.innerHTML = info.start + i + 1;
+                        });
+                },
+            });
 
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();

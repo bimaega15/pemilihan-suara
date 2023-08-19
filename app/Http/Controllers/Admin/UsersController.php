@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use File;
 use Illuminate\Support\Facades\Hash;
+use DataTables;
 
 class UsersController extends Controller
 {
@@ -23,6 +24,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+
 
         $getCurrentUrl = Check::getCurrentUrl();
         if (!isset(Check::getMenu($getCurrentUrl)[0])) {
@@ -39,101 +41,96 @@ class UsersController extends Controller
             $roles = request()->input('roles');
             $userAcess = session()->get('userAcess');
 
-            $data = User::select('users.*', 'roles.nama_roles')->join('role_user', 'role_user.user_id', '=', 'users.id')
+            $data = User::query()
+                ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile')
+                ->join('profile', 'profile.users_id', 'users.id')
+                ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                ->where('roles.nama_roles', '=', $roles)->get();
+                ->where('roles.nama_roles', '=', $roles);
 
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.users.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;" data-roles="' . $roles . '">
-                        <i class="fa-solid fa-pencil"></i>
-                    </a>
-                    ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.users.destroy', $v_data->id) . ' class="d-inline">
-                    <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;" data-roles="' . $roles . '">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </form>
-                    ';
-                }
-                $button = '
-            <div class="text-center">
-            ' . $buttonUpdate . '               
-            ' . $buttonDelete . '               
-            </div>
-            ';
-
-                $url_gambar_profile = asset('upload/profile/' . $v_data->profile->gambar_profile);
-                $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->profile->gambar_profile . '">
-                    <img src="' . $url_gambar_profile . '" width="100%;"></img>
-                </a>';
-
-                $outputAktif = '';
-                $span = '';
-                if ((string) $v_data->is_aktif == '0') {
-                    $outputAktif = '
-                    <button type="button" data-roles="' . $roles . '" class="btn btn-success btn-sm check-input" data-is_aktif="1" data-id="' . $v_data->id . '" data-title="Verifikasi">
-                        <i class="fas fa-check"></i>
-                    </button>
-                    ';
-                    $span = '<span class="badge bg-danger">Ditolak</span>';
-                }
-                if ((string) $v_data->is_aktif == '1') {
-                    $outputAktif = '
-                    <button type="button" data-roles="' . $roles . '" class="btn btn-danger btn-sm check-input" data-is_aktif="0" data-id="' . $v_data->id . '" data-title="Tolak">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    ';
-                    $span = '<span class="badge bg-success">Diverifikasi</span>';
-                }
-                if ((string) $v_data->is_aktif == null) {
-                    $outputAktif = '
-                    <button type="button" data-roles="' . $roles . '" class="btn btn-danger btn-sm check-input" data-is_aktif="0" data-id="' . $v_data->id . '" data-title="Tolak">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <button type="button" data-roles="' . $roles . '" class="btn btn-success btn-sm check-input" data-is_aktif="1" data-id="' . $v_data->id . '" data-title="Verifikasi">
-                        <i class="fas fa-check"></i>
-                    </button>
-                    ';
-                    $span = '<span class="badge bg-info">Menunggu Verifikasi</span>';
-                }
-
-                $outputAktifSet = '
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess, $roles) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                        <a href="' . route('admin.users.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;" data-roles="' . $roles . '">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                        ';
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                        <form action=' . route('admin.users.destroy', $row->id) . ' class="d-inline">
+                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;" data-roles="' . $roles . '">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </form>
+                        ';
+                    }
+                    $button = '
                 <div class="text-center">
-                    ' . $outputAktif . ' <br>
-                    ' . $span . '
+                ' . $buttonUpdate . '               
+                ' . $buttonDelete . '               
                 </div>
                 ';
+                    return $button;
+                })
+                ->addColumn('is_aktif', function ($row) use ($userAcess, $roles) {
+                    $outputAktif = '';
+                    $span = '';
+                    if ((string) $row->is_aktif == '0') {
+                        $outputAktif = '
+                        <button type="button" data-roles="' . $roles . '" class="btn btn-success btn-sm check-input" data-is_aktif="1" data-id="' . $row->id . '" data-title="Verifikasi">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        ';
+                        $span = '<span class="badge bg-danger">Ditolak</span>';
+                    }
+                    if ((string) $row->is_aktif == '1') {
+                        $outputAktif = '
+                        <button type="button" data-roles="' . $roles . '" class="btn btn-danger btn-sm check-input" data-is_aktif="0" data-id="' . $row->id . '" data-title="Tolak">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        ';
+                        $span = '<span class="badge bg-success">Diverifikasi</span>';
+                    }
+                    if ((string) $row->is_aktif == null) {
+                        $outputAktif = '
+                        <button type="button" data-roles="' . $roles . '" class="btn btn-danger btn-sm check-input" data-is_aktif="0" data-id="' . $row->id . '" data-title="Tolak">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button type="button" data-roles="' . $roles . '" class="btn btn-success btn-sm check-input" data-is_aktif="1" data-id="' . $row->id . '" data-title="Verifikasi">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        ';
+                        $span = '<span class="badge bg-info">Menunggu Verifikasi</span>';
+                    }
 
+                    $outputAktifSet = '
+                    <div class="text-center">
+                        ' . $outputAktif . ' <br>
+                        ' . $span . '
+                    </div>
+                    ';
+                    return $outputAktifSet;
+                })
+                ->addColumn('gambar_profile', function ($row) use ($userAcess, $roles) {
+                    $url_gambar_profile = asset('upload/profile/' . $row->profile->gambar_profile);
+                    $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $row->profile->gambar_profile . '">
+                        <img src="' . $url_gambar_profile . '" width="100%;"></img>
+                    </a>';
 
-                $result['data'][] = [
-                    $no++,
-                    $v_data->username,
-                    $v_data->profile->nama_profile,
-                    $v_data->profile->email_profile,
-                    $v_data->profile->nohp_profile,
-                    $gambar_profile,
-                    $outputAktifSet,
-                    trim($button)
-                ];
-            }
+                    return $gambar_profile;
+                })
 
-            return response()->json($result, 200);
+                ->rawColumns(['action', 'is_aktif', 'gambar_profile'])
+                ->toJson();
         }
         $admin = Role::where("nama_roles", 'like', '%admin%')->first();
         $koordinator = Role::where("nama_roles", 'like', '%koordinator%')->first();
         $kepalaKepegawaian = Role::where("nama_roles", 'like', '%caleg%')->first();
+        $relawan = Role::where("nama_roles", 'like', '%relawan%')->first();
 
         return view('admin.users.index', [
             'role' => Role::all(),
@@ -141,6 +138,7 @@ class UsersController extends Controller
             'admin' => $admin->id,
             'koordinator' => $koordinator->id,
             'kepalaKepegawaian' => $kepalaKepegawaian->id,
+            'relawan' => $relawan->id,
         ]);
     }
 
@@ -165,7 +163,7 @@ class UsersController extends Controller
         //
         $validator = Validator::make($request->all(), [
             'username' => [
-                'required', function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) {
                     $username = $_POST['username'];
                     $checkusername = User::where('username', $username)->count();
                     if ($checkusername > 0) {
@@ -173,14 +171,14 @@ class UsersController extends Controller
                     }
                 }
             ],
-            'password' => ['required',  function ($attribute, $value, $fail) {
+            'password' => [function ($attribute, $value, $fail) {
                 $password = $_POST['password'];
                 $password_confirm = $_POST['password_confirm'];
                 if ($password_confirm != $password) {
                     $fail('Password tidak sama dengan password confirmation');
                 }
             },],
-            'password_confirm' => ['required',  function ($attribute, $value, $fail) {
+            'password_confirm' => [function ($attribute, $value, $fail) {
                 $password = $_POST['password'];
                 $password_confirm = $_POST['password_confirm'];
                 if ($password_confirm != $password) {
@@ -216,11 +214,22 @@ class UsersController extends Controller
             ], 400);
         }
 
+        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
+        $rolesId =  $request->input('role_id');
+
+        $username = $request->input('username');
+        $password = Hash::make($request->input('password'));
+
+        if ($getRoles->id == $rolesId) {
+            $username = $request->input('email_profile');
+            $password = Hash::make('123456');
+        }
+
         // users
         $isAktif = $request->input('is_aktif') != null ? 1 : 0;
         $dataUsers = [
-            'username' => $request->input('username'),
-            'password' => Hash::make($request->input('password')),
+            'username' => $username,
+            'password' => $password,
             'is_aktif' => $isAktif,
         ];
         $user_id = User::create($dataUsers);
@@ -300,7 +309,7 @@ class UsersController extends Controller
         //
         $validator = Validator::make($request->all(), [
             'username' => [
-                'required', function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) {
                     $username = $_POST['username'];
                     $id = $_POST['id'];
                     $checkusername = User::where('username', $username)
@@ -360,6 +369,9 @@ class UsersController extends Controller
             ], 400);
         }
 
+        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
+        $rolesId =  $request->input('role_id');
+
         // users
         $password_db = $request->input('password_old');
         $password = $request->input('password');
@@ -367,8 +379,15 @@ class UsersController extends Controller
             $password_db = Hash::make($password);
         }
         $isAktif = $request->input('is_aktif') != null ? 1 : 0;
+
+        $username = $request->input('username');
+        if ($getRoles->id == $rolesId) {
+            $username = $request->input('email_profile');
+            $password_db = Hash::make('123456');
+        }
+
         $dataUsers = [
-            'username' => $request->input('username'),
+            'username' => $username,
             'password' => $password_db,
             'is_aktif' => $isAktif,
         ];

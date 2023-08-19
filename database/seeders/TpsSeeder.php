@@ -1,0 +1,173 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Tps;
+use Illuminate\Database\Seeder;
+
+class TpsSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        //
+        $dataTps = [
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 1',
+                'alamat_tps' => 'Alamat Tps 1',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 2',
+                'alamat_tps' => 'Alamat Tps 2',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 3',
+                'alamat_tps' => 'Alamat Tps 3',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 4',
+                'alamat_tps' => 'Alamat Tps 4',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 5',
+                'alamat_tps' => 'Alamat Tps 5',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 6',
+                'alamat_tps' => 'Alamat Tps 6',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 7',
+                'alamat_tps' => 'Alamat Tps 7',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 8',
+                'alamat_tps' => 'Alamat Tps 8',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 9',
+                'alamat_tps' => 'Alamat Tps 9',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+            [
+                'provinces_id' => '11',
+                'regencies_id' => '1101',
+                'districts_id' => '1101010',
+                'villages_id' => '1',
+                'nama_tps' => 'Tps 10',
+                'alamat_tps' => 'Alamat Tps 10',
+                'totallk_tps' => '0',
+                'totalpr_tps' => '0',
+                'totalsemua_tps' => '0',
+                'totalco_tps' => '0',
+                'minimal_tps' => '0',
+                'pendukung_tps' => '0',
+                'kuota_tps' => '0',
+            ],
+        ];
+
+        Tps::insert($dataTps);
+    }
+}

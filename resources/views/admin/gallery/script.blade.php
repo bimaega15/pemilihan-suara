@@ -1,12 +1,60 @@
 <script>
     $(document).ready(function(e) {
-        var table = $('#dataTable').DataTable({
-            ajax: {
-                url: "{{ route('admin.gallery.index') }}",
-                dataType: 'json',
-                type: 'get',
-            },
-        });
+        var table = $('#dataTable')
+            .DataTable({
+                serverSide: true,
+                processing: true,
+                searching: true,
+                search: {
+                    caseInsensitive: true,
+                },
+                searchHighlight: true,
+                ajax: "{{ route('admin.gallery.index') }}",
+                columns: [{
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                    },
+                    {
+                        data: "waktu_gallery",
+                        name: "waktu_gallery",
+                        searchable: true
+                    },
+                    {
+                        data: "judul_gallery",
+                        name: "judul_gallery",
+                        searchable: true
+                    },
+                    {
+                        data: "keterangan_gallery",
+                        name: "keterangan_gallery",
+                        searchable: true
+                    },
+                    {
+                        data: "gambar_gallery",
+                        name: "gambar_gallery",
+                        searchable: true
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                drawCallback: function(settings) {
+                    var info = table.page.info();
+                    table
+                        .column(0, {
+                            search: "applied",
+                            order: "applied"
+                        })
+                        .nodes()
+                        .each(function(cell, i) {
+                            cell.innerHTML = info.start + i + 1;
+                        });
+                },
+            });
 
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
