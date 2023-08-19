@@ -34,7 +34,8 @@
                     {
                         data: "gambar_gallery",
                         name: "gambar_gallery",
-                        searchable: true
+                        searchable: false,
+                        orderable: false,
                     },
                     {
                         data: "action",

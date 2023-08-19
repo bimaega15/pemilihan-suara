@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 
@@ -157,15 +156,6 @@ class PendukungController extends Controller
         $data = [];
         foreach ($users_id as $key => $value) {
             $getUsers = User::with('profile')->find($value);
-            $getTps = Tps::find($tps_id);
-
-            if ($getUsers->profile->jenis_kelamin_profile == 'L') {
-                $getTps->totallk_tps = $getTps->totallk_tps + 1;
-            }
-            if ($getUsers->profile->jenis_kelamin_profile == 'P') {
-                $getTps->totalpr_tps = $getTps->totalpr_tps + 1;
-            }
-            $getTps->save();
 
             $getUsers->is_registps = true;
             $getUsers->save();
@@ -179,10 +169,6 @@ class PendukungController extends Controller
         $pendukungTps = PendukungTps::insert($data);
 
         if ($pendukungTps) {
-            $getTps = Tps::find($tps_id);
-            $getTps->totalsemua_tps = $getTps->totalsemua_tps + count($data);
-            $getTps->save();
-
             session()->forget('save_pendukung');
 
             return response()->json([
@@ -295,11 +281,6 @@ class PendukungController extends Controller
     {
         //
         $pendukung = PendukungTps::find($id);
-        $tps_id = $pendukung->tps_id;
-
-        $getTps = Tps::find($tps_id);
-        $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
-        $getTps->save();
 
         $users_id = $pendukung->users_id;
         $getUsers = User::with('profile')->find($users_id);
@@ -308,7 +289,6 @@ class PendukungController extends Controller
 
         $delete = PendukungTps::destroy($id);
         if ($delete) {
-            SuaraBroadcast::dispatch();
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil delete data',
@@ -334,6 +314,9 @@ class PendukungController extends Controller
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
         $roles = 'relawan';
+        $searchValue =  $request->input('search')['value'];
+
+
         $data = User::query()
             ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.nik_profile', 'profile.alamat_profile', 'profile.jenis_kelamin_profile')
             ->join('profile', 'profile.users_id', 'users.id')
@@ -342,6 +325,16 @@ class PendukungController extends Controller
             ->where('roles.nama_roles', '=', $roles)
             ->where('users.is_aktif', '=', 1)
             ->where('users.is_registps', '=', null);
+
+        if ($searchValue != null) {
+            $data->where(function ($query) use ($searchValue) {
+                $query->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('profile.email_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('profile.nohp_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('roles.nama_roles', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('users.username', 'LIKE', '%' . $searchValue . '%');
+            });
+        }
         $userAcess = session()->get('userAcess');
 
 
@@ -398,7 +391,7 @@ class PendukungController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-        $roles = 'pendukung';
+        $roles = 'relawan';
         $users_id = $request->input('users_id');
 
         $search = $request->input('search');

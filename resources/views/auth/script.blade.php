@@ -1,13 +1,56 @@
 <script>
     $(document).ready(function() {
-        var table = $('#dataTable').DataTable({
-            responsive: true,
-            ajax: {
-                url: "{{ route('register.index') }}",
-                dataType: 'json',
-                type: 'get',
-            },
-        });
+        var table = $('#dataTable')
+            .DataTable({
+                serverSide: true,
+                processing: true,
+                searching: true,
+                search: {
+                    caseInsensitive: true,
+                },
+                searchHighlight: true,
+                ajax: "{{ route('register.index') }}",
+                columns: [{
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                    },
+                    {
+                        data: "nama_tps",
+                        name: "nama_tps",
+                        searchable: true
+                    },
+                    {
+                        data: "villages.name",
+                        name: "villages.name",
+                        searchable: true
+                    },
+                    {
+                        data: "alamat_tps",
+                        name: "alamat_tps",
+                        searchable: true,
+                        orderable: true,
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                drawCallback: function(settings) {
+                    var info = table.page.info();
+                    table
+                        .column(0, {
+                            search: "applied",
+                            order: "applied"
+                        })
+                        .nodes()
+                        .each(function(cell, i) {
+                            cell.innerHTML = info.start + i + 1;
+                        });
+                },
+            });
 
         $('.select2').select2({
             theme: 'bootstrap-5'
@@ -148,10 +191,11 @@
                 dataType: 'json',
                 type: 'get',
                 success: function(data) {
+                    console.log(data);
+                    
                     let countUsersId = 0;
-                    if (data.users_id != null) {
-                        countUsersId = data.users_id.split(',');
-                        countUsersId = countUsersId.length;
+                    if (data.totalco_tps != null) {
+                        countUsersId = data.totalco_tps;
                     }
                     let userPlusKuota = parseInt(countUsersId) + parseInt(1);
                     if (userPlusKuota > parseInt(data.kuota_tps)) {
@@ -166,6 +210,7 @@
                         return;
                     }
 
+                    $('strong#nama_tps').html(data.nama_tps);
                     $('span#kuota_tps').html(data.kuota_tps);
                     $('input.tps_id').val(data.id);
                     $('span#users_id').html(countUsersId);

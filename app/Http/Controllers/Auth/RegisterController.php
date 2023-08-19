@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
+use App\Models\KoordinatorTps;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -14,6 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use File;
+
+use DataTables;
+
 
 class RegisterController extends Controller
 {
@@ -30,66 +34,24 @@ class RegisterController extends Controller
 
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
-
-            $data = Tps::all();
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonDetail = '
-                <a href="#" class="btn btn-outline-info m-b-xs btn-choose-tps" style="border-color: #91C8E4 !important;" data-id="' . $v_data->id . '">
-                    <i class="fas fa-arrow-right"></i> Pilih TPS
-                </a>
-                ';
-                $button = '
-                <div class="text-center">
-                    ' . $buttonDetail . '
-                </div>
-                ';
-
-                $daerah = '
-                <div class="row">
-                    <div class="col-lg-6">
-                    Provinsi: <br> <strong class="text-success">' . $v_data->provinces->name . ' </strong>
+            $data = Tps::query()->with('villages');
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonDetail = '
+                    <a href="#" class="btn btn-outline-info m-b-xs btn-choose-tps" style="border-color: #91C8E4 !important;" data-id="' . $row->id . '">
+                        <i class="fas fa-arrow-right"></i> Pilih TPS
+                    </a>
+                    ';
+                    $button = '
+                    <div class="text-center">
+                        ' . $buttonDetail . '
                     </div>
-                    <div class="col-lg-6">
-                    Kabupaten: <br> <strong class="text-success">' . $v_data->regencies->name . ' </strong>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                    Kecamatan: <br> <strong class="text-success">' . $v_data->districts->name . ' </strong>
-                    </div>
-                    <div class="col-lg-6">
-                    Kelurahan: <br> <strong class="text-success">' . $v_data->villages->name . ' </strong>
-                    </div>
-                </div>
-                ';
+                    ';
+                    return $button;
+                })
 
-                $terdaftar = $v_data->users_id;
-                $countTerdaftar = count(explode(',', $terdaftar));
-
-
-                $capaianTps = '
-                <div>
-                    <strong class="text-dark">Kuota TPS: </strong> <strong>' . $v_data->kuota_tps . '</strong> <br>
-                    <strong class="text-dark">Sudah terdaftar: </strong> <strong><i class="fas fa-users"></i> ' . $countTerdaftar . '</strong>
-                </div>
-                ';
-
-                $result['data'][] = [
-                    $no++,
-                    $v_data->nama_tps,
-                    $v_data->alamat_tps,
-                    $capaianTps,
-                    $daerah,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                ->rawColumns(['action', 'gambar_profile'])
+                ->toJson();
         }
 
         return view('auth.register', [
@@ -182,20 +144,14 @@ class RegisterController extends Controller
 
         // tps
         $tps_id = $request->input('tps_id');
+        KoordinatorTps::create([
+            'tps_id' => $tps_id,
+            'users_id' => $user_id->id,
+        ]);
+
         $getTps = Tps::find($tps_id);
-        $usersTps = $getTps->users_id;
-        if ($usersTps != null) {
-            $explodeUsersId = explode(',', $usersTps);
-            $result = array_merge($explodeUsersId, [$user_id->id]);
-            $implode = implode(',', $result);
-            Tps::find($tps_id)->update([
-                'users_id' => $implode
-            ]);
-        } else {
-            Tps::find($tps_id)->update([
-                'users_id' => $user_id->id,
-            ]);
-        }
+        $getTps->totalco_tps = $getTps->totalco_tps + 1;
+        $getTps->save();
 
         $data = array_merge($dataUsers, $dataRoles, $dataBiodata);
         if ($user_id || $roleUser || $profile) {

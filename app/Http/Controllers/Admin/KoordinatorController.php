@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 
@@ -118,13 +117,11 @@ class KoordinatorController extends Controller
     public function store(Request $request)
     {
         //
-
         $validator = Validator::make($request->all(), [
             'users_id' => [function ($attribute, $value, $fail) use ($request) {
                 if (!$request->session()->has('save_koordinator')) {
                     return $fail('User koordinator belum dipilih');
                 }
-
                 $saveKoordinator = $request->session()->get('save_koordinator');
 
                 $mesage = '';
@@ -136,6 +133,12 @@ class KoordinatorController extends Controller
 
                 if ($mesage != '') {
                     return  $fail($mesage);
+                }
+
+                $tpsId = $request->input('tps_id');
+                $getTps = Tps::find($tpsId);
+                if (count($saveKoordinator) > $getTps->kuota_tps) {
+                    $fail('Kuota koordinator adalah: ' . $getTps->kuota_tps . ' sedang anda memilih ' . count($saveKoordinator) . ' Koordinator');
                 }
             }],
             'tps_id' => 'required',
@@ -298,7 +301,7 @@ class KoordinatorController extends Controller
 
         $delete = KoordinatorTps::destroy($id);
         if ($delete) {
-            SuaraBroadcast::dispatch();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil delete data',
@@ -324,6 +327,9 @@ class KoordinatorController extends Controller
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
         $roles = 'koordinator';
+        $searchValue =  $request->input('search')['value'];
+
+
         $data = User::query()
             ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.nik_profile', 'profile.alamat_profile', 'profile.jenis_kelamin_profile')
             ->join('profile', 'profile.users_id', 'users.id')
@@ -332,6 +338,16 @@ class KoordinatorController extends Controller
             ->where('roles.nama_roles', '=', $roles)
             ->where('users.is_aktif', '=', 1)
             ->where('users.is_registps', '=', null);
+
+        if ($searchValue != null) {
+            $data->where(function ($query) use ($searchValue) {
+                $query->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('profile.email_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('profile.nohp_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('roles.nama_roles', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('users.username', 'LIKE', '%' . $searchValue . '%');
+            });
+        }
         $userAcess = session()->get('userAcess');
 
 

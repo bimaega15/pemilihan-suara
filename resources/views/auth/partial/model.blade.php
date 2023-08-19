@@ -1,6 +1,6 @@
  <!-- Modal -->
  <div class="modal fade" id="modalForm" aria-labelledby="modalFormLabel" aria-hidden="true">
-     <div class="modal-dialog modal-fullscreen">
+     <div class="modal-dialog modal-xl">
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="modalFormLabel">Form TPS</h5>
@@ -13,9 +13,8 @@
                              <tr>
                                  <th>No.</th>
                                  <th>TPS</th>
+                                 <th>Kelurahan</th>
                                  <th>Alamat</th>
-                                 <th>Terdaftar</th>
-                                 <th>Wilayah</th>
                                  <th>Action</th>
                              </tr>
                          </thead>

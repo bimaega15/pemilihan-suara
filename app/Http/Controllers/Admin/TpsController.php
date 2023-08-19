@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\TpsCreated;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\Tps;
@@ -90,7 +89,9 @@ class TpsController extends Controller
                     return $buttonCo;
                 })
                 ->addColumn('pendukung', function ($row) use ($userAcess) {
-                    $countPendukung = $row->totalsemua_tps == null ? 0 : $row->totalsemua_tps;
+                    $countTpsSet = $row->pendukungTps()->get()->count();
+                    $countPendukung = $countTpsSet == null ? 0 : $countTpsSet;
+                    
                     $buttonCo = '
                     <a href="' . url('admin/pendukung?tps_id=' . $row->id) . '" class="badge bg-success" style="border-color: #5B9A8B !important;">
                         <i class="fas fa-list"></i> ' . $countPendukung . ' Pendukung
@@ -144,7 +145,7 @@ class TpsController extends Controller
         ];
         $insert = Tps::create($data);
         if ($insert) {
-            TpsCreated::dispatch();
+
 
             return response()->json([
                 'status' => 200,
@@ -225,7 +226,7 @@ class TpsController extends Controller
         ];
         $insert = Tps::find($id)->update($data);
         if ($insert) {
-            TpsCreated::dispatch();
+
 
             return response()->json([
                 'status' => 200,
@@ -251,7 +252,7 @@ class TpsController extends Controller
         //
         $delete = Tps::destroy($id);
         if ($delete) {
-            TpsCreated::dispatch();
+
 
             return response()->json([
                 'status' => 200,

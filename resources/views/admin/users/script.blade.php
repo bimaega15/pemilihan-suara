@@ -41,18 +41,17 @@
                 {
                     data: "nama_profile",
                     name: "nama_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "email_profile",
                     name: "email_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "nohp_profile",
                     name: "nohp_profile",
                     searchable: false,
-                    orderable: false,
                 },
                 {
                     data: "gambar_profile",
@@ -117,18 +116,17 @@
                 {
                     data: "nama_profile",
                     name: "nama_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "email_profile",
                     name: "email_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "nohp_profile",
                     name: "nohp_profile",
                     searchable: false,
-                    orderable: false,
                 },
                 {
                     data: "gambar_profile",
@@ -192,18 +190,17 @@
                 {
                     data: "nama_profile",
                     name: "nama_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "email_profile",
                     name: "email_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "nohp_profile",
                     name: "nohp_profile",
                     searchable: false,
-                    orderable: false,
                 },
                 {
                     data: "gambar_profile",
@@ -268,18 +265,17 @@
                 {
                     data: "nama_profile",
                     name: "nama_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "email_profile",
                     name: "email_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "nohp_profile",
                     name: "nohp_profile",
                     searchable: false,
-                    orderable: false,
                 },
                 {
                     data: "gambar_profile",

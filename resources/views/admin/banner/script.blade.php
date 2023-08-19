@@ -18,7 +18,8 @@
                 {
                     data: "gambar_banner",
                     name: "gambar_banner",
-                    searchable: true
+                    searchable: false,
+                    orderable: false,
                 },
                 {
                     data: "judul_banner",

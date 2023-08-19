@@ -275,13 +275,5 @@
             let active = $('#output_grafik ul.pagination li.page-item.active span.page-link').text();
             fetch_user_data_grafik(1, getWhere);
         })
-
-        window.Echo.channel("socket-tps").listen("TpsCreated", (event) => {
-            fetch_user_data_grafik();
-        });
-
-        window.Echo.channel("socket-tps-detail").listen("TpsDetail", (event) => {
-            fetch_user_data_grafik();
-        });
     })
 </script>

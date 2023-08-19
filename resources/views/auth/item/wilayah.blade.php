@@ -14,7 +14,7 @@
             <div class="card-header p-3">
                 <div class="d-flex justify-content-between align-items-center p-0">
                     <div>
-                        <i class="fas fa-location-arrow"></i> <strong>TPS Pemersatu Suara</strong>
+                        <i class="fas fa-location-arrow"></i> <strong id="nama_tps">TPS Pemersatu Suara</strong>
                     </div>
                     <div>
                         <a href="#" class="btn btn-outline-danger m-b-xs btn-cancel-tps" style="border-color: #F11A7B !important;" data-id="">
@@ -26,7 +26,7 @@
             </div>
             <div class="card-body">
                 <h5>
-                    <span class="text-dark"><i class="fas fa-volume-down"></i> Kuota TPS: </span> <span id="#kuota_tps">3</span> <br>
+                    <span class="text-dark"><i class="fas fa-volume-down"></i> Kuota TPS: </span> <span id="kuota_tps">3</span> <br>
                     <span class="text-dark"><i class="fas fa-users"></i> Sudah terdaftar: </span> <span id="users_id">1</span>
                 </h5>
                 <hr>

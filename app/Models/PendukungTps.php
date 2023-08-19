@@ -9,6 +9,7 @@ class PendukungTps extends Model
 {
     use HasFactory;
     protected $table = 'pendukung_tps';
+    protected $guarded = ['id'];
 
     public function tps()
     {

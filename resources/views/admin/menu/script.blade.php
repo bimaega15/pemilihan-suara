@@ -29,8 +29,7 @@
                 {
                     data: "link_management_menu",
                     name: "link_management_menu",
-                    searchable: false,
-                    orderable: false,
+                    searchable: true,
                 },
                 {
                     data: "membawahi_menu_management_menu",

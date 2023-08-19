@@ -34,17 +34,17 @@
                 {
                     data: "nik_profile",
                     name: "nik_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "nama_profile",
                     name: "nama_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "alamat_profile",
                     name: "alamat_profile",
-                    searchable: true
+                    searchable: false
                 },
                 {
                     data: "gambar_profile",

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
+use App\Models\KoordinatorTps;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
+use App\Models\Tps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -41,12 +43,24 @@ class UsersController extends Controller
             $roles = request()->input('roles');
             $userAcess = session()->get('userAcess');
 
+            $searchValue =  $request->input('search')['value'];
+
             $data = User::query()
                 ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile')
                 ->join('profile', 'profile.users_id', 'users.id')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
                 ->where('roles.nama_roles', '=', $roles);
+
+            if ($searchValue != null) {
+                $data->where(function ($query) use ($searchValue) {
+                    $query->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
+                        ->orWhere('profile.email_profile', 'LIKE', '%' . $searchValue . '%')
+                        ->orWhere('profile.nohp_profile', 'LIKE', '%' . $searchValue . '%')
+                        ->orWhere('roles.nama_roles', 'LIKE', '%' . $searchValue . '%')
+                        ->orWhere('users.username', 'LIKE', '%' . $searchValue . '%');
+                });
+            }
 
             return DataTables::eloquent($data)
                 ->addColumn('action', function ($row) use ($userAcess, $roles) {
@@ -441,6 +455,16 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+        $getTpsKoordinator = KoordinatorTps::where('users_id', $id);
+        if ($getTpsKoordinator->get()->count() > 0) {
+            $getTpsCo = $getTpsKoordinator->first();
+            $tps_id = $getTpsCo->tps_id;
+
+            $getTps = Tps::find($tps_id);
+            $getTps->totalco_tps = $getTps->totalco_tps - 1;
+            $getTps->save();
+        }
+
         $this->deleteFile($id);
         $delete = User::destroy($id);
         if ($delete) {
