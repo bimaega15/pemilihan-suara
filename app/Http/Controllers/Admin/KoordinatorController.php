@@ -43,6 +43,15 @@ class KoordinatorController extends Controller
                 ->where('tps_id', $tps_id);
 
             return DataTables::eloquent($data)
+                ->addColumn('collapse_primary', function ($row) use ($userAcess) {
+                    $button = '
+                <button type="button" class="btn btn-outline-info m-b-xs btn-show-users btn-sm" style="border-color: #4477CE !important;" data-type="plus"
+                >
+                <i class="fas fa-plus"></i>
+            </button>
+                ';
+                    return $button;
+                })
                 ->addColumn('action', function ($row) use ($userAcess) {
                     $buttonUpdate = '';
                     if ($userAcess['is_update'] == '1') {
@@ -85,7 +94,7 @@ class KoordinatorController extends Controller
                     return $jenisKelamin == 'L' ? 'Laki-laki' : 'Perempuan';
                 })
 
-                ->rawColumns(['action', 'gambar_profile'])
+                ->rawColumns(['action', 'gambar_profile', 'collapse_primary'])
                 ->toJson();
         }
 

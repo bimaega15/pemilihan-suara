@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController as ControllersAboutController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AccessController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\DataPendukungController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\JabatanController;
@@ -115,6 +116,8 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::get('pendukung/usersPendukung', [PendukungController::class, 'usersPendukung'])->name('pendukung.usersPendukung');
     Route::get('pendukung/selectPendukung', [PendukungController::class, 'selectPendukung'])->name('pendukung.selectPendukung');
     Route::get('pendukung/saveSession', [PendukungController::class, 'saveSession'])->name('pendukung.saveSession');
+
+    Route::resource('dataPendukung', DataPendukungController::class)->except(['show']);
 });
 
 

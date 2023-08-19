@@ -86,15 +86,15 @@ $isCreate = session()->get('userAcess.is_create');
                                     <table class="table" id="dataTable">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th scope="col">No</th>
                                                 <th>Username</th>
                                                 <th>Nik</th>
                                                 <th>Nama</th>
                                                 <th>Alamat</th>
                                                 <th>No. Hp</th>
-                                                <th>Email</th>
                                                 <th>J.K</th>
-                                                <th>Gambar</th>
+                                                <th style="width: 80px;">Gambar</th>
                                                 <th scope="col">
                                                     <div class="text-center">
                                                         Actions

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-Koordinator
+Pendukung
 @endsection
 @section('content')
 
@@ -63,25 +63,11 @@ $isCreate = session()->get('userAcess.is_create');
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <i data-feather="settings"></i> <strong>Data Koordinator</strong>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                {{ Breadcrumbs::render('koordinator') }}
-                            </div>
-                        </div>
+                        <i data-feather="settings"></i> <strong>Data Pendukung</strong>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                @if ($isCreate != null)
-                                <div class="mb-3">
-                                    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/koordinator/create') }}" class="btn btn-primary btn-add">
-                                        <i data-feather="plus"></i> Tambah
-                                    </a>
-                                </div>
-                                @endif
                                 <div class="table-responsive">
                                     <table class="table" id="dataTable">
                                         <thead>
@@ -114,9 +100,8 @@ $isCreate = session()->get('userAcess.is_create');
         </div>
     </div>
 </div>
-@include('admin.koordinator.model')
 @endsection
 
 @push('js')
-@include('admin.koordinator.script')
+@include('admin.pendukung.script')
 @endpush

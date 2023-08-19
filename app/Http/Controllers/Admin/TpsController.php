@@ -91,7 +91,6 @@ class TpsController extends Controller
                 ->addColumn('pendukung', function ($row) use ($userAcess) {
                     $countTpsSet = $row->pendukungTps()->get()->count();
                     $countPendukung = $countTpsSet == null ? 0 : $countTpsSet;
-                    
                     $buttonCo = '
                     <a href="' . url('admin/pendukung?tps_id=' . $row->id) . '" class="badge bg-success" style="border-color: #5B9A8B !important;">
                         <i class="fas fa-list"></i> ' . $countPendukung . ' Pendukung

@@ -16,6 +16,7 @@
             columns: [{
                     data: "collapse",
                     orderable: false,
+                    searchable: false,
                     className: 'details-control'
                 },
                 {
@@ -77,6 +78,20 @@
                 tr.removeClass('shown');
             } else {
                 row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+        $('#dataTable tbody').on('click', 'td.details-control-primary .btn-show-users', function() {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // Baris sudah terbuka, tutup
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                row.child(format_primary(row.data())).show();
                 tr.addClass('shown');
             }
         });
@@ -180,6 +195,106 @@
             `;
         }
 
+        function format_primary(rowData) {
+            let gambar_profile = rowData.users.profile.gambar_profile;
+            if (rowData.users.profile.gambar_profile == 'default.png') {
+                const root = "{{ asset('/') }}";
+                let linkGambar =
+                    `${root}upload/profile/${rowData.users.profile.gambar_profile}`;
+                gambar_profile = `
+                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${rowData.users.profile.gambar_profile}">
+                        <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
+                    </a>
+                    `;
+            }
+
+
+            return `
+            <div class="row">
+                     <div class="col-lg-6">
+                         <h5>Users Acount</h5>
+                         <hr>
+                         <table class="w-100">
+                             <tr>
+                                 <td>Username</td>
+                                 <td>:</td>
+                                 <td><span id="username">${rowData.users.username}</span></td>
+                             </tr>
+                             <tr>
+                                 <td>Status Aktif</td>
+                                 <td>:</td>
+                                 <td><span id="is_aktif">
+                                       ${rowData.users.is_aktif == 1 ? `<i class="fas fa-check text-success"></i>` : `
+                                        <i class="fas fa-times text-danger"></i>` }  
+                                     </span>
+                                     </td>
+                             </tr>
+                             <tr>
+                                 <td>Status Pendaftaran TPS</td>
+                                 <td>:</td>
+                                 <td><span id="is_registps">
+                                 ${rowData.users.is_registps == 1 ? `<i class="fas fa-check text-success"></i>` : `
+                                        <i class="fas fa-times text-danger"></i>` }  
+                                     </span></td>
+                             </tr>
+                         </table>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5>Biodata Koordinator</h5>
+                            <hr>
+                            <table class="w-100">
+                                <tr>
+                                    <td>NIK</td>
+                                    <td>:</td>
+                                    <td><span id="nik_profile">${rowData.users.profile.nik_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>:</td>
+                                    <td><span id="nama_profile">${rowData.users.profile.nama_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>:</td>
+                                    <td><span id="email_profile">${rowData.users.profile.email_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat</td>
+                                    <td>:</td>
+                                    <td><span id="alamat_profile">${rowData.users.profile.alamat_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>No. HP</td>
+                                    <td>:</td>
+                                    <td><span id="nohp_profile">${rowData.users.profile.nohp_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jenis Kelamin</td>
+                                    <td>:</td>
+                                    <td><span id="jenis_kelamin_profile">
+                                    ${rowData.users.profile.jenis_kelamin_profile == 'L' ? 'Laki-laki' : 'Perempuan'}
+                                    </span></td>
+                                </tr>
+                                <tr>
+                                    <td>Gambar profile</td>
+                                    <td>:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <span id="gambar_profile">
+                                            ${gambar_profile}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
         var table = $('#dataTable')
             .DataTable({
                 serverSide: true,
@@ -197,6 +312,13 @@
                     }
                 },
                 columns: [{
+                        data: "collapse_primary",
+                        name: "collapse_primary",
+                        orderable: false,
+                        searchable: false,
+                        className: 'details-control-primary'
+                    },
+                    {
                         data: null,
                         orderable: false,
                         searchable: false,
@@ -227,11 +349,7 @@
                         name: "users.profile.nohp_profile",
                         searchable: true
                     },
-                    {
-                        data: "users.profile.email_profile",
-                        name: "users.profile.email_profile",
-                        searchable: true
-                    },
+
                     {
                         data: "jenis_kelamin_profile",
                         name: "jenis_kelamin_profile",
@@ -251,7 +369,7 @@
                 drawCallback: function(settings) {
                     var info = table.page.info();
                     table
-                        .column(0, {
+                        .column(1, {
                             search: "applied",
                             order: "applied"
                         })
