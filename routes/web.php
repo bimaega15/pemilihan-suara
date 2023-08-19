@@ -106,7 +106,6 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::resource('kecamatan', KecamatanController::class);
     Route::resource('kelurahan', KelurahanController::class);
 
-
     Route::resource('koordinator', KoordinatorController::class)->except(['show']);
     Route::get('koordinator/usersKoordinator', [KoordinatorController::class, 'usersKoordinator'])->name('koordinator.usersKoordinator');
     Route::get('koordinator/selectKoordinator', [KoordinatorController::class, 'selectKoordinator'])->name('koordinator.selectKoordinator');

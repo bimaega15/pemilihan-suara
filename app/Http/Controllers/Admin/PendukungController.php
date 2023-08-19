@@ -150,11 +150,23 @@ class PendukungController extends Controller
         }
 
         $tps_id = $request->input('tps_id');
+
+
         $users_id =  $request->session()->get('save_pendukung');
 
         $data = [];
         foreach ($users_id as $key => $value) {
-            $getUsers = User::find($value);
+            $getUsers = User::with('profile')->find($value);
+            $getTps = Tps::find($tps_id);
+
+            if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                $getTps->totallk_tps = $getTps->totallk_tps + 1;
+            }
+            if ($getUsers->profile->jenis_kelamin_profile == 'P') {
+                $getTps->totalpr_tps = $getTps->totalpr_tps + 1;
+            }
+            $getTps->save();
+
             $getUsers->is_registps = true;
             $getUsers->save();
 
@@ -290,7 +302,7 @@ class PendukungController extends Controller
         $getTps->save();
 
         $users_id = $pendukung->users_id;
-        $getUsers = User::find($users_id);
+        $getUsers = User::with('profile')->find($users_id);
         $getUsers->is_registps = null;
         $getUsers->save();
 

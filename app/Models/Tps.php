@@ -11,15 +11,6 @@ class Tps extends Model
     protected $table = 'tps';
     protected $guarded = ['id'];
 
-    public function tpsDetail()
-    {
-        return $this->hasMany(TpsDetail::class);
-    }
-
-    public function pengumuman()
-    {
-        return $this->hasMany(Pengumuman::class);
-    }
 
     public function provinces()
     {
@@ -41,13 +32,14 @@ class Tps extends Model
         return $this->belongsTo(Village::class, 'villages_id', 'id');
     }
 
-    public function tpsPendukung()
-    {
-        return $this->hasMany(TpsPendukung::class);
-    }
 
     public function koordinatorTps()
     {
         return $this->hasMany(KoordinatorTps::class);
+    }
+
+    public function pendukungTps()
+    {
+        return $this->hasMany(PendukungTps::class);
     }
 }

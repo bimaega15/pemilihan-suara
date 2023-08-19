@@ -48,24 +48,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function hasilUsers()
-    {
-        return $this->hasMany(HasilUsers::class);
-    }
-
-
-    public function tpsDetail()
-    {
-        return $this->hasMany(TpsDetail::class, 'users_id', 'id');
-    }
-
-    public function tpsPendukung()
-    {
-        return $this->hasMany(TpsPendukung::class);
-    }
-
     public function koordinatorTps()
     {
         return $this->hasMany(KoordinatorTps::class);
+    }
+
+    public function pendukungTps()
+    {
+        return $this->hasMany(PendukungTps::class);
     }
 }

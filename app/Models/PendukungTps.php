@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class PendukungTps extends Model
 {
     use HasFactory;
+    protected $table = 'pendukung_tps';
+
+    public function tps()
+    {
+        return $this->belongsTo(Tps::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
