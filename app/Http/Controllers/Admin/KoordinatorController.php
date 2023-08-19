@@ -5,19 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\Jabatan;
-use App\Models\Profile;
-use App\Models\Role;
-use App\Models\RoleUser;
+
 use App\Models\Tps;
 use App\Models\KoordinatorTps;
-use App\Models\TpsPendukung;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use File;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
 use DataTables;
 
 class KoordinatorController extends Controller
@@ -265,7 +259,7 @@ class KoordinatorController extends Controller
 
         if ($koordinatorTps) {
             $getUsers = User::find($users_id);
-            $getUsers->is_registps = null;
+            $getUsers->is_registps = true;
             $getUsers->save();
 
             return response()->json([

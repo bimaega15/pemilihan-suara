@@ -19,16 +19,13 @@ Breadcrumbs::for('tps', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('TPS', route('admin.tps.index'));
 });
+
 Breadcrumbs::for('koordinator', function (BreadcrumbTrail $trail) {
     $trail->parent('tps');
     $trail->push('Koordinator');
 });
 
-Breadcrumbs::for('monitoring', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Monitoring', route('admin.monitoring.index'));
-});
-Breadcrumbs::for('monitoringDetail', function (BreadcrumbTrail $trail) {
-    $trail->parent('monitoring');
-    $trail->push('Detail');
+Breadcrumbs::for('pendukung', function (BreadcrumbTrail $trail) {
+    $trail->parent('tps');
+    $trail->push('Pendukung');
 });

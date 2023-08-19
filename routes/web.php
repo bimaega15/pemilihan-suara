@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\ServerCreated;
 use App\Http\Controllers\AboutController as ControllersAboutController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\AccessController;
@@ -14,13 +13,11 @@ use App\Http\Controllers\Admin\KelurahanController;
 use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\KoordinatorController;
 use App\Http\Controllers\Admin\MenuController;
-use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\PendukungController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProvinsiController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\TpsController;
-use App\Http\Controllers\Admin\TpsDetailController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -28,7 +25,6 @@ use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\GalleryController as ControllersGalleryController;
 use App\Http\Controllers\HomeController as ControllersHomeController;
 use App\Http\Controllers\StatusRegisController;
-use App\Http\Controllers\TpsController as ControllersTpsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -98,30 +94,6 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
 
     // 
     Route::resource('tps', TpsController::class)->except(['show']);
-    Route::get('/tps/getKoordinator', [TpsController::class, 'getKoordinator'])->name('tps.getKoordinator');
-    Route::get('/tps/{id}/getAddKoordinator', [TpsController::class, 'getAddKoordinator'])->name('tps.getAddKoordinator');
-    Route::post('/tps/{id}/addKoordinator', [TpsController::class, 'addKoordinator'])->name('tps.addKoordinator');
-
-    Route::resource('tpsDetail', TpsDetailController::class)->except(['show']);
-    Route::post('/tpsDetail/{id}/uploadBuktiCoblos', [TpsDetailController::class, 'uploadBuktiCoblos'])->name('tpsDetail.uploadBuktiCoblos');
-    Route::post('/tpsDetail/{id}/verificationCoblos', [TpsDetailController::class, 'verificationCoblos'])->name('tpsDetail.verificationCoblos');
-
-    Route::get('/tpsDetail/tpsPendukung', [TpsDetailController::class, 'tpsPendukung'])->name('tpsDetail.tpsPendukung');
-    Route::get('/tpsDetail/{tps_id}/getTps', [TpsDetailController::class, 'getTps'])->name('tpsDetail.getTps');
-    Route::get('/tpsDetail/getTpsPendukung', [TpsDetailController::class, 'getTpsPendukung'])->name('tpsDetail.getTpsPendukung');
-
-
-
-    Route::resource('pendukung', PendukungController::class)->except(['show']);
-    Route::post('/pendukung/{id}/uploadBuktiCoblos', [PendukungController::class, 'uploadBuktiCoblos'])->name('pendukung.uploadBuktiCoblos');
-    Route::post('/pendukung/{id}/verificationCoblos', [PendukungController::class, 'verificationCoblos'])->name('pendukung.verificationCoblos');
-
-
-    Route::get('/pendukung/tpsPendukung', [PendukungController::class, 'tpsPendukung'])->name('pendukung.tpsPendukung');
-    Route::get('/pendukung/{tps_id}/getTps', [PendukungController::class, 'getTps'])->name('pendukung.getTps');
-    Route::get('/pendukung/getTpsPendukung', [PendukungController::class, 'getTpsPendukung'])->name('pendukung.getTpsPendukung');
-
-
     Route::resource('jabatan', JabatanController::class);
     Route::resource('banner', BannerController::class);
     Route::resource('about', AboutController::class)->except(['show']);
@@ -134,25 +106,21 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::resource('kecamatan', KecamatanController::class);
     Route::resource('kelurahan', KelurahanController::class);
 
-    Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
-    Route::get('/monitoring/{id}/detail', [MonitoringController::class, 'detail'])->name('monitoring.detail');
-
 
     Route::resource('koordinator', KoordinatorController::class)->except(['show']);
     Route::get('koordinator/usersKoordinator', [KoordinatorController::class, 'usersKoordinator'])->name('koordinator.usersKoordinator');
     Route::get('koordinator/selectKoordinator', [KoordinatorController::class, 'selectKoordinator'])->name('koordinator.selectKoordinator');
     Route::get('koordinator/saveSession', [KoordinatorController::class, 'saveSession'])->name('koordinator.saveSession');
-});
 
-Route::get('/admin/monitoring/fetchDukungan', [MonitoringController::class, 'fetchDukungan'])->name('monitoring.fetchDukungan');
-Route::get('/admin/monitoring/fetchProgres', [MonitoringController::class, 'fetchProgres'])->name('monitoring.fetchProgres');
-Route::get('/admin/monitoring/fetchGrafik', [MonitoringController::class, 'fetchGrafik'])->name('monitoring.fetchGrafik');
-Route::get('/admin/monitoring/fetchDisplayGrafik', [MonitoringController::class, 'fetchDisplayGrafik'])->name('monitoring.fetchDisplayGrafik');
+    Route::resource('pendukung', PendukungController::class)->except(['show']);
+    Route::get('pendukung/usersPendukung', [PendukungController::class, 'usersPendukung'])->name('pendukung.usersPendukung');
+    Route::get('pendukung/selectPendukung', [PendukungController::class, 'selectPendukung'])->name('pendukung.selectPendukung');
+    Route::get('pendukung/saveSession', [PendukungController::class, 'saveSession'])->name('pendukung.saveSession');
+});
 
 
 Route::get('/', [ControllersHomeController::class, 'index'])->name('home.index');
 Route::get('/about', [ControllersAboutController::class, 'index'])->name('about.index');
 Route::get('/gallery', [ControllersGalleryController::class, 'index'])->name('gallery.index');
 Route::get('/contactUs', [ContactUsController::class, 'index'])->name('contactUs.index');
-Route::get('/tps', [ControllersTpsController::class, 'index'])->name('tps.index');
 Route::get('/statusPendaftaran', [StatusRegisController::class, 'index'])->name('tps.index');

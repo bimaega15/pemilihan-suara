@@ -5,19 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-use App\Models\Jabatan;
-use App\Models\Profile;
-use App\Models\Role;
-use App\Models\RoleUser;
+
 use App\Models\Tps;
-use App\Models\TpsDetail;
-use App\Models\TpsPendukung;
+use App\Models\PendukungTps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use File;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
+use DataTables;
 
 class PendukungController extends Controller
 {
@@ -28,7 +23,7 @@ class PendukungController extends Controller
      */
     public function index(Request $request)
     {
-        $getCurrentUrl = '/admin/pendukung';
+        $getCurrentUrl = '/admin/tps';
         if (!isset(Check::getMenu($getCurrentUrl)[0])) {
             abort(403, 'Cannot access page');
         }
@@ -38,158 +33,68 @@ class PendukungController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-        $users_id = Auth::id();
-        $tps = Tps::where('users_id', 'like', '%' . strval($users_id) . '%')->first();
-        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Koordinator%')->first();
-
 
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
 
+            $tps_id = $request->input('tps_id');
+            $data = PendukungTps::query()->with(['tps' => function ($query) use ($tps_id) {
+                $query->where('id', $tps_id);
+            }, 'users', 'users.profile'])
+                ->where('tps_id', $tps_id);
 
-            $data = TpsDetail::select('tps_detail.*', 'users.username', 'users.is_aktif', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'tps.provinces_id', 'tps.regencies_id', 'tps.districts_id', 'tps.villages_id')
-                ->join('tps', 'tps.id', '=', 'tps_detail.tps_id')
-                ->join('users', 'tps_detail.users_id', '=', 'users.id')
-                ->join('profile', 'profile.users_id', '=', 'users.id')
-                ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                ->where('roles.nama_roles', '=', 'relawan')
-                ->where('tps_detail.tps_id', $tps->id);
-
-            $data = $data->get();
-
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonUpdate = '';
-                if ($userAcess['is_update'] == '1') {
-                    $buttonUpdate = '
-                    <a href="' . route('admin.pendukung.edit', $v_data->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
-                        <i class="fa-solid fa-pencil"></i>
+            return DataTables::eloquent($data)
+                ->addColumn('action', function ($row) use ($userAcess) {
+                    $buttonUpdate = '';
+                    if ($userAcess['is_update'] == '1') {
+                        $buttonUpdate = '
+                    <a href="' . route('admin.pendukung.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
-                }
-                $buttonDelete = '';
-                if ($userAcess['is_delete'] == '1') {
-                    $buttonDelete = '
-                    <form action=' . route('admin.pendukung.destroy', $v_data->id) . ' class="d-inline">
-                    <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </form>
+                    }
+                    $buttonDelete = '';
+                    if ($userAcess['is_delete'] == '1') {
+                        $buttonDelete = '
+                    <form action=' . route('admin.pendukung.destroy', $row->id) . ' class="d-inline">
+                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </form>
                     ';
-                }
-
-
-                $buttonVerification = '';
-                $spanVerification = '';
-                if (strval($v_data->detail_verification) == null) {
-
-                    $buttonVerification = '
-                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" data-detail_verification="0" style="border-color: #EA1179 !important;" title="Ditolak">
-                        <i class="fas fa-times"></i>
-                    </a>
-                    ';
-
-                    $buttonVerification .= '
-                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" data-detail_verification="1"  style="border-color: #4477CE !important;" title="Verifikasi">
-                        <i class="fas fa-check"></i>
-                    </a>
-                    ';
-                    $span = '<span class="badge bg-info">Menunggu Verifikasi</span>';
-                }
-
-                if (strval($v_data->detail_verification) == '1') {
-
-                    $buttonVerification = '
-                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-danger m-b-xs btn-verification" data-detail_verification="0" style="border-color: #EA1179 !important;" title="Ditolak">
-                        <i class="fas fa-times"></i>
-                    </a>
-                    ';
-
-                    $span = '<span class="badge bg-success">Diverifikasi</span>';
-                }
-                if (strval($v_data->detail_verification) == '0') {
-                    $buttonVerification = '
-                    <a href="' . route('admin.pendukung.verificationCoblos', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-verification" data-detail_verification="1"  style="border-color: #4477CE !important;" title="Verifikasi">
-                        <i class="fas fa-check"></i>
-                    </a>
-                    ';
-
-                    $span = '<span class="badge bg-danger">Ditolak</span>';
-                }
-
-                $outputVerification = '
+                    }
+                    $button = '
                 <div class="text-center">
-                    ' . $buttonVerification . ' <br>
-                    ' . $span . '
+                    ' . $buttonUpdate . '
+                    ' . $buttonDelete . '
                 </div>
                 ';
 
+                    return $button;
+                })
+                ->addColumn('gambar_profile', function ($row) use ($userAcess) {
+                    $url_gambar_profile = asset('upload/profile/' . $row->users->profile->gambar_profile);
+                    $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $row->users->profile->gambar_profile . '">
+                        <img src="' . $url_gambar_profile . '" width="100%;"></img>
+                    </a>';
 
-                $users_id_koordinator = Auth::id();
-                $buttonDetail = '
-                <a href="' . route('admin.pendukung.edit', $v_data->id) . '" class="btn btn-outline-info m-b-xs btn-detail" style="border-color: #4477CE !important;" data-id="' . $v_data->id . '" data-tps_detail_id="' . $v_data->id . '" data-users_id="' . $v_data->users_id . '" data-tps_id="' . $v_data->tps_id . '" data-users_id_koordinator="' . $users_id_koordinator . '">
-                    <i class="fas fa-eye"></i>
-                </a>
-                ';
+                    return $gambar_profile;
+                })
+                ->addColumn('jenis_kelamin_profile', function ($row) {
+                    $jenisKelamin = $row->users->profile->jenis_kelamin_profile;
+                    return $jenisKelamin == 'L' ? 'Laki-laki' : 'Perempuan';
+                })
 
-
-                $button = '
-            <div class="text-center">
-            ' . $buttonUpdate . '               
-            ' . $buttonDelete . '
-            ' . $buttonDetail . '
-            ' . $outputVerification . '               
-            </div>
-            ';
-
-                $url_gambar_profile = asset('upload/profile/' . $v_data->gambar_profile);
-                $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $v_data->gambar_profile . '">
-                    <img src="' . $url_gambar_profile . '" width="100%;"></img>
-                </a>';
-
-                $gambarCoblos = $v_data->bukticoblos_detail;
-                if ($gambarCoblos == null) {
-                    $gambarCoblos = 'default.png';
-                }
-
-                $url_bukticoblos_detail = asset('upload/tps/' . $gambarCoblos);
-                $bukticoblos_detail = '
-                <div style="width: 100%">
-                    <a class="photoviewer" href="' . $url_bukticoblos_detail . '" data-gallery="photoviewer" data-title="' . $gambarCoblos . '" class="d-block">
-                        <img src="' . $url_bukticoblos_detail . '" width="100%;"></img>
-                    </a>
-                    <button type="button" class="btn btn-dark text-center text-white w-100 btn-upload-bukti" data-id="' . $v_data->id . '" data-bukticoblos_detail="' . $v_data->bukticoblos_detail . '">
-                    <i class="fas fa-upload"></i>
-                    </button>
-                </div>
-                ';
-
-
-                $result['data'][] = [
-                    $no++,
-                    $v_data->nama_profile,
-                    $v_data->email_profile,
-                    $v_data->nohp_profile,
-                    $gambar_profile,
-                    $bukticoblos_detail,
-                    trim($button)
-                ];
-            }
-
-            return response()->json($result, 200);
+                ->rawColumns(['action', 'gambar_profile'])
+                ->toJson();
         }
-        $users_id = Auth::id();
-        $tps = Tps::where('users_id', 'like', '%' . strval($users_id) . '%')->first();
+
+        $tps_id = $request->input('tps_id');
+        $tps = Tps::find($tps_id);
 
         return view('admin.pendukung.index', [
             'tps_id' => $tps->id,
             'tps' => Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps->id),
-            'getJabatan' => $getJabatan
         ]);
     }
 
@@ -212,29 +117,30 @@ class PendukungController extends Controller
     public function store(Request $request)
     {
         //
-        $data = $request->all();
         $validator = Validator::make($request->all(), [
-            'nama_profile' => 'required',
-            'email_profile' => ['required', 'email', function ($attribute, $value, $fail) {
-                $email_profile = $_POST['email_profile'];
-                $checkEmailProfile = Profile::where('email_profile', $email_profile)->count();
-                if ($checkEmailProfile > 0) {
-                    $fail('Email sudah digunakan');
+            'users_id' => [function ($attribute, $value, $fail) use ($request) {
+                if (!$request->session()->has('save_pendukung')) {
+                    return $fail('User pendukung belum dipilih');
+                }
+
+                $savePendukung = $request->session()->get('save_pendukung');
+
+                $mesage = '';
+                foreach ($savePendukung as $key => $value) {
+                    if ($value == '') {
+                        $mesage = 'User pendukung belum dipilih';
+                    }
+                }
+
+                if ($mesage != '') {
+                    return  $fail($mesage);
                 }
             }],
-            'nohp_profile' => 'required|numeric',
-            'jenis_kelamin_profile' => 'required',
-            'nik_profile' => 'required',
-            'alamat_profile' => 'required',
-            'gambar_profile' => 'image|max:2048',
             'tps_id' => 'required',
         ], [
             'required' => ':attribute wajib diisi',
-            'numeric' => ':attribute harus berupa angka',
-            'email' => ':attribute tidak valid',
-            'image' => ':attribute harus berupa gambar',
-            'max' => ':attribute tidak boleh lebih dari :max',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
@@ -243,59 +149,30 @@ class PendukungController extends Controller
             ], 400);
         }
 
-        // pendukung
-        $dataUsers = [
-            'username' => $request->input('email_profile'),
-            'password' => Hash::make('123456'),
-        ];
-        $user_id = User::create($dataUsers);
-
-        // roles
-        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
-        $dataRoles = [
-            'role_id' => $getRoles->id,
-            'user_id' => $user_id->id,
-        ];
-        $roleUser = RoleUser::create($dataRoles);
-
-        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%relawan%')->first();
-        // biodata
-        $file = $request->file('gambar_profile');
-        $gambar_profile = $this->uploadFile($file);
-        $dataBiodata = [
-            'nik_profile' => $request->input('nik_profile'),
-            'jabatan_id' => $getJabatan->id,
-            'nama_profile' => $request->input('nama_profile'),
-            'email_profile' => $request->input('email_profile'),
-            'alamat_profile' => $request->input('alamat_profile'),
-            'nohp_profile' => $request->input('nohp_profile'),
-            'jenis_kelamin_profile' => $request->input('jenis_kelamin_profile'),
-            'gambar_profile' => $gambar_profile,
-            'users_id' => $user_id->id
-        ];
-        $profile = Profile::create($dataBiodata);
-
-        // pendukung
-        $tps_id_db = $request->input('tps_id_db');
-        $data = [
-            'users_id' => $user_id->id,
-            'tps_id' => $tps_id_db
-        ];
-        $tpsDetail = TpsDetail::create($data);
-
-        $tps_id = $tps_id_db;
-
-        // tps pendukung
         $tps_id = $request->input('tps_id');
-        $dataTpsPendukung = [
-            'tps_detail_id' => $tpsDetail->id,
-            'users_id_koordinator' => Auth::id(),
-            'users_id_pendukung' => $user_id->id,
-            'tps_id' => $tps_id
-        ];
-        $tpsPendukung = TpsPendukung::create($dataTpsPendukung);
+        $users_id =  $request->session()->get('save_pendukung');
 
-        if ($user_id || $roleUser || $profile || $tpsDetail || $tpsPendukung) {
+        $data = [];
+        foreach ($users_id as $key => $value) {
+            $getUsers = User::find($value);
+            $getUsers->is_registps = true;
+            $getUsers->save();
+
+            $data[] = [
+                'users_id' => $value,
+                'tps_id' => $tps_id
+            ];
+        }
+
+        $pendukungTps = PendukungTps::insert($data);
+
+        if ($pendukungTps) {
+            $getTps = Tps::find($tps_id);
+            $getTps->totalsemua_tps = $getTps->totalsemua_tps + count($data);
+            $getTps->save();
+
+            session()->forget('save_pendukung');
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Berhasil insert data',
@@ -329,7 +206,7 @@ class PendukungController extends Controller
     public function edit($id)
     {
         //
-        $pendukung =  TpsDetail::with('users', 'users.profile', 'users.roles', 'tps', 'tps.provinces', 'tps.regencies', 'tps.districts', 'tps.villages')->find($id);
+        $pendukung =  PendukungTps::with('tps', 'users', 'users.profile')->find($id);
         if ($pendukung) {
             return response()->json([
                 'status' => 200,
@@ -355,29 +232,9 @@ class PendukungController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'nama_profile' => 'required',
-            'email_profile' => ['required', 'email', function ($attribute, $value, $fail) use ($id) {
-                $pendukung = TpsDetail::find($id);
-                $email_profile = $_POST['email_profile'];
-                $checkEmailProfile = Profile::where('email_profile', $email_profile)
-                    ->where('users_id', '<>', $pendukung->users_id)
-                    ->count();
-                if ($checkEmailProfile > 0) {
-                    $fail('Email sudah digunakan');
-                }
-            }],
-            'nohp_profile' => 'required|numeric',
-            'jenis_kelamin_profile' => 'required',
-            'nik_profile' => 'required',
-            'alamat_profile' => 'required',
-            'gambar_profile' => 'image|max:2048',
-            'tps_id' => 'required',
+            'users_id_select' => 'required',
         ], [
             'required' => ':attribute wajib diisi',
-            'numeric' => ':attribute harus berupa angka',
-            'email' => ':attribute tidak valid',
-            'image' => ':attribute harus berupa gambar',
-            'max' => ':attribute tidak boleh lebih dari :max',
         ]);
 
         if ($validator->fails()) {
@@ -387,54 +244,21 @@ class PendukungController extends Controller
                 'result' => $validator->errors()
             ], 400);
         }
+        $getPendukungTps = PendukungTps::find($id);
 
-        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%relawan%')->first();
+        $getUsers = User::find($getPendukungTps->users_id);
+        $getUsers->is_registps = null;
+        $getUsers->save();
 
-        // biodata
-        $tpsDetail = TpsDetail::find($id);
-        $users_id = $tpsDetail->users_id;
-        $file = $request->file('gambar_profile');
-        $gambar_profile = $this->uploadFile($file, $users_id);
-        $dataBiodata = [
-            'nik_profile' => $request->input('nik_profile'),
-            'jabatan_id' => $getJabatan->id,
-            'nama_profile' => $request->input('nama_profile'),
-            'email_profile' => $request->input('email_profile'),
-            'alamat_profile' => $request->input('alamat_profile'),
-            'nohp_profile' => $request->input('nohp_profile'),
-            'jenis_kelamin_profile' => $request->input('jenis_kelamin_profile'),
-            'gambar_profile' => $gambar_profile,
-            'users_id' => $users_id,
-        ];
-        $profile = Profile::where('users_id', $users_id)->update($dataBiodata);
+        $users_id = $request->input('users_id_select');
+        $pendukungTps = PendukungTps::find($id)->update([
+            'users_id' => $users_id
+        ]);;
 
-        $tps_id = $tpsDetail->tps_id;
-
-        // tps pendukung 
-        $tps_detail_id = $tpsDetail->id;
-        $users_id_koordinator = Auth::id();
-        $users_id_pendukung = $users_id;
-        $tps_id = $tps_id;
-
-        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id);
-        if ($users_id_koordinator != null) {
-            $data->where('users_id_koordinator', $users_id_koordinator);
-        }
-        if ($users_id_pendukung != null) {
-            $data->where('users_id_pendukung', $users_id_pendukung);
-        }
-        if ($tps_detail_id != null) {
-            $data->where('tps_detail_id', $tps_detail_id);
-        }
-        $data = $data->first();
-        $tps_pendukung_id = $data->id;
-
-        $dataSet = [
-            'tps_id' => $request->input('tps_id')
-        ];
-        TpsPendukung::find($tps_pendukung_id)->update($dataSet);
-
-        if ($profile) {
+        if ($pendukungTps) {
+            $getUsers = User::find($users_id);
+            $getUsers->is_registps = true;
+            $getUsers->save();
 
             return response()->json([
                 'status' => 200,
@@ -458,18 +282,20 @@ class PendukungController extends Controller
     public function destroy($id)
     {
         //
-        $pendukung = TpsDetail::find($id);
+        $pendukung = PendukungTps::find($id);
         $tps_id = $pendukung->tps_id;
 
+        $getTps = Tps::find($tps_id);
+        $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
+        $getTps->save();
+
         $users_id = $pendukung->users_id;
-        $this->deleteFile($users_id);
-        $this->deleteFileBukti($id);
+        $getUsers = User::find($users_id);
+        $getUsers->is_registps = null;
+        $getUsers->save();
 
-        $delete = TpsDetail::destroy($id);
-        User::destroy($users_id);
+        $delete = PendukungTps::destroy($id);
         if ($delete) {
-            $this->updateCountTps($tps_id);
-
             SuaraBroadcast::dispatch();
             return response()->json([
                 'status' => 200,
@@ -483,291 +309,179 @@ class PendukungController extends Controller
         }
     }
 
-    private function updateCountTps($tps_id)
+    public function usersPendukung(Request $request)
     {
-        $totalLK = [];
-        $totalPR = [];
-        $getTpsDetail = TpsDetail::with('users', 'users.profile')->where('tps_id', $tps_id)->get();
-        foreach ($getTpsDetail as $key => $value) {
-            if ($value->users->profile->jenis_kelamin_profile == 'L') {
-                $totalLK[$value->users->profile->jenis_kelamin_profile][] = $value->users->profile->jenis_kelamin_profile;
-            }
-            if ($value->users->profile->jenis_kelamin_profile == 'P') {
-                $totalPR[$value->users->profile->jenis_kelamin_profile][] = $value->users->profile->jenis_kelamin_profile;
-            }
+        $getCurrentUrl = '/admin/tps';
+        if (!isset(Check::getMenu($getCurrentUrl)[0])) {
+            abort(403, 'Cannot access page');
         }
-        $hitungLK = 0;
-        if (isset($totalLK['L'])) {
-            $hitungLK = count($totalLK['L']);
-        }
+        $getMenu = Check::getMenu($getCurrentUrl)[0];
 
-        $hitungPR = 0;
-        if (isset($totalPR['P'])) {
-            $hitungPR = count($totalPR['P']);
-        }
-        $totalAll = $hitungLK + $hitungPR;
-        Tps::find($tps_id)->update([
-            'totallk_tps' => $hitungLK,
-            'totalpr_tps' => $hitungPR,
-            'totalsemua_tps' => $totalAll
-        ]);
-    }
+        session()->put('userAcess.is_create', $getMenu->is_create);
+        session()->put('userAcess.is_update', $getMenu->is_update);
+        session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-    private function uploadFile($file, $users_id = null)
-    {
-        if ($file != null) {
-            // delete file
-            $this->deleteFile($users_id);
-            // nama file
-            $fileExp =  explode('.', $file->getClientOriginalName());
-            $name = $fileExp[0];
-            $ext = $fileExp[1];
-            $name = time() . '-' . str_replace(' ', '-', $name) . '.' . $ext;
+        $roles = 'relawan';
+        $data = User::query()
+            ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.nik_profile', 'profile.alamat_profile', 'profile.jenis_kelamin_profile')
+            ->join('profile', 'profile.users_id', 'users.id')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', '=', $roles)
+            ->where('users.is_aktif', '=', 1)
+            ->where('users.is_registps', '=', null);
+        $userAcess = session()->get('userAcess');
 
-            // isi dengan nama folder tempat kemana file diupload
-            $tujuan_upload =  public_path() . '/upload/profile/';
 
-            // upload file
-            $file->move($tujuan_upload, $name);
-        } else {
-            if ($users_id == null) {
-                $name = 'default.png';
-            } else {
-                $user = Profile::where('users_id', $users_id)->first();
-                $name = $user->gambar_profile;
-            }
-        }
-
-        return $name;
-    }
-
-    private function deleteFile($users_id = null)
-    {
-        if ($users_id != null) {
-            $profile = Profile::where('users_id', '=', $users_id)->first();
-            $gambar = public_path() . '/upload/profile/' . $profile->gambar_profile;
-            if (file_exists($gambar)) {
-                if ($profile->gambar_profile != 'default.png') {
-                    File::delete($gambar);
+        return DataTables::eloquent($data)
+            ->addColumn('check-input', function ($row) use ($userAcess, $roles, $request) {
+                $checked = '';
+                $savePendukung = $request->session()->get('save_pendukung');
+                if ($savePendukung != null) {
+                    if (in_array($row->id, $savePendukung)) {
+                        $checked = 'checked';
+                    }
                 }
-            }
-        }
-    }
 
-    private function uploadFileBukti($file, $id = null)
-    {
-        if ($file != null) {
-            // delete file
-            $this->deleteFileBukti($id);
-            // nama file
-            $fileExp =  explode('.', $file->getClientOriginalName());
-            $name = $fileExp[0];
-            $ext = $fileExp[1];
-            $name = time() . '-' . str_replace(' ', '-', $name) . '.' . $ext;
-
-            // isi dengan nama folder tempat kemana file diupload
-            $tujuan_upload =  public_path() . '/upload/tps/';
-
-            // upload file
-            $file->move($tujuan_upload, $name);
-        } else {
-            if ($id == null) {
-                $name = 'default.png';
-            } else {
-                $user = TpsDetail::where('id', $id)->first();
-                $name = $user->bukticoblos_detail;
-            }
-        }
-
-        return $name;
-    }
-
-    private function deleteFileBukti($id = null)
-    {
-        if ($id != null) {
-            $pendukung = TpsDetail::where('id', '=', $id)->first();
-            $gambar = public_path() . '/upload/tps/' . $pendukung->bukticoblos_detail;
-            if (file_exists($gambar)) {
-                if ($pendukung->bukticoblos_detail != 'default.png') {
-                    File::delete($gambar);
-                }
-            }
-        }
-    }
-
-    public function uploadBuktiCoblos(Request $request, $id)
-    {
-        //
-        $validator = Validator::make($request->all(), [
-            'bukticoblos_detail' => 'required|image|max:3048',
-        ], [
-            'required' => ':attribute wajib diisi',
-            'image' => ':attribute harus berupa gambar',
-            'max' => ':attribute tidak boleh lebih dari :max kb',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 400,
-                'message' => 'invalid form validation',
-                'result' => $validator->errors()
-            ], 400);
-        }
-
-        // biodata
-        $file = $request->file('bukticoblos_detail');
-        $bukticoblos_detail = $this->uploadFileBukti($file, $id);
-
-        $update =  TpsDetail::find($id)->update([
-            'bukticoblos_detail' => $bukticoblos_detail
-        ]);
-        if ($update) {
-            $tpsDetail = TpsDetail::find($id);
-            $tpsDetail->detail_verification = true;
-            $tpsDetail->save();
-            
-            $this->updateCountTps($tpsDetail->tps_id);
-            SuaraBroadcast::dispatch();
-
-            return response()->json([
-                'status' => 200,
-                'message' => 'Berhasil upload bukti coblos',
-                'result' => $request->all(),
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 400,
-                'message' => 'Gagal upload bukti coblos',
-            ], 400);
-        }
-    }
-
-    public function verificationCoblos(Request $request, $id)
-    {
-        $detail_verification = $request->input('detail_verification');
-        $pendukung = TpsDetail::find($id);
-        TpsDetail::find($id)->update([
-            'detail_verification' => $detail_verification
-        ]);
-
-        return response()->json([
-            'message' => 'Berhasil verifikasi relawan ini'
-        ], 200);
-    }
-
-    public function tpsPendukung(Request $request)
-    {
-
-        if ($request->ajax()) {
-            $provinces_id = $request->input('provinces_id');
-            $regencies_id = $request->input('regencies_id');
-            $districts_id = $request->input('districts_id');
-            $villages_id = $request->input('villages_id');
-
-            $data = Tps::select('*');
-            if ($provinces_id != null) {
-                $data->where('provinces_id', $provinces_id);
-            }
-            if ($regencies_id != null) {
-                $data->where('regencies_id', $regencies_id);
-            }
-            if ($districts_id != null) {
-                $data->where('districts_id', $districts_id);
-            }
-            if ($villages_id != null) {
-                $data->where('villages_id', $villages_id);
-            }
-            $data = $data->get();
-
-            $result = [];
-            $no = 1;
-            if ($data->count() == 0) {
-                $result['data'] = [];
-            }
-            foreach ($data as $index => $v_data) {
-                $buttonDetail = '
-                <a href="#" class="btn btn-outline-info m-b-xs btn-choose-tps" style="border-color: #91C8E4 !important;" data-id="' . $v_data->id . '">
-                    <i class="fas fa-arrow-right"></i> Pilih TPS
-                </a>
-                ';
                 $button = '
-                <div class="text-center">
-                    ' . $buttonDetail . '
+                <div class="form-check">
+                    <input class="form-check-input check-input" type="checkbox" value="' . $row->id . '" id="users-' . $row->id . '" style="width: 18px; height: 18px;" ' . $checked . '>
+                    <label class="form-check-label" for="users-' . $row->id . '">
+                    </label>
                 </div>
                 ';
-
-                $daerah = '
-                <div class="row">
-                    <div class="col-lg-6">
-                    Provinsi: <br> <strong class="text-success">' . $v_data->provinces->name . ' </strong>
-                    </div>
-                    <div class="col-lg-6">
-                    Kabupaten: <br> <strong class="text-success">' . $v_data->regencies->name . ' </strong>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                    Kecamatan: <br> <strong class="text-success">' . $v_data->districts->name . ' </strong>
-                    </div>
-                    <div class="col-lg-6">
-                    Kelurahan: <br> <strong class="text-success">' . $v_data->villages->name . ' </strong>
-                    </div>
-                </div>
+                return $button;
+            })
+            ->addColumn('collapse', function ($row) use ($userAcess, $roles) {
+                $button = '
+                <button type="button" class="btn btn-outline-info m-b-xs btn-show-users btn-sm" style="border-color: #4477CE !important;" data-roles="' . $roles . '" data-type="plus"
+                >
+                <i class="fas fa-plus"></i>
+            </button>
                 ';
+                return $button;
+            })
+            ->addColumn('gambar_profile', function ($row) use ($userAcess, $roles) {
+                $url_gambar_profile = asset('upload/profile/' . $row->profile->gambar_profile);
+                $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $row->profile->gambar_profile . '">
+                <img src="' . $url_gambar_profile . '" width="100%;"></img>
+            </a>';
 
-                $terdaftar = $v_data->users_id;
-                $countTerdaftar = count(explode(',', $terdaftar));
+                return $gambar_profile;
+            })
+            ->rawColumns(['collapse', 'gambar_profile', 'check-input'])
+            ->toJson();
+    }
 
+    public function selectPendukung(Request $request)
+    {
 
-                $capaianTps = '
-                <div>
-                    <strong class="text-dark">Kuota TPS: </strong> <strong>' . $v_data->kuota_tps . '</strong> <br>
-                    <strong class="text-dark">Sudah terdaftar: </strong> <strong><i class="fas fa-users"></i> ' . $countTerdaftar . '</strong>
-                </div>
-                ';
+        $getCurrentUrl = '/admin/tps';
+        if (!isset(Check::getMenu($getCurrentUrl)[0])) {
+            abort(403, 'Cannot access page');
+        }
+        $getMenu = Check::getMenu($getCurrentUrl)[0];
 
-                $result['data'][] = [
-                    $no++,
-                    $v_data->nama_tps,
-                    $v_data->alamat_tps,
-                    $daerah,
-                    trim($button)
+        session()->put('userAcess.is_create', $getMenu->is_create);
+        session()->put('userAcess.is_update', $getMenu->is_update);
+        session()->put('userAcess.is_delete', $getMenu->is_delete);
+
+        $roles = 'pendukung';
+        $users_id = $request->input('users_id');
+
+        $search = $request->input('search');
+
+        $limit = 10;
+        $page = $request->input('page');
+        $endPage = $page * $limit;
+        $firstPage = $endPage - $limit;
+
+        $users = User::query()
+            ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.nik_profile', 'profile.alamat_profile', 'profile.jenis_kelamin_profile')
+            ->join('profile', 'profile.users_id', 'users.id')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->where('roles.nama_roles', '=', $roles)
+            ->where('users.is_aktif', '=', 1)
+            ->where('users.is_registps', '=', null);
+
+        $countUsers = $users->get()->count();
+        if ($search != null) {
+            $users->orWhere('users.username', 'like', '%' . $search . '%')
+                ->orWhere('roles.nama_role', 'like', '%' . $search . '%')
+                ->orWhere('profile.nama_profile', 'like', '%' . $search . '%')
+                ->orWhere('profile.email_profile', 'like', '%' . $search . '%')
+                ->orWhere('profile.nohp_profile', 'like', '%' . $search . '%')
+                ->orWhere('profile.nik_profile', 'like', '%' . $search . '%')
+                ->orWhere('profile.alamat_profile', 'like', '%' . $search . '%')
+                ->orWhere('profile.jenis_kelamin_profile', 'like', '%' . $search . '%');
+        }
+        if ($users_id != null) {
+            $users->orWhere('users.id', '=', $users_id);
+        }
+
+        $users = $users->offset($firstPage)
+            ->limit($limit)
+            ->get();
+
+        if ($search != null) {
+            $countUsers = $users->count();
+        }
+
+        $result = [];
+        foreach ($users as $key => $v_users) {
+            $result['results'][] =
+                [
+                    'id' => $v_users->id,
+                    'text' => $v_users->nik_profile . ' ' . $v_users->nama_profile,
                 ];
+        }
+        $result['count_filtered'] = $countUsers;
+        return response()->json($result, 200);
+    }
+
+    public function saveSession(Request $request)
+    {
+        $checked = request()->input('checked');
+        $all_data = request()->input('all_data');
+        $not_checked = request()->input('not_checked');
+
+        if (session()->has('save_pendukung')) {
+            $savePendukung = session()->get('save_pendukung');
+            if ($not_checked != null) {
+                foreach ($not_checked as $key2 => $value) {
+                    unset($savePendukung[$value]);
+                }
+
+                session()->put('save_pendukung', $savePendukung);
             }
 
-            return response()->json($result, 200);
-        }
-    }
+            if ($checked != null) {
+                foreach ($checked as $key => $value) {
+                    if ($value != null) {
+                        if (!in_array($value, $savePendukung)) {
+                            $savePendukung[$value] = $value;
+                        }
+                    }
+                }
+            }
 
-    public function getTps($tps_id)
-    {
-        $data = Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps_id);
-        return response()->json($data, 200);
-    }
+            if (count($savePendukung) > 0) {
+                session()->put('save_pendukung', $savePendukung);
+            } else {
+                session()->forget('save_pendukung');
+            }
+        } else {
+            $saveCo = $request->input('checked');
+            $pushValue = [];
+            foreach ($saveCo as $key => $value) {
+                $pushValue[$value] = $value;
+            }
 
-    public function getTpsPendukung(Request $request)
-    {
-        $tps_detail_id = $request->input('tps_detail_id');
-        $users_id_koordinator = $request->input('users_id_koordinator');
-        $users_id_pendukung = $request->input('users_id');
+            session()->put('save_pendukung', $pushValue);
+        }
 
-        $data = TpsPendukung::where('tps_detail_id', $tps_detail_id);
-        if ($users_id_koordinator != null) {
-            $data->where('users_id_koordinator', $users_id_koordinator);
-        }
-        if ($users_id_pendukung != null) {
-            $data->where('users_id_pendukung', $users_id_pendukung);
-        }
-        if ($tps_detail_id != null) {
-            $data->where('tps_detail_id', $tps_detail_id);
-        }
-        $data->join('tps', 'tps.id', '=', 'tps_pendukung.tps_id')
-            ->join('provinces', 'provinces.id', '=', 'tps.provinces_id')
-            ->join('regencies', 'regencies.id', '=', 'tps.regencies_id')
-            ->join('districts', 'districts.id', '=', 'tps.districts_id')
-            ->join('villages', 'villages.id', '=', 'tps.villages_id')
-            ->select('tps_pendukung.*', 'tps.nama_tps', 'tps.alamat_tps', 'tps.kuota_tps', 'provinces.name as provinces_name', 'provinces.id as provinces_id', 'regencies.name as regencies_name', 'regencies.id as regencies_id', 'districts.name as districts_name', 'districts.id as districts_id', 'villages.name as villages_name', 'villages.id as villages_id');
-        $data = $data->first();
-
-        return response()->json($data, 200);
+        $saveSession = session()->get('save_pendukung');
+        return response()->json($saveSession);
     }
 }
