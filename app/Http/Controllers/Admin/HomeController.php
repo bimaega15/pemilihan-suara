@@ -189,7 +189,7 @@ class HomeController extends Controller
 
         $volunter = $koordinatorTps->tps->pendukung_tps;
         $koordinator = $koordinatorTps->tps->minimal_tps;
-        $totalTps = Tps::where('id', $koordinatorTps->tps->id)->get()->count();
+        $totalTps = 1;
 
         $targetPemenangan = $volunter * $koordinator * $totalTps;
 

@@ -140,7 +140,7 @@ class Check
     }
     public static function targetPemenangan($tps)
     {
-        $hitung = $tps->minimal_tps * $tps->pendukung_tps * $tps->totalsemua_tps;
+        $hitung = $tps->minimal_tps * $tps->pendukung_tps * 1;
         return $hitung;
     }
     public static function presentasePemenangan($tps)
