@@ -54,7 +54,7 @@
                     let setUrl = "{{ url('/') }}";
 
                     var button = ``;
-                    if (String(data.verificationcoblos_tps) == null && data.users_id_koordinator == null) {
+                    if ((data.verificationcoblos_tps) == null && data.users_id_koordinator == null) {
                         button += `
                         <a href="${setUrl}/admin/dataPendukung/${data.id}/uploadBukti" class="btn btn-outline-info m-b-xs btn-upload" style="border-color: #279EFF !important;" title="upload bukti pendukung">
                         <i class="fas fa-image"></i>
@@ -62,7 +62,7 @@
                         `;
                     }
 
-                    if (String(data.verificationcoblos_tps) == null && data.users_id_koordinator != null) {
+                    if ((data.verificationcoblos_tps) == null && data.users_id_koordinator != null) {
                         button += `
                         <span class="badge bg-info">
                             <i class="fas fa-clock"></i> Menunggu verifikasi

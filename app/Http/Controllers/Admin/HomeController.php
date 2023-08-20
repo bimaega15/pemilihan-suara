@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Gallery;
 use App\Models\Jabatan;
+use App\Models\KoordinatorTps;
 use App\Models\Tps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -57,6 +59,7 @@ class HomeController extends Controller
         $tps = Tps::all()->count();
         $dataTps = Tps::all();
 
+        $roles = Auth::user()->roles[0]->nama_roles;
         return view('admin.home.index', [
             'admin' => $admin,
             'koordinator' => $koordinator,
@@ -66,7 +69,8 @@ class HomeController extends Controller
             'banner' => $banner,
             'gallery' => $gallery,
             'tps' => $tps,
-            'dataTps' => $dataTps
+            'dataTps' => $dataTps,
+            'nama_roles' => $roles
         ]);
     }
 
@@ -170,11 +174,59 @@ class HomeController extends Controller
         ])->render();
     }
 
+    public function suaraKoordinator()
+    {
+        $users_id = Auth::id();
+        $koordinatorTps = KoordinatorTps::where('users_id', $users_id)
+            ->with('tps', 'tps.villages')
+            ->first();
+
+
+        $totalDukungan = $koordinatorTps->tps->totalsemua_tps;
+        $totalDukunganLk = $koordinatorTps->tps->totallk_tps;
+        $totalDukunganPr = $koordinatorTps->tps->totalpr_tps;
+        $totalKoordinator = $koordinatorTps->tps->totalco_tps;
+
+        $volunter = $koordinatorTps->tps->pendukung_tps;
+        $koordinator = $koordinatorTps->tps->minimal_tps;
+        $totalTps = Tps::where('id', $koordinatorTps->tps->id)->get()->count();
+
+        $targetPemenangan = $volunter * $koordinator * $totalTps;
+
+        $presentaseKemenangan = $totalDukungan / $targetPemenangan * 100;
+        return view('admin.home.fetchSuaraKoordinator', [
+            'koordinatorTps' => $koordinatorTps,
+            'totalDukungan' => $totalDukungan,
+            'totalkoordinator' => $totalKoordinator,
+            'targetPemenangan' => $targetPemenangan,
+            'presentasePemenangan' => $presentaseKemenangan,
+            'totalDukunganLk' => $totalDukunganLk,
+            'totalDukunganPr' => $totalDukunganPr
+        ])->render();
+    }
+
     public function semuaSuaraGrafik()
     {
 
         $totalDukunganLk = Tps::select('*')->sum('totallk_tps');
         $totalDukunganPr = Tps::select('*')->sum('totalpr_tps');
+        return response()->json([
+            'totalDukunganLk' => $totalDukunganLk,
+            'totalDukunganPr' => $totalDukunganPr
+        ]);
+    }
+
+    public function suaraKoordinatorGrafik()
+    {
+        $users_id = Auth::id();
+        $koordinatorTps = KoordinatorTps::where('users_id', $users_id)
+            ->with('tps', 'tps.villages')
+            ->first();
+
+
+
+        $totalDukunganLk = $koordinatorTps->tps->totallk_tps;
+        $totalDukunganPr = $koordinatorTps->tps->totalpr_tps;
         return response()->json([
             'totalDukunganLk' => $totalDukunganLk,
             'totalDukunganPr' => $totalDukunganPr

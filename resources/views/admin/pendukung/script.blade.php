@@ -263,14 +263,14 @@
                         });
                 },
                 rowCallback: function(row, data, index) {
-                    if (String(data.verificationcoblos_tps) == null && data.users_id_koordinator == null) {
+                    if ((data.verificationcoblos_tps) == null && data.users_id_koordinator == null) {
                         $(row).addClass('bg-secondary');
                         $('td', row).css({
                             color: '#000',
                             fontWeight: '400'
                         });
                     }
-                    if (String(data.verificationcoblos_tps) == null && data.users_id_koordinator != null) {
+                    if ((data.verificationcoblos_tps) == null && data.users_id_koordinator != null) {
                         $(row).addClass('bg-info');
                         $('td', row).css({
                             color: '#000',

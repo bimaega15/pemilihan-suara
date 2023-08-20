@@ -12,6 +12,11 @@ Home
                         <strong>Dashboard</strong>
                     </div>
                     <div class="card-body">
+                        @if ($nama_roles == 'koordinator')
+                        <div id="output_suara_koordinator">
+                       
+                        </div>
+                        @else
                         <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="semua-suara-tab" data-bs-toggle="tab" data-bs-target="#semua-suara" type="button" role="tab" aria-controls="semua-suara" aria-selected="true">Keseluruhan Suara</button>
@@ -28,6 +33,7 @@ Home
                                 @include('admin.home.partial.suaraPerWilayah')
                             </div>
                         </div>
+                        @endif
 
                     </div>
                 </div>
@@ -38,6 +44,10 @@ Home
 @endsection
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@if ($nama_roles == 'koordinator')
+@include('admin.home.scriptKoordinator')
+@else
 @include('admin.home.script')
 @include('admin.home.scriptAll')
+@endif
 @endpush
