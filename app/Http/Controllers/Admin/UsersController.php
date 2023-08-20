@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\Jabatan;
 use App\Models\KoordinatorTps;
+use App\Models\PendukungTps;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -467,6 +469,26 @@ class UsersController extends Controller
             $getTps = Tps::find($tps_id);
             $getTps->totalco_tps = $getTps->totalco_tps - 1;
             $getTps->save();
+        }
+
+        $pendukung = PendukungTps::where('users_id', $id);
+        if ($pendukung->get()->count() > 0) {
+            $pendukung = PendukungTps::where('users_id', $id)->first();
+
+            if ($pendukung->verificationcoblos_tps == 1) {
+                $getUsers = User::with('profile')->find($pendukung->users_id);
+
+                $getTps = Tps::find($pendukung->tps_id);
+                if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                    $getTps->totallk_tps = $getTps->totallk_tps - 1;
+                } else {
+                    $getTps->totalpr_tps = $getTps->totalpr_tps - 1;
+                }
+
+                $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
+                $getTps->save();
+                SuaraBroadcast::dispatch();
+            }
         }
 
         $this->deleteFile($id);

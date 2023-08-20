@@ -303,6 +303,7 @@ class PendukungController extends Controller
 
             $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
             $getTps->save();
+            SuaraBroadcast::dispatch();
         }
 
 

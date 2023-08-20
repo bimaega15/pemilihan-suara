@@ -48,5 +48,9 @@
             })
         }
 
+
+        window.Echo.channel("tps-suara").listen("SuaraBroadcast", (event) => {
+            viewData();
+        });
     })
 </script>

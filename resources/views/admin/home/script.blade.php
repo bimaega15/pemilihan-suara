@@ -269,6 +269,7 @@
                 villages_id: ''
             }
         }
+        
         $(document).on('click', '.btn-reset-wilayah', function(e) {
             e.preventDefault();
             let getWhere = whereResetGrafik();
