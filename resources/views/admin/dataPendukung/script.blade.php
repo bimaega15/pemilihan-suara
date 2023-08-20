@@ -511,6 +511,9 @@
         $(document).on('click', '.btn-upload', function(e) {
             e.preventDefault();
 
+            setUsersId({
+                tps_id: "{{ $tps_id }}"
+            });
             $('#modalPencarian').modal('hide');
 
             const id = $(this).data('id');
@@ -695,7 +698,7 @@
 
         $(document).on('click', '.btn-close-modal', function(e) {
             e.preventDefault();
-            
+
             $('#modalPencarian').modal('show');
             $('#modalForm').modal('hide');
         })
