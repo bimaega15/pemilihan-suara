@@ -349,13 +349,11 @@ class KoordinatorController extends Controller
             ->where('users.is_registps', '=', null);
 
         if ($searchValue != null) {
-            $data->where(function ($query) use ($searchValue) {
-                $query->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
-                    ->orWhere('profile.email_profile', 'LIKE', '%' . $searchValue . '%')
-                    ->orWhere('profile.nohp_profile', 'LIKE', '%' . $searchValue . '%')
-                    ->orWhere('roles.nama_roles', 'LIKE', '%' . $searchValue . '%')
-                    ->orWhere('users.username', 'LIKE', '%' . $searchValue . '%');
-            });
+            $data->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
+                ->orWhere('profile.email_profile', 'LIKE', '%' . $searchValue . '%')
+                ->orWhere('profile.nohp_profile', 'LIKE', '%' . $searchValue . '%')
+                ->orWhere('roles.nama_roles', 'LIKE', '%' . $searchValue . '%')
+                ->orWhere('users.username', 'LIKE', '%' . $searchValue . '%');
         }
         $userAcess = session()->get('userAcess');
 

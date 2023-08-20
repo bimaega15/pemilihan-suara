@@ -59,13 +59,11 @@ class UsersController extends Controller
                 ->where('roles.nama_roles', '=', $roles);
 
             if ($searchValue != null) {
-                $data->where(function ($query) use ($searchValue) {
-                    $query->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
-                        ->orWhere('profile.email_profile', 'LIKE', '%' . $searchValue . '%')
-                        ->orWhere('profile.nohp_profile', 'LIKE', '%' . $searchValue . '%')
-                        ->orWhere('roles.nama_roles', 'LIKE', '%' . $searchValue . '%')
-                        ->orWhere('users.username', 'LIKE', '%' . $searchValue . '%');
-                });
+                $data->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('profile.email_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('profile.nohp_profile', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('roles.nama_roles', 'LIKE', '%' . $searchValue . '%')
+                    ->orWhere('users.username', 'LIKE', '%' . $searchValue . '%');
             }
 
             return DataTables::eloquent($data)
