@@ -147,7 +147,11 @@ class Check
     {
         $targetPemenangan = Check::targetPemenangan($tps);
         $totalSuara = $tps->totalsemua_tps;
-        $presentase = ($totalSuara / $targetPemenangan) * 100;
+        if ($targetPemenangan == 0) {
+            $presentase = 0;
+        } else {
+            $presentase = ($totalSuara / $targetPemenangan) * 100;
+        }
         return $presentase;
     }
 }

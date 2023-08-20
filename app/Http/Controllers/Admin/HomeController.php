@@ -7,12 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Gallery;
 use App\Models\Jabatan;
-use App\Models\Role;
 use App\Models\Tps;
 use App\Models\User;
-use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DataTables;
 
 class HomeController extends Controller
 {
@@ -147,14 +146,7 @@ class HomeController extends Controller
         $totalDukunganLk = Tps::select('*')->sum('totallk_tps');
         $totalDukunganPr = Tps::select('*')->sum('totalpr_tps');
 
-        $totalKoordinator = Tps::all();
-        $calcCo = 0;
-        foreach ($totalKoordinator as $key => $item) {
-            $getUsersId = $item->users_id;
-            $explode = explode(',', $getUsersId);
-            $countExplode = count($explode);
-            $calcCo += $countExplode;
-        }
+        $totalKoordinator = Tps::select('*')->sum('totalco_tps');
 
         $getConfig = Check::getKonfigurasi();
         $volunter = $getConfig->volminimal_konfigurasi;
@@ -170,7 +162,7 @@ class HomeController extends Controller
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
             'totalDukungan' => $totalDukungan,
-            'totalkoordinator' => $calcCo,
+            'totalkoordinator' => $totalKoordinator,
             'targetPemenangan' => $targetPemenangan,
             'presentasePemenangan' => $presentaseKemenangan,
             'totalDukunganLk' => $totalDukunganLk,
@@ -197,26 +189,12 @@ class HomeController extends Controller
         if ($wilayah_all == '') {
             $whereWilayah = 'villages';
         }
-        $data = Tps::select('tps.id', $whereWilayah . '.name as wilayah_name', DB::raw('sum(totalsemua_tps) as total_semua_dukungan'))
+        $data = Tps::query()->select('tps.id', $whereWilayah . '.name as wilayah_name', DB::raw('sum(totalsemua_tps) as total_semua_dukungan'), DB::raw('count(nama_tps) as total_tps'))
             ->join($whereWilayah, $whereWilayah . '.id', '=', 'tps.' . $whereWilayah . '_id')
             ->groupBy($whereWilayah . '_id')
-            ->orderBy('id', 'asc')
-            ->get();
+            ->orderBy('id', 'asc');
 
-        $result = [];
-        $no = 1;
-        if ($data->count() == 0) {
-            $result['data'] = [];
-        }
-        foreach ($data as $index => $v_data) {
-
-            $result['data'][] = [
-                $no++,
-                $v_data->wilayah_name,
-                $v_data->total_semua_dukungan,
-            ];
-        }
-
-        return response()->json($result, 200);
+        return DataTables::eloquent($data)
+            ->toJson();
     }
 }

@@ -127,6 +127,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Nama Keluruhan</th>
+                                <th>Total Tps</th>
                                 <th>Total Dukungan</th>
                             </tr>
                         </thead>

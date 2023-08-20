@@ -346,7 +346,7 @@
 
             // status verifikasi
             let spanVerification = null;
-            if (String(rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps != null && rowData.pendukungcoblos_tps != 'default.png') {
+            if ((rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps != null && rowData.pendukungcoblos_tps != 'default.png') {
                 spanVerification = `
                 <a class="btn btn-success btn-sm me-1 btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="1" title="Verifikasi">
                     <i class="fas fa-check"></i>
@@ -357,7 +357,7 @@
     `;
             }
 
-            if (String(rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps == null || rowData.pendukungcoblos_tps == 'default.png') {
+            if ((rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps == null || rowData.pendukungcoblos_tps == 'default.png') {
                 spanVerification = `
         <span class="badge bg-warning">Belum Upload Bukti</span>
     `;

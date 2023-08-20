@@ -14,8 +14,8 @@
                     <canvas id="myChart_{{ $item->id }}" class="mb-4"></canvas>
                     <div class="card shadow p-3">
                         <div class="progress" style="height: 30px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ round(Check::presentasePemenangan($item)) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Check::presentasePemenangan($item) }}%;"> 
-                            {{ round(Check::presentasePemenangan($item)) }}%
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ round(Check::presentasePemenangan($item)) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ Check::presentasePemenangan($item) }}%;">
+                                {{ round(Check::presentasePemenangan($item)) }} %
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
@@ -34,7 +34,7 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <span><i class="fas fa-user-tie"></i> Total Koordinator: </span>
-                        <span>{{ Check::countUsersTps($item->users_id) }}</span>
+                        <span>{{ $item->totalco_tps }}</span>
                     </div>
                 </div>
             </div>

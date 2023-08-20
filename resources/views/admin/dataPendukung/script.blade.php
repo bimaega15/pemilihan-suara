@@ -298,13 +298,13 @@
 
             // status verifikasi
             let spanVerification = null;
-            if (String(rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps != null && rowData.pendukungcoblos_tps != 'default.png') {
+            if ((rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps != null && rowData.pendukungcoblos_tps != 'default.png') {
                 spanVerification = `
                     <span class="badge bg-info">Menunggu Verifikasi</span>
                 `;
             }
 
-            if (String(rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps == null || rowData.pendukungcoblos_tps == 'default.png') {
+            if ((rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps == null || rowData.pendukungcoblos_tps == 'default.png') {
                 spanVerification = `
                     <span class="badge bg-warning">Belum Upload Bukti</span>
                 `;

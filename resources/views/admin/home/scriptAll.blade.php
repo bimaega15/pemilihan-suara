@@ -54,16 +54,59 @@
             let wilayahAll = $('.wilayah_all').val();
 
             function loadTable(wilayahAll = '') {
-                var table = $('#table-dashboard-wilayah').DataTable({
-                    ajax: {
-                        url: "{{ route('admin.home.wilayah') }}",
-                        dataType: 'json',
-                        type: 'get',
-                        data: {
-                            wilayah_all: wilayahAll,
-                        }
-                    },
-                });
+                var table = $('#table-dashboard-wilayah')
+                    .DataTable({
+                        serverSide: true,
+                        processing: true,
+                        searching: true,
+                        search: {
+                            caseInsensitive: true,
+                        },
+                        searchHighlight: true,
+                        ajax: {
+                            url: "{{ route('admin.home.wilayah') }}",
+                            dataType: 'json',
+                            type: 'get',
+                            data: {
+                                wilayah_all: wilayahAll,
+                            }
+                        },
+                        columns: [{
+                                data: null,
+                                orderable: false,
+                                searchable: false,
+                                className: "text-center",
+                            },
+                            {
+                                data: "wilayah_name",
+                                name: "wilayah_name",
+                                searchable: true
+                            },
+                            {
+                                data: "total_tps",
+                                name: "total_tps",
+                                searchable: true
+                            },
+                            {
+                                data: "total_semua_dukungan",
+                                name: "total_semua_dukungan",
+                                searchable: false,
+                                orderable: false,
+                            },
+                        ],
+                        drawCallback: function(settings) {
+                            var info = table.page.info();
+                            table
+                                .column(0, {
+                                    search: "applied",
+                                    order: "applied"
+                                })
+                                .nodes()
+                                .each(function(cell, i) {
+                                    cell.innerHTML = info.start + i + 1;
+                                });
+                        },
+                    });
                 return table;
             }
 
