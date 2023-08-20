@@ -1,5 +1,86 @@
 <script>
     $(document).ready(function(e) {
+        var tablePendukung = $('#dataTablePendukung').DataTable({
+            serverSide: true,
+            processing: true,
+            searching: true,
+            search: {
+                caseInsensitive: true,
+            },
+            searchHighlight: true,
+            ajax: {
+                url: "{{ route('admin.pendukung.usersPendukung') }}",
+                dataType: 'json',
+                type: 'get',
+            },
+            columns: [{
+                    data: "collapse",
+                    orderable: false,
+                    className: 'details-control'
+                },
+                {
+                    data: 'check-input',
+                    name: 'check-input',
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center",
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center",
+                },
+                {
+                    data: "nik_profile",
+                    name: "nik_profile",
+                    searchable: false
+                },
+                {
+                    data: "nama_profile",
+                    name: "nama_profile",
+                    searchable: false
+                },
+                {
+                    data: "alamat_profile",
+                    name: "alamat_profile",
+                    searchable: false
+                },
+                {
+                    data: "gambar_profile",
+                    name: "gambar_profile",
+                    searchable: false,
+                    orderable: false,
+                },
+            ],
+            drawCallback: function(settings) {
+                var info = tablePendukung.page.info();
+                tablePendukung
+                    .column(2, {
+                        search: "applied",
+                        order: "applied"
+                    })
+                    .nodes()
+                    .each(function(cell, i) {
+                        cell.innerHTML = info.start + i + 1;
+                    });
+            },
+        });
+
+        $('#dataTablePendukung tbody').on('click', 'td.details-control .btn-show-users', function() {
+            var tr = $(this).closest('tr');
+            var row = tablePendukung.row(tr);
+
+            if (row.child.isShown()) {
+                // Baris sudah terbuka, tutup
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
         $(document).on('click', '.btn-show-users', function(e) {
             e.preventDefault();
             let data = $(this).data('type');
@@ -12,6 +93,93 @@
             }
         })
 
+        function format(rowData) {
+            return `
+            <div class="row">
+                     <div class="col-lg-6">
+                         <h5>Users Acount</h5>
+                         <hr>
+                         <table class="w-100">
+                             <tr>
+                                 <td>Username</td>
+                                 <td>:</td>
+                                 <td><span id="username">${rowData.username}</span></td>
+                             </tr>
+                             <tr>
+                                 <td>Status Aktif</td>
+                                 <td>:</td>
+                                 <td><span id="is_aktif">
+                                       ${rowData.is_aktif == 1 ? `<i class="fas fa-check text-success"></i>` : `
+                                        <i class="fas fa-times text-danger"></i>` }  
+                                     </span>
+                                     </td>
+                             </tr>
+                             <tr>
+                                 <td>Status Pendaftaran TPS</td>
+                                 <td>:</td>
+                                 <td><span id="is_registps">
+                                 ${rowData.is_registps == 1 ? `<i class="fas fa-check text-success"></i>` : `
+                                        <i class="fas fa-times text-danger"></i>` }  
+                                     </span></td>
+                             </tr>
+                         </table>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5>Biodata Pendukung</h5>
+                            <hr>
+                            <table class="w-100">
+                                <tr>
+                                    <td>NIK</td>
+                                    <td>:</td>
+                                    <td><span id="nik_profile">${rowData.nik_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Nama</td>
+                                    <td>:</td>
+                                    <td><span id="nama_profile">${rowData.nama_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>:</td>
+                                    <td><span id="email_profile">${rowData.email_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat</td>
+                                    <td>:</td>
+                                    <td><span id="alamat_profile">${rowData.alamat_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>No. HP</td>
+                                    <td>:</td>
+                                    <td><span id="nohp_profile">${rowData.nohp_profile}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jenis Kelamin</td>
+                                    <td>:</td>
+                                    <td><span id="jenis_kelamin_profile">
+                                    ${rowData.jenis_kelamin_profile == 'L' ? 'Laki-laki' : 'Perempuan'}
+                                    </span></td>
+                                </tr>
+                                <tr>
+                                    <td>Gambar profile</td>
+                                    <td>:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <span id="gambar_profile">
+                                            ${rowData.gambar_profile}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            `;
+        }
+
         var table = $('#dataTable')
             .DataTable({
                 serverSide: true,
@@ -22,7 +190,7 @@
                 },
                 searchHighlight: true,
                 ajax: {
-                    url: "{{ route('admin.dataPendukung.index') }}",
+                    url: "{{ route('admin.pendukung.index') }}",
                     type: 'get',
                     data: {
                         tps_id: "{{ $tps_id }}"
@@ -94,6 +262,36 @@
                             cell.innerHTML = info.start + i + 1;
                         });
                 },
+                rowCallback: function(row, data, index) {
+                    if (String(data.verificationcoblos_tps) == null && data.users_id_koordinator == null) {
+                        $(row).addClass('bg-secondary');
+                        $('td', row).css({
+                            color: '#000',
+                            fontWeight: '400'
+                        });
+                    }
+                    if (String(data.verificationcoblos_tps) == null && data.users_id_koordinator != null) {
+                        $(row).addClass('bg-info');
+                        $('td', row).css({
+                            color: '#000',
+                            fontWeight: '400'
+                        });
+                    }
+                    if (data.verificationcoblos_tps == 1) {
+                        $(row).addClass('bg-success');
+                        $('td', row).css({
+                            color: '#000',
+                            fontWeight: '400'
+                        });
+                    }
+                    if (data.verificationcoblos_tps == 0) {
+                        $(row).addClass('bg-danger');
+                        $('td', row).css({
+                            color: '#000',
+                            fontWeight: '400'
+                        });
+                    }
+                }
             });
 
         $('#dataTable tbody').on('click', 'td.details-control-primary .btn-show-users', function() {
@@ -112,17 +310,87 @@
 
 
         function format_primary(rowData) {
+            const root = "{{ asset('/') }}";
+
             let gambar_profile = rowData.users.profile.gambar_profile;
             if (rowData.users.profile.gambar_profile == 'default.png') {
-                const root = "{{ asset('/') }}";
+                // my profile
                 let linkGambar =
                     `${root}upload/profile/${rowData.users.profile.gambar_profile}`;
                 gambar_profile = `
-                    <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${rowData.users.profile.gambar_profile}">
-                        <img class="img-thumbnail" class="w-25" src="${linkGambar}"></img>    
-                    </a>
-                    `;
+        <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${rowData.users.profile.gambar_profile}">
+            <img class="img-thumbnail" width="100px;" src="${linkGambar}"></img>    
+        </a>
+        `;
             }
+
+
+            // upload bukti pendukung
+            let linkGambar =
+                `${root}upload/tps/${rowData.pendukungcoblos_tps}`;
+
+            let pendukungcoblos_tps = `
+        <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${rowData.pendukungcoblos_tps}">
+            <img class="img-thumbnail" width="100px;" src="${linkGambar}"></img>    
+        </a>
+        `;
+            if (rowData.pendukungcoblos_tps == 'default.png' || rowData.pendukungcoblos_tps == null) {
+                let linkGambar =
+                    `${root}upload/tps/default.png`;
+                pendukungcoblos_tps = `
+        <a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="default.png">
+            <img class="img-thumbnail" width="100px;" src="${linkGambar}"></img>    
+        </a>
+        `;
+            }
+
+            // status verifikasi
+            let spanVerification = null;
+            if (String(rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps != null && rowData.pendukungcoblos_tps != 'default.png') {
+                spanVerification = `
+                <a class="btn btn-success btn-sm me-1 btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="1" title="Verifikasi">
+                    <i class="fas fa-check"></i>
+                </a>
+                <a class="btn btn-danger btn-sm btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="0" title="Ditolak">
+                    <i class="fas fa-times"></i>
+                </a>
+    `;
+            }
+
+            if (String(rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps == null || rowData.pendukungcoblos_tps == 'default.png') {
+                spanVerification = `
+        <span class="badge bg-warning">Belum Upload Bukti</span>
+    `;
+            }
+
+            if (String(rowData.verificationcoblos_tps) == '0') {
+                spanVerification = `
+                <a class="btn btn-danger btn-sm me-1 btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="1" title="Verifikasi">
+                    <i class="fas fa-check"></i>
+                </a> <br>
+                <span class="badge bg-danger">Pengajuan Ditolak</span>
+    `;
+            }
+            if (String(rowData.verificationcoblos_tps) == '1') {
+                spanVerification = `
+                <a class="btn btn-success btn-sm btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="0" title="Ditolak">
+                    <i class="fas fa-times"></i>
+                </a> <br>
+                <span class="badge bg-success">Berhasil diverifikasi</span>
+    `;
+            }
+
+            // users koordinator
+            let setKoordinator = getUsersKoordinator(rowData.users_id_koordinator);
+            let outputKoordinator = setKoordinator;
+            if (setKoordinator != null) {
+                outputKoordinator = setKoordinator.profile.nama_profile + ' / ' + setKoordinator.profile.nohp_profile;
+            }
+
+            if (setKoordinator == null) {
+                outputKoordinator = 'Belum ada';
+            }
+
 
 
             return `
@@ -154,9 +422,34 @@
                                      </span></td>
                              </tr>
                          </table>
+
+                         <div style="height: 25px;"></div>
+                        <h5>Verifikasi Bukti Pendukung</h5>
+                        <hr>
+                        <table class="w-100">
+                        <tr>
+                                <td>Koordinator</td>
+                                <td>:</td>
+                                <td><span id="users_id_koordinator">
+                                ${outputKoordinator}
+                                    </span>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>Bukti Upload</td>
+                                <td>:</td>
+                                <td><span id="pendukungcoblos_tps">${pendukungcoblos_tps}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Status Verifikasi</td>
+                                <td>:</td>
+                                <td><span id="verificationcoblos_tps">${spanVerification}</span></td>
+                            </tr>
+                        </table>
+
                     </div>
                     <div class="col-lg-6">
-                        <h5>Biodata Koordinator</h5>
+                        <h5>Biodata Pendukung</h5>
                             <hr>
                             <table class="w-100">
                                 <tr>
@@ -281,6 +574,26 @@
             return users_id;
         }
 
+        function getUsersKoordinator(users_id) {
+            let setUrl = "{{ url('/') }}";
+            var output = null;
+            $.ajax({
+                url: `${setUrl}/admin/users/${users_id}/edit`,
+                method: 'get',
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    const {
+                        result
+                    } = data;
+                    output = result;
+                },
+                error: function(x, t, m) {
+                    console.log(x.responseText);
+                }
+            })
+            return output;
+        }
 
 
         $(document).on('click', '.btn-edit', function(e) {
@@ -560,5 +873,41 @@
 
             saveSessionCheck(setData);
         });
+
+        $(document).on('click', '.btn-verify', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let verificationcoblos_tps = $(this).data('verificationcoblos_tps');
+            let setUrl = "{{ url('/') }}";
+
+
+            Swal.fire({
+                title: 'Info',
+                text: "Apakah anda yaking ingin verifikasi data ini ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${setUrl}/admin/pendukung/verify`,
+                        dataType: 'json',
+                        type: 'post',
+                        data: {
+                            id,
+                            verificationcoblos_tps
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            table.ajax.reload();
+                        }
+                    })
+                }
+            })
+
+
+        })
     })
 </script>

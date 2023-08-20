@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
-
+use App\Models\KoordinatorTps;
 use App\Models\Tps;
 use App\Models\PendukungTps;
 use App\Models\User;
@@ -45,9 +46,9 @@ class PendukungController extends Controller
             return DataTables::eloquent($data)
                 ->addColumn('collapse_primary', function ($row) use ($userAcess) {
                     $button = '
-            <button type="button" class="btn btn-outline-info m-b-xs btn-show-users btn-sm" style="border-color: #4477CE !important;" data-type="plus"
+            <button type="button" class="btn btn-outline-dark m-b-xs btn-show-users btn-sm" style="border-color: #141E46 !important;" data-type="plus"
             >
-            <i class="fas fa-plus"></i>
+            <i class="fas fa-plus text-dark"></i>
         </button>
             ';
                     return $button;
@@ -56,7 +57,7 @@ class PendukungController extends Controller
                     $buttonUpdate = '';
                     if ($userAcess['is_update'] == '1') {
                         $buttonUpdate = '
-                    <a href="' . route('admin.pendukung.edit', $row->id) . '" class="btn btn-outline-warning m-b-xs btn-edit" style="border-color: #f5af47ea !important;">
+                    <a href="' . route('admin.pendukung.edit', $row->id) . '" class="btn btn-outline-dark m-b-xs btn-edit" style="border-color: #141E46 !important;">
                     <i class="fa-solid fa-pencil"></i>
                     </a>
                     ';
@@ -65,7 +66,7 @@ class PendukungController extends Controller
                     if ($userAcess['is_delete'] == '1') {
                         $buttonDelete = '
                     <form action=' . route('admin.pendukung.destroy', $row->id) . ' class="d-inline">
-                        <button type="submit" class="btn-delete btn btn-outline-danger m-b-xs" style="border-color: #f75d6fd8 !important;">
+                        <button type="submit" class="btn-delete btn btn-outline-dark m-b-xs" style="border-color: #141E46 !important;">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </form>
@@ -290,6 +291,20 @@ class PendukungController extends Controller
     {
         //
         $pendukung = PendukungTps::find($id);
+        if ($pendukung->verificationcoblos_tps == 1) {
+            $getUsers = User::with('profile')->find($pendukung->users_id);
+
+            $getTps = Tps::find($pendukung->tps_id);
+            if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                $getTps->totallk_tps = $getTps->totallk_tps - 1;
+            } else {
+                $getTps->totalpr_tps = $getTps->totalpr_tps - 1;
+            }
+
+            $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
+            $getTps->save();
+        }
+
 
         $users_id = $pendukung->users_id;
         $getUsers = User::with('profile')->find($users_id);
@@ -454,6 +469,62 @@ class PendukungController extends Controller
         return response()->json($result, 200);
     }
 
+    public function selectPendukungTps(Request $request)
+    {
+
+        $getCurrentUrl = '/admin/dataPendukung';
+        if (!isset(Check::getMenu($getCurrentUrl)[0])) {
+            abort(403, 'Cannot access page');
+        }
+        $getMenu = Check::getMenu($getCurrentUrl)[0];
+
+        session()->put('userAcess.is_create', $getMenu->is_create);
+        session()->put('userAcess.is_update', $getMenu->is_update);
+        session()->put('userAcess.is_delete', $getMenu->is_delete);
+
+        $tps_id = $request->input('tps_id');
+        $search = $request->input('search');
+
+        $limit = 10;
+        $page = $request->input('page');
+        $endPage = $page * $limit;
+        $firstPage = $endPage - $limit;
+
+        $users = PendukungTps::query()
+            ->select('pendukung_tps.*', 'profile.nik_profile', 'profile.nama_profile', 'profile.email_profile')
+            ->join('users', 'users.id', '=', 'pendukung_tps.users_id')
+            ->join('profile', 'users.id', '=', 'profile.users_id')
+            ->where('pendukung_tps.tps_id', $tps_id);
+
+        if ($search != null) {
+            $users
+                ->where('profile.nama_profile', 'like', '%' . $search . '%')
+                ->orWhere('profile.nik_profile', 'like', '%' . $search . '%')
+                ->orWhere('profile.email_profile', 'like', '%' . $search . '%')
+                ->where('pendukung_tps.tps_id', $tps_id);
+        }
+
+        $countUsers = $users->get()->count();
+        $users = $users->offset($firstPage)
+            ->limit($limit)
+            ->get();
+
+        if ($search != null) {
+            $countUsers = $users->count();
+        }
+
+        $result = [];
+        foreach ($users as $key => $v_users) {
+            $result['results'][] =
+                [
+                    'id' => $v_users->id,
+                    'text' => $v_users->nama_profile . ' / ' . $v_users->nik_profile . ' / ' . $v_users->email_profile . ' ',
+                ];
+        }
+        $result['count_filtered'] = $countUsers;
+        return response()->json($result, 200);
+    }
+
     public function saveSession(Request $request)
     {
         $checked = request()->input('checked');
@@ -497,5 +568,76 @@ class PendukungController extends Controller
 
         $saveSession = session()->get('save_pendukung');
         return response()->json($saveSession);
+    }
+
+    public function verify(Request $request)
+    {
+        $id = $request->input('id');
+        $verificationcoblos_tps = $request->input('verificationcoblos_tps');
+
+        $verificationcoblos_tps = intval($verificationcoblos_tps);
+        $getPendukung = PendukungTps::find($id);
+
+        if (strval($getPendukung->verificationcoblos_tps) == null) {
+            $getTps = Tps::find($getPendukung->tps_id);
+
+            $getUsers = User::with('profile')->find($getPendukung->users_id);
+            if ($verificationcoblos_tps == 1) {
+                if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                    $getTps->totallk_tps = $getTps->totallk_tps + 1;
+                } else {
+                    $getTps->totalpr_tps = $getTps->totalpr_tps + 1;
+                }
+                $getTps->totalsemua_tps = $getTps->totalsemua_tps + 1;
+                $getTps->save();
+            }
+        }
+
+        if (strval($getPendukung->verificationcoblos_tps) == '1') {
+            $getTps = Tps::find($getPendukung->tps_id);
+
+            $getUsers = User::with('profile')->find($getPendukung->users_id);
+            if ($verificationcoblos_tps == 0) {
+                if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                    $getTps->totallk_tps = $getTps->totallk_tps - 1;
+                } else {
+                    $getTps->totalpr_tps = $getTps->totalpr_tps - 1;
+                }
+                $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
+                $getTps->save();
+            }
+        }
+
+        if (strval($getPendukung->verificationcoblos_tps) == '0') {
+            $getTps = Tps::find($getPendukung->tps_id);
+
+            $getUsers = User::with('profile')->find($getPendukung->users_id);
+            if ($verificationcoblos_tps == 1) {
+                if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                    $getTps->totallk_tps = $getTps->totallk_tps + 1;
+                } else {
+                    $getTps->totalpr_tps = $getTps->totalpr_tps + 1;
+                }
+                $getTps->totalsemua_tps = $getTps->totalsemua_tps + 1;
+                $getTps->save();
+            }
+        }
+
+        $updatePendukung = PendukungTps::find($id)->update([
+            'verificationcoblos_tps' => $verificationcoblos_tps,
+        ]);
+        if ($updatePendukung) {
+            SuaraBroadcast::dispatch();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil verifikasi pendukung'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal verifikasi pendukung'
+            ], 400);
+        }
     }
 }

@@ -82,6 +82,53 @@ $isCreate = session()->get('userAcess.is_create');
                                     </a>
                                 </div>
                                 @endif
+                                <div class="row mb-2">
+                                    <div class="col-lg-12">
+                                        <div class="d-flex justify-content-end">
+                                            <div class="me-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 15px; height: 15px;" class="bg-secondary rounded me-1">
+                                                    </div>
+                                                    <div>
+                                                        Belum ada tindakan
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="me-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 15px; height: 15px;" class="bg-success rounded me-1">
+                                                    </div>
+                                                    <div>
+                                                        Verifikasi
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="me-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 15px; height: 15px;" class="bg-danger rounded me-1">
+                                                    </div>
+                                                    <div>
+                                                        Ditolak
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 15px; height: 15px;" class="bg-info rounded me-1">
+                                                    </div>
+                                                    <div>
+                                                        Menunggu Verifikasi
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table" id="dataTable">
                                         <thead>

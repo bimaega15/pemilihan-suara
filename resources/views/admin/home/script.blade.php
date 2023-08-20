@@ -275,5 +275,10 @@
             let active = $('#output_grafik ul.pagination li.page-item.active span.page-link').text();
             fetch_user_data_grafik(1, getWhere);
         })
+
+        window.Echo.channel("tps-suara").listen("SuaraBroadcast", (event) => {
+            let getWhere = whereResetGrafik();
+            fetch_user_data_grafik(1, getWhere);
+        });
     })
 </script>

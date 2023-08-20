@@ -66,6 +66,54 @@ $isCreate = session()->get('userAcess.is_create');
                         <i data-feather="settings"></i> <strong>Data Pendukung</strong>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-primary btn-search-pendukung">
+                                    <i class="fas fa-user-tag"></i> Cari Pendukung
+                                </button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mb-2">
+                            <div class="col-lg-6">
+                                <table>
+                                    <tr>
+                                        <td>Nama Tps</td>
+                                        <td class="px-3">:</td>
+                                        <td><span id="header_nama_tps"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat</td>
+                                        <td class="px-3">:</td>
+                                        <td><span id="header_alamat_tps"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kelurahan Tps</td>
+                                        <td class="px-3">:</td>
+                                        <td><span id="header_kelurahan_tps"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-6">
+                                <table>
+                                    <tr>
+                                        <td>Minimal Pendukung</td>
+                                        <td class="px-3">:</td>
+                                        <td><span id="header_pendukung_tps"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Pencapaian</td>
+                                        <td class="px-3">:</td>
+                                        <td><span id="header_status_pendukung_tps"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Detail Status</td>
+                                        <td class="px-3">:</td>
+                                        <td><span id="header_detail_pendukung_tps"></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="table-responsive">
@@ -100,8 +148,10 @@ $isCreate = session()->get('userAcess.is_create');
         </div>
     </div>
 </div>
+
+@include('admin.dataPendukung.model')
 @endsection
 
 @push('js')
-@include('admin.pendukung.script')
+@include('admin.dataPendukung.script')
 @endpush

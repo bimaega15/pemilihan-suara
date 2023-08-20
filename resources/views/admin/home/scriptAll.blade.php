@@ -113,5 +113,9 @@
                 var table = loadTable('');
             })
         }
+
+        window.Echo.channel("tps-suara").listen("SuaraBroadcast", (event) => {
+            semuaSuara();
+        });
     })
 </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
+use App\Models\PendukungTps;
 use App\Models\Tps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -89,11 +90,19 @@ class TpsController extends Controller
                     return $buttonCo;
                 })
                 ->addColumn('pendukung', function ($row) use ($userAcess) {
+                    $checkPendukung = PendukungTps::where('tps_id', $row->id)
+                        ->where('users_id_koordinator', '<>', null)
+                        ->where('verificationcoblos_tps', null)
+                        ->get()->count();
+
                     $countTpsSet = $row->pendukungTps()->get()->count();
                     $countPendukung = $countTpsSet == null ? 0 : $countTpsSet;
                     $buttonCo = '
                     <a href="' . url('admin/pendukung?tps_id=' . $row->id) . '" class="badge bg-success" style="border-color: #5B9A8B !important;">
-                        <i class="fas fa-list"></i> ' . $countPendukung . ' Pendukung
+                        <i class="fas fa-list"></i> ' . $countPendukung . ' Pendukung 
+                         <span class="badge bg-warning ms-2">
+                            <i class="fas fa-bell"></i> ' . $checkPendukung . '
+                         </span>
                     </a>';
                     return $buttonCo;
                 })
