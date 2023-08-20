@@ -115,6 +115,7 @@ class RegisterController extends Controller
             'username' => $request->input('username'),
             'password' => Hash::make($request->input('password')),
             'is_aktif' => 0,
+            'is_registps' => 1,
         ];
         $user_id = User::create($dataUsers);
 
