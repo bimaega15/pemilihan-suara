@@ -30,6 +30,16 @@
                         </div>
                         <hr>
                         <div>
+                            <span><i class="fa-solid fa-person"></i> Dukungan Laki-laki: </span>
+                            <h5 class="text-success font-weight-bold text-end mt-2">{{ number_format($totalDukunganLk, 0) }} Suara</h5>
+                        </div>
+                        <hr>
+                        <div>
+                            <span><i class="fa-solid fa-person-dress"></i> Dukungan Perempuan: </span>
+                            <h5 class="text-success font-weight-bold text-end mt-2">{{ number_format($totalDukunganPr, 0) }} Suara</h5>
+                        </div>
+                        <hr>
+                        <div>
                             <span><i class="fas fa-user-tie"></i> Total Koordinator: </span>
                             <h5 class="text-success font-weight-bold text-end mt-2">{{ number_format($totalkoordinator, 0) }} C.O</h5>
                         </div>
