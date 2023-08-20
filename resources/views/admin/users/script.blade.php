@@ -674,5 +674,96 @@
                 }
             })
         })
+
+
+        function resetFormImport(attribute = null) {
+            $('.form-submit-import').trigger("reset");
+
+            if (attribute != null && attribute != '') {
+                $.each(attribute, function(v, i) {
+                    $('.' + v).removeClass("border border-danger");
+                    $('.error_' + v).html('');
+                })
+            }
+        }
+
+        $(document).on('click', '.btn-submit-import', function(e) {
+            e.preventDefault();
+            $('.form-submit-import').submit();
+        })
+
+        $(document).on('submit', '.form-submit-import', function(e) {
+            e.preventDefault();
+            var form = $('.form-submit-import')[0];
+            var data = new FormData(form);
+            var action = $('.form-submit-import').attr('action');
+            onSubmitImport(action, data);
+        })
+
+        function onSubmitImport(action, data) {
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: data,
+                enctype: 'multipart/form-data',
+                processData: false, // Important!
+                contentType: false,
+                cache: false,
+                dataType: 'json',
+                beforeSend: function() {
+                    $('.btn-submit-import').attr('disabled', true);
+                    $('#process-load-image').removeClass('d-none');
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Successfully',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            $('#modalImport').modal('hide');
+                            tableRelawan.ajax.reload();
+
+                            const {
+                                result
+                            } = data;
+                            resetFormImport(result);
+                        })
+                    }
+                },
+                error: function(xhr) {
+                    const {
+                        responseJSON,
+                        responseText
+                    } = xhr;
+                    if (responseText != null) {
+                        console.log(responseText);
+                    }
+
+                    if (responseJSON.result != undefined) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Info',
+                            text: 'Perhatikan kembali form anda dengan benar',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        let outputResult = responseJSON.result;
+                        $.each(outputResult, function(v, i) {
+                            let textError = outputResult[v][0];
+                            let keyError = v;
+                            $('.' + keyError).addClass("border border-danger");
+                            $('.error_' + keyError).html(textError);
+                        })
+                    }
+                },
+                complete: function() {
+                    $('.btn-submit-import').attr('disabled', false);
+                    $('#process-load-image').addClass('d-none');
+                }
+            });
+        }
     })
 </script>

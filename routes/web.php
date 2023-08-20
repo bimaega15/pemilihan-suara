@@ -77,10 +77,11 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
 
     Route::resource('roles', RolesController::class);
 
-    Route::resource('profile', ProfileController::class);
+    Route::resource('profile', ProfileController::class)->except(['show']);
 
     Route::resource('users', UsersController::class)->except(['show']);
     Route::post('users/setAktif', [UsersController::class, 'setAktif'])->name('users.setAktif');
+    Route::post('/users/import', [UsersController::class, 'import'])->name('users.import');
 
     Route::resource('konfigurasi', KonfigurasiController::class);
 

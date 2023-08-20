@@ -17,6 +17,10 @@ use File;
 use Illuminate\Support\Facades\Hash;
 use DataTables;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+
 class UsersController extends Controller
 {
     /**
@@ -532,5 +536,97 @@ class UsersController extends Controller
         ]);
 
         return response()->json('Berhasil update is aktif');
+    }
+
+    public function import(Request $request)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'file_import' => ['required', function ($attribute, $value, $fail) {
+                // size
+                $file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+                if (!in_array($_FILES['file_import']['type'], $file_mimes)) {
+                    $fail('Pastikan file yang anda import adalah excel');
+                }
+            },],
+        ], [
+            'required' => ':attribute wajib diisi',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'invalid form validation',
+                'result' => $validator->errors()
+            ], 400);
+        }
+
+        $arr_file = explode('.', $_FILES['file_import']['name']);
+        $extension = end($arr_file);
+
+        if ('csv' == $extension) {
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+        } else {
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        }
+
+        $spreadsheet = $reader->load($_FILES['file_import']['tmp_name']);
+
+        $sheetData = $spreadsheet->getActiveSheet()->toArray();
+
+        $data = [];
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Relawan%')->first();
+        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
+
+        $countUsers = [];
+        for ($i = 1; $i < count($sheetData); $i++) {
+            $no = $sheetData[$i][0];
+            if ($no != null) {
+                $countUsers[] = $i;
+                // users
+                $data = [
+                    'username' => $sheetData[$i][3],
+                    'password' => Hash::make('123456'),
+                    'is_aktif' => 1,
+                ];
+                $insertUsers = User::create($data);
+                $users_id = $insertUsers->id;
+
+                // role user
+                $dataRoles = [
+                    'role_id' => $getRoles->id,
+                    'user_id' => $users_id,
+                ];
+                RoleUser::create($dataRoles);
+
+                // profile
+                $dataProfile = [
+                    'nik_profile' => $sheetData[$i][1],
+                    'nama_profile' => $sheetData[$i][2],
+                    'email_profile' => $sheetData[$i][3],
+                    'alamat_profile' => $sheetData[$i][4],
+                    'nohp_profile' => $sheetData[$i][5],
+                    'jenis_kelamin_profile' => $sheetData[$i][6],
+                    'gambar_profile' => 'default.png',
+                    'users_id' => $users_id,
+                    'jabatan_id' => $getJabatan->id,
+                ];
+                $insertProfile = Profile::create($dataProfile);
+            }
+        }
+
+        $countUsers = count($countUsers);
+        if ($countUsers) {
+            return response()->json([
+                'status' => 200,
+                'message' => "Berhasil import data sebanyak " . $countUsers,
+                'result' => $request->all()
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => "Gagal import data"
+            ], 400);
+        }
     }
 }

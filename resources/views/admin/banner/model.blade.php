@@ -31,7 +31,7 @@
                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i data-feather="x"></i>
                          Close</button>
-                     <button type="submit" class="btn btn-primary"><i data-feather="send"></i>
+                     <button type="submit" class="btn btn-primary btn-submit"><i data-feather="send"></i>
                          Simpan</button>
                  </div>
              </form>

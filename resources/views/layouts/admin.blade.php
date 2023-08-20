@@ -46,6 +46,24 @@ $getKonfigurasi = Check::getKonfigurasi();
     <link rel="stylesheet" href="{{ asset('library/jquery-image-uploader-preview-and-delete/dist/image-uploader.min.css') }}">
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        #loading-process {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 9999;
+            background-color: #DDE6ED;
+            opacity: 0.5;
+        }
+
+        #process-load-image img {
+            position: fixed;
+            z-index: 9999999;
+            top: 25%;
+            left: 50%;
+            opacity: 1;
+        }
+    </style>
     @stack('css')
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -57,6 +75,11 @@ $getKonfigurasi = Check::getKonfigurasi();
 </head>
 
 <body>
+    <div id="process-load-image" class="d-none">
+        <div id="loading-process">
+        </div>
+        <img src="{{ asset('upload/assets/loading.svg') }}" alt="loading-io">
+    </div>
 
     <div class="page-container">
         @include('layouts.partials.admin.header')
