@@ -373,10 +373,11 @@
             }
             if (String(rowData.verificationcoblos_tps) == '1') {
                 spanVerification = `
-                <a class="btn btn-success btn-sm btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="0" title="Ditolak">
+                <span class="badge bg-success me-1">Berhasil diverifikasi</span>
+                <a class="btn btn-danger btn-sm btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="0" title="Batalkan Verifikasi">
                     <i class="fas fa-times"></i>
-                </a> <br>
-                <span class="badge bg-success">Berhasil diverifikasi</span>
+                </a>
+               
     `;
             }
 
@@ -389,6 +390,50 @@
 
             if (setKoordinator == null) {
                 outputKoordinator = 'Belum ada';
+            }
+
+
+            // upload bukti pencoblosan
+            let linkGambarCoblos =
+                `${root}upload/coblos/${rowData.tps_coblos}`;
+
+            let tps_coblos = `
+                    <a class="photoviewer" href="${linkGambarCoblos}" data-gallery="photoviewer" data-title="${rowData.tps_coblos}">
+                        <img class="img-thumbnail" width="100px;" src="${linkGambarCoblos}"></img>    
+                    </a>
+                    `;
+            if (rowData.tps_coblos == 'default.png' || rowData.tps_coblos == null) {
+                let linkGambarCoblos =
+                    `${root}upload/coblos/default.png`;
+                tps_coblos = `
+                    <a class="photoviewer" href="${linkGambarCoblos}" data-gallery="photoviewer" data-title="default.png">
+                        <img class="img-thumbnail" width="100px;" src="${linkGambarCoblos}"></img>    
+                    </a>
+                    `;
+            }
+
+
+            let tps_status = null;
+            if (rowData.tps_status == 1 && rowData.verificationcoblos_tps == 1) {
+                tps_status = `
+                    <span class="badge bg-success me-2">Sudah Mencoblos</span>  
+                    
+                    <a class="btn btn-danger btn-sm btn-cancel-coblos" data-id="${rowData.id}" title="Batalkan Pencoblosan">
+                    <i class="fas fa-times"></i>
+                </a>
+                `;
+            }
+
+            if (rowData.tps_status == 0 && rowData.verificationcoblos_tps != 1) {
+                tps_status = `
+                    <span class="badge bg-warning">Belum Diverifikasi</span>
+                `;
+            }
+
+            if (rowData.tps_status == 0 && rowData.verificationcoblos_tps == 1) {
+                tps_status = `
+                    <span class="badge bg-warning me-2">Belum Mencoblos</span>
+                `;
             }
 
 
@@ -447,6 +492,21 @@
                             </tr>
                         </table>
 
+                        <div style="height: 25px;"></div>
+                        <h5>Verifikasi Pencoblosan</h5>
+                        <hr>
+                        <table class="w-100">
+                            <tr>
+                                <td>Bukti Pencoblosan</td>
+                                <td>:</td>
+                                <td><span id="tps_coblos">${tps_coblos}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Status Pencoblosan</td>
+                                <td>:</td>
+                                <td><span id="tps_status">${tps_status}</span></td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="col-lg-6">
                         <h5>Biodata Pendukung</h5>
@@ -900,8 +960,54 @@
                             verificationcoblos_tps
                         },
                         success: function(data) {
-                            console.log(data);
-                            table.ajax.reload();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Successfully',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                table.ajax.reload();
+                            })
+                        }
+                    })
+                }
+            })
+
+
+        })
+
+        $(document).on('click', '.btn-cancel-coblos', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let setUrl = "{{ url('/') }}";
+            Swal.fire({
+                title: 'Info',
+                text: "Apakah anda yaking ingin membatalkan pencoblosan ini ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Confirm'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${setUrl}/admin/pendukung/coblos`,
+                        dataType: 'json',
+                        type: 'post',
+                        data: {
+                            id,
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Successfully',
+                                text: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                table.ajax.reload();
+                            })
                         }
                     })
                 }

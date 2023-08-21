@@ -80,7 +80,7 @@
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <label for="formFile" class="form-label">Upload poto</label>
+                <label for="formFile" class="form-label label-image-photo">Upload poto</label>
                 <input class="form-control gambar_profile" type="file" id="formFile" name="gambar_profile">
                 <span id="load_gambar_profile"></span>
                 <small class="error_gambar_profile text-danger"></small>

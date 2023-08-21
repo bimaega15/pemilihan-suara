@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\KoordinatorTps;
@@ -77,29 +78,55 @@ class DataPendukungController extends Controller
 
 
                     if (strval($row->verificationcoblos_tps) == '1') {
-                        $userProfile = User::with('profile')->find($row->users_id_koordinator);
                         $buttonVerification = '
                         <span class="badge bg-success">
-                            <i class="fas fa-user-tie"></i> Ditangani oleh: ' . $userProfile->profile->nama_profile . '
+                            <i class="fas fa-check"></i> Diverifikasi
                         </span>
                         ';
                     }
 
                     if (strval($row->verificationcoblos_tps) == '0') {
-                        $userProfile = User::with('profile')->find($row->users_id_koordinator);
-
                         $buttonVerification = '
-                        <a href="' . route('admin.dataPendukung.uploadBukti', $row->id) . '" class="btn btn-outline-info m-b-xs btn-upload" style="border-color: #279EFF !important;" title="upload bukti pendukung">
-                        <i class="fas fa-image"></i>
-                        </a> <br>
-
                         <span class="badge bg-danger">
-                            <i class="fas fa-times"></i> Ditolak ajuan: ' . $userProfile->profile->nama_profile . '
+                            <i class="fas fa-times"></i> Ditolak
                         </span>
                         ';
                     }
 
 
+                    $button = '
+                <div class="text-center">
+                    ' . $buttonVerification . '
+                </div>
+                ';
+
+                    return $button;
+                })
+                ->addColumn('tps_status_view', function ($row) use ($userAcess) {
+                    $buttonVerification = '';
+                    if (strval($row->verificationcoblos_tps) == '1' && strval($row->tps_status) == '0') {
+                        $buttonVerification = '
+                        <a href="' . route('admin.dataPendukung.uploadCoblos', $row->id) . '" class="btn btn-outline-info m-b-xs btn-coblos" data-id="' . $row->id . '" style="border-color: #279EFF !important;" title="coblos bukti pendukung">
+                        <i class="fas fa-image"></i>
+                        </a>
+                        ';
+                    }
+
+                    if (strval($row->verificationcoblos_tps) != '1' && strval($row->tps_status) == '0') {
+                        $buttonVerification = '
+                        <span class="badge bg-warning">
+                            <i class="fas fa-clock"></i>  Belum Verifikasi
+                        </span>
+                        ';
+                    }
+
+                    if (strval($row->verificationcoblos_tps) == '1' && strval($row->tps_status) == '1') {
+                        $buttonVerification = '
+                        <span class="badge bg-success">
+                            <i class="fas fa-check"></i> Sudah Mencoblos
+                        </span>
+                        ';
+                    }
 
                     $button = '
                 <div class="text-center">
@@ -122,7 +149,7 @@ class DataPendukungController extends Controller
                     return $jenisKelamin == 'L' ? 'Laki-laki' : 'Perempuan';
                 })
 
-                ->rawColumns(['action', 'gambar_profile', 'collapse_primary'])
+                ->rawColumns(['action', 'gambar_profile', 'collapse_primary', 'tps_status_view'])
                 ->toJson();
         }
 
@@ -148,6 +175,55 @@ class DataPendukungController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Gagal ambil data',
+            ], 400);
+        }
+    }
+
+    public function uploadCoblos(Request $request, $id)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'tps_coblos' => 'required|image|max:5048',
+        ], [
+            'required' => ':attribute wajib diisi',
+            'image' => ':attribute harus berupa gambar',
+            'max' => ':attribute tidak boleh lebih dari :max',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'invalid form validation',
+                'result' => $validator->errors()
+            ], 400);
+        }
+
+        // vote counting
+        $getPendukungTps = PendukungTps::find($id);
+        if ($getPendukungTps->tps_status == 0) {
+            Check::voteCounting($id);
+        }
+
+        // biodata
+        $file = $request->file('tps_coblos');
+        $tps_coblos = $this->uploadFileCoblos($file, $id);
+
+        $dataPendukung = [
+            'tps_coblos' => $tps_coblos,
+            'tps_status' => true,
+        ];
+        $pendukung = PendukungTps::find($id)->update($dataPendukung);
+        if ($pendukung) {
+            SuaraBroadcast::dispatch();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil update data',
+                'result' => $request->all(),
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal update data',
             ], 400);
         }
     }
@@ -187,6 +263,47 @@ class DataPendukungController extends Controller
             $gambar = public_path() . '/upload/tps/' . $pendukungTps->pendukungcoblos_tps;
             if (file_exists($gambar)) {
                 if ($pendukungTps->pendukungcoblos_tps != 'default.png' && $pendukungTps->pendukungcoblos_tps != null) {
+                    File::delete($gambar);
+                }
+            }
+        }
+    }
+
+    private function uploadFileCoblos($file, $id = null)
+    {
+        if ($file != null) {
+            // delete file
+            $this->deleteFileCoblos($id);
+            // nama file
+            $fileExp =  explode('.', $file->getClientOriginalName());
+            $name = $fileExp[0];
+            $ext = $fileExp[1];
+            $name = time() . '-' . str_replace(' ', '-', $name) . '.' . $ext;
+
+            // isi dengan nama folder tempat kemana file diupload
+            $tujuan_upload =  public_path() . '/upload/coblos/';
+
+            // upload file
+            $file->move($tujuan_upload, $name);
+        } else {
+            if ($id == null) {
+                $name = 'default.png';
+            } else {
+                $pendukung = PendukungTps::where('id', $id)->first();
+                $name = $pendukung->tps_coblos == null ? 'default.png' : $pendukung->tps_coblos;
+            }
+        }
+
+        return $name;
+    }
+
+    private function deleteFileCoblos($id = null)
+    {
+        if ($id != null) {
+            $pendukungTps = PendukungTps::where('id', '=', $id)->first();
+            $gambar = public_path() . '/upload/coblos/' . $pendukungTps->tps_coblos;
+            if (file_exists($gambar)) {
+                if ($pendukungTps->tps_coblos != 'default.png' && $pendukungTps->tps_coblos != null) {
                     File::delete($gambar);
                 }
             }
@@ -258,14 +375,14 @@ class DataPendukungController extends Controller
             $detailPendukungMenunggu = 0;
 
             foreach ($getKoordinator as $key => $value) {
-                if (strval($value->verificationcoblos_tps) == '1') {
+                if (strval($value->verificationcoblos_tps) == '1' && $value->tps_status == 1) {
                     $countPendukung++;
                     $detailPendukungSetuju++;
                 }
-                if (strval($value->verificationcoblos_tps) == '0') {
+                if (strval($value->verificationcoblos_tps) == '0' && $value->tps_status == 0) {
                     $detailPendukungDitolak++;
                 }
-                if (strval($value->verificationcoblos_tps) == null) {
+                if (strval($value->verificationcoblos_tps) == null && $value->tps_status == 0) {
                     $detailPendukungMenunggu++;
                 }
             }

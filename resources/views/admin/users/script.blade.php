@@ -258,23 +258,23 @@
                     className: "text-center",
                 },
                 {
-                    data: "username",
-                    name: "username",
-                    searchable: true
-                },
-                {
                     data: "nama_profile",
                     name: "nama_profile",
                     searchable: false
                 },
                 {
-                    data: "email_profile",
-                    name: "email_profile",
+                    data: "jenis_kelamin_profile",
+                    name: "jenis_kelamin_profile",
                     searchable: false
                 },
                 {
                     data: "nohp_profile",
                     name: "nohp_profile",
+                    searchable: false,
+                },
+                {
+                    data: "alamat_profile",
+                    name: "alamat_profile",
                     searchable: false,
                 },
                 {
@@ -344,11 +344,16 @@
                 $('.customPrevBtn').addClass('d-none');
 
                 $('.role_id').val(relawanId);
+
+                $('.label-image-photo').html('Upload KTP');
             }
         })
 
         $(document).on('click', '.btn-edit', function(e) {
             e.preventDefault();
+
+
+            $('.label-image-photo').html('Upload Photo');
 
             const id = $(this).data('id');
             const action = $(this).attr('href');
@@ -427,6 +432,10 @@
             $('#div_account').removeClass('d-none');
             owl.trigger('to.owl.carousel', 0);
             $('.customPrevBtn').removeClass('d-none');
+
+
+
+            $('.label-image-photo').html('Upload Photo');
 
 
             if (attribute != null && attribute != '') {

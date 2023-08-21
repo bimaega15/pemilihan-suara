@@ -12,8 +12,8 @@
                      <div class="form-group">
                          <label for="formFile" class="form-label">Upload Bukti Pendukung</label>
                          <input class="form-control pendukungcoblos_tps" type="file" id="formFile" name="pendukungcoblos_tps">
+                         <small class="error_pendukungcoblos_tps text-danger"></small> <br>
                          <span id="load_pendukungcoblos_tps"></span>
-                         <small class="error_pendukungcoblos_tps text-danger"></small>
                      </div>
                  </div>
                  <div class="modal-footer">
@@ -72,6 +72,35 @@
                          </table>
                      </div>
                      <div style="height: 30px;"></div>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
+
+ <!-- Modal -->
+ <div class="modal fade" id="modalCoblos" aria-labelledby="modalCoblosLabel" aria-hidden="true">
+     <div class="modal-dialog modal-xl">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="modalCoblosLabel">Form Pencoblosan</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <form action="" class="form-submit-coblos">
+                 <input type="hidden" name="_method" value="post">
+                 <div class="modal-body">
+                     <div class="form-group">
+                         <label for="formFileCoblos" class="form-label">Upload Bukti Pencoblosan</label>
+                         <input class="form-control tps_coblos" type="file" id="formFileCoblos" name="tps_coblos">
+                         <small class="error_tps_coblos text-danger"></small> <br>
+                         <span id="load_tps_coblos"></span>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary " data-bs-dismiss="modal"><i data-feather="x"></i>
+                         Close</button>
+                     <button type="submit" class="btn btn-primary btn-submit-coblos"><i data-feather="send"></i>
+                         Simpan</button>
                  </div>
              </form>
          </div>

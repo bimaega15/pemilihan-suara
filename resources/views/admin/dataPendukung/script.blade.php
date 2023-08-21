@@ -123,7 +123,7 @@
                         ${profile.nohp_profile}
                         </td>
                         <td>
-                        ${profile.email_profile}
+                        ${profile.email_profile == null ? '-' : profile.email_profile}
                         </td>
                         <td>
                         ${profile.alamat_profile}
@@ -171,11 +171,6 @@
                         className: "text-center",
                     },
                     {
-                        data: "users.username",
-                        name: "users.username",
-                        searchable: true
-                    },
-                    {
                         data: "users.profile.nik_profile",
                         name: "users.profile.nik_profile",
                         searchable: true
@@ -207,6 +202,11 @@
                     },
                     {
                         data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "tps_status_view",
                         orderable: false,
                         searchable: false
                     },
@@ -298,26 +298,45 @@
 
             // status verifikasi
             let spanVerification = null;
+
+            const setUploadBukti = (label) => {
+                let setUrl = "{{ url('/') }}";
+
+                let uploadBukti = `
+                <a href="${setUrl}/admin/dataPendukung/${rowData.id}/uploadBukti" class="btn btn-outline-info m-b-xs btn-upload" style="border-color: #279EFF !important;" title="${label}">
+                        <i class="fas fa-upload"></i> <br>
+                        <small>${label}</small>
+                </a>
+                `;
+                return uploadBukti;
+            }
+
             if ((rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps != null && rowData.pendukungcoblos_tps != 'default.png') {
-                spanVerification = `
-                    <span class="badge bg-info">Menunggu Verifikasi</span>
+
+                spanVerification = ` 
+                <div>
+                    <span class="badge bg-info me-2">Menunggu Verifikasi</span> 
+                    ${setUploadBukti('Upload Ulang')}
+                </div>
                 `;
             }
 
             if ((rowData.verificationcoblos_tps) == null && rowData.pendukungcoblos_tps == null || rowData.pendukungcoblos_tps == 'default.png') {
                 spanVerification = `
-                    <span class="badge bg-warning">Belum Upload Bukti</span>
+                    <span class="badge bg-warning me-2">Belum Upload Bukti</span>
+                    ${setUploadBukti('Bukti Lapangan')}
                 `;
             }
 
             if (String(rowData.verificationcoblos_tps) == '0') {
                 spanVerification = `
-                    <span class="badge bg-danger">Verifikasi Ditolak</span>
+                    <span class="badge bg-danger me-2">Verifikasi Ditolak</span>
+                    ${setUploadBukti('Upload Ulang')}
                 `;
             }
             if (String(rowData.verificationcoblos_tps) == '1') {
                 spanVerification = `
-                    <span class="badge bg-info">Diverifikasi</span>
+                    <span class="badge bg-success me-2">Diverifikasi</span>
                 `;
             }
 
@@ -332,6 +351,54 @@
                 outputKoordinator = 'Belum ada';
             }
 
+            // upload bukti pencoblosan
+            let linkGambarCoblos =
+                `${root}upload/coblos/${rowData.tps_coblos}`;
+
+            let tps_coblos = `
+                    <a class="photoviewer" href="${linkGambarCoblos}" data-gallery="photoviewer" data-title="${rowData.tps_coblos}">
+                        <img class="img-thumbnail" width="100px;" src="${linkGambarCoblos}"></img>    
+                    </a>
+                    `;
+            if (rowData.tps_coblos == 'default.png' || rowData.tps_coblos == null) {
+                let linkGambarCoblos =
+                    `${root}upload/coblos/default.png`;
+                tps_coblos = `
+                    <a class="photoviewer" href="${linkGambarCoblos}" data-gallery="photoviewer" data-title="default.png">
+                        <img class="img-thumbnail" width="100px;" src="${linkGambarCoblos}"></img>    
+                    </a>
+                    `;
+            }
+
+            let tps_status = null;
+            const setUploadCoblos = (label) => {
+                let setUrl = "{{ url('/') }}";
+
+                let uploadCoblos = `
+                <a href="${setUrl}/admin/dataPendukung/${rowData.id}/uploadCoblos" class="btn btn-outline-info m-b-xs btn-coblos" data-id="${rowData.id}" style="border-color: #279EFF !important;" title="${label}">
+                        <i class="fas fa-upload"></i> <br>
+                        <small>${label}</small>
+                </a>
+                `;
+                return uploadCoblos;
+            }
+            if (rowData.tps_status == 1 && rowData.verificationcoblos_tps == 1) {
+                tps_status = `
+                    <span class="badge bg-success me-2">Sudah Mencoblos</span> ${setUploadCoblos('Upload Ulang')}
+                `;
+            }
+
+            if (rowData.tps_status == 0 && rowData.verificationcoblos_tps != 1) {
+                tps_status = `
+                    <span class="badge bg-warning">Belum Diverifikasi</span>
+                `;
+            }
+
+            if (rowData.tps_status == 0 && rowData.verificationcoblos_tps == 1) {
+                tps_status = `
+                    <span class="badge bg-warning me-2">Belum Mencoblos</span>  ${setUploadCoblos('Bukti Pencoblosan')}
+                `;
+            }
 
             return `
             <div class="row">
@@ -365,7 +432,7 @@
 
                          <div style="height: 25px;"></div>
 
-                         <h5>Verifikasi Bukti Pendukung</h5>
+                         <h5>Verifikasi Bukti Ke Lapangan</h5>
                          <hr>
                          <table class="w-100">
                             <tr>
@@ -387,6 +454,23 @@
                                  <td><span id="verificationcoblos_tps">${spanVerification}</span></td>
                              </tr>
                          </table>
+
+                         <div style="height: 25px;"></div>
+
+                         <h5>Verifikasi Pencoblosan</h5>
+                         <hr>
+                         <table class="w-100">
+                             <tr>
+                                 <td>Bukti Pencoblosan</td>
+                                 <td>:</td>
+                                 <td><span id="tps_coblos">${tps_coblos}</span></td>
+                             </tr>
+                             <tr>
+                                 <td>Status Pencoblosan</td>
+                                 <td>:</td>
+                                 <td><span id="tps_status">${tps_status}</span></td>
+                             </tr>
+                         </table>
                     </div>
                     <div class="col-lg-6">
                         <h5>Biodata Pendukung</h5>
@@ -405,7 +489,8 @@
                                 <tr>
                                     <td>Email</td>
                                     <td>:</td>
-                                    <td><span id="email_profile">${rowData.users.profile.email_profile}</span></td>
+                                    <td><span id="email_profile">
+                                    ${rowData.users.profile.email_profile == null ? '-' :  rowData.users.profile.email_profile}</span></td>
                                 </tr>
                                 <tr>
                                     <td>Alamat</td>
@@ -607,8 +692,6 @@
                         } = data;
                         resetForm(result);
 
-                        loadHeaderTps();
-
                     }
 
                     if (data.status == 400) {
@@ -696,11 +779,139 @@
             });
         })
 
-        $(document).on('click', '.btn-close-modal', function(e) {
+        // pencoblosan
+        function getPendukungTps(id) {
+            let setUrl = "{{ url('/') }}";
+            var output = null;
+
+            $.ajax({
+                url: `${setUrl}/admin/dataPendukung/${id}/uploadBukti`,
+                method: 'get',
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    const {
+                        result
+                    } = data
+                    output = result;
+
+                },
+                error: function(x, t, m) {
+                    console.log(x.responseText);
+                }
+            })
+
+            return output;
+        }
+
+        function resetFormCoblos(attribute = null) {
+            $('.form-submit-coblos').trigger("reset");
+            $('#load_tps_coblos').html('');
+
+            if (attribute != null && attribute != '') {
+                $.each(attribute, function(v, i) {
+                    $('.' + v).removeClass("border border-danger");
+                    $('.error_' + v).html('');
+                })
+            }
+        }
+
+        $(document).on('click', '.btn-coblos', function(e) {
             e.preventDefault();
 
-            $('#modalPencarian').modal('show');
-            $('#modalForm').modal('hide');
+            let id = $(this).data('id');
+
+            let getData = getPendukungTps(id);
+
+
+            let gambar_bukti = getData.tps_coblos == null ? 'default.png' : getData.tps_coblos;
+
+            const root = "{{ asset('/') }}";
+            let linkGambar =
+                `${root}upload/coblos/${gambar_bukti}`;
+
+            $('#load_tps_coblos').html(`
+<a class="photoviewer" href="${linkGambar}" data-gallery="photoviewer" data-title="${gambar_bukti}">
+    <img class="img-thumbnail" class="w-25" src="${linkGambar}" width="200px;"></img>    
+</a>
+`);
+            let action = $(this).attr('href');
+            $('.form-submit-coblos').attr('action', action);
+
+            $('#modalCoblos').modal('show');
         })
+
+
+        $(document).on('click', '.btn-submit-coblos', function(e) {
+            e.preventDefault();
+            $('.form-submit-coblos').submit();
+        })
+
+        $(document).on('submit', '.form-submit-coblos', function(e) {
+            e.preventDefault();
+            var form = $('.form-submit-coblos')[0];
+            var data = new FormData(form);
+            var action = $('.form-submit-coblos').attr('action');
+            onSubmitCoblos(action, data);
+        })
+
+        function onSubmitCoblos(action, data) {
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: data,
+                enctype: 'multipart/form-data',
+                processData: false, // Important!
+                contentType: false,
+                cache: false,
+                dataType: 'json',
+                beforeSend: function() {
+                    $('.btn-submit-coblos').attr('disabled', true);
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Successfully',
+                            text: data.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        $('#modalCoblos').modal('hide');
+                        table.ajax.reload();
+
+                        const {
+                            result
+                        } = data;
+                        resetFormCoblos(result);
+
+                        loadHeaderTps();
+                    }
+                },
+                error: function(xhr) {
+                    const {
+                        responseJSON,
+                        responseText
+                    } = xhr;
+                    if (responseText != null) {
+                        console.log(responseText);
+                    }
+
+                    if (responseJSON.result != undefined) {
+                        let outputResult = responseJSON.result;
+                        $.each(outputResult, function(v, i) {
+                            let textError = outputResult[v][0];
+                            let keyError = v;
+                            $('.' + keyError).addClass("border border-danger");
+                            $('.error_' + keyError).html(textError);
+                        })
+                    }
+                },
+                complete: function() {
+                    $('.btn-submit-coblos').attr('disabled', false);
+                }
+            });
+        }
     })
 </script>

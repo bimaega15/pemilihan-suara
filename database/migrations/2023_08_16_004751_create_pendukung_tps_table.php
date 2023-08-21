@@ -21,6 +21,8 @@ class CreatePendukungTpsTable extends Migration
             $table->integer('users_id_koordinator')->nullable();
             $table->string('pendukungcoblos_tps')->nullable();
             $table->boolean('verificationcoblos_tps')->nullable();
+            $table->boolean('tps_status')->nullable()->default(0);
+            $table->string('tps_coblos')->nullable();
 
             $table->foreign('tps_id')->references('id')->on('tps')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

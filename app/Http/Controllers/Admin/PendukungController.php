@@ -11,6 +11,7 @@ use App\Models\PendukungTps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use File;
 
 use DataTables;
 
@@ -574,57 +575,34 @@ class PendukungController extends Controller
         $id = $request->input('id');
         $verificationcoblos_tps = $request->input('verificationcoblos_tps');
 
-        $verificationcoblos_tps = intval($verificationcoblos_tps);
-        $getPendukung = PendukungTps::find($id);
-
-        if (strval($getPendukung->verificationcoblos_tps) == null) {
-            $getTps = Tps::find($getPendukung->tps_id);
-
-            $getUsers = User::with('profile')->find($getPendukung->users_id);
-            if ($verificationcoblos_tps == 1) {
-                if ($getUsers->profile->jenis_kelamin_profile == 'L') {
-                    $getTps->totallk_tps = $getTps->totallk_tps + 1;
-                } else {
-                    $getTps->totalpr_tps = $getTps->totalpr_tps + 1;
-                }
-                $getTps->totalsemua_tps = $getTps->totalsemua_tps + 1;
-                $getTps->save();
-            }
-        }
-
-        if (strval($getPendukung->verificationcoblos_tps) == '1') {
-            $getTps = Tps::find($getPendukung->tps_id);
-
-            $getUsers = User::with('profile')->find($getPendukung->users_id);
-            if ($verificationcoblos_tps == 0) {
-                if ($getUsers->profile->jenis_kelamin_profile == 'L') {
-                    $getTps->totallk_tps = $getTps->totallk_tps - 1;
-                } else {
-                    $getTps->totalpr_tps = $getTps->totalpr_tps - 1;
-                }
-                $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
-                $getTps->save();
-            }
-        }
-
-        if (strval($getPendukung->verificationcoblos_tps) == '0') {
-            $getTps = Tps::find($getPendukung->tps_id);
-
-            $getUsers = User::with('profile')->find($getPendukung->users_id);
-            if ($verificationcoblos_tps == 1) {
-                if ($getUsers->profile->jenis_kelamin_profile == 'L') {
-                    $getTps->totallk_tps = $getTps->totallk_tps + 1;
-                } else {
-                    $getTps->totalpr_tps = $getTps->totalpr_tps + 1;
-                }
-                $getTps->totalsemua_tps = $getTps->totalsemua_tps + 1;
-                $getTps->save();
-            }
-        }
-
         $updatePendukung = PendukungTps::find($id)->update([
             'verificationcoblos_tps' => $verificationcoblos_tps,
         ]);
+        if ($updatePendukung) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil verifikasi pendukung'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Gagal verifikasi pendukung'
+            ], 400);
+        }
+    }
+
+    public function coblos(Request $request)
+    {
+        $id = $request->input('id');
+        $this->deleteFileCoblos($id);
+
+        Check::voteCounting($id);
+
+        $updatePendukung = PendukungTps::find($id)->update([
+            'tps_status' => 0,
+            'tps_coblos' => 'default.png'
+        ]);
+
         if ($updatePendukung) {
             SuaraBroadcast::dispatch();
 
@@ -637,6 +615,19 @@ class PendukungController extends Controller
                 'status' => 400,
                 'message' => 'Gagal verifikasi pendukung'
             ], 400);
+        }
+    }
+
+    private function deleteFileCoblos($id = null)
+    {
+        if ($id != null) {
+            $pendukungTps = PendukungTps::where('id', '=', $id)->first();
+            $gambar = public_path() . '/upload/coblos/' . $pendukungTps->tps_coblos;
+            if (file_exists($gambar)) {
+                if ($pendukungTps->tps_coblos != 'default.png' && $pendukungTps->tps_coblos != null) {
+                    File::delete($gambar);
+                }
+            }
         }
     }
 }

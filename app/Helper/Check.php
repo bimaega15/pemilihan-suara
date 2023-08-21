@@ -2,12 +2,10 @@
 
 namespace App\Helper;
 
-use App\Models\Hasil;
 use App\Models\Konfigurasi;
-use App\Models\Kuisioner;
 use App\Models\ManagementMenu;
-use App\Models\Pernyataan;
-use App\Models\RangeBobot;
+use App\Models\PendukungTps;
+use App\Models\Tps;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -153,5 +151,31 @@ class Check
             $presentase = ($totalSuara / $targetPemenangan) * 100;
         }
         return $presentase;
+    }
+    public static function voteCounting($id)
+    {
+        $getPendukung = PendukungTps::find($id);
+        $getTps = Tps::find($getPendukung->tps_id);
+        $getUsers = User::with('profile')->find($getPendukung->users_id);
+
+        if ($getPendukung->tps_status == 0) {
+            if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                $getTps->totallk_tps = $getTps->totallk_tps + 1;
+            } else {
+                $getTps->totalpr_tps = $getTps->totalpr_tps + 1;
+            }
+            $getTps->totalsemua_tps = $getTps->totalsemua_tps + 1;
+            $getTps->save();
+        }
+
+        if ($getPendukung->tps_status == 1) {
+            if ($getUsers->profile->jenis_kelamin_profile == 'L') {
+                $getTps->totallk_tps = $getTps->totallk_tps - 1;
+            } else {
+                $getTps->totalpr_tps = $getTps->totalpr_tps - 1;
+            }
+            $getTps->totalsemua_tps = $getTps->totalsemua_tps - 1;
+            $getTps->save();
+        }
     }
 }

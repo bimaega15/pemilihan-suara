@@ -52,7 +52,7 @@ class UsersController extends Controller
             $searchValue =  $request->input('search')['value'];
 
             $data = User::query()
-                ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile')
+                ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.jenis_kelamin_profile', 'profile.alamat_profile')
                 ->join('profile', 'profile.users_id', 'users.id')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
@@ -133,6 +133,18 @@ class UsersController extends Controller
                     ';
                     return $outputAktifSet;
                 })
+                ->addColumn('jenis_kelamin_profile', function ($row) use ($userAcess, $roles) {
+                    $outputAktif = '';
+                    if ($row->jenis_kelamin_profile == 'L') {
+                        $outputAktif = 'Laki-laki';
+                    }
+
+                    if ($row->jenis_kelamin_profile == 'P') {
+                        $outputAktif = 'Perempuan';
+                    }
+
+                    return $outputAktif;
+                })
                 ->addColumn('gambar_profile', function ($row) use ($userAcess, $roles) {
                     $url_gambar_profile = asset('upload/profile/' . $row->profile->gambar_profile);
                     $gambar_profile = '<a class="photoviewer" href="' . $url_gambar_profile . '" data-gallery="photoviewer" data-title="' . $row->profile->gambar_profile . '">
@@ -181,7 +193,13 @@ class UsersController extends Controller
         //
         $validator = Validator::make($request->all(), [
             'username' => [
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) use ($request) {
+                    $roles = Role::find($request->input('role_id'));
+                    if ($roles->nama_roles != 'relawan') {
+                        if ($value == '' || $value == null) {
+                            $fail('Username wajib diisi');
+                        }
+                    }
                     $username = $_POST['username'];
                     $checkusername = User::where('username', $username)->count();
                     if ($checkusername > 0) {
@@ -189,14 +207,28 @@ class UsersController extends Controller
                     }
                 }
             ],
-            'password' => [function ($attribute, $value, $fail) {
+            'password' => [function ($attribute, $value, $fail) use ($request) {
+                $roles = Role::find($request->input('role_id'));
+                if ($roles->nama_roles != 'relawan') {
+                    if ($value == '' || $value == null) {
+                        $fail('Password wajib diisi');
+                    }
+                }
+
                 $password = $_POST['password'];
                 $password_confirm = $_POST['password_confirm'];
                 if ($password_confirm != $password) {
                     $fail('Password tidak sama dengan password confirmation');
                 }
             },],
-            'password_confirm' => [function ($attribute, $value, $fail) {
+            'password_confirm' => [function ($attribute, $value, $fail) use ($request) {
+                $roles = Role::find($request->input('role_id'));
+                if ($roles->nama_roles != 'relawan') {
+                    if ($value == '' || $value == null) {
+                        $fail('Password Confirm wajib diisi');
+                    }
+                }
+
                 $password = $_POST['password'];
                 $password_confirm = $_POST['password_confirm'];
                 if ($password_confirm != $password) {
@@ -204,7 +236,14 @@ class UsersController extends Controller
                 }
             },],
             'nama_profile' => 'required',
-            'email_profile' => ['required', 'email', function ($attribute, $value, $fail) {
+            'email_profile' => [function ($attribute, $value, $fail) use ($request) {
+                $roles = Role::find($request->input('role_id'));
+                if ($roles->nama_roles != 'relawan') {
+                    if ($value == '' || $value == null) {
+                        $fail('Email wajib diisi');
+                    }
+                }
+
                 $email_profile = $_POST['email_profile'];
                 $checkEmailProfile = Profile::where('email_profile', $email_profile)->count();
                 if ($checkEmailProfile > 0) {
@@ -327,7 +366,14 @@ class UsersController extends Controller
         //
         $validator = Validator::make($request->all(), [
             'username' => [
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) use ($request) {
+                    $roles = Role::find($request->input('role_id'));
+                    if ($roles->nama_roles != 'relawan') {
+                        if ($value == '' || $value == null) {
+                            $fail('Username wajib diisi');
+                        }
+                    }
+
                     $username = $_POST['username'];
                     $id = $_POST['id'];
                     $checkusername = User::where('username', $username)
@@ -359,7 +405,14 @@ class UsersController extends Controller
             'nik_profile' => 'required',
             'jabatan_id' => 'required',
             'nama_profile' => 'required',
-            'email_profile' => ['required', 'email', function ($attribute, $value, $fail) use ($id) {
+            'email_profile' => [function ($attribute, $value, $fail) use ($id, $request) {
+                $roles = Role::find($request->input('role_id'));
+                if ($roles->nama_roles != 'relawan') {
+                    if ($value == '' || $value == null) {
+                        $fail('Email wajib diisi');
+                    }
+                }
+
                 $email_profile = $_POST['email_profile'];
                 $checkEmailProfile = Profile::where('email_profile', $email_profile)
                     ->where('users_id', '<>', $id)
@@ -623,10 +676,9 @@ class UsersController extends Controller
                 $dataProfile = [
                     'nik_profile' => $sheetData[$i][1],
                     'nama_profile' => $sheetData[$i][2],
-                    'email_profile' => $sheetData[$i][3],
-                    'alamat_profile' => $sheetData[$i][4],
-                    'nohp_profile' => $sheetData[$i][5],
-                    'jenis_kelamin_profile' => $sheetData[$i][6],
+                    'alamat_profile' => $sheetData[$i][3],
+                    'nohp_profile' => $sheetData[$i][4],
+                    'jenis_kelamin_profile' => $sheetData[$i][5],
                     'gambar_profile' => 'default.png',
                     'users_id' => $users_id,
                     'jabatan_id' => $getJabatan->id,

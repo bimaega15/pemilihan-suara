@@ -20,7 +20,7 @@ class CreateProfilesTable extends Migration
             $table->integer('jabatan_id')->unsigned();
 
             $table->string('nama_profile', 200);
-            $table->string('email_profile')->unique();
+            $table->string('email_profile')->nullable();
             $table->text('alamat_profile');
             $table->string('nohp_profile', 35);
             $table->enum('jenis_kelamin_profile', ['L', 'P']);

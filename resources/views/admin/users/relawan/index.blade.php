@@ -14,19 +14,19 @@
             <tr>
                 <th scope="col">No</th>
                 <th scope="col">
-                    Username
-                </th>
-                <th scope="col">
                     Nama
                 </th>
                 <th scope="col">
-                    Email
+                    Jenis Kelamin
                 </th>
                 <th scope="col">
                     No. HP
                 </th>
+                <th scope="col">
+                    Alamat
+                </th>
                 <th scope="col" style="width: 40px;">
-                    Gambar
+                    KTP
                 </th>
                 <th>Is Aktif</th>
 

@@ -121,9 +121,11 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::get('pendukung/selectPendukungTps', [PendukungController::class, 'selectPendukungTps'])->name('pendukung.selectPendukungTps');
     Route::get('pendukung/saveSession', [PendukungController::class, 'saveSession'])->name('pendukung.saveSession');
     Route::post('pendukung/verify', [PendukungController::class, 'verify'])->name('pendukung.verify');
+    Route::post('pendukung/coblos', [PendukungController::class, 'coblos'])->name('pendukung.coblos');
 
     Route::get('dataPendukung', [DataPendukungController::class, 'index'])->name('dataPendukung.index');
     Route::get('dataPendukung/{id}/uploadBukti', [DataPendukungController::class, 'uploadBukti'])->name('dataPendukung.uploadBukti');
+    Route::post('dataPendukung/{id}/uploadCoblos', [DataPendukungController::class, 'uploadCoblos'])->name('dataPendukung.uploadCoblos');
     Route::post('dataPendukung/{id}/store', [DataPendukungController::class, 'store'])->name('dataPendukung.store');
     Route::get('dataPendukung/getHeaderTps', [DataPendukungController::class, 'getHeaderTps'])->name('dataPendukung.getHeaderTps');
     Route::get('dataPendukung/getUserTps', [DataPendukungController::class, 'getUserTps'])->name('dataPendukung.getHeaderTps');
