@@ -76,6 +76,9 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::get('/home/suaraKoordinatorGrafik', [HomeController::class, 'suaraKoordinatorGrafik'])->name('home.suaraKoordinatorGrafik');
     Route::get('/home/wilayah', [HomeController::class, 'wilayah'])->name('home.wilayah');
 
+    Route::get('home/pendukungAdmin', [HomeController::class, 'pendukungAdmin'])->name('home.pendukungAdmin');
+    Route::get('home/pendukungKoordinator', [HomeController::class, 'pendukungKoordinator'])->name('home.pendukungKoordinator');
+
 
     Route::resource('roles', RolesController::class);
 

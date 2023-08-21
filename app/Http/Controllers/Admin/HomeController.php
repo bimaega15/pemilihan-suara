@@ -8,6 +8,7 @@ use App\Models\Banner;
 use App\Models\Gallery;
 use App\Models\Jabatan;
 use App\Models\KoordinatorTps;
+use App\Models\PendukungTps;
 use App\Models\Tps;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -72,6 +73,91 @@ class HomeController extends Controller
             'dataTps' => $dataTps,
             'nama_roles' => $roles
         ]);
+    }
+
+    public function pendukungAdmin(Request $request)
+    {
+        $data = PendukungTps::query()->with('tps', 'users', 'users.profile');
+        return DataTables::eloquent($data)
+            ->addColumn('tps_status_view', function ($row) {
+                $buttonVerification = '';
+                if ($row->tps_status == 0) {
+                    $buttonVerification = '
+                    <span class="badge bg-warning">
+                        <i class="fas fa-pencil"></i>  Belum Mencoblos
+                    </span>
+                ';
+                }
+
+                if ($row->tps_status == 1) {
+                    $buttonVerification = '
+                <span class="badge bg-success">
+                    <i class="fas fa-check"></i> Sudah Mencoblos
+                </span>
+                ';
+                }
+
+                $button = '
+        <div class="text-center">
+            ' . $buttonVerification . '
+        </div>
+        ';
+
+                return $button;
+            })
+            ->addColumn('jenis_kelamin_profile', function ($row) {
+                $jenisKelamin = $row->users->profile->jenis_kelamin_profile;
+                return $jenisKelamin == 'L' ? 'Laki-laki' : 'Perempuan';
+            })
+
+            ->rawColumns(['jenis_kelamin_profile', 'tps_status_view'])
+            ->toJson();
+    }
+
+    public function pendukungKoordinator(Request $request)
+    {
+        $usersId = Auth::id();
+        $getCo = KoordinatorTps::where('users_id', $usersId)->first();
+        $tps_id = $getCo->tps_id;
+
+        $data = PendukungTps::query()->with(['tps' => function ($query) use ($tps_id) {
+            $query->where('id', $tps_id);
+        }, 'users', 'users.profile'])->where('tps_id', $tps_id);
+
+        return DataTables::eloquent($data)
+            ->addColumn('tps_status_view', function ($row) {
+                $buttonVerification = '';
+                if ($row->tps_status == 0) {
+                    $buttonVerification = '
+                    <span class="badge bg-warning">
+                        <i class="fas fa-pencil"></i>  Belum Mencoblos
+                    </span>
+                ';
+                }
+
+                if ($row->tps_status == 1) {
+                    $buttonVerification = '
+                <span class="badge bg-success">
+                    <i class="fas fa-check"></i> Sudah Mencoblos
+                </span>
+                ';
+                }
+
+                $button = '
+        <div class="text-center">
+            ' . $buttonVerification . '
+        </div>
+        ';
+
+                return $button;
+            })
+            ->addColumn('jenis_kelamin_profile', function ($row) {
+                $jenisKelamin = $row->users->profile->jenis_kelamin_profile;
+                return $jenisKelamin == 'L' ? 'Laki-laki' : 'Perempuan';
+            })
+
+            ->rawColumns(['jenis_kelamin_profile', 'tps_status_view'])
+            ->toJson();
     }
 
     public function fetchGrafik(Request $request)
