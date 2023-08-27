@@ -101,9 +101,10 @@
             var form = $('.form-submit')[0];
             var data = new FormData(form);
             var action = $('.form-submit').attr('action');
+            data.append('keterangan_about', editor.getData());
+
             onSubmit(action, data);
 
-            data.append('keterangan_about', editor.getData());
         })
 
         function onSubmit(action, data) {
