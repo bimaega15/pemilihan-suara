@@ -178,4 +178,13 @@ class Check
             $getTps->save();
         }
     }
+
+    public static function truncateText($text, $maxLength = 50, $suffix = '...')
+    {
+        if (strlen($text) <= $maxLength) {
+            return $text;
+        }
+
+        return substr($text, 0, $maxLength) . $suffix;
+    }
 }

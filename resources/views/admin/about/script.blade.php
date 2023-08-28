@@ -104,8 +104,10 @@
             data.append('keterangan_about', editor.getData());
 
             onSubmit(action, data);
-
         })
+
+
+
 
         function onSubmit(action, data) {
             $.ajax({
