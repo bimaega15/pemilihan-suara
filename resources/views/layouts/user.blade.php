@@ -24,6 +24,7 @@ $getKonfigurasi = Check::getKonfigurasi();
     <link rel="stylesheet" href="{{ asset('frontend/svasty-main/svasty-template/svasty') }}/assets/css/color-blue.css">
     <link rel="stylesheet" href="{{ asset('library/owl-carousel/dist/assets/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/sweetalert2/dist/sweetalert2.min.css') }}">
+    <link href="{{ asset('library/photoviewer-master') }}/dist/photoviewer.css" rel="stylesheet">
 
     <style>
         .dtr-menu-dark .nav-link {
@@ -240,79 +241,7 @@ $getKonfigurasi = Check::getKonfigurasi();
 
             <!-- gallery section starts
 ================================================== -->
-            <section id="gallery" class="dtr-section dtr-py-100 bg-grey">
-                <div class="container">
-
-                    <!-- section intro row starts -->
-                    <div class="row dtr-mb-30">
-                        <div class="col-12 text-center">
-                            <h2>Gallery</h2>
-                            <p class="text-grad-orange font-weight-700">
-                                Daftar Gallery Partai PAN
-                            </p>
-                        </div>
-                    </div>
-                    <!-- section intro row ends -->
-
-                    <!-- row starts -->
-                    <div class="row">
-
-                        <!-- column 1 starts -->
-                        <div class="col-12 col-md-4">
-
-                            <!-- blog item 1 starts -->
-                            <div class="dtr-blog-item">
-                                <!-- image -->
-                                <div class="dtr-post-img"> <img src="{{ asset('frontend/svasty-main/svasty-template/svasty') }}/assets/images/blogpost-img1.jpg" alt="image" class="dtr-rounded"> </div>
-                                <p class="text-size-sm font-weight-500 color-blue"> <span class="dtr-date">March 18, 2020</span><span class="dtr-author dtr-ml-20">by Admin</span></p>
-                                <h5><a href="#">How corona virus is affecting communities around the world</a></h5>
-                                <p class="dtr-mb-20">There are many variations of passages of Lorem Ipsum available, but the majority have suffered ...</p>
-                                <a href="#" class="font-weight-700">Read More <i class="icon-mbri-right dtr-ml-10"></i></a>
-                            </div>
-                            <!-- blog item 1 ends -->
-
-                        </div>
-                        <!-- column 1 ends -->
-
-                        <!-- column 2 starts -->
-                        <div class="col-12 col-md-4 dtr-md-mt-30">
-
-                            <!-- blog item 2 starts -->
-                            <div class="dtr-blog-item">
-                                <!-- image -->
-                                <div class="dtr-post-img"> <img src="{{ asset('frontend/svasty-main/svasty-template/svasty') }}/assets/images/blogpost-img2.jpg" alt="image" class="dtr-rounded"> </div>
-                                <p class="text-size-sm font-weight-500 color-blue"> <span class="dtr-date">March 19, 2020</span><span class="dtr-author dtr-ml-20">by Admin</span></p>
-                                <h5><a href="#">Trials to begin on Covid-19 vaccine next month</a></h5>
-                                <p class="dtr-mb-20">There are many variations of passages of Lorem Ipsum available, but the majority have suffered ...</p>
-                                <a href="#" class="font-weight-700">Read More <i class="icon-mbri-right dtr-ml-10"></i></a>
-                            </div>
-                            <!-- blog item 2 ends -->
-
-                        </div>
-                        <!-- column 2 ends -->
-
-                        <!-- column 3 starts -->
-                        <div class="col-12 col-md-4 dtr-md-mt-30">
-
-                            <!-- blog item 3 starts -->
-                            <div class="dtr-blog-item">
-                                <!-- image -->
-                                <div class="dtr-post-img"> <img src="{{ asset('frontend/svasty-main/svasty-template/svasty') }}/assets/images/blogpost-img3.jpg" alt="image" class="dtr-rounded"> </div>
-                                <p class="text-size-sm font-weight-500 color-blue"> <span class="dtr-date">March 20, 2020</span><span class="dtr-author dtr-ml-20">by Admin</span></p>
-                                <h5><a href="#">Airport officers fear exposure as coronavirus cases rise</a></h5>
-                                <p class="dtr-mb-20">There are many variations of passages of Lorem Ipsum available, but the majority have suffered ....</p>
-                                <a href="#" class="font-weight-700">Read More <i class="icon-mbri-right dtr-ml-10"></i></a>
-                            </div>
-                            <!-- blog item 3 ends -->
-
-                        </div>
-                        <!-- column 3 ends -->
-
-                    </div>
-                    <!-- row starts -->
-
-                </div>
-            </section>
+            @include('frontend.home.partial.gallery')
             <!-- gallery section ends
 ================================================== -->
 
@@ -337,6 +266,7 @@ $getKonfigurasi = Check::getKonfigurasi();
     <script src="{{ asset('frontend/svasty-main/svasty-template/svasty') }}/assets/js/custom.js"></script>
     <script src="{{ asset('library/owl-carousel/dist/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('library/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('library/photoviewer-master') }}/dist/photoviewer.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -359,11 +289,55 @@ $getKonfigurasi = Check::getKonfigurasi();
                 autoplayTimeout: 3000,
                 autoplayHoverPause: true
             })
+
+            $(document).on('click', '.to-home', function(e) {
+                e.preventDefault();
+
+                var target = $('#home');
+                if (target.length) {
+                    var top = target.offset().top - 80;
+                    $('html,body').animate({
+                        scrollTop: top
+                    }, 1500);
+                }
+            })
+            $(document).on('click', '.to-about', function(e) {
+                e.preventDefault();
+
+                var target = $('#about');
+                if (target.length) {
+                    var top = target.offset().top - 80;
+                    $('html,body').animate({
+                        scrollTop: top
+                    }, 1500);
+                }
+            })
+            $(document).on('click', '.to-checkStatus', function(e) {
+                e.preventDefault();
+                var target = $('#checkStatus');
+                if (target.length) {
+                    var top = target.offset().top - 80;
+                    $('html,body').animate({
+                        scrollTop: top
+                    }, 1500);
+                }
+            })
+            $(document).on('click', '.to-gallery', function(e) {
+                e.preventDefault();
+                var target = $('#gallery');
+                if (target.length) {
+                    var top = target.offset().top - 80;
+                    $('html,body').animate({
+                        scrollTop: top
+                    }, 1500);
+                }
+            })
         })
     </script>
 
     @include('auth.scriptStatus')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    @include('frontend.gallery.partial.script')
 </body>
 
 </html>

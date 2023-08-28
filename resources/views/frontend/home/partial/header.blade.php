@@ -27,7 +27,7 @@
             <!-- menu ends-->
 
             <!-- header right starts -->
-            <div class="dtr-header-right"> <a href="{{ url('/login') }}" class="dtr-btn btn-rounded btn-orange dtr-scroll-link">Login Sekarang</a> </div>
+            <div class="dtr-header-right"> <a href="{{ url('/login') }}" class="dtr-btn btn-rounded btn-orange">Login Sekarang</a> </div>
             <!-- header right ends -->
 
         </div>
