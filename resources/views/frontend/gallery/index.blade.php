@@ -9,7 +9,7 @@ use Carbon\Carbon;
         <!-- blog item 1 starts -->
         <div class="dtr-blog-item">
             <!-- image -->
-            <div class="dtr-post-img"> <img src="{{ asset('upload/gallery/'.$item->gambar_gallery) }}" alt="{{$item->gambar_gallery}}" class="dtr-rounded" style="height: 250px;"> </div>
+            <div class="dtr-post-img"> <img src="{{ asset('upload/gallery/'.$item->gambar_gallery) }}" alt="{{$item->gambar_gallery}}" class="dtr-rounded" style="width: 100%;"> </div>
             <p class="text-size-sm font-weight-500 color-blue"> <span class="dtr-date">
                     {{ Carbon::parse($item->waktu_gallery)->format('d F Y H:i') }}
                 </span><span class="dtr-author dtr-ml-20"></span></p>

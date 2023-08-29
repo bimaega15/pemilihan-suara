@@ -162,7 +162,7 @@ $getKonfigurasi = Check::getKonfigurasi();
 
                                 <div class="item">
                                     <div class="card p-1 shadow rounded" style="width: 100%;">
-                                        <img class="card-img-top" src="{{ asset('upload/about/team/'.$item) }}" alt="{{ $item }}" style="width: 100%; height: 400px;">
+                                        <img class="card-img-top" src="{{ asset('upload/about/team/'.$item) }}" alt="{{ $item }}" style="width: 100%;">
                                     </div>
                                 </div>
                                 @endforeach
@@ -201,7 +201,7 @@ $getKonfigurasi = Check::getKonfigurasi();
 
                                 <div class="item">
                                     <div class="card p-1 shadow rounded" style="width: 100%;">
-                                        <img class="card-img-top" src="{{ asset('upload/about/sponsor/'.$item) }}" alt="{{ $item }}" style="width: 100%; height: 400px;">
+                                        <img class="card-img-top" src="{{ asset('upload/about/sponsor/'.$item) }}" alt="{{ $item }}" style="width: 100%;">
                                     </div>
                                 </div>
                                 @endforeach
