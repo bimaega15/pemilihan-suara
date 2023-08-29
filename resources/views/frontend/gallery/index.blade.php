@@ -4,7 +4,7 @@ use Carbon\Carbon;
 @endphp
 <div class="row">
     @foreach ($gallery as $item)
-    <div class="col-4">
+    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
 
         <!-- blog item 1 starts -->
         <div class="dtr-blog-item">
@@ -24,7 +24,7 @@ use Carbon\Carbon;
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-center align-items-center">
             {!! $gallery->links() !!}
         </div>
     </div>

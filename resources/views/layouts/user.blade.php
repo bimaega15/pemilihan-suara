@@ -35,6 +35,39 @@ $getKonfigurasi = Check::getKonfigurasi();
             color: #fd5a49;
         }
     </style>
+
+    <!-- responsive -->
+    <style>
+        @media (max-width: 992px) {
+            .dtr-responsive-header img {
+                height: 40px;
+            }
+
+            section#home {
+                margin-top: 75px;
+            }
+
+            section#about p {
+                font-size: 18px;
+            }
+
+            section#about h2 {
+                font-size: 32px;
+            }
+
+            .dtr-section h2 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 991px) {
+
+            #dtr-footer img {
+                height: 100px;
+            }
+
+        }
+    </style>
 </head>
 
 <body>
@@ -54,7 +87,7 @@ $getKonfigurasi = Check::getKonfigurasi();
             <div class="container">
 
                 <!-- small devices logo -->
-                <a href="index.html"><img src="{{ asset('upload/konfigurasi/'.$getKonfigurasi->logo_konfigurasi) }}" alt="{{ $getKonfigurasi->logo_konfigurasi }}"></a>
+                <a href="{{ url('/') }}"><img src="{{ asset('upload/konfigurasi/'.$getKonfigurasi->logo_konfigurasi) }}" alt="{{ $getKonfigurasi->logo_konfigurasi }}"></a>
                 <!-- small devices logo ends -->
 
                 <!-- menu button -->
