@@ -13,7 +13,6 @@ class HomeController extends Controller
     //
     public function index()
     {
-
         $banner = Banner::all();
         $about = About::where('about_aktif', 1)->first();
         $konfigurasi = Konfigurasi::first();
