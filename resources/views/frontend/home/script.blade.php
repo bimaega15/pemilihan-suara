@@ -19,12 +19,10 @@
 
                 if (currentScrollPosition <= lastScrollPosition) {
                     // Scroll ke atas
-                    // $('.nav__item a').removeClass('text-dark').addClass('text-white');
-                    $('.nav__item a').removeClass('text-white').addClass('text-dark');
-
+                    $('.nav__item a').removeClass('text-dark').addClass('text-header');
                 }
                 if (currentScrollPosition > lastScrollPosition) {
-                    $('.nav__item a').removeClass('text-white').addClass('text-dark');
+                    $('.nav__item a').removeClass('text-header').addClass('text-dark');
                 }
 
                 var home = $('#home');
@@ -33,7 +31,7 @@
                     var bottom = top + $('#home').height();
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
-                        $('.nav__item #link_home').removeClass('text-dark text-white');
+                        $('.nav__item #link_home').removeClass('text-dark text-header');
                         $('.nav__item #link_home').addClass('text-success');
                     }
                 }
@@ -44,7 +42,7 @@
                     var bottom = top + $('#about').height();
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
-                        $('.nav__item #link_about').removeClass('text-dark text-white');
+                        $('.nav__item #link_about').removeClass('text-dark text-header');
                         $('.nav__item #link_about').addClass('text-success');
                     }
                 }
@@ -56,7 +54,7 @@
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
 
-                        $('.nav__item #link_timSukses').removeClass('text-dark text-white');
+                        $('.nav__item #link_timSukses').removeClass('text-dark text-header');
                         $('.nav__item #link_timSukses').addClass('text-success');
                     }
                 }
@@ -68,7 +66,7 @@
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
 
-                        $('.nav__item #link_contactUs').removeClass('text-dark text-white');
+                        $('.nav__item #link_contactUs').removeClass('text-dark text-header');
                         $('.nav__item #link_contactUs').addClass('text-success');
                     }
                 }
@@ -80,7 +78,7 @@
 
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
-                        $('.nav__item #link_statusPendaftaran').removeClass('text-dark text-white');
+                        $('.nav__item #link_statusPendaftaran').removeClass('text-dark text-header');
                         $('.nav__item #link_statusPendaftaran').addClass('text-success');
                     }
                 }
@@ -92,7 +90,7 @@
 
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
-                        $('.nav__item #link_gallery').removeClass('text-dark text-white');
+                        $('.nav__item #link_gallery').removeClass('text-dark text-header');
                         $('.nav__item #link_gallery').addClass('text-success');
                     }
                 }

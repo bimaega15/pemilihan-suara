@@ -9,14 +9,15 @@
 use Carbon\Carbon;
 $getKonfigurasi = Check::getKonfigurasi();
 @endphp
-
+@push('css')
 <style>
-@media (max-width: 460px) {
-  .features-layout1 img {
-    height: 300px !important;
-  }
-}
+    .text-header {
+        color: #c1c1c1;
+    }
 </style>
+@endpush
+
+
 <!-- ============================
         Slider
     ============================== -->
