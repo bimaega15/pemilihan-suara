@@ -9,6 +9,14 @@
 use Carbon\Carbon;
 $getKonfigurasi = Check::getKonfigurasi();
 @endphp
+
+<style>
+@media (max-width: 460px) {
+  .features-layout1 img {
+    height: 300px !important;
+  }
+}
+</style>
 <!-- ============================
         Slider
     ============================== -->
@@ -224,7 +232,7 @@ $getKonfigurasi = Check::getKonfigurasi();
                 </div><!-- /.row -->
             </div><!-- /.col-lg-6 -->
             <div class="col-sm-12 col-md-12 col-lg-6">
-                <img src="{{ asset('upload/assets/pan.jpg') }}" alt="pan" height="400px" width="60%">
+                <img src="{{ asset('upload/assets/pan.jpg') }}" alt="pan" style="height: 400px;" width="60%">
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
     </div><!-- /.container -->

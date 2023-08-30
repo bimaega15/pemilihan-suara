@@ -115,13 +115,7 @@
                     `);
                 },
                 complete: function() {
-                    var target = $('#contentGallery');
-                    if (target.length) {
-                        var top = target.offset().top - 100;
-                        $('html,body').animate({
-                            scrollTop: top
-                        }, 1000);
-                    }
+
 
                 }
             })

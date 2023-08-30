@@ -178,7 +178,7 @@
         function scrollSectionGallery() {
             var target = $('#gallery');
             if (target.length) {
-                var top = target.offset().top - 100;
+                var top = target.offset().top - 80;
                 $('html,body').animate({
                     scrollTop: top
                 }, 1500);
