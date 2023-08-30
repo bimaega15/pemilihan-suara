@@ -17,22 +17,22 @@ $currentUrl = Check::getCurrentUrl();
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav__item">
-                        <a href="#home" id="link_home" class="text-white font-weight-bold">Home</a>
+                        <a href="#home" id="link_home" class="text-dark font-weight-bold">Home</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
-                        <a href="#about" id="link_about" class="text-white font-weight-bold">About</a>
+                        <a href="#about" id="link_about" class="text-dark font-weight-bold">About</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
-                        <a href="#timSukses" id="link_timSukses" class="text-white font-weight-bold">Tim Sukses</a>
+                        <a href="#timSukses" id="link_timSukses" class="text-dark font-weight-bold">Tim Sukses</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
-                        <a href="#contactUs" id="link_contactUs" class="text-white font-weight-bold">Kontak</a>
+                        <a href="#contactUs" id="link_contactUs" class="text-dark font-weight-bold">Kontak</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
-                        <a href="#statusPendaftaran" id="link_statusPendaftaran" class="text-white font-weight-bold">Status Pendaftaran</a>
+                        <a href="#statusPendaftaran" id="link_statusPendaftaran" class="text-dark font-weight-bold">Status Pendaftaran</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
-                        <a href="#gallery" id="link_gallery" class="text-white font-weight-bold">Gallery</a>
+                        <a href="#gallery" id="link_gallery" class="text-dark font-weight-bold">Gallery</a>
                     </li><!-- /.nav-item -->
 
                 </ul><!-- /.navbar-nav -->

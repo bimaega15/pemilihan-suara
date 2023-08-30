@@ -19,7 +19,9 @@
 
                 if (currentScrollPosition <= lastScrollPosition) {
                     // Scroll ke atas
-                    $('.nav__item a').removeClass('text-dark').addClass('text-white');
+                    // $('.nav__item a').removeClass('text-dark').addClass('text-white');
+                    $('.nav__item a').removeClass('text-white').addClass('text-dark');
+
                 }
                 if (currentScrollPosition > lastScrollPosition) {
                     $('.nav__item a').removeClass('text-white').addClass('text-dark');

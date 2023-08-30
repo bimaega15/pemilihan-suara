@@ -13,7 +13,6 @@
                 dataType: 'json',
                 type: 'get',
                 success: function(res) {
-                    console.log(res);
 
                     let assetGallery = "{{ asset('upload/gallery/') }}";
                     let result = res.data;
