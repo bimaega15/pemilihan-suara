@@ -189,7 +189,7 @@
         var map = L.map('map-contact').setView([dataMaps.latitude_konfigurasi, dataMaps.longitude_konfigurasi], 13);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://wa.me/6282277506232">TA.SPK AHP & SAW</a> contributors'
+            attribution: '&copy; <a href="https://wa.me/6282277506232">Rancang Bangun Aplikasi Pengelolaan Suara</a> contributors'
         }).addTo(map);
         L.Control.geocoder().addTo(map);
 

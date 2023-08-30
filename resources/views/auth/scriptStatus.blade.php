@@ -59,6 +59,7 @@
                         console.log(responseText);
                     }
 
+
                     if (responseJSON.result != undefined) {
                         Swal.fire({
                             icon: 'info',

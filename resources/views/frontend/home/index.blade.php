@@ -7,6 +7,7 @@
 
 @php
 use Carbon\Carbon;
+$getKonfigurasi = Check::getKonfigurasi();
 @endphp
 <!-- ============================
         Slider
@@ -136,8 +137,8 @@ use Carbon\Carbon;
                     @foreach ($parseSponsor as $item)
                     <!-- service item #1 -->
                     <div class="service-item">
-                        <div class="service__content">
-                            <div class="service__icon">
+                        <div class="service__content p-2">
+                            <div class="service__icon mb-0">
                                 <!-- <i class="icon-server"></i> -->
                             </div><!-- /.service__icon -->
                             <img src="{{ asset('upload/about/team/'.$item) }}" style="width: 100%;" height="300px;" alt="{{ $item }}">
@@ -174,10 +175,7 @@ use Carbon\Carbon;
                             Partai politik berfungsi sebagai salah satu sarana sosialisasi politik, untuk dapat menjadi
                             pemenang didalam Pemilihan Umum (Pemilu)
                         </p>
-                        <a href="{{ url('/tps') }}" class="btn btn__primary btn__primary-style2 btn__icon mt-30 mb-30">
-                            <span>Lihat TPS</span>
-                            <i class="icon-arrow-right"></i>
-                        </a>
+
                     </div><!-- /.col-sm-6 -->
                     <div class="col-sm-6">
                         <p class="heading__desc">
@@ -196,8 +194,8 @@ use Carbon\Carbon;
 
             @if ($index < 4) <!-- Feature item #1 -->
                 <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="feature-item text-center">
-                        <img src="{{ asset('upload/about/team/'.$item) }}" alt="{{ $item }}" style="width: 100%; height: 200px;">
+                    <div class="feature-item text-center p-2">
+                        <img src="{{ asset('upload/about/team/'.$item) }}" class="rounded" alt="{{ $item }}" style="width: 100%; height: 200px;">
                     </div><!-- /.feature-item -->
                 </div>
                 <!-- /.col-lg-3 -->
@@ -208,44 +206,25 @@ use Carbon\Carbon;
         </div><!-- /.row -->
         <div class="row mt-40">
             <div class="col-sm-12 col-md-12 col-lg-6 d-flex flex-column justify-content-between">
-                <div class="row row-no-gutter read-note">
-                    <div class="col-sm-4">
-                        <div class="rating mb-10">
-                            <i class="fas fa-star color-primary"></i>
-                            <i class="fas fa-star color-primary"></i>
-                            <i class="fas fa-star color-primary"></i>
-                            <i class="fas fa-star color-primary"></i>
-                            <i class="fas fa-star color-primary"></i>
-                        </div>
-                    </div><!-- /.col-lg-4 -->
-                    <div class="col-sm-8">
-                        <p class="read-note__text color-white">
-                            <span class="font-weight-bold text-underlined">95% Suara</span>
-                            berdasarkan 750+ ulasan dan 20.000 suara dari berbagai TPS
-                        </p>
-                    </div><!-- /.col-lg-8 -->
-                </div><!-- /.row -->
+
                 <div class="row">
                     <div class="col-sm-6">
                         <p class="mb-30 font-weight-bold sub__desc"> Partai politik berfungsi sebagai salah satu sarana sosialisasi politik, untuk dapat menjadi
                             pemenang didalam Pemilihan Umum (Pemilu)</p>
-                        <a href="{{ url('/tps') }}" class="btn btn__primary btn__bordered btn__icon mb-30">
-                            <span>Lihat TPS</span>
-                            <i class="icon-arrow-right"></i>
-                        </a>
+
                     </div><!-- /.col-sm-6 -->
                     <div class="col-sm-6">
                         <ul class="list-items list-unstyled mb-30">
-                            <li>20.000 TPS</li>
-                            <li>Memperjuangkan kepentingan</li>
-                            <li>Aspirasi</li>
-                            <li>Nilai-nilai masyarakat</li>
+                            <li class="text-white">{{ $tps }} TPS</li>
+                            <li class="text-white">Memperjuangkan kepentingan</li>
+                            <li class="text-white">Aspirasi</li>
+                            <li class="text-white">Nilai-nilai masyarakat</li>
                         </ul>
                     </div><!-- /.col-sm-6 -->
                 </div><!-- /.row -->
             </div><!-- /.col-lg-6 -->
             <div class="col-sm-12 col-md-12 col-lg-6">
-                <img src="{{ asset('upload/assets/pan.jpg') }}" alt="pan" height="500px" width="100%">
+                <img src="{{ asset('upload/assets/pan.jpg') }}" alt="pan" height="400px" width="60%">
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -254,6 +233,7 @@ use Carbon\Carbon;
 <!-- =========================
        Banner layout 5
       =========================== -->
+<div style="height: 100px;"></div>
 <section class="banner-layout5 banner-layout5-sticky bg-parallax pt-130 pb-0">
     <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/banners/9.jpg" alt="background"></div>
     <div class="container-fluid">
@@ -293,17 +273,14 @@ use Carbon\Carbon;
                     <div class="scroll__icon"><i class="icon-mouse"></i></div>
                     <div class="row heading heading-light">
                         <div class="col-sm-6">
-                            <h3 class="heading__title mb-30">{{ number_format($tps, 0) }} Tps diseluruh indonesia</h3>
+                            <h3 class="heading__title mb-30">{{ number_format($tps, 0) }} Tps</h3>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
                             <p class="heading__desc mb-20">Siap siaga untuk pengabdian kemasyarakat, bersedia untuk turut berperan dalam kesuksesan pemilihan pejabat sebagai kader partai politik.</p>
                             <p class="heading__desc mb-20">
                                 Sebagai salah satu partai terbaik di indonesia, untuk membangun negeri dan memberantas korupsi
                             </p>
-                            <a href="{{ url('/tps') }}" class="btn btn__white btn__bordered btn__xl btn__icon">
-                                <span>Lihat TPS</span>
-                                <i class="icon-arrow-right"></i>
-                            </a>
+
                         </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
                     <div class="row counters-wrapper counters-light mt-70">
@@ -390,6 +367,145 @@ use Carbon\Carbon;
 <!-- /.Banner layout 5 -->
 
 <!-- ======================
+      contact Grid
+    ========================= -->
+
+<!-- ======================
+      contact Grid
+    ========================= -->
+<section id="contactUs">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
+            <div class="heading text-center mb-40">
+                <h2 class="heading__subtitle">Kantor TPS</h2>
+                <h3 class="heading__title">Area Wilayah</h3>
+            </div><!-- /.heading -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="map" style="height: 600px;"></div>
+        </div>
+    </div>
+</section>
+<!-- /.contact Grid -->
+
+
+<!-- ==========================
+        contact layout 1
+    =========================== -->
+<section class="contact-layout1 pb-60">
+    <div class="container">
+        <div class="row heading mb-40">
+            <div class="col-12">
+                <div class="d-flex align-items-center">
+                    <div class="divider divider-primary mr-30"></div>
+                    <h2 class="heading__subtitle mb-0">Deskripsi</h2>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-7">
+                <h3 class="heading__title">Cerita Singkat tentang partai PAN</h3>
+            </div><!-- /col-lg-5 -->
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-7 mb-3">
+                <form class="contact-form" method="post" action="#" id="contactForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4 class="contact-panel__title">
+                                Tentang Partai PAN
+                            </h4>
+                        </div>
+                        <div class="col-sm-12">
+                            <span class="text-dark">
+                                {!! @$about->keterangan_about !!}
+
+                            </span>
+                        </div>
+                    </div><!-- /.row -->
+                </form>
+            </div><!-- /.col-lg-6 -->
+            <div class="col-sm-12 col-md-12 col-lg-4 offset-lg-1 mb-3">
+                <div class="contact-info d-flex flex-column justify-content-between">
+                    <div class="bg-img"><img src="{{ asset('frontend/SmartData') }}/assets/images/contact/1.jpg" alt="banner"></div>
+                    <div>
+                        <h4 class="contact-info__title">{{ $tps }} Tps</h4>
+                        <p class="contact-info__desc">Siap siaga untuk pengabdian kemasyarakat, bersedia untuk turut berperan dalam kesuksesan pemilihan pejabat sebagai kader partai politik.</p>
+                        <p class="contact-info__desc">Sebagai salah satu partai terbaik di indonesia, untuk membangun negeri dan memberantas korupsi.
+                        </p>
+                    </div>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li class="text-white" style="line-height: 30px;"><i class="fas fa-envelope"></i>
+                            <a href="mailto:{{ $getKonfigurasi->email_konfigurasi }}" class="text-white"> {{ $getKonfigurasi->email_konfigurasi }}</a>
+                        </li>
+                        <li class="text-white" style="line-height: 30px;"><i class="fas fa-phone"></i>
+                            <a href="tel:{{ $getKonfigurasi->nohp_konfigurasi }}" class="text-white"> {{ $getKonfigurasi->nohp_konfigurasi }}</a>
+                        </li>
+                        <li class="text-white" style="line-height: 30px;">
+                            <a href="{{ $getKonfigurasi->instagram_konfigurasi }}" target="_blank" class="text-white">
+                                <i class="fab fa-instagram"></i> @ {{ $getKonfigurasi->instagram_konfigurasi }}
+                            </a>
+                        </li>
+                    </ul>
+                </div><!-- /.contact-info -->
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</section><!-- /.contact layout 1 -->
+
+
+<section class="blog-grid pb-50" id="statusPendaftaran">
+    <div class=" row">
+        <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
+            <div class="heading text-center mb-40">
+                <h2 class="heading__subtitle">Menu untuk periksa status pendaftaran koordinator</h2>
+                <h3 class="heading__title">Periksa Status Pendaftaran</h3>
+            </div><!-- /.heading -->
+        </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-lg-6 mx-auto">
+                <div class="card login-box-container shadow">
+                    <div class="card-header bg-light">
+                        <span class="text-dark">
+                            <i class="fas fa-table"></i> Periksa Pendaftaran
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{{ route('register.checkStatus.postCheckStatus') }}" class="form-submit">
+                            @csrf
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="">Periksa Status Pendaftaran</label>
+                                    <input type="text" class="form-control identitas" id="floatingInput" placeholder="Masukan Username / NIK / Email..." name="identitas">
+                                    <small class="error_identitas text-danger"></small>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-info m-b-xs btn-submit w-100 btn-submit">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                        <div style="height: 20px;"></div>
+                        <div class="text-center">
+                            <p>Already account ? <a href="{{ url('/login') }}">Login account</a></p>
+                            <p>Not registered? <a href="{{ url('/register') }}">Create an account</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height: 20px;"></div>
+
+</section>
+
+<!-- ======================
       Blog Grid
     ========================= -->
 <section class="blog-grid pb-50" id="gallery">
@@ -415,6 +531,10 @@ use Carbon\Carbon;
 @endsection
 
 @push('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
 @include('frontend.home.script')
+@include('frontend.contact.partial.script')
+@include('auth.scriptStatus')
 @include('frontend.gallery.partial.script')
 @endpush

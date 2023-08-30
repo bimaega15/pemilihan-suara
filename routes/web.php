@@ -60,9 +60,9 @@ Route::group(['middleware' => ['checkAlreadyLogin', 'throttle:login']], function
     Route::get('/register/{tps_id}/getTps', [RegisterController::class, 'getTps'])->name('register.getTps');
     Route::post('/register/store', [RegisterController::class, 'store'])->name('register.store');
     Route::get('/register/checkStatus', [RegisterController::class, 'checkStatus'])->name('register.checkStatus');
-    Route::post('/register/checkStatus/postCheckStatus', [RegisterController::class, 'postCheckStatus'])->name('register.checkStatus.postCheckStatus');
 });
 
+Route::post('/register/checkStatus/postCheckStatus', [RegisterController::class, 'postCheckStatus'])->name('register.checkStatus.postCheckStatus');
 
 
 Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNotLogin']], function () {

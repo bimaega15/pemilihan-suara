@@ -9,7 +9,7 @@ $getKonfigurasi = Check::getKonfigurasi();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ $getKonfigurasi->deskripsi_konfigurasi }}">
-    <meta name="keywords" content="Sistem Pendukung Keputusan Metode AHP & SAW">
+    <meta name="keywords" content="{{ $getKonfigurasi->nama_konfigurasi }}">
     <meta name="author" content="{{ $getKonfigurasi->created_konfigurasi }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

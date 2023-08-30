@@ -13,6 +13,7 @@
                 dataType: 'json',
                 type: 'get',
                 success: function(res) {
+                    console.log(res);
 
                     let assetGallery = "{{ asset('upload/gallery/') }}";
                     let result = res.data;
@@ -107,7 +108,11 @@
 
 
 
-                    $('#contentGallery').html(outputData);
+                    $('#contentGallery').html(`
+                    <div class="text-center">
+                        ${outputData}
+                    </div>
+                    `);
                 },
                 complete: function() {
                     var target = $('#contentGallery');

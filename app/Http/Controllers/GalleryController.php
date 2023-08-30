@@ -10,12 +10,10 @@ class GalleryController extends Controller
     //
     public function index(Request $request)
     {
-        $limit = 6;
-        $data = Gallery::paginate($limit);
-
-
-        return view('frontend.gallery.index', [
-            'gallery' => $data
-        ])->render();
+        if ($request->ajax()) {
+            $limit = 6;
+            $data = Gallery::paginate($limit);
+            return response()->json($data, 200);
+        }
     }
 }

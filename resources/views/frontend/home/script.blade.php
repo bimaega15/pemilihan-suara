@@ -1,7 +1,6 @@
 <script>
     $(document).ready(function() {
         setScroll();
-        scrollSectionHome();
 
         function setScroll() {
             var lastScrollPosition = 0;
@@ -28,7 +27,7 @@
 
                 var home = $('#home');
                 if (home.length) {
-                    var top = home.offset().top - 50;
+                    var top = home.offset().top - 100;
                     var bottom = top + $('#home').height();
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
@@ -39,7 +38,7 @@
 
                 var about = $('#about');
                 if (about.length) {
-                    var top = about.offset().top - 50;
+                    var top = about.offset().top - 100;
                     var bottom = top + $('#about').height();
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
@@ -50,7 +49,7 @@
 
                 var timSukses = $('#timSukses');
                 if (timSukses.length) {
-                    var top = timSukses.offset().top - 50;
+                    var top = timSukses.offset().top - 100;
                     var bottom = top + $('#timSukses').height();
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
@@ -62,7 +61,7 @@
 
                 var contactUs = $('#contactUs');
                 if (contactUs.length) {
-                    var top = contactUs.offset().top - 50;
+                    var top = contactUs.offset().top - 90;
                     var bottom = top + $('#contactUs').height();
 
                     if (currentScrollPosition >= top && currentScrollPosition < bottom) {
@@ -74,7 +73,7 @@
 
                 var statusPendaftaran = $('#statusPendaftaran');
                 if (statusPendaftaran.length) {
-                    var top = statusPendaftaran.offset().top - 50;
+                    var top = statusPendaftaran.offset().top - 110;
                     var bottom = top + $('#statusPendaftaran').height();
 
 
@@ -86,7 +85,7 @@
 
                 var gallery = $('#gallery');
                 if (gallery.length) {
-                    var top = gallery.offset().top - 50;
+                    var top = gallery.offset().top - 100;
                     var bottom = top + $('#gallery').height();
 
 
@@ -149,7 +148,7 @@
         function scrollSectionContactUs() {
             var target = $('#contactUs');
             if (target.length) {
-                var top = target.offset().top - 100;
+                var top = target.offset().top - 80;
                 $('html,body').animate({
                     scrollTop: top
                 }, 1500);
