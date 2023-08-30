@@ -11,7 +11,7 @@ use Carbon\Carbon;
 <!-- ============================
         Slider
     ============================== -->
-<section class="slider">
+<section class="slider" id="home">
     <div class="slick-carousel carousel-arrows-light carousel-dots-light m-slides-0" data-slick='{"slidesToShow": 1, "arrows": true, "dots": true, "speed": 700,"fade": true,"cssEase": "linear"}'>
         @foreach ($banner as $item)
         <div class="slide-item align-v-h bg-overlay bg-overlay-gradient">
@@ -26,13 +26,6 @@ use Carbon\Carbon;
                             <p class="slide__desc">
                                 {{$item->keterangan_banner}}
                             </p>
-                            <a href="{{ url('/tps') }}" class="btn btn__primary btn__icon mr-30">
-                                <span>Lihat TPS</span>
-                                <i class="icon-arrow-right"></i>
-                            </a>
-                            <a href="{{ url('/aboutUs') }}" class="btn btn__white">
-                                Pelayanan Kami
-                            </a>
                         </div><!-- /.slide-content -->
                     </div><!-- /.col-xl-7 -->
                 </div><!-- /.row -->
@@ -46,7 +39,7 @@ use Carbon\Carbon;
 <!-- ========================
       About Layout 4
     =========================== -->
-<section class="about-layout4 pt-130 pb-0">
+<section class="about-layout4 pt-130 pb-0" id="about">
     <div class="container">
         <div class="row heading">
             <div class="col-12">
@@ -115,9 +108,9 @@ use Carbon\Carbon;
 </section><!-- /.About Layout 4 -->
 
 <!-- ========================
-        Services Carousel
+       Tim sukses
     =========================== -->
-<section class="services-layout2 services-carousel pt-130 bg-gray">
+<section class="services-layout2 services-carousel pt-130 bg-gray" id="timSukses">
     <div class="container">
         <div class="row heading mb-40">
             <div class="col-12">
@@ -160,7 +153,7 @@ use Carbon\Carbon;
 </section><!-- /.Services Layout 2 -->
 
 <!-- ======================
-    Features Layout 1
+       Tim sukses
     ========================= -->
 <section class="features-layout1 pb-0">
     <div class="features-bg">
@@ -258,51 +251,6 @@ use Carbon\Carbon;
     </div><!-- /.container -->
 </section><!-- /.Features Layout 1 -->
 
-<!-- =========================== 
-      portfolio Grid
-    ============================= -->
-<section class="portfolio-grid portfolio-grid-carousel pb-40">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-6">
-                <div class="heading mb-50">
-                    <div class="d-flex align-items-center">
-                        <div class="divider divider-primary mr-30"></div>
-                        <h2 class="heading__subtitle mb-0">Success Stories</h2>
-                    </div>
-                    <h3 class="heading__title mb-0">
-                        Beberapa Portfolio Kami
-                    </h3>
-                </div>
-            </div><!-- /.col-lg-6 -->
-        </div><!-- /.row -->
-        <div class="row">
-            <div class="col-12">
-                <div class="slick-carousel" data-slick='{"slidesToShow": 3, "slidesToScroll": 2, "arrows": true, "dots": true, "autoplay": true,"autoplaySpeed": 3000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 767, "settings": {"slidesToShow": 2}}, {"breakpoint": 480, "settings": {"slidesToShow": 1}}]}'>
-                    <!-- portfolio item #1 -->
-                    @foreach ($galleryPortfolio as $item)
-                    <div class="portfolio-item">
-                        <div class="portfolio__img">
-                            <img src="{{ asset('upload/gallery/'.$item->gambar_gallery) }}" alt="{{ $item->gambar_gallery }}" style="width: 100%; height: 300px;">
-                        </div><!-- /.portfolio-img -->
-                        <div class="portfolio__content">
-                            <h4 class="portfolio__title"><a href="#">
-                                    {{$item->judul_gallery}}
-                                </a></h4>
-                            <p class="portfolio__desc">
-                                {{$item->keterangan_gallery}}
-                            </p>
-                        </div><!-- /.portfolio-content -->
-                    </div>
-                    @endforeach
-
-                    <!-- /.portfolio-item -->
-                </div><!-- /.carousel -->
-            </div><!-- /.col-12 -->
-        </div><!-- /.row -->
-    </div><!-- /.container -->
-</section><!-- /.portfolio Grid  -->
-
 <!-- =========================
        Banner layout 5
       =========================== -->
@@ -345,7 +293,7 @@ use Carbon\Carbon;
                     <div class="scroll__icon"><i class="icon-mouse"></i></div>
                     <div class="row heading heading-light">
                         <div class="col-sm-6">
-                            <h3 class="heading__title mb-30">20.000 Tps diseluruh indonesia</h3>
+                            <h3 class="heading__title mb-30">{{ number_format($tps, 0) }} Tps diseluruh indonesia</h3>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
                             <p class="heading__desc mb-20">Siap siaga untuk pengabdian kemasyarakat, bersedia untuk turut berperan dalam kesuksesan pemilihan pejabat sebagai kader partai politik.</p>
@@ -362,28 +310,28 @@ use Carbon\Carbon;
                         <!-- counter item #1 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format(@$about->project_about,0) }}</h4>
-                                <p class="counter__desc">Project</p>
+                                <h4 class="counter">{{ number_format($tps,0) }}</h4>
+                                <p class="counter__desc">TPS</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <!-- counter item #2 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format(@$about->customers_about,0) }}</h4>
-                                <p class="counter__desc">Pelanggan</p>
+                                <h4 class="counter">{{ number_format($regencies,0) }}</h4>
+                                <p class="counter__desc">Kabupaten</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <!-- counter item #3 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format(@$about->team_about,0) }}</h4>
-                                <p class="counter__desc">Tim</p>
+                                <h4 class="counter">{{ number_format($districts,0) }}</h4>
+                                <p class="counter__desc">Kecamatan</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
                             <div class="counter-item">
-                                <h4 class="counter">{{ number_format(@$about->awards_about,0) }}</h4>
-                                <p class="counter__desc">Pencapaian</p>
+                                <h4 class="counter">{{ number_format($villages,0) }}</h4>
+                                <p class="counter__desc">Kelurahan</p>
                             </div><!-- /.counter-item -->
                         </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
@@ -416,9 +364,7 @@ use Carbon\Carbon;
                                 <div class="cta__icon color-white"><i class="icon-developer"></i></div>
                                 <h4 class="cta__title color-white">Sejak 1998</h4>
                                 <p class="cta__desc color-white mb-25">Partai Amanat Nasional (PAN) adalah salah satu partai politik di Indonesia yang didirikan pada tanggal 23 Mei 1998. Partai ini memiliki sejarah yang panjang dan berperan penting dalam perkembangan politik di Indonesia..</p>
-                                <a href="{{ url('/tps') }}" class="btn btn__link btn__white btn__icon px-0">
-                                    <span>Lihat TPS</span> <i class="icon-arrow-right"></i>
-                                </a>
+
                             </div>
                         </div><!-- /.col-sm-6 -->
                         <div class="col-sm-6">
@@ -436,47 +382,7 @@ use Carbon\Carbon;
                         </div><!-- /.col-sm-6 -->
                     </div><!-- /.row -->
                 </div><!-- /.semi-banner -->
-                <section class="awards bg-secondary">
-                    <div class="row heading heading-light mb-60">
-                        <div class="col-sm-6">
-                            <h3 class="heading__title">Beberapa Lembaga yang support kami</h3>
-                        </div><!-- /col-lg-5 -->
-                        <div class="col-sm-6">
-                            <p class="heading__desc">Percayalah pada organisasi yang kami bangun, kami dengan tulus hati akan mementingkan kepentingan rakyat, dan bertujuan untuk menjadikan indonesia menjadi lebih bersih, aman, dan sejahtera.
-                            </p>
-                        </div><!-- /.col-lg-5 -->
-                    </div><!-- /.row -->
-                    <div class="row awards-wrapper">
-                        <div class="col-sm-12">
-                            <div class="awards-carousel-wrapper">
-                                <div class="slick-carousel" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "arrows": false, "dots": true,"autoplay": true, "autoplaySpeed": 4000, "infinite": true, "responsive": [ {"breakpoint": 992, "settings": {"slidesToShow": 2}}, {"breakpoint": 768, "settings": {"slidesToShow": 1}}, {"breakpoint": 570, "settings": {"slidesToShow": 1}}]}'>
-                                    @if ($about != null)
 
-                                    @php
-                                    $parseSponsor = json_decode($about->gambarsponsor_about, true);
-                                    @endphp
-                                    @foreach ($parseSponsor as $item)
-                                    <!-- fancybox item #1 -->
-                                    <div class="fancybox-item">
-                                        <div class="fancybox__icon-img">
-                                            <img src="{{ asset('upload/about/sponsor/'.$item) }}" alt="icon">
-                                        </div><!-- /.fancybox__icon-img -->
-                                        <div class="fancybox__content">
-                                            <h4 class="fancybox__title"></h4>
-                                            <p class="fancybox__desc">
-                                            </p>
-                                        </div><!-- /.fancybox-content -->
-                                        <div style="height: 25px;"></div>
-                                    </div><!-- /.fancybox-item -->
-                                    @endforeach
-                                    @endif
-
-
-                                </div><!-- /.carousel  -->
-                            </div><!-- /.awards-carousel-wrapper -->
-                        </div><!-- /.col-12 -->
-                    </div><!-- /.row -->
-                </section>
             </div><!-- /.col-xl-4 -->
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -486,7 +392,7 @@ use Carbon\Carbon;
 <!-- ======================
       Blog Grid
     ========================= -->
-<section class="blog-grid pb-50">
+<section class="blog-grid pb-50" id="gallery">
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
@@ -496,30 +402,7 @@ use Carbon\Carbon;
                 </div><!-- /.heading -->
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
-        <div class="row">
-            @foreach ($gallery as $item)
-            <!-- Blog Item #1 -->
-            <div class="col-sm-12 col-md-4 col-lg-4">
-                <div class="post-item">
-                    <div class="post__img">
-                        <a href="{{url('/gallery')}}">
-                            <img src="{{ asset('upload/gallery/'.$item->gambar_gallery) }}" alt="" style="width: 100%; height: 250px;">
-                        </a>
-                    </div><!-- /.blog-img -->
-                    <div class="post__content">
-                        <div class="post__meta d-flex flex-wrap">
-                            <span class="post__meta-date">{{ Carbon::parse($item->waktu_gallery)->format('d F Y H:i') }}</span>
-                        </div>
-                        <h4 class="post__title"><a href="#">{{ $item->judul_gallery }}</a>
-                        </h4>
-                        <p class="post__desc">
-                            {{$item->keterangan_gallery}}
-                        </p>
-                    </div><!-- /.blog-content -->
-                </div><!-- /.post-item -->
-            </div><!-- /.col-lg-4 -->
-            @endforeach
-
+        <div id="contentGallery" class="row">
         </div><!-- /.row -->
     </div><!-- /.container -->
 </section>
@@ -530,3 +413,8 @@ use Carbon\Carbon;
       Footer
     ========================== -->
 @endsection
+
+@push('js')
+@include('frontend.home.script')
+@include('frontend.gallery.partial.script')
+@endpush
