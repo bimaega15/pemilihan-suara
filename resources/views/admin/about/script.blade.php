@@ -18,26 +18,6 @@
                         className: "text-center",
                     },
                     {
-                        data: "project_about",
-                        name: "project_about",
-                        searchable: true
-                    },
-                    {
-                        data: "customers_about",
-                        name: "customers_about",
-                        searchable: true
-                    },
-                    {
-                        data: "team_about",
-                        name: "team_about",
-                        searchable: true
-                    },
-                    {
-                        data: "awards_about",
-                        name: "awards_about",
-                        searchable: true
-                    },
-                    {
                         data: "gambar_about",
                         name: "gambar_about",
                         searchable: true

@@ -79,21 +79,9 @@ $isCreate = session()->get('userAcess.is_create');
                                             <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">
-                                                    Project
-                                                </th>
-                                                <th scope="col">
-                                                    Customers
-                                                </th>
-                                                <th scope="col">
-                                                    Team
-                                                </th>
-                                                <th scope="col">
-                                                    Awards
-                                                </th>
-                                                <th scope="col">
                                                     Gambar
                                                 </th>
-                                                <th scope="col">
+                                                <th scope="col" class="text-center">
                                                     Is Aktif
                                                 </th>
 

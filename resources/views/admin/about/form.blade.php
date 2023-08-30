@@ -123,41 +123,7 @@ $isCreate = session()->get('userAcess.is_create');
                                         <small class="error_gambar_about text-danger"></small>
 
                                     </div>
-                                    <div style="height: 10px;"></div>
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label for="">Banyak Project</label>
-                                                <input type="number" class="form-control project_about" name="project_about" placeholder="Project..." value="{{ isset($about) ? $about->project_about ?? '' : '' }}">
-                                                <small class="error_project_about text-danger"></small>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label for="">Banyak Customers</label>
-                                                <input type="number" class="form-control customers_about" name="customers_about" placeholder="Customers..." value="{{ isset($about) ? $about->customers_about ?? '' : '' }}">
-                                                <small class="error_customers_about text-danger"></small>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label for="">Banyak Pencapaian</label>
-                                                <input type="number" class="form-control awards_about" name="awards_about" placeholder="Awards..." value="{{ isset($about) ? $about->awards_about ?? '' : '' }}">
-                                                <small class="error_awards_about text-danger"></small>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label for="">Banyak Team</label>
-                                                <input type="number" class="form-control team_about" name="team_about" placeholder="Awards..." value="{{ isset($about) ? $about->team_about ?? '' : '' }}">
-                                                <small class="error_team_about text-danger"></small>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                       
                                     <div style="height: 10px;"></div>
                                     <div class="form-group">
                                         <label for="">Gambar Team</label>

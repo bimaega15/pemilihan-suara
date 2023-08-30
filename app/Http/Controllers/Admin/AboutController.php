@@ -80,7 +80,7 @@ class AboutController extends Controller
                     }
 
                     $outputAktif = '
-                    <div class="text-center">
+                    <div class="d-flex justify-content-center">
                         <div class="form-check form-switch">
                             <input data-url="' . route("admin.about.setAktif") . '" class="form-check-input check-input" data-id="' . $row->id . '" type="checkbox" id="is_aktif_' . $row->id . '" style="height: 20px; width: 40px;" ' . $checkedStatus . '>
                             <label class="form-check-label" for="is_aktif_' . $row->id . '"></label>
