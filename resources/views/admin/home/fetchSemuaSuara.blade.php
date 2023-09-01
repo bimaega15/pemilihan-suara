@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-lg-6">
+<div class="row" style="font-family: Arial, Helvetica, sans-serif;">
+    <div class="col-lg-12">
         <div style="width: 100%;" class="card shadow">
             <div class="card-header">
                 <h5><i class="fa-solid fa-house-user"></i> Keseluruhan Suara</h5>
@@ -18,7 +18,7 @@
                                     <i class="fas fa-volume-down"></i> Target Pemenangan
                                 </div>
                                 <div>
-                                    <span>{{ number_format($targetPemenangan) }} Suara</span>
+                                    <span style="font-size: 18px; font-weight: bold;">{{ number_format($targetPemenangan) }} Suara</span>
                                 </div>
                             </div>
                         </div>
@@ -26,27 +26,27 @@
                     <div class="col-lg-6">
                         <div>
                             <span><i class="fas fa-user"></i> Total dukungan: </span>
-                            <h5 class="text-success font-weight-bold text-end mt-2">{{ number_format($totalDukungan, 0) }} Suara</h5>
+                            <h5 class="font-weight-bold text-end mt-2"><b>{{ number_format($totalDukungan, 0) }} Suara</b></h5>
                         </div>
                         <hr>
                         <div>
                             <span><i class="fa-solid fa-person"></i> Dukungan Laki-laki: </span>
-                            <h5 class="text-success font-weight-bold text-end mt-2">{{ number_format($totalDukunganLk, 0) }} Suara</h5>
+                            <h5 class="font-weight-bold text-end mt-2"><b>{{ number_format($totalDukunganLk, 0) }} Suara</b></h5>
                         </div>
                         <hr>
                         <div>
                             <span><i class="fa-solid fa-person-dress"></i> Dukungan Perempuan: </span>
-                            <h5 class="text-success font-weight-bold text-end mt-2">{{ number_format($totalDukunganPr, 0) }} Suara</h5>
+                            <h5 class="font-weight-bold text-end mt-2"><b>{{ number_format($totalDukunganPr, 0) }} Suara</b></h5>
                         </div>
                         <hr>
                         <div>
                             <span><i class="fas fa-user-tie"></i> Total Koordinator: </span>
-                            <h5 class="text-success font-weight-bold text-end mt-2">{{ number_format($totalkoordinator, 0) }} C.O</h5>
+                            <h5 class="font-weight-bold text-end mt-2"><b>{{ number_format($totalkoordinator, 0) }} Koordinator</b></h5>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-lg-6">
                         <div class="card shadow" style="width: 100%;">
                             <div class="card-header">
@@ -91,11 +91,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div style="width: 100%;" class="card shadow">
             <div class="card-header">
                 <h5><i class="fa-solid fa-house-user"></i> Total Dukung / Wilayah</h5>
@@ -105,7 +105,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="">Filter Berdasarkan</label>
+                                <!-- <label for="" style="font-size: 14px;">Filter Berdasarkan</label> -->
                                 <select class="form-control wilayah_all" name="wilayah_all">
                                     <option value="">Pilih Wilayah</option>
                                     <option value="provinces">Provinsi</option>
@@ -118,19 +118,18 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for=""></label>
-                                <div style="height: 0px;"></div>
-                                <a href="#" class="btn btn-light btn-filter-wilayah-all me-1">
+
+                                <a href="#" class="btn btn-success btn-filter-wilayah-all me-1">
                                     <i class="fas fa-search"></i> Filter
                                 </a>
-                                <a href="#" class="btn btn-light btn-reset-wilayah-all">
-                                    <i class="fas fa-search"></i> Reset
+                                <a href="#" class="btn btn-danger btn-reset-wilayah-all">
+                                    <i class="fas fa-cancel"></i> Reset
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr>
+
                 <div class="table-responsive">
                     <table class="table table-bordered" id="table-dashboard-wilayah">
                         <thead>

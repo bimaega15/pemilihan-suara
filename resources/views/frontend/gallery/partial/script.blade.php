@@ -28,18 +28,14 @@
                                     <img src="${assetGallery}/${rowData.gambar_gallery}" alt="${rowData.gambar_gallery}" style="width: 100%; height: 300px;">
                                 </a>
                             </div><!-- /.post-img -->
-                            <div class="post__content">
-                                <span class="post__meta-date">
-                                ${moment(rowData.waktu_gallery).format('DD MMMM YYYY HH:mm')}
-                                </span>
-                                <h4 class="post__title">
+                            <div class="post__content"> 
+                                <h4 class="post__title" style="text-align:center;">
                                 <a href="#">
                                 ${rowData.judul_gallery}
                                 </a>
                                 </h4>
-                                <p class="post__desc">
-                                ${rowData.keterangan_gallery}
-                                </p>
+                                
+                                
                             </div><!-- /.post-content -->
                         </div><!-- /.post-item -->
                     </div><!-- /.col-lg-4 -->

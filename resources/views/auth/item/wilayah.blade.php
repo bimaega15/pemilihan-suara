@@ -14,7 +14,7 @@
             <div class="card-header p-3">
                 <div class="d-flex justify-content-between align-items-center p-0">
                     <div>
-                        <i class="fas fa-location-arrow"></i> <strong id="nama_tps">TPS Pemersatu Suara</strong>
+                        <i class="fas fa-map-marker-alt"></i> <strong id="nama_tps"></strong>
                     </div>
                     <div>
                         <a href="#" class="btn btn-outline-danger m-b-xs btn-cancel-tps" style="border-color: #F11A7B !important;" data-id="">
@@ -26,16 +26,15 @@
             </div>
             <div class="card-body">
                 <h5>
-                    <span class="text-dark"><i class="fas fa-volume-down"></i> Kuota TPS: </span> <span id="kuota_tps">3</span> <br>
-                    <span class="text-dark"><i class="fas fa-users"></i> Sudah terdaftar: </span> <span id="users_id">1</span>
+                    <span class="text-dark"> Kuota Koordinator: </span> <span id="kuota_tps"></span> <br>
+                    <span class="text-dark"> Sudah terdaftar: </span> <span id="users_id"></span>
                 </h5>
                 <hr>
                 <p class="card-text">
-                    <i class="fas fa-map-marker-alt"></i> <span id="provinces_id"> Sumatera Utara </span> <br>
-                    <i class="fas fa-map-marker-alt"></i> <span id="regencies_id"> Asahan </span> <br>
-                    <i class="fas fa-map-marker-alt"></i> <span id="districts_id"> Kisaran Barat</span> <br>
-                    <i class="fas fa-map-marker-alt"></i> <span id="villages_id"> Kisaran Baru </span> <br>
-                    <i class="fas fa-map-marker-alt"></i> <span id="alamat_tps"> JL. Diponegoro Gg. Nenas LK. VI Kisaran Baru </span>
+
+                    Kota / Kabupaten : <span id="districts_id"> Kisaran Barat</span> <br>
+                    Kelurahan : <span id="villages_id"> Kisaran Baru </span> <br>
+                    Lokasi TPS : <span id="alamat_tps"> JL. Diponegoro Gg. Nenas LK. VI Kisaran Baru </span>
                 </p>
             </div>
         </div>
@@ -46,7 +45,7 @@
             <div class="card-header p-3">
                 <div class="d-flex  align-items-center p-0">
                     <div>
-                        <i class="fas fa-location-arrow"></i> <strong>Tempat Pemilihan Suara</strong>
+                        <i class="fas fa-location-arrow"></i> <strong>Informasi TPS</strong>
                     </div>
                 </div>
             </div>
@@ -55,7 +54,7 @@
                     <i class="fas fa-info-circle fa-2x"></i> <br>
                     <div style="height: 30px;"></div>
                     <span class="text-dark">
-                        Belum Memilih Tempat TPS
+                        Belum Memilih TPS
                     </span>
                 </h5>
             </div>

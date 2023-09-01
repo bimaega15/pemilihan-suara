@@ -15,7 +15,7 @@ Home
                         @if ($nama_roles == 'koordinator')
                         <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="suara-koordinator-tab" data-bs-toggle="tab" data-bs-target="#suara-koordinator" type="button" role="tab" aria-controls="suara-koordinator" aria-selected="true">Tps Suara</button>
+                                <button class="nav-link active" id="suara-koordinator-tab" data-bs-toggle="tab" data-bs-target="#suara-koordinator" type="button" role="tab" aria-controls="suara-koordinator" aria-selected="true">Suara TPS</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="koordinator-pendukung-tab" data-bs-toggle="tab" data-bs-target="#koordinator-pendukung" type="button" role="tab" aria-controls="koordinator-pendukung" aria-selected="false">Data Pendukung</button>
@@ -36,7 +36,7 @@ Home
                                 <button class="nav-link active" id="semua-suara-tab" data-bs-toggle="tab" data-bs-target="#semua-suara" type="button" role="tab" aria-controls="semua-suara" aria-selected="true">Keseluruhan Suara</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="tiap-suara-tab" data-bs-toggle="tab" data-bs-target="#tiap-suara" type="button" role="tab" aria-controls="tiap-suara" aria-selected="false">Suara / TPS</button>
+                                <button class="nav-link" id="tiap-suara-tab" data-bs-toggle="tab" data-bs-target="#tiap-suara" type="button" role="tab" aria-controls="tiap-suara" aria-selected="false">Suara Per TPS</button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="data-pendukung-tab" data-bs-toggle="tab" data-bs-target="#data-pendukung" type="button" role="tab" aria-controls="data-pendukung" aria-selected="false">Data Pendukung</button>

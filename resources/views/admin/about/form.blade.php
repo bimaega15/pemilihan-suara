@@ -123,10 +123,10 @@ $isCreate = session()->get('userAcess.is_create');
                                         <small class="error_gambar_about text-danger"></small>
 
                                     </div>
-                       
+
                                     <div style="height: 10px;"></div>
                                     <div class="form-group">
-                                        <label for="">Gambar Team</label>
+                                        <label for="">Gambar Aktivitas Sosial</label>
                                         <div class="input-teamdetail_about"></div>
                                         @php
                                         if(isset($about)){
@@ -163,7 +163,7 @@ $isCreate = session()->get('userAcess.is_create');
 
                                     </div>
                                     <div style="height: 10px;"></div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="">Gambar Sponsor</label>
                                         <div class="input-gambarsponsor_about"></div>
 
@@ -201,7 +201,7 @@ $isCreate = session()->get('userAcess.is_create');
                                         @endif
                                         <small class="error_gambarsponsor_about text-danger"></small>
 
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="form-group text-center">

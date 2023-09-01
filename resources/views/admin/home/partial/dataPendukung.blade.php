@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <i class="fas fa-users"></i> <strong> Data Pendukung</strong>
+                <strong style="font-size: 14px;">Data Pendukung</strong>
             </div>
             <div class="card-body">
                 <div class="row">

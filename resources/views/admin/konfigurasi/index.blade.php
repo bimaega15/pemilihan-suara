@@ -79,14 +79,14 @@ konfigurasi
                                     <div class="form-floating">
                                         <input type="number" class="form-control cominimal_konfigurasi" id="floatingInput" placeholder="Minimal Koordinator..." name="cominimal_konfigurasi">
                                         <small class="error_cominimal_konfigurasi text-danger"></small>
-                                        <label for="floatingInput">Minimal Koordinator</label>
+                                        <label for="floatingInput">Minimum Koordinator / TPS</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-floating">
                                         <input type="number" class="form-control volminimal_konfigurasi" id="floatingInput" placeholder="Minimal Pendukung" name="volminimal_konfigurasi">
                                         <small class="error_volminimal_konfigurasi text-danger"></small>
-                                        <label for="floatingInput">Minimal Pendukung</label>
+                                        <label for="floatingInput">Minimum Volunter</label>
                                     </div>
                                 </div>
                             </div>

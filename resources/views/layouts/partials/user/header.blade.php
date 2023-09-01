@@ -23,16 +23,17 @@ $currentUrl = Check::getCurrentUrl();
                         <a href="#about" id="link_about" class="text-header font-weight-bold">About</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
-                        <a href="#timSukses" id="link_timSukses" class="text-header font-weight-bold">Tim Sukses</a>
+                        <a href="#timSukses" id="link_timSukses" class="text-header font-weight-bold">Aktivitas</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#gallery" id="link_gallery" class="text-header font-weight-bold">Gallery</a>
+                    </li><!-- /.nav-item -->
+                    <li class="nav__item">
+                        <a href="#statusPendaftaran" id="link_statusPendaftaran" class="text-header font-weight-bold">Cek Status</a>
                     </li><!-- /.nav-item -->
                     <li class="nav__item">
                         <a href="#contactUs" id="link_contactUs" class="text-header font-weight-bold">Kontak</a>
-                    </li><!-- /.nav-item -->
-                    <li class="nav__item">
-                        <a href="#statusPendaftaran" id="link_statusPendaftaran" class="text-header font-weight-bold">Status Pendaftaran</a>
-                    </li><!-- /.nav-item -->
-                    <li class="nav__item">
-                        <a href="#gallery" id="link_gallery" class="text-header font-weight-bold">Gallery</a>
                     </li><!-- /.nav-item -->
 
                 </ul><!-- /.navbar-nav -->
@@ -40,14 +41,14 @@ $currentUrl = Check::getCurrentUrl();
             <ul class="navbar-actions list-unstyled mb-0 d-flex align-items-center">
                 <li class="d-none d-xl-block">
                     <a href="{{ url('/register') }}" class="btn action__btn-contact"><i class="fas fa-user-tag"></i>
-                        Registrasi
+                        DAFTAR
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="{{ url('/login') }}" class="action__btn action__btn-login" style="cursor: pointer;">
                         <i class="icon-user"></i><span>Login</span>
                     </a>
-                </li>
+                </li> -->
             </ul><!-- /.navbar-actions -->
         </div><!-- /.container -->
     </nav><!-- /.navabr -->

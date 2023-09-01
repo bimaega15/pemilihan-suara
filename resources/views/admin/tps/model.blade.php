@@ -65,7 +65,7 @@
                              <div class="form-floating">
                                  <input type="number" class="form-control minimal_tps" id="floatingInput" name="minimal_tps" />
                                  <small class="error_minimal_tps text-danger"></small>
-                                 <label for="floatingInput">Minimal TPS</label>
+                                 <label for="floatingInput">Minimum Koordinator</label>
                              </div>
                          </div>
                      </div>
@@ -75,14 +75,14 @@
                              <div class="form-floating">
                                  <input type="number" class="form-control pendukung_tps" id="floatingInput" name="pendukung_tps" />
                                  <small class="error_pendukung_tps text-danger"></small>
-                                 <label for="floatingInput">Minimal Pendukung</label>
+                                 <label for="floatingInput">Minimum Pendukung</label>
                              </div>
                          </div>
                          <div class="col-lg-6">
                              <div class="form-floating">
                                  <input type="number" class="form-control kuota_tps" id="floatingInput" name="kuota_tps" />
                                  <small class="error_kuota_tps text-danger"></small>
-                                 <label for="floatingInput">Kuota TPS</label>
+                                 <label for="floatingInput">Kuota Koordinator</label>
                              </div>
                          </div>
                      </div>

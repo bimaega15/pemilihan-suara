@@ -3,14 +3,11 @@
         <div class="col-lg-3">
             <div style="width: 100%;" class="card shadow">
                 <div class="card-header">
-                    <h5><i class="fa-solid fa-house-user"></i> {{$item->nama_tps}}
-                    </h5>
+                    <h6><i class="fa-solid fa-house-user"></i> {{$item->nama_tps}}
+                    </h6>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="fa-solid fa-location-dot"></i> {{ $item->alamat_tps }}
-                    </h5>
-                    <hr>
+
                     <canvas id="myChart_{{ $item->id }}" class="mb-4"></canvas>
                     <div class="card shadow p-3">
                         <div class="progress" style="height: 30px;">
