@@ -290,6 +290,9 @@ class UsersController extends Controller
 
         // users
         $isAktif = $request->input('is_aktif') != null ? 1 : 0;
+        if (Auth::user()->roles[0]->nama_roles == 'koordinator') {
+            $isAktif = 0;
+        }
         $dataUsers = [
             'username' => $username,
             'password' => $password,
