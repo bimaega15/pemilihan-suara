@@ -106,3 +106,32 @@
          </div>
      </div>
  </div>
+
+ <!-- Modal -->
+ <div class="modal fade" id="modalUsers" aria-labelledby="modalUsersLabel" aria-hidden="true">
+     <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="modalUsersLabel">Form profile</h5>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <form action="{{ route('admin.profile.store') }}" class="form-submit-users">
+                 <input type="hidden" name="_method" value="post">
+                 <input type="hidden" name="id" class="id" value="">
+                 <input type="hidden" name="password_profile_old" class="password_profile_old" value="">
+                 <input type="hidden" name="role_id" class="role_id" value="">
+
+                 <div class="modal-body">
+                     <div class="row">
+                         <div class="col-lg-12">
+                             <div class="owl-carousel owl-theme">
+                                 @include('admin.users.partial.account.index')
+                                 @include('admin.users.partial.biodata.index')
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>

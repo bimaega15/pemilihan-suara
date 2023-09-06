@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SuaraBroadcast;
 use App\Helper\Check;
 use App\Http\Controllers\Controller;
+use App\Models\Jabatan;
 use App\Models\KoordinatorTps;
 use App\Models\Tps;
 use App\Models\PendukungTps;
@@ -158,6 +159,7 @@ class DataPendukungController extends Controller
         return view('admin.dataPendukung.index', [
             'tps_id' => $tps_id,
             'tps' => Tps::with('provinces', 'regencies', 'districts', 'villages')->find($tps->id),
+            'jabatan' => Jabatan::all()
         ]);
     }
 

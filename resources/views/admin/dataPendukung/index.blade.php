@@ -68,9 +68,15 @@ $isCreate = session()->get('userAcess.is_create');
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-lg-12">
+                                <a data-bs-toggle="modal" data-bs-target="#modalUsers" href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-add me-1" data-roles="pendukung">
+                                    <i data-feather="plus"></i> Tambah
+                                </a>
+
                                 <button type="button" class="btn btn-primary btn-search-pendukung">
                                     <i class="fas fa-user-tag"></i> Cari Pendukung
                                 </button>
+
+
                             </div>
                         </div>
                         <hr>
