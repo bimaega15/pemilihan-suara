@@ -122,9 +122,10 @@
             let url = "{{ url('/') }}";
             $('.form-submit').attr('action', url + '/admin/users');
             let roles = $(this).data('roles');
+            roles = roles.split('-').join(' ');
+            roles = roles.toLowerCase();
 
-
-            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles == roles);
+            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
             if (checkRoles != null) {
                 if (roles == 'pendukung') {
                     $('#div_account').addClass('d-none');
@@ -151,9 +152,10 @@
             const action = $(this).attr('href');
             const root = "{{ asset('/') }}";
             let roles = $(this).data('roles');
+            roles = roles.split('-').join(' ');
+            roles = roles.toLowerCase();
 
-
-            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles == roles);
+            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
             if (checkRoles != null) {
                 if (roles == 'pendukung') {
                     $('#div_account').addClass('d-none');
@@ -328,9 +330,11 @@
             e.preventDefault();
             const action = $(this).closest("form").attr('action');
             let roles = $(this).data('roles');
+            roles = roles.split('-').join(' ');
+            roles = roles.toLowerCase();
 
 
-            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles == roles);
+            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
             if (checkRoles != null) {
                 $('.role_id').val(checkRoles.id);
             }
@@ -358,6 +362,7 @@
                                     'success'
                                 );
 
+                                let roles = $(this).data('roles');
                                 for (let i = 0; i < getDynamic.role.length; i++) {
                                     const element = getDynamic.role[i];
                                     let nameRoles = element.nama_roles.split(' ').join('-');

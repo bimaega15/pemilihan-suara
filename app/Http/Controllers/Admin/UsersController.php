@@ -47,6 +47,10 @@ class UsersController extends Controller
         //
         if ($request->ajax()) {
             $roles = request()->input('roles');
+            $getRoles = explode('-', $roles);
+            $getRoles = implode(' ', $getRoles);
+            $rolesDb = Role::where('nama_roles', 'like', '%' . $getRoles . '%')->first();
+
             $userAcess = session()->get('userAcess');
 
             $searchValue =  $request->input('search')['value'];
@@ -56,7 +60,7 @@ class UsersController extends Controller
                 ->join('profile', 'profile.users_id', 'users.id')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                ->where('roles.nama_roles', '=', $roles);
+                ->where('roles.nama_roles', '=', $rolesDb->nama_roles);
 
             if ($searchValue != null) {
                 $data->where('profile.nama_profile', 'LIKE', '%' . $searchValue . '%')
@@ -193,7 +197,6 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //
-        return response()->json($request);
         $validator = Validator::make($request->all(), [
             'username' => [
                 function ($attribute, $value, $fail) use ($request) {
