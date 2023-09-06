@@ -193,7 +193,7 @@ class JabatanSeeder extends Seeder
             ],
             [
                 'id' => 26,
-                'nama_jabatan' => 'Relawan',
+                'nama_jabatan' => 'pendukung',
                 'keterangan_jabatan' => '',
                 'membawahi_jabatan' => null,
             ],

@@ -25,8 +25,8 @@
                         searchable: true
                     },
                     {
-                        data: "users.profile.jenis_kelamin_profile",
-                        name: "users.profile.jenis_kelamin_profile",
+                        data: "jenis_kelamin_profile",
+                        name: "jenis_kelamin_profile",
                         searchable: true
                     },
                     {

@@ -105,22 +105,22 @@ class UserSeeder extends Seeder
 
         // user
         $user = User::create([
-            'username' => 'relawan123',
-            'password' => Hash::make('relawan123'),
+            'username' => 'pendukung123',
+            'password' => Hash::make('pendukung123'),
             'is_aktif' => 1,
 
         ]);
         $role = Role::create([
-            'nama_roles' => 'relawan'
+            'nama_roles' => 'pendukung'
         ]);
 
         $profile = Profile::create([
             'nik_profile' => rand(1, 1000000000000),
             'users_id' => $user->id,
             'jabatan_id' => 25,
-            'nama_profile' => 'relawan kpu',
-            'email_profile' => 'relawankpu@gmail.com',
-            'alamat_profile' => 'alamat relawan',
+            'nama_profile' => 'pendukung kpu',
+            'email_profile' => 'pendukungkpu@gmail.com',
+            'alamat_profile' => 'alamat pendukung',
             'nohp_profile' => '082277506232',
             'jenis_kelamin_profile' => 'L',
             'gambar_profile' => 'default.png'

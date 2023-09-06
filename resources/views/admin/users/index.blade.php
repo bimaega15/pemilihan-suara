@@ -68,33 +68,29 @@ $isCreate = session()->get('userAcess.is_create');
                         <div class="row">
                             <div class="col-lg-12">
                                 <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                    @foreach ($role as $index => $item)
+                                    @php
+                                    $getText = strtolower($item->nama_roles);
+                                    $getText = explode(' ', $getText);
+                                    $getText = implode('-', $getText);
+                                    @endphp
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="true">Admin</button>
+                                        <button class="nav-link {{$index == 0 ? 'active' : ''}}" id="{{$getText}}-tab" data-bs-toggle="tab" data-bs-target="#{{$getText}}" type="button" role="tab" aria-controls="{{$getText}}" aria-selected="true">{{$item->nama_roles}}</button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="kepala-tab" data-bs-toggle="tab" data-bs-target="#kepala" type="button" role="tab" aria-controls="kepala" aria-selected="false">Caleg</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="koordinator-tab" data-bs-toggle="tab" data-bs-target="#koordinator" type="button" role="tab" aria-controls="koordinator" aria-selected="false">Koordinator</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="relawan-tab" data-bs-toggle="tab" data-bs-target="#relawan" type="button" role="tab" aria-controls="relawan" aria-selected="false">Pendukung</button>
-                                    </li>
+                                    @endforeach
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-                                        @include('admin.users.admin.index')
-                                    </div>
-                                    <div class="tab-pane fade" id="kepala" role="tabpanel" aria-labelledby="kepala-tab">
-                                        @include('admin.users.kepala.index')
 
+                                    @foreach ($role as $index => $item)
+                                    @php
+                                    $getText = strtolower($item->nama_roles);
+                                    $getText = explode(' ', $getText);
+                                    $getText = implode('-', $getText);
+                                    @endphp
+                                    <div class="tab-pane fade show {{ $index == 0 ? 'active' : ''}}" id="{{$getText}}" role="tabpanel" aria-labelledby="{{$getText}}-tab">
+                                        @include('admin.users.'.$getText.'.index')
                                     </div>
-                                    <div class="tab-pane fade" id="koordinator" role="tabpanel" aria-labelledby="koordinator-tab">
-                                        @include('admin.users.koordinator.index')
-                                    </div>
-                                    <div class="tab-pane fade" id="relawan" role="tabpanel" aria-labelledby="relawan-tab">
-                                        @include('admin.users.relawan.index')
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

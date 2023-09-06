@@ -50,9 +50,9 @@ class HomeController extends Controller
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->where('roles.nama_roles', 'like', '%' . 'caleg' . '%')
             ->get()->count();
-        $relawan = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+        $pendukung = User::join('role_user', 'users.id', '=', 'role_user.user_id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->where('roles.nama_roles', 'like', '%' . 'Relawan' . '%')
+            ->where('roles.nama_roles', 'like', '%' . 'pendukung' . '%')
             ->get()->count();
         $jabatan = Jabatan::all()->count();
         $banner = Banner::all()->count();
@@ -65,7 +65,7 @@ class HomeController extends Controller
             'admin' => $admin,
             'koordinator' => $koordinator,
             'kepalaKepegawaian' => $kepalaKepegawaian,
-            'relawan' => $relawan,
+            'pendukung' => $pendukung,
             'jabatan' => $jabatan,
             'banner' => $banner,
             'gallery' => $gallery,

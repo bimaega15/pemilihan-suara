@@ -235,7 +235,7 @@
         });
 
 
-        var tableRelawan = $('#dataTableRelawan').DataTable({
+        var tablependukung = $('#dataTablePendukung').DataTable({
             serverSide: true,
             processing: true,
             searching: true,
@@ -248,7 +248,7 @@
                 dataType: 'json',
                 type: 'get',
                 data: {
-                    roles: 'relawan'
+                    roles: 'pendukung'
                 }
             },
             columns: [{
@@ -296,8 +296,8 @@
                 },
             ],
             drawCallback: function(settings) {
-                var info = tableRelawan.page.info();
-                tableRelawan
+                var info = tablependukung.page.info();
+                tablependukung
                     .column(0, {
                         search: "applied",
                         order: "applied"
@@ -313,7 +313,7 @@
         var admin_id = "{{ $admin }}";
         var koordinator_id = "{{ $koordinator }}";
         var kepalaKepegawianId = "{{ $kepalaKepegawaian }}";
-        var relawanId = "{{ $relawan }}";
+        var pendukungId = "{{ $pendukung }}";
 
         $('.select2').select2({
             theme: 'bootstrap-5',
@@ -338,12 +338,12 @@
             if (roles == 'koordinator') {
                 $('.role_id').val(koordinator_id);
             }
-            if (roles == 'relawan') {
+            if (roles == 'pendukung') {
                 $('#div_account').addClass('d-none');
                 owl.trigger('to.owl.carousel', 1);
                 $('.customPrevBtn').addClass('d-none');
 
-                $('.role_id').val(relawanId);
+                $('.role_id').val(pendukungId);
 
                 $('.label-image-photo').html('Upload KTP');
             }
@@ -369,8 +369,8 @@
             if (roles == 'koordinator') {
                 $('.role_id').val(koordinator_id);
             }
-            if (roles == 'relawan') {
-                $('.role_id').val(relawanId);
+            if (roles == 'pendukung') {
+                $('.role_id').val(pendukungId);
 
                 $('#div_account').addClass('d-none');
                 owl.trigger('to.owl.carousel', 1);
@@ -495,8 +495,8 @@
                         if (roles == koordinator_id) {
                             tableKoordinator.ajax.reload();
                         }
-                        if (roles == relawanId) {
-                            tableRelawan.ajax.reload();
+                        if (roles == pendukungId) {
+                            tablependukung.ajax.reload();
                         }
 
                         const {
@@ -564,8 +564,8 @@
             if (roles == 'koordinator') {
                 $('.role_id').val(koordinator_id);
             }
-            if (roles == 'relawan') {
-                $('.role_id').val(relawanId);
+            if (roles == 'pendukung') {
+                $('.role_id').val(pendukungId);
             }
 
             Swal.fire({
@@ -600,8 +600,8 @@
                                 if (roles == 'koordinator') {
                                     tableKoordinator.ajax.reload();
                                 }
-                                if (roles == 'relawan') {
-                                    tableRelawan.ajax.reload();
+                                if (roles == 'pendukung') {
+                                    tablependukung.ajax.reload();
                                 }
 
 
@@ -677,8 +677,8 @@
                     if (roles == 'koordinator') {
                         tableKoordinator.ajax.reload();
                     }
-                    if (roles == 'relawan') {
-                        tableRelawan.ajax.reload();
+                    if (roles == 'pendukung') {
+                        tablependukung.ajax.reload();
                     }
                 }
             })
@@ -733,7 +733,7 @@
                             timer: 1500
                         }).then(() => {
                             $('#modalImport').modal('hide');
-                            tableRelawan.ajax.reload();
+                            tablependukung.ajax.reload();
 
                             const {
                                 result

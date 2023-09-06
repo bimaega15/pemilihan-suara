@@ -160,7 +160,8 @@ class UsersController extends Controller
         $admin = Role::where("nama_roles", 'like', '%admin%')->first();
         $koordinator = Role::where("nama_roles", 'like', '%koordinator%')->first();
         $kepalaKepegawaian = Role::where("nama_roles", 'like', '%caleg%')->first();
-        $relawan = Role::where("nama_roles", 'like', '%relawan%')->first();
+        $pendukung = Role::where("nama_roles", 'like', '%pendukung%')->first();
+        
 
         return view('admin.users.index', [
             'role' => Role::all(),
@@ -168,7 +169,7 @@ class UsersController extends Controller
             'admin' => $admin->id,
             'koordinator' => $koordinator->id,
             'kepalaKepegawaian' => $kepalaKepegawaian->id,
-            'relawan' => $relawan->id,
+            'pendukung' => $pendukung->id,
         ]);
     }
 
@@ -195,7 +196,7 @@ class UsersController extends Controller
             'username' => [
                 function ($attribute, $value, $fail) use ($request) {
                     $roles = Role::find($request->input('role_id'));
-                    if ($roles->nama_roles != 'relawan') {
+                    if ($roles->nama_roles != 'pendukung') {
                         if ($value == '' || $value == null) {
                             $fail('Username wajib diisi');
                         }
@@ -209,7 +210,7 @@ class UsersController extends Controller
             ],
             'password' => [function ($attribute, $value, $fail) use ($request) {
                 $roles = Role::find($request->input('role_id'));
-                if ($roles->nama_roles != 'relawan') {
+                if ($roles->nama_roles != 'pendukung') {
                     if ($value == '' || $value == null) {
                         $fail('Password wajib diisi');
                     }
@@ -223,7 +224,7 @@ class UsersController extends Controller
             },],
             'password_confirm' => [function ($attribute, $value, $fail) use ($request) {
                 $roles = Role::find($request->input('role_id'));
-                if ($roles->nama_roles != 'relawan') {
+                if ($roles->nama_roles != 'pendukung') {
                     if ($value == '' || $value == null) {
                         $fail('Password Confirm wajib diisi');
                     }
@@ -238,7 +239,7 @@ class UsersController extends Controller
             'nama_profile' => 'required',
             'email_profile' => [function ($attribute, $value, $fail) use ($request) {
                 $roles = Role::find($request->input('role_id'));
-                if ($roles->nama_roles != 'relawan') {
+                if ($roles->nama_roles != 'pendukung') {
                     if ($value == '' || $value == null) {
                         $fail('Email wajib diisi');
                     }
@@ -271,7 +272,7 @@ class UsersController extends Controller
             ], 400);
         }
 
-        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
+        $getRoles = Role::where('nama_roles', 'like', '%pendukung%')->first();
         $rolesId =  $request->input('role_id');
 
         $username = $request->input('username');
@@ -368,7 +369,7 @@ class UsersController extends Controller
             'username' => [
                 function ($attribute, $value, $fail) use ($request) {
                     $roles = Role::find($request->input('role_id'));
-                    if ($roles->nama_roles != 'relawan') {
+                    if ($roles->nama_roles != 'pendukung') {
                         if ($value == '' || $value == null) {
                             $fail('Username wajib diisi');
                         }
@@ -407,7 +408,7 @@ class UsersController extends Controller
             'nama_profile' => 'required',
             'email_profile' => [function ($attribute, $value, $fail) use ($id, $request) {
                 $roles = Role::find($request->input('role_id'));
-                if ($roles->nama_roles != 'relawan') {
+                if ($roles->nama_roles != 'pendukung') {
                     if ($value == '' || $value == null) {
                         $fail('Email wajib diisi');
                     }
@@ -440,7 +441,7 @@ class UsersController extends Controller
             ], 400);
         }
 
-        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
+        $getRoles = Role::where('nama_roles', 'like', '%pendukung%')->first();
         $rolesId =  $request->input('role_id');
 
         // users
@@ -648,8 +649,8 @@ class UsersController extends Controller
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
 
         $data = [];
-        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%Relawan%')->first();
-        $getRoles = Role::where('nama_roles', 'like', '%relawan%')->first();
+        $getJabatan = Jabatan::where('nama_jabatan', 'like', '%pendukung%')->first();
+        $getRoles = Role::where('nama_roles', 'like', '%pendukung%')->first();
 
         $countUsers = [];
         for ($i = 1; $i < count($sheetData); $i++) {

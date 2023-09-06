@@ -339,7 +339,7 @@ class PendukungController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-        $roles = 'relawan';
+        $roles = 'pendukung';
         $searchValue =  $request->input('search')['value'];
 
 
@@ -415,7 +415,7 @@ class PendukungController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-        $roles = 'relawan';
+        $roles = 'pendukung';
         $users_id = $request->input('users_id');
 
         $search = $request->input('search');
