@@ -370,7 +370,9 @@
                     `;
             }
 
-            let tps_status = null;
+            let tps_status = `
+                    <span class="badge bg-warning me-2">Belum Mencoblos</span>  ${setUploadCoblos('Bukti Pencoblosan')}
+                `;
             const setUploadCoblos = (label) => {
                 let setUrl = "{{ url('/') }}";
 

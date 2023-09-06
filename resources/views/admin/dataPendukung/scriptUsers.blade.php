@@ -27,10 +27,9 @@
         }
         let getDynamic = loadDynamic();
 
-
         $('.select2').select2({
             theme: 'bootstrap-5',
-            dropdownParent: $('#modalForm')
+            dropdownParent: $('#modalUsers')
         });
 
         $(document).on('click', '.btn-add', function(e) {
@@ -89,6 +88,9 @@
             var form = $('.form-submit-users')[0];
             var data = new FormData(form);
             var action = $('.form-submit-users').attr('action');
+            let tps_id = "{{ $tps_id }}";
+            data.append('tps_id', tps_id);
+            
             onSubmit(action, data);
         })
 
@@ -115,20 +117,8 @@
                             timer: 1500
                         })
 
-                        $('#modalForm').modal('hide');
-                        let roles = $('.role_id').val();
-
-                        for (let i = 0; i < getDynamic.role.length; i++) {
-                            const element = getDynamic.role[i];
-                            let nameRoles = element.nama_roles.split(' ').join('-');
-                            nameRoles = nameRoles.toLowerCase();
-
-                            let rolesId = element.id;
-                            if (rolesId == roles) {
-                                $(`#table-${nameRoles}`).DataTable().ajax.reload();
-                            }
-                        }
-
+                        $('#modalUsers').modal('hide');
+                        $(`#dataTable`).DataTable().ajax.reload();
 
                         const {
                             result

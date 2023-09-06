@@ -164,4 +164,5 @@ $isCreate = session()->get('userAcess.is_create');
 
 @push('js')
 @include('admin.dataPendukung.script')
+@include('admin.dataPendukung.scriptUsers')
 @endpush

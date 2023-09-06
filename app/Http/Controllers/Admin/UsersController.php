@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use File;
 use Illuminate\Support\Facades\Hash;
 use DataTables;
-
+use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
@@ -290,13 +290,15 @@ class UsersController extends Controller
 
         // users
         $isAktif = $request->input('is_aktif') != null ? 1 : 0;
+        $isRegisTps = null;
         if (Auth::user()->roles[0]->nama_roles == 'koordinator') {
-            $isAktif = 0;
+            $isRegisTps = 1;
         }
         $dataUsers = [
             'username' => $username,
             'password' => $password,
             'is_aktif' => $isAktif,
+            'is_registps' => $isRegisTps
         ];
         $user_id = User::create($dataUsers);
 
@@ -324,7 +326,14 @@ class UsersController extends Controller
         ];
         $profile = Profile::create($dataBiodata);
 
-        $data = array_merge($dataUsers, $dataRoles, $dataBiodata);
+        if (Auth::user()->roles[0]->nama_roles == 'koordinator') {
+            PendukungTps::create([
+                'tps_id' => $request->input('tps_id'),
+                'users_id' => $user_id->id,
+                'users_id_koordinator' => Auth::id(),
+            ]);
+        }
+
         if ($user_id || $roleUser || $profile) {
             return response()->json([
                 'status' => 200,
