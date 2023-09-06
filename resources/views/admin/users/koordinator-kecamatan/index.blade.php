@@ -1,12 +1,12 @@
 @if ($isCreate != null)
 <div class="mb-3">
-    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-add" data-roles="koordinator">
+    <a data-bs-toggle="modal" data-bs-target="#modalForm" href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-add" data-roles="koordinator-kecamatan">
         <i data-feather="plus"></i> Tambah
     </a>
 </div>
 @endif
 <div class="table-responsive">
-    <table class="table" id="dataTableKoordinator" style="width: 100%;">
+    <table class="table" id="table-koordinator-kecamatan" style="width: 100%;">
         <thead>
             <tr>
                 <th scope="col">No</th>

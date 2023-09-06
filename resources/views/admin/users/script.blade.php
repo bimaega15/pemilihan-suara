@@ -11,309 +11,103 @@
         })
         owl.owlCarousel();
 
-        var tableAdmin = $('#dataTableAdmin').DataTable({
-            serverSide: true,
-            processing: true,
-            searching: true,
-            search: {
-                caseInsensitive: true,
-            },
-            searchHighlight: true,
-            ajax: {
-                url: "{{ route('admin.users.index') }}",
-                dataType: 'json',
+        function loadDynamic() {
+            let setUrl = "{{ url('/') }}";
+            var output = null;
+            $.ajax({
+                url: `${setUrl}/admin/users/getRoles`,
                 type: 'get',
-                data: {
-                    roles: 'admin'
-                }
-            },
-            columns: [{
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    className: "text-center",
-                },
-                {
-                    data: "username",
-                    name: "username",
-                    searchable: true
-                },
-                {
-                    data: "nama_profile",
-                    name: "nama_profile",
-                    searchable: false
-                },
-                {
-                    data: "email_profile",
-                    name: "email_profile",
-                    searchable: false
-                },
-                {
-                    data: "nohp_profile",
-                    name: "nohp_profile",
-                    searchable: false,
-                },
-                {
-                    data: "gambar_profile",
-                    name: "gambar_profile",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "is_aktif",
-                    name: "is_aktif",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "action",
-                    orderable: false,
-                    searchable: false
-                },
-            ],
-            drawCallback: function(settings) {
-                var info = tableAdmin.page.info();
-                tableAdmin
-                    .column(0, {
-                        search: "applied",
-                        order: "applied"
-                    })
-                    .nodes()
-                    .each(function(cell, i) {
-                        cell.innerHTML = info.start + i + 1;
-                    });
-            },
-        });
-
-
-        var tableKepala = $('#dataTableKepala').DataTable({
-            serverSide: true,
-            processing: true,
-            searching: true,
-            search: {
-                caseInsensitive: true,
-            },
-            searchHighlight: true,
-            ajax: {
-                url: "{{ route('admin.users.index') }}",
                 dataType: 'json',
-                type: 'get',
-                data: {
-                    roles: 'caleg'
+                async: false,
+                success: function(data) {
+                    output = data;
                 }
-            },
-            columns: [{
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    className: "text-center",
-                },
-                {
-                    data: "username",
-                    name: "username",
-                    searchable: true
-                },
-                {
-                    data: "nama_profile",
-                    name: "nama_profile",
-                    searchable: false
-                },
-                {
-                    data: "email_profile",
-                    name: "email_profile",
-                    searchable: false
-                },
-                {
-                    data: "nohp_profile",
-                    name: "nohp_profile",
-                    searchable: false,
-                },
-                {
-                    data: "gambar_profile",
-                    name: "gambar_profile",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "is_aktif",
-                    name: "is_aktif",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "action",
-                    orderable: false,
-                    searchable: false
-                },
-            ],
-            drawCallback: function(settings) {
-                var info = tableKepala.page.info();
-                tableKepala
-                    .column(0, {
-                        search: "applied",
-                        order: "applied"
-                    })
-                    .nodes()
-                    .each(function(cell, i) {
-                        cell.innerHTML = info.start + i + 1;
-                    });
-            },
-        });
+            })
+            return output;
+        }
+        let getDynamic = loadDynamic();
 
-        var tableKoordinator = $('#dataTableKoordinator').DataTable({
-            serverSide: true,
-            processing: true,
-            searching: true,
-            search: {
-                caseInsensitive: true,
-            },
-            searchHighlight: true,
-            ajax: {
-                url: "{{ route('admin.users.index') }}",
-                dataType: 'json',
-                type: 'get',
-                data: {
-                    roles: 'koordinator'
-                }
-            },
-            columns: [{
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    className: "text-center",
-                },
-                {
-                    data: "username",
-                    name: "username",
-                    searchable: true
-                },
-                {
-                    data: "nama_profile",
-                    name: "nama_profile",
-                    searchable: false
-                },
-                {
-                    data: "email_profile",
-                    name: "email_profile",
-                    searchable: false
-                },
-                {
-                    data: "nohp_profile",
-                    name: "nohp_profile",
-                    searchable: false,
-                },
-                {
-                    data: "gambar_profile",
-                    name: "gambar_profile",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "is_aktif",
-                    name: "is_aktif",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "action",
-                    orderable: false,
-                    searchable: false
-                },
-            ],
-            drawCallback: function(settings) {
-                var info = tableKoordinator.page.info();
-                tableKoordinator
-                    .column(0, {
-                        search: "applied",
-                        order: "applied"
-                    })
-                    .nodes()
-                    .each(function(cell, i) {
-                        cell.innerHTML = info.start + i + 1;
-                    });
-            },
-        });
+        for (let i = 0; i < getDynamic.role.length; i++) {
+            const element = getDynamic.role[i];
+            let nameRoles = element.nama_roles.split(' ').join('-');
+            nameRoles = nameRoles.toLowerCase();
 
+            $(`#table-${nameRoles}`).DataTable({
+                serverSide: true,
+                processing: true,
+                searching: true,
+                search: {
+                    caseInsensitive: true,
+                },
+                searchHighlight: true,
+                ajax: {
+                    url: "{{ route('admin.users.index') }}",
+                    dataType: 'json',
+                    type: 'get',
+                    data: {
+                        roles: nameRoles
+                    }
+                },
+                columns: [{
+                        data: null,
+                        orderable: false,
+                        searchable: false,
+                        className: "text-center",
+                    },
+                    {
+                        data: "username",
+                        name: "username",
+                        searchable: true
+                    },
+                    {
+                        data: "nama_profile",
+                        name: "nama_profile",
+                        searchable: false
+                    },
+                    {
+                        data: "email_profile",
+                        name: "email_profile",
+                        searchable: false
+                    },
+                    {
+                        data: "nohp_profile",
+                        name: "nohp_profile",
+                        searchable: false,
+                    },
+                    {
+                        data: "gambar_profile",
+                        name: "gambar_profile",
+                        searchable: false,
+                        orderable: false,
+                    },
+                    {
+                        data: "is_aktif",
+                        name: "is_aktif",
+                        searchable: false,
+                        orderable: false,
+                    },
+                    {
+                        data: "action",
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                drawCallback: function(settings) {
+                    var info = $(`#table-${nameRoles}`).DataTable().page.info();
+                    $(`#table-${nameRoles}`).DataTable()
+                        .column(0, {
+                            search: "applied",
+                            order: "applied"
+                        })
+                        .nodes()
+                        .each(function(cell, i) {
+                            console.log()
+                            cell.innerHTML = info.start + i + 1;
+                        });
+                },
+            });
+        }
 
-        var tablependukung = $('#dataTablePendukung').DataTable({
-            serverSide: true,
-            processing: true,
-            searching: true,
-            search: {
-                caseInsensitive: true,
-            },
-            searchHighlight: true,
-            ajax: {
-                url: "{{ route('admin.users.index') }}",
-                dataType: 'json',
-                type: 'get',
-                data: {
-                    roles: 'pendukung'
-                }
-            },
-            columns: [{
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    className: "text-center",
-                },
-                {
-                    data: "nama_profile",
-                    name: "nama_profile",
-                    searchable: false
-                },
-                {
-                    data: "jenis_kelamin_profile",
-                    name: "jenis_kelamin_profile",
-                    searchable: false
-                },
-                {
-                    data: "nohp_profile",
-                    name: "nohp_profile",
-                    searchable: false,
-                },
-                {
-                    data: "alamat_profile",
-                    name: "alamat_profile",
-                    searchable: false,
-                },
-                {
-                    data: "gambar_profile",
-                    name: "gambar_profile",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "is_aktif",
-                    name: "is_aktif",
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "action",
-                    orderable: false,
-                    searchable: false
-                },
-            ],
-            drawCallback: function(settings) {
-                var info = tablependukung.page.info();
-                tablependukung
-                    .column(0, {
-                        search: "applied",
-                        order: "applied"
-                    })
-                    .nodes()
-                    .each(function(cell, i) {
-                        cell.innerHTML = info.start + i + 1;
-                    });
-            },
-        });
-
-
-        var admin_id = "{{ $admin }}";
-        var koordinator_id = "{{ $koordinator }}";
-        var kepalaKepegawianId = "{{ $kepalaKepegawaian }}";
-        var pendukungId = "{{ $pendukung }}";
 
         $('.select2').select2({
             theme: 'bootstrap-5',
@@ -329,24 +123,22 @@
             $('.form-submit').attr('action', url + '/admin/users');
             let roles = $(this).data('roles');
 
-            if (roles == 'admin') {
-                $('.role_id').val(admin_id);
-            }
-            if (roles == 'caleg') {
-                $('.role_id').val(kepalaKepegawianId);
-            }
-            if (roles == 'koordinator') {
-                $('.role_id').val(koordinator_id);
-            }
-            if (roles == 'pendukung') {
-                $('#div_account').addClass('d-none');
-                owl.trigger('to.owl.carousel', 1);
-                $('.customPrevBtn').addClass('d-none');
 
-                $('.role_id').val(pendukungId);
+            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles == roles);
+            if (checkRoles != null) {
+                if (roles == 'pendukung') {
+                    $('#div_account').addClass('d-none');
+                    owl.trigger('to.owl.carousel', 1);
+                    $('.customPrevBtn').addClass('d-none');
 
-                $('.label-image-photo').html('Upload KTP');
+                    $('.role_id').val(checkRoles.id);
+
+                    $('.label-image-photo').html('Upload KTP');
+                } else {
+                    $('.role_id').val(checkRoles.id);
+                }
             }
+
         })
 
         $(document).on('click', '.btn-edit', function(e) {
@@ -360,22 +152,22 @@
             const root = "{{ asset('/') }}";
             let roles = $(this).data('roles');
 
-            if (roles == 'admin') {
-                $('.role_id').val(admin_id);
-            }
-            if (roles == 'caleg') {
-                $('.role_id').val(kepalaKepegawianId);
-            }
-            if (roles == 'koordinator') {
-                $('.role_id').val(koordinator_id);
-            }
-            if (roles == 'pendukung') {
-                $('.role_id').val(pendukungId);
 
-                $('#div_account').addClass('d-none');
-                owl.trigger('to.owl.carousel', 1);
-                $('.customPrevBtn').addClass('d-none');
+            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles == roles);
+            if (checkRoles != null) {
+                if (roles == 'pendukung') {
+                    $('#div_account').addClass('d-none');
+                    owl.trigger('to.owl.carousel', 1);
+                    $('.customPrevBtn').addClass('d-none');
+
+                    $('.role_id').val(checkRoles.id);
+
+                    $('.label-image-photo').html('Upload KTP');
+                } else {
+                    $('.role_id').val(checkRoles.id);
+                }
             }
+
 
             $.ajax({
                 url: action,
@@ -433,11 +225,7 @@
             owl.trigger('to.owl.carousel', 0);
             $('.customPrevBtn').removeClass('d-none');
 
-
-
             $('.label-image-photo').html('Upload Photo');
-
-
             if (attribute != null && attribute != '') {
                 $.each(attribute, function(v, i) {
                     $('.' + v).removeClass("border border-danger");
@@ -483,21 +271,19 @@
                         })
 
                         $('#modalForm').modal('hide');
-
                         let roles = $('.role_id').val();
 
-                        if (roles == admin_id) {
-                            tableAdmin.ajax.reload();
+                        for (let i = 0; i < getDynamic.role.length; i++) {
+                            const element = getDynamic.role[i];
+                            let nameRoles = element.nama_roles.split(' ').join('-');
+                            nameRoles = nameRoles.toLowerCase();
+
+                            let rolesId = element.id;
+                            if (rolesId == roles) {
+                                $(`#table-${nameRoles}`).DataTable().ajax.reload();
+                            }
                         }
-                        if (roles == kepalaKepegawianId) {
-                            tableKepala.ajax.reload();
-                        }
-                        if (roles == koordinator_id) {
-                            tableKoordinator.ajax.reload();
-                        }
-                        if (roles == pendukungId) {
-                            tablependukung.ajax.reload();
-                        }
+
 
                         const {
                             result
@@ -505,18 +291,6 @@
                         resetForm(result);
                     }
 
-                    if (data.status == 400) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Failed',
-                            text: data.message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-
-                        $('#modalForm').modal('hide');
-                        table.ajax.reload();
-                    }
                 },
                 error: function(xhr) {
                     const {
@@ -555,17 +329,10 @@
             const action = $(this).closest("form").attr('action');
             let roles = $(this).data('roles');
 
-            if (roles == 'admin') {
-                $('.role_id').val(admin_id);
-            }
-            if (roles == 'caleg') {
-                $('.role_id').val(kepalaKepegawianId);
-            }
-            if (roles == 'koordinator') {
-                $('.role_id').val(koordinator_id);
-            }
-            if (roles == 'pendukung') {
-                $('.role_id').val(pendukungId);
+
+            let checkRoles = getDynamic.role.find((v, i) => v.nama_roles == roles);
+            if (checkRoles != null) {
+                $('.role_id').val(checkRoles.id);
             }
 
             Swal.fire({
@@ -591,17 +358,14 @@
                                     'success'
                                 );
 
-                                if (roles == 'admin') {
-                                    tableAdmin.ajax.reload();
-                                }
-                                if (roles == 'caleg') {
-                                    tableKepala.ajax.reload();
-                                }
-                                if (roles == 'koordinator') {
-                                    tableKoordinator.ajax.reload();
-                                }
-                                if (roles == 'pendukung') {
-                                    tablependukung.ajax.reload();
+                                for (let i = 0; i < getDynamic.role.length; i++) {
+                                    const element = getDynamic.role[i];
+                                    let nameRoles = element.nama_roles.split(' ').join('-');
+                                    nameRoles = nameRoles.toLowerCase();
+
+                                    if (nameRoles == roles) {
+                                        $(`#table-${nameRoles}`).DataTable().ajax.reload();
+                                    }
                                 }
 
 
@@ -668,17 +432,15 @@
                     is_aktif: is_aktif,
                 },
                 success: function(data) {
-                    if (roles == 'admin') {
-                        tableAdmin.ajax.reload();
-                    }
-                    if (roles == 'caleg') {
-                        tableKepala.ajax.reload();
-                    }
-                    if (roles == 'koordinator') {
-                        tableKoordinator.ajax.reload();
-                    }
-                    if (roles == 'pendukung') {
-                        tablependukung.ajax.reload();
+
+                    for (let i = 0; i < getDynamic.role.length; i++) {
+                        const element = getDynamic.role[i];
+                        let nameRoles = element.nama_roles.split(' ').join('-');
+                        nameRoles = nameRoles.toLowerCase();
+
+                        if (nameRoles == roles) {
+                            $(`#table-${nameRoles}`).DataTable().ajax.reload();
+                        }
                     }
                 }
             })

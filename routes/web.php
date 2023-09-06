@@ -87,6 +87,7 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::resource('users', UsersController::class)->except(['show']);
     Route::post('users/setAktif', [UsersController::class, 'setAktif'])->name('users.setAktif');
     Route::post('/users/import', [UsersController::class, 'import'])->name('users.import');
+    Route::get('/users/getRoles', [UsersController::class, 'getRoles'])->name('users.getRoles');
 
     Route::resource('konfigurasi', KonfigurasiController::class);
 

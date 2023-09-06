@@ -6,7 +6,7 @@
 </div>
 @endif
 <div class="table-responsive">
-    <table class="table" id="dataTableAdmin">
+    <table class="table" id="table-admin">
         <thead>
             <tr>
                 <th scope="col">No</th>

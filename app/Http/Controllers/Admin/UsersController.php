@@ -161,7 +161,8 @@ class UsersController extends Controller
         $koordinator = Role::where("nama_roles", 'like', '%koordinator%')->first();
         $kepalaKepegawaian = Role::where("nama_roles", 'like', '%caleg%')->first();
         $pendukung = Role::where("nama_roles", 'like', '%pendukung%')->first();
-        
+
+
 
         return view('admin.users.index', [
             'role' => Role::all(),
@@ -192,6 +193,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //
+        return response()->json($request);
         $validator = Validator::make($request->all(), [
             'username' => [
                 function ($attribute, $value, $fail) use ($request) {
@@ -701,5 +703,22 @@ class UsersController extends Controller
                 'message' => "Gagal import data"
             ], 400);
         }
+    }
+
+    public function getRoles()
+    {
+        $admin = Role::where("nama_roles", 'like', '%admin%')->first();
+        $koordinator = Role::where("nama_roles", 'like', '%koordinator%')->first();
+        $kepalaKepegawaian = Role::where("nama_roles", 'like', '%caleg%')->first();
+        $pendukung = Role::where("nama_roles", 'like', '%pendukung%')->first();
+
+        return response()->json([
+            'role' => Role::all(),
+            'jabatan' => Jabatan::all(),
+            'admin' => $admin->id,
+            'koordinator' => $koordinator->id,
+            'kepalaKepegawaian' => $kepalaKepegawaian->id,
+            'pendukung' => $pendukung->id,
+        ], 200);
     }
 }

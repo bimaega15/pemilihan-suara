@@ -6,7 +6,7 @@
 </div>
 @endif
 <div class="table-responsive">
-    <table class="table" id="dataTableKoordinator" style="width: 100%;">
+    <table class="table" id="table-koordinator" style="width: 100%;">
         <thead>
             <tr>
                 <th scope="col">No</th>
