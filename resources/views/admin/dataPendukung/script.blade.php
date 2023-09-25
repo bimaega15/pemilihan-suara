@@ -278,6 +278,18 @@
 
 
             // upload bukti pendukung
+            const setUploadCoblos = (label) => {
+                let setUrl = "{{ url('/') }}";
+
+                let uploadCoblos = `
+                <a href="${setUrl}/admin/dataPendukung/${rowData.id}/uploadCoblos" class="btn btn-outline-info m-b-xs btn-coblos" data-id="${rowData.id}" style="border-color: #279EFF !important;" title="${label}">
+                        <i class="fas fa-upload"></i> <br>
+                        <small>${label}</small>
+                </a>
+                `;
+                return uploadCoblos;
+            }
+
             let linkGambar =
                 `${root}upload/tps/${rowData.pendukungcoblos_tps}`;
 
@@ -373,17 +385,7 @@
             let tps_status = `
                     <span class="badge bg-warning me-2">Belum Mencoblos</span>  ${setUploadCoblos('Bukti Pencoblosan')}
                 `;
-            const setUploadCoblos = (label) => {
-                let setUrl = "{{ url('/') }}";
 
-                let uploadCoblos = `
-                <a href="${setUrl}/admin/dataPendukung/${rowData.id}/uploadCoblos" class="btn btn-outline-info m-b-xs btn-coblos" data-id="${rowData.id}" style="border-color: #279EFF !important;" title="${label}">
-                        <i class="fas fa-upload"></i> <br>
-                        <small>${label}</small>
-                </a>
-                `;
-                return uploadCoblos;
-            }
             if (rowData.tps_status == 1 && rowData.verificationcoblos_tps == 1) {
                 tps_status = `
                     <span class="badge bg-success me-2">Sudah Mencoblos</span> ${setUploadCoblos('Upload Ulang')}
