@@ -48,7 +48,9 @@ class DataPendukungController extends Controller
             $data = PendukungTps::query()->with(['tps' => function ($query) use ($tps_id) {
                 $query->where('id', $tps_id);
             }, 'users', 'users.profile'])
-                ->where('tps_id', $tps_id);
+                ->where('tps_id', $tps_id)
+                ->where('users_id_koordinator', $usersId)
+                ->orWhere('users_id_koordinator', null);
 
             return DataTables::eloquent($data)
                 ->addColumn('collapse_primary', function ($row) use ($userAcess) {
