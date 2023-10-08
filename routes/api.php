@@ -12,7 +12,6 @@ use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SubKriteriaController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\KriteriaSubKriteriaController;
-use App\Http\Controllers\Api\MetodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
