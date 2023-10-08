@@ -329,7 +329,7 @@ class AboutController extends Controller
     {
         if ($file != null && floatval($file[$nameFile]['size'][0]) > 0) {
             // delete file
-            // $this->deleteFile($id, $lokasi);
+            $this->deleteFile($id, $lokasi);
 
             if (!empty($file[$nameFile])) {
                 foreach ($file[$nameFile]['name'] as $index => $item) {
