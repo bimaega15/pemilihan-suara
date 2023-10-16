@@ -132,7 +132,7 @@ Route::group(['prefix' => 'admin/', 'as' => 'admin.', 'middleware' => ['checkNot
     Route::post('dataPendukung/{id}/uploadCoblos', [DataPendukungController::class, 'uploadCoblos'])->name('dataPendukung.uploadCoblos');
     Route::post('dataPendukung/{id}/store', [DataPendukungController::class, 'store'])->name('dataPendukung.store');
     Route::get('dataPendukung/getHeaderTps', [DataPendukungController::class, 'getHeaderTps'])->name('dataPendukung.getHeaderTps');
-    Route::get('dataPendukung/getUserTps', [DataPendukungController::class, 'getUserTps'])->name('dataPendukung.getHeaderTps');
+    Route::get('dataPendukung/getUserTps', [DataPendukungController::class, 'getUserTps'])->name('dataPendukung.getUserTps');
 });
 
 

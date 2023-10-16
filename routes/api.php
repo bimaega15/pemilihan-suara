@@ -1,17 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AccessController;
-use App\Http\Controllers\Api\AlternatifController;
-use App\Http\Controllers\Api\HasilController;
-use App\Http\Controllers\Api\KonfigurasiController;
-use App\Http\Controllers\Api\KriteriaController;
-use App\Http\Controllers\Api\MenuController;
-use App\Http\Controllers\Api\NilaiController;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\RolesController;
-use App\Http\Controllers\Api\SubKriteriaController;
-use App\Http\Controllers\Api\UsersController;
-use App\Http\Controllers\Api\KriteriaSubKriteriaController;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Master\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +15,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/login', [LoginController::class, 'index'])->name('login.index');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+    Route::get('/users/tps', [UsersController::class, 'tps'])->name('users.tps');
+    Route::get('/users/getRoles', [UsersController::class, 'getRoles'])->name('users.getRoles');
+    Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
+    Route::put('/users/{id}/update', [UsersController::class, 'update'])->name('users.update');
+    Route::put('/users/setAktif', [UsersController::class, 'setAktif'])->name('users.setAktif');
+    Route::delete('/users/{id}/destroy', [UsersController::class, 'destroy'])->name('users.destroy');
+});
