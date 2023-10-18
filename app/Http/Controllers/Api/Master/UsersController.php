@@ -253,10 +253,10 @@ class UsersController extends Controller
 
             if ($user_id || $roleUser || $profile) {
                 return response()->json([
-                    'status' => 200,
+                    'status' => 201,
                     'message' => 'Berhasil insert data',
                     'result' => $request->all(),
-                ], 200);
+                ], 201);
             } else {
                 return response()->json([
                     'status' => 400,

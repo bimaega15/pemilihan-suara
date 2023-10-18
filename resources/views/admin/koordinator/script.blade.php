@@ -474,7 +474,6 @@
                         users_id: result.users.id
                     });
 
-
                     $('.users_id_select').append(
                             new Option(result.users.profile.nik_profile +
                                 ' ' + result.users.profile.nama_profile, result.users.id, true, true)

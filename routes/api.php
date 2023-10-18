@@ -1,8 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Master\KabupatenController;
+use App\Http\Controllers\Api\Master\KecamatanController;
+use App\Http\Controllers\Api\Master\KelurahanController;
+use App\Http\Controllers\Api\Master\ProvinsiController;
 use App\Http\Controllers\Api\Master\UsersController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Tps\KoordinatorController;
+use App\Http\Controllers\Api\Tps\PendukungController;
+use App\Http\Controllers\Api\Tps\TpsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +29,37 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/users/tps', [UsersController::class, 'tps'])->name('users.tps');
     Route::get('/users/getRoles', [UsersController::class, 'getRoles'])->name('users.getRoles');
     Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
+    Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}/update', [UsersController::class, 'update'])->name('users.update');
     Route::put('/users/setAktif', [UsersController::class, 'setAktif'])->name('users.setAktif');
     Route::delete('/users/{id}/destroy', [UsersController::class, 'destroy'])->name('users.destroy');
+
+    Route::get('/provinsi', [ProvinsiController::class, 'index'])->name('provinsi.index');
+    Route::get('/kabupaten', [KabupatenController::class, 'index'])->name('kabupaten.index');
+    Route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');
+    Route::get('/kelurahan', [KelurahanController::class, 'index'])->name('kelurahan.index');
+
+    Route::get('/tps', [TpsController::class, 'index'])->name('tps.index');
+    Route::post('/tps/store', [TpsController::class, 'store'])->name('tps.store');
+    Route::put('/tps/{id}/update', [tpsController::class, 'update'])->name('tps.update');
+    Route::delete('/tps/{id}/destroy', [tpsController::class, 'destroy'])->name('tps.destroy');
+
+    Route::get('/koordinator', [KoordinatorController::class, 'index'])->name('koordinator.index');
+    Route::post('/koordinator/store', [KoordinatorController::class, 'store'])->name('koordinator.store');
+    Route::put('/koordinator/{id}/update', [KoordinatorController::class, 'update'])->name('koordinator.update');
+    Route::delete('/koordinator/{id}/destroy', [KoordinatorController::class, 'destroy'])->name('koordinator.destroy');
+    Route::get('koordinator/usersKoordinator', [KoordinatorController::class, 'usersKoordinator'])->name('koordinator.usersKoordinator');
+    Route::get('koordinator/selectKoordinator', [KoordinatorController::class, 'selectKoordinator'])->name('koordinator.selectKoordinator');
+
+    Route::get('/pendukung', [PendukungController::class, 'index'])->name('pendukung.index');
+    Route::post('/pendukung/store', [PendukungController::class, 'store'])->name('pendukung.store');
+    Route::put('/pendukung/{id}/update', [PendukungController::class, 'update'])->name('pendukung.update');
+    Route::delete('/pendukung/{id}/destroy', [PendukungController::class, 'destroy'])->name('pendukung.destroy');
+
+    Route::get('pendukung/usersPendukung', [PendukungController::class, 'usersPendukung'])->name('pendukung.usersPendukung');
+    Route::get('pendukung/selectPendukung', [PendukungController::class, 'selectPendukung'])->name('pendukung.selectPendukung');
+    Route::get('pendukung/selectPendukungTps', [PendukungController::class, 'selectPendukungTps'])->name('pendukung.selectPendukungTps');
+    Route::get('pendukung/saveSession', [PendukungController::class, 'saveSession'])->name('pendukung.saveSession');
+    Route::post('pendukung/verify', [PendukungController::class, 'verify'])->name('pendukung.verify');
+    Route::post('pendukung/coblos', [PendukungController::class, 'coblos'])->name('pendukung.coblos');
 });
