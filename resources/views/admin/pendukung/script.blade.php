@@ -365,7 +365,7 @@
 
             if (String(rowData.verificationcoblos_tps) == '0') {
                 spanVerification = `
-                <a class="btn btn-danger btn-sm me-1 btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="1" title="Verifikasi">
+                <a class="btn btn-success btn-sm me-1 btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="1" title="Verifikasi">
                     <i class="fas fa-check"></i>
                 </a> <br>
                 <span class="badge bg-danger">Pengajuan Ditolak</span>
@@ -374,7 +374,7 @@
             if (String(rowData.verificationcoblos_tps) == '1') {
                 spanVerification = `
                 <span class="badge bg-success me-1">Berhasil diverifikasi</span>
-                <a class="btn btn-danger btn-sm btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="0" title="Batalkan Verifikasi">
+                <a class="btn btn-success btn-sm btn-verify" data-id="${rowData.id}" data-verificationcoblos_tps="0" title="Batalkan Verifikasi">
                     <i class="fas fa-times"></i>
                 </a>
                

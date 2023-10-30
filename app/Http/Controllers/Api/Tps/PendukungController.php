@@ -391,64 +391,62 @@ class PendukungController extends Controller
     // ======== yang belum
     public function selectPendukungTps(Request $request)
     {
+        try {
+            $tps_id = $request->input('tps_id');
+            $search = $request->input('search');
 
-        $getCurrentUrl = '/admin/dataPendukung';
-        if (!isset(Check::getMenu($getCurrentUrl)[0])) {
-            abort(403, 'Cannot access page');
-        }
-        $getMenu = Check::getMenu($getCurrentUrl)[0];
+            $limit = 10;
+            $page = $request->input('page');
+            $endPage = $page * $limit;
+            $firstPage = $endPage - $limit;
 
-        session()->put('userAcess.is_create', $getMenu->is_create);
-        session()->put('userAcess.is_update', $getMenu->is_update);
-        session()->put('userAcess.is_delete', $getMenu->is_delete);
-
-        $tps_id = $request->input('tps_id');
-        $search = $request->input('search');
-
-        $limit = 10;
-        $page = $request->input('page');
-        $endPage = $page * $limit;
-        $firstPage = $endPage - $limit;
-
-        $users = PendukungTps::query()
-            ->select('pendukung_tps.*', 'profile.nik_profile', 'profile.nama_profile', 'profile.email_profile')
-            ->join('users', 'users.id', '=', 'pendukung_tps.users_id')
-            ->join('profile', 'users.id', '=', 'profile.users_id')
-            ->where('pendukung_tps.tps_id', $tps_id);
-
-        if ($search != null) {
-            $users
-                ->where('profile.nama_profile', 'like', '%' . $search . '%')
-                ->orWhere('profile.nik_profile', 'like', '%' . $search . '%')
-                ->orWhere('profile.email_profile', 'like', '%' . $search . '%')
+            $users = PendukungTps::query()
+                ->select('pendukung_tps.*', 'profile.nik_profile', 'profile.nama_profile', 'profile.email_profile')
+                ->join('users', 'users.id', '=', 'pendukung_tps.users_id')
+                ->join('profile', 'users.id', '=', 'profile.users_id')
                 ->where('pendukung_tps.tps_id', $tps_id);
-        }
 
-        $countUsers = $users->get()->count();
-        $users = $users->offset($firstPage)
-            ->limit($limit)
-            ->get();
+            if ($search != null) {
+                $users
+                    ->where('profile.nama_profile', 'like', '%' . $search . '%')
+                    ->orWhere('profile.nik_profile', 'like', '%' . $search . '%')
+                    ->orWhere('profile.email_profile', 'like', '%' . $search . '%')
+                    ->where('pendukung_tps.tps_id', $tps_id);
+            }
 
-        if ($search != null) {
-            $countUsers = $users->count();
-        }
+            $countUsers = $users->get()->count();
+            $users = $users->offset($firstPage)
+                ->limit($limit)
+                ->get();
 
-        $result = [];
-        foreach ($users as $key => $v_users) {
-            $result['results'][] =
-                [
-                    'id' => $v_users->id,
-                    'text' => $v_users->nama_profile . ' / ' . $v_users->nik_profile . ' / ' . $v_users->email_profile . ' ',
-                ];
+            if ($search != null) {
+                $countUsers = $users->count();
+            }
+
+            $result = [];
+            foreach ($users as $key => $v_users) {
+                $result['results'][] =
+                    [
+                        'id' => $v_users->id,
+                        'text' => $v_users->nama_profile . ' / ' . $v_users->nik_profile . ' / ' . $v_users->email_profile . ' ',
+                    ];
+            }
+            $result['count_filtered'] = $countUsers;
+            return response()->json($result, 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => "Terjadi kesalahan data",
+                'result' => $e->getMessage()
+            ], 500);
         }
-        $result['count_filtered'] = $countUsers;
-        return response()->json($result, 200);
     }
 
     public function verify(Request $request)
     {
         $id = $request->input('id');
         $verificationcoblos_tps = $request->input('verificationcoblos_tps');
+
 
         $updatePendukung = PendukungTps::find($id)->update([
             'verificationcoblos_tps' => $verificationcoblos_tps,

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\ProfileController;
+use App\Http\Controllers\Api\Korlap\DataPendukungController;
+use App\Http\Controllers\Api\Master\JabatanController;
 use App\Http\Controllers\Api\Master\KabupatenController;
 use App\Http\Controllers\Api\Master\KecamatanController;
 use App\Http\Controllers\Api\Master\KelurahanController;
@@ -25,6 +28,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class, 'index'])->name('login.index');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/jabatan', [JabatanController::class, 'index'])->name('jabatan.index');
+
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+
+
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
     Route::get('/users/tps', [UsersController::class, 'tps'])->name('users.tps');
     Route::get('/users/getRoles', [UsersController::class, 'getRoles'])->name('users.getRoles');
@@ -62,4 +72,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('pendukung/saveSession', [PendukungController::class, 'saveSession'])->name('pendukung.saveSession');
     Route::post('pendukung/verify', [PendukungController::class, 'verify'])->name('pendukung.verify');
     Route::post('pendukung/coblos', [PendukungController::class, 'coblos'])->name('pendukung.coblos');
+
+
+    Route::get('dataPendukung', [DataPendukungController::class, 'index'])->name('dataPendukung.index');
+    Route::get('dataPendukung/{id}/uploadBukti', [DataPendukungController::class, 'uploadBukti'])->name('dataPendukung.uploadBukti');
+    Route::post('dataPendukung/{id}/uploadCoblos', [DataPendukungController::class, 'uploadCoblos'])->name('dataPendukung.uploadCoblos');
+    Route::post('dataPendukung/{id}/store', [DataPendukungController::class, 'store'])->name('dataPendukung.store');
+    Route::get('dataPendukung/getHeaderTps', [DataPendukungController::class, 'getHeaderTps'])->name('dataPendukung.getHeaderTps');
+    Route::get('dataPendukung/getUserTps', [DataPendukungController::class, 'getUserTps'])->name('dataPendukung.getUserTps');
 });
