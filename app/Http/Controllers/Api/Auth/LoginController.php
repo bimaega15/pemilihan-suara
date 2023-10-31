@@ -8,6 +8,7 @@ use App\Http\Requests\ApiLoginController;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -44,8 +45,15 @@ class LoginController extends Controller
             if ($checkUsername) {
                 if (Hash::check($password, $checkUsername->password)) {
                     $token = $checkUsername->createToken($checkUsername->id)->plainTextToken;
+                    $getRoles = $checkUsername->roles()->get();
+                    $getRoles = $getRoles[0];
+
+                    $collection1 = new Collection($checkUsername);
+                    $collection2 = new Collection($getRoles);
+                    $merged = $collection1->merge($collection2);
+
                     $result = [
-                        'data' => $checkUsername,
+                        'data' => $merged,
                         'token' => $token
                     ];
 
