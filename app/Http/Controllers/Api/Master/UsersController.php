@@ -39,7 +39,7 @@ class UsersController extends Controller
             $searchValue =  $request->input('search');
 
             $data = User::query()
-                ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.jenis_kelamin_profile', 'profile.alamat_profile')
+                ->select('users.*', 'roles.nama_roles', 'profile.*')
                 ->join('profile', 'profile.users_id', 'users.id')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->join('roles', 'role_user.role_id', '=', 'roles.id')

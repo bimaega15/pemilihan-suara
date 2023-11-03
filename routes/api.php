@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\ProfileController;
+use App\Http\Controllers\Api\Dashboard\HomeController;
 use App\Http\Controllers\Api\Korlap\DataPendukungController;
 use App\Http\Controllers\Api\Master\JabatanController;
 use App\Http\Controllers\Api\Master\KabupatenController;
@@ -28,8 +29,18 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class, 'index'])->name('login.index');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/jabatan', [JabatanController::class, 'index'])->name('jabatan.index');
+    Route::get('/home/index', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/home/suaraKoordinator', [HomeController::class, 'suaraKoordinator'])->name('home.suaraKoordinator');
+    Route::get('/home/pendukungKoordinator', [HomeController::class, 'pendukungKoordinator'])->name('home.pendukungKoordinator');
+    Route::get('/home/suaraKoordinatorGrafik', [HomeController::class, 'suaraKoordinatorGrafik'])->name('home.suaraKoordinatorGrafik');
 
+    Route::get('/home/fetchGrafik', [HomeController::class, 'fetchGrafik'])->name('home.fetchGrafik');
+    Route::get('/home/semuaSuara', [HomeController::class, 'semuaSuara'])->name('home.semuaSuara');
+    Route::get('/home/fetchDisplayGrafik', [HomeController::class, 'fetchDisplayGrafik'])->name('home.fetchDisplayGrafik');
+    Route::get('/home/semuaSuaraGrafik', [HomeController::class, 'semuaSuaraGrafik'])->name('home.semuaSuaraGrafik');
+    Route::get('/home/wilayah', [HomeController::class, 'wilayah'])->name('home.wilayah');
+
+    Route::get('/jabatan', [JabatanController::class, 'index'])->name('jabatan.index');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');

@@ -267,7 +267,6 @@ class HomeController extends Controller
             ->with('tps', 'tps.villages')
             ->first();
 
-
         $totalDukungan = $koordinatorTps->tps->totalsemua_tps;
         $totalDukunganLk = $koordinatorTps->tps->totallk_tps;
         $totalDukunganPr = $koordinatorTps->tps->totalpr_tps;
