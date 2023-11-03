@@ -250,7 +250,10 @@ class DataPendukungController extends Controller
 
     public function getHeaderTps(Request $request)
     {
-        $tps_id = $request->input('tps_id');
+        $usersId = Auth::id();
+        $getCo = KoordinatorTps::where('users_id', $usersId)->first();
+        $tps_id = $getCo->tps_id;
+
         $users_id_koordinator = Auth::id();
 
         $getTps = Tps::with('villages')->find($tps_id);
