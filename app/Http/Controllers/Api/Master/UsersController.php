@@ -319,7 +319,7 @@ class UsersController extends Controller
             $_POST['id'] = $id;
             $validator = Validator::make($request->all(), [
                 'username' => [
-                    function ($attribute, $value, $fail) use ($request) {
+                    function ($attribute, $value, $fail) use ($request, $id) {
                         $role_id = $request->input('role_id');
                         $roles = Role::where('nama_roles', 'like', '%' . $role_id . '%')->first();
                         if ($roles->nama_roles != 'pendukung') {
@@ -328,8 +328,7 @@ class UsersController extends Controller
                             }
                         }
 
-                        $username = $_POST['username'];
-                        $id = $_POST['id'];
+                        $username = $request->input('username');
                         $checkusername = User::where('username', $username)
                             ->where('id', '!=', $id)
                             ->count();
@@ -368,7 +367,7 @@ class UsersController extends Controller
                         }
                     }
 
-                    $email_profile = $_POST['email_profile'];
+                    $email_profile = $request->input('email_profile');
                     $checkEmailProfile = Profile::where('email_profile', $email_profile)
                         ->where('users_id', '<>', $id)
                         ->count();
