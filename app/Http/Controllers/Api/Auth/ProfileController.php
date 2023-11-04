@@ -49,7 +49,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $id = $_POST['id'];
+        $_POST['id'] = $id;
         $validator = Validator::make($request->all(), [
             'username' => [
                 'required', function ($attribute, $value, $fail) {
