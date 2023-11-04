@@ -244,8 +244,12 @@ class UsersController extends Controller
             $profile = Profile::create($dataBiodata);
 
             if (Auth::user()->roles[0]->nama_roles == 'koordinator') {
+                $usersId = Auth::id();
+                $getCo = KoordinatorTps::where('users_id', $usersId)->first();
+                $tps_id = $getCo->tps_id;
+
                 PendukungTps::create([
-                    'tps_id' => $request->input('tps_id'),
+                    'tps_id' => $tps_id,
                     'users_id' => $user_id->id,
                     'users_id_koordinator' => Auth::id(),
                 ]);
