@@ -398,9 +398,9 @@
                 `;
             }
 
-            if (rowData.tps_status == 0 && rowData.verificationcoblos_tps == 1) {
+            if (rowData.verificationcoblos_tps == 1) {
                 tps_status = `
-                    <span class="badge bg-warning me-2">Belum Mencoblos</span>  ${setUploadCoblos('Bukti Pencoblosan')}
+                <span class="badge bg-success me-2">Sudah Mencoblos</span> ${setUploadCoblos('Upload Ulang')}
                 `;
             }
 
