@@ -6,10 +6,11 @@ use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\PendukungTps;
 use App\Models\Tps;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DataTables;
-
+use Illuminate\Support\Facades\Auth;
 
 class TpsController extends Controller
 {
@@ -44,12 +45,20 @@ class TpsController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-
-        //
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');
-
             $data = Tps::query()->with('villages');
+
+            $getRoles = Auth::user()->roles()->get()[0];
+            if (strtolower($getRoles->nama_roles) == 'koordinator kecamatan') {
+                $usersId = Auth::id();
+                $getUsers = User::find($usersId);
+
+                $data = Tps::query()->with('villages')
+                    ->where('provinces_id', $getUsers->provinces_id)
+                    ->where('regencies_id', $getUsers->regencies_id)
+                    ->where('districts_id', $getUsers->districts_id);
+            }
 
             return DataTables::eloquent($data)
                 ->addColumn('action', function ($row) use ($userAcess) {
@@ -109,7 +118,17 @@ class TpsController extends Controller
                 ->rawColumns(['action', 'koordinator', 'pendukung'])
                 ->toJson();
         }
-        return view('admin.tps.index');
+
+        $getUsers = null;
+        $getRoles = Auth::user()->roles()->get()[0];
+        if (strtolower($getRoles->nama_roles) == 'koordinator kecamatan') {
+            $usersId = Auth::id();
+            $getUsers = User::find($usersId);
+        }
+        return view('admin.tps.index', [
+            'getUsers' => $getUsers,
+            'isExist' => $getUsers != null ? true : false,
+        ]);
     }
 
     /**

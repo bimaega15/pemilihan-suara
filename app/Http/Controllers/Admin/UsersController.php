@@ -166,7 +166,7 @@ class UsersController extends Controller
         $kepalaKepegawaian = Role::where("nama_roles", 'like', '%caleg%')->first();
         $pendukung = Role::where("nama_roles", 'like', '%pendukung%')->first();
 
-
+        $getRoles = Auth::user()->roles()->get()[0];
 
         return view('admin.users.index', [
             'role' => Role::all(),
@@ -175,6 +175,7 @@ class UsersController extends Controller
             'koordinator' => $koordinator->id,
             'kepalaKepegawaian' => $kepalaKepegawaian->id,
             'pendukung' => $pendukung->id,
+            'myRole' => $getRoles
         ]);
     }
 
@@ -294,11 +295,26 @@ class UsersController extends Controller
         if (Auth::user()->roles[0]->nama_roles == 'koordinator') {
             $isRegisTps = 1;
         }
+
+        // roles
+        $getRoles = Role::find($request->input('role_id'));
+        $provinces_id = null;
+        $regencies_id = null;
+        $districts_id = null;
+        if (strtolower($getRoles->nama_roles) == 'koordinator kecamatan') {
+            $provinces_id = $request->input('provinces_id');
+            $regencies_id = $request->input('regencies_id');
+            $districts_id = $request->input('districts_id');
+        }
+
         $dataUsers = [
             'username' => $username,
             'password' => $password,
             'is_aktif' => $isAktif,
-            'is_registps' => $isRegisTps
+            'is_registps' => $isRegisTps,
+            'provinces_id' => $provinces_id,
+            'regencies_id' => $regencies_id,
+            'districts_id' => $districts_id,
         ];
         $user_id = User::create($dataUsers);
 
@@ -333,6 +349,8 @@ class UsersController extends Controller
                 'users_id_koordinator' => Auth::id(),
             ]);
         }
+
+
 
         if ($user_id || $roleUser || $profile) {
             return response()->json([
@@ -475,13 +493,26 @@ class UsersController extends Controller
             $password_db = Hash::make('123456');
         }
 
+        $getRoles = Role::find($request->input('role_id'));
+        $provinces_id = null;
+        $regencies_id = null;
+        $districts_id = null;
+        if (strtolower($getRoles->nama_roles) == 'koordinator kecamatan') {
+            $provinces_id = $request->input('provinces_id');
+            $regencies_id = $request->input('regencies_id');
+            $districts_id = $request->input('districts_id');
+        }
+
         $dataUsers = [
             'username' => $username,
             'password' => $password_db,
             'is_aktif' => $isAktif,
+            'provinces_id' => $provinces_id,
+            'regencies_id' => $regencies_id,
+            'districts_id' => $districts_id,
         ];
-        $user_id = User::find($id)->update($dataUsers);
 
+        $user_id = User::find($id)->update($dataUsers);
         // roles
         $dataRoles = [
             'role_id' => $request->input('role_id'),

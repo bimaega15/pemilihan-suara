@@ -35,7 +35,6 @@ class RolesController extends Controller
         session()->put('userAcess.is_update', $getMenu->is_update);
         session()->put('userAcess.is_delete', $getMenu->is_delete);
 
-
         //
         if ($request->ajax()) {
             $userAcess = session()->get('userAcess');

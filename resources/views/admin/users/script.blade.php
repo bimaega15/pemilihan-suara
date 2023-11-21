@@ -127,24 +127,25 @@
 
             let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
             if (checkRoles != null) {
+                if (roles != 'koordinator kecamatan') {
+                    $('#div_wilayah').addClass('d-none');
+                    $('.role_id').val(checkRoles.id);
+                }
+
                 if (roles == 'pendukung') {
                     $('#div_account').addClass('d-none');
                     owl.trigger('to.owl.carousel', 1);
                     $('.customPrevBtn').addClass('d-none');
-
                     $('.role_id').val(checkRoles.id);
-
                     $('.label-image-photo').html('Upload KTP');
                 } else {
                     $('.role_id').val(checkRoles.id);
                 }
             }
-
         })
 
         $(document).on('click', '.btn-edit', function(e) {
             e.preventDefault();
-
 
             $('.label-image-photo').html('Upload Photo');
 
@@ -157,6 +158,11 @@
 
             let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
             if (checkRoles != null) {
+                if (roles != 'koordinator kecamatan') {
+                    $('#div_wilayah').addClass('d-none');
+                    $('.role_id').val(checkRoles.id);
+                }
+
                 if (roles == 'pendukung') {
                     $('#div_account').addClass('d-none');
                     owl.trigger('to.owl.carousel', 1);
@@ -169,7 +175,6 @@
                     $('.role_id').val(checkRoles.id);
                 }
             }
-
 
             $.ajax({
                 url: action,
@@ -207,6 +212,77 @@
                         $('input[name="is_aktif"]').attr('checked', true);
                     }
 
+                    let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
+                    if (checkRoles != null) {
+                        if (roles == 'koordinator kecamatan') {
+                            var setUrl = "{{ url('/') }}";
+
+                            function getProvinsi(provinces_id) {
+                                var output = null;
+                                $.ajax({
+                                    url: `${setUrl}/admin/provinsi/${provinces_id}/edit`,
+                                    dataType: 'json',
+                                    type: 'get',
+                                    async: false,
+                                    success: function(data) {
+                                        output = data.result;
+                                    }
+                                })
+                                return output;
+                            }
+
+                            function getKabupaten(regencies_id) {
+                                var output = null;
+                                $.ajax({
+                                    url: `${setUrl}/admin/kabupaten/${regencies_id}/edit`,
+                                    dataType: 'json',
+                                    type: 'get',
+                                    async: false,
+                                    success: function(data) {
+                                        output = data.result;
+                                    }
+                                })
+                                return output;
+                            }
+
+                            function getKecamatan(districts_id) {
+                                var output = null;
+                                $.ajax({
+                                    url: `${setUrl}/admin/kecamatan/${districts_id}/edit`,
+                                    dataType: 'json',
+                                    type: 'get',
+                                    async: false,
+                                    success: function(data) {
+                                        output = data.result;
+                                    }
+                                })
+                                return output;
+                            }
+
+                            var getDataProvinsi = getProvinsi(result.provinces_id);
+                            if (getDataProvinsi != null) {
+                                $('.provinces_id').append(
+                                        new Option(getDataProvinsi.name, getDataProvinsi.id, true, true)
+                                    )
+                                    .trigger("change");
+                            }
+                            var getDataKabupaten = getKabupaten(result.regencies_id);
+                            if (getDataKabupaten != null) {
+                                $('.regencies_id').append(
+                                        new Option(getDataKabupaten.name, getDataKabupaten.id, true, true)
+                                    )
+                                    .trigger("change");
+                            }
+                            var getDataKecamatan = getKecamatan(result.districts_id);
+                            if (getDataKecamatan != null) {
+                                $('.districts_id').append(
+                                        new Option(getDataKecamatan.name, getDataKecamatan.id, true, true)
+                                    )
+                                    .trigger("change");
+                            }
+                        }
+                    }
+
                     let url = "{{ url('/') }}";
                     $('.form-submit').attr('action', url + '/admin/users/' + result.id);
                     $('#modalForm').modal('show');
@@ -220,6 +296,19 @@
 
 
         function resetForm(attribute = null) {
+            $('.provinces_id').append(
+                    new Option('Pilih Provinsi', '', true, true)
+                )
+                .trigger("change");
+            $('.regencies_id').append(
+                    new Option('Pilih Kabupaten', '', true, true)
+                )
+                .trigger("change");
+            $('.districts_id').append(
+                    new Option('Pilih Kecamatan', '', true, true)
+                )
+                .trigger("change");
+
             $('.jabatan_id option').attr('selected', false).trigger('change');
             $('.form-submit').trigger("reset");
 
@@ -245,6 +334,48 @@
             e.preventDefault();
             var form = $('.form-submit')[0];
             var data = new FormData(form);
+
+            let roles = $('.role_id').val();
+            for (let i = 0; i < getDynamic.role.length; i++) {
+                const element = getDynamic.role[i];
+                let nameRoles = element.nama_roles;
+                nameRoles = nameRoles.toLowerCase();
+
+                let rolesId = element.id;
+                if (rolesId == roles) {
+                    var provinces_id = $('select[name="provinces_id"]').val();
+                    var regencies_id = $('select[name="regencies_id"]').val();
+                    var districts_id = $('select[name="districts_id"]').val();
+                    if (provinces_id == '' || provinces_id == null) {
+                        return Swal.fire({
+                            icon: 'info',
+                            title: 'Peringatan!',
+                            text: 'Provinsi wajib diisi',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                    if (regencies_id == '' || regencies_id == null) {
+                        return Swal.fire({
+                            icon: 'info',
+                            title: 'Peringatan!',
+                            text: 'Kabupaten wajib diisi',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                    if (districts_id == '' || districts_id == null) {
+                        return Swal.fire({
+                            icon: 'info',
+                            title: 'Peringatan!',
+                            text: 'Kecamatan wajib diisi',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                }
+            }
+
             var action = $('.form-submit').attr('action');
             onSubmit(action, data);
         })
@@ -274,7 +405,6 @@
 
                         $('#modalForm').modal('hide');
                         let roles = $('.role_id').val();
-
                         for (let i = 0; i < getDynamic.role.length; i++) {
                             const element = getDynamic.role[i];
                             let nameRoles = element.nama_roles.split(' ').join('-');
@@ -451,7 +581,6 @@
             })
         })
 
-
         function resetFormImport(attribute = null) {
             $('.form-submit-import').trigger("reset");
 
@@ -539,6 +668,126 @@
                     $('.btn-submit-import').attr('disabled', false);
                     $('#process-load-image').addClass('d-none');
                 }
+            });
+        }
+
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'></div>" +
+                "</div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(repo.text);
+            return $container;
+        }
+
+        function formatRepoSelection(repo) {
+            return repo.text;
+        }
+
+        $('.provinces_id').select2({
+            theme: 'bootstrap-5',
+            ajax: {
+                url: `{{ url('/admin/provinsi') }}`,
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        xhr: 'getProvinsi',
+                        search: params.term,
+                        page: params.page || 1
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results,
+                        pagination: {
+                            more: (params.page * 10) < data.count_filtered
+                        }
+                    };
+                },
+                cache: true,
+            },
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection
+        });
+
+
+        $(document).on('change', '.provinces_id', function() {
+            let value = $(this).val();
+            getKabupaten(value);
+        })
+
+        function getKabupaten(provinces_id) {
+            $('.regencies_id').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: `{{ url('/admin/kabupaten') }}`,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            xhr: 'getKabupaten',
+                            search: params.term,
+                            page: params.page || 1,
+                            provinces_id: provinces_id
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page * 10) < data.count_filtered
+                            }
+                        };
+                    },
+                    cache: true,
+                },
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            });
+        }
+
+        $(document).on('change', '.regencies_id', function() {
+            let value = $(this).val();
+            getKecamatan(value);
+        })
+
+        function getKecamatan(regency_id) {
+            $('.districts_id').select2({
+                theme: 'bootstrap-5',
+                ajax: {
+                    url: `{{ url('/admin/kecamatan') }}`,
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            xhr: 'getKecamatan',
+                            search: params.term,
+                            page: params.page || 1,
+                            regency_id: regency_id
+                        };
+                    },
+                    processResults: function(data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page * 10) < data.count_filtered
+                            }
+                        };
+                    },
+                    cache: true,
+                },
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
             });
         }
     })

@@ -9,6 +9,7 @@
              <form action="{{ route('admin.tps.store') }}" class="form-submit">
                  <input type="hidden" name="_method" value="post">
                  <div class="modal-body">
+                     @if (!$isExist)
                      <div class="row">
                          <div class="col-lg-6">
                              <div class="form-group">
@@ -17,7 +18,6 @@
                                      <option value="">Pilih Provinsi</option>
                                  </select>
                                  <small class="error_provinces_id text-danger"></small>
-
                              </div>
                          </div>
                          <div class="col-lg-6">
@@ -53,6 +53,23 @@
                          </div>
                      </div>
                      <div style="height: 10px;"></div>
+                     @endif
+
+                     @if ($isExist)
+                     <div class="row">
+                         <div class="col-lg-12">
+                             <div class="form-group">
+                                 <label for="">Kelurahan</label>
+                                 <select class="form-control villages_id" name="villages_id">
+                                     <option value="">Pilih Kelurahan</option>
+                                 </select>
+                                 <small class="error_villages_id text-danger"></small>
+                             </div>
+                         </div>
+                     </div>
+                     <div style="height: 10px;"></div>
+                     @endif
+
                      <div class="row">
                          <div class="col-lg-6">
                              <div class="form-floating">

@@ -84,19 +84,22 @@
                         result
                     } = data;
 
+                    var getUsers = "{{ $isExist }}";
+                    if (!getUsers) {
+                        $('.provinces_id').append(
+                                new Option(result.provinces.name, result.provinces.id, true, true)
+                            )
+                            .trigger("change");
+                        $('.regencies_id').append(
+                                new Option(result.regencies.name, result.regencies.id, true, true)
+                            )
+                            .trigger("change");
+                        $('.districts_id').append(
+                                new Option(result.districts.name, result.districts.id, true, true)
+                            )
+                            .trigger("change");
+                    }
 
-                    $('.provinces_id').append(
-                            new Option(result.provinces.name, result.provinces.id, true, true)
-                        )
-                        .trigger("change");
-                    $('.regencies_id').append(
-                            new Option(result.regencies.name, result.regencies.id, true, true)
-                        )
-                        .trigger("change");
-                    $('.districts_id').append(
-                            new Option(result.districts.name, result.districts.id, true, true)
-                        )
-                        .trigger("change");
                     $('.villages_id').append(
                             new Option(result.villages.name, result.villages.id, true, true)
                         )
@@ -120,9 +123,12 @@
 
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
-            $('.provinces_id option').attr('selected', false).trigger('change');
-            $('.regencies_id option').attr('selected', false).trigger('change');
-            $('.districts_id option').attr('selected', false).trigger('change');
+            var getUsers = "{{ $isExist }}";
+            if (!getUsers) {
+                $('.provinces_id option').attr('selected', false).trigger('change');
+                $('.regencies_id option').attr('selected', false).trigger('change');
+                $('.districts_id option').attr('selected', false).trigger('change');
+            }
             $('.villages_id option').attr('selected', false).trigger('change');
 
             if (attribute != null && attribute != '') {
@@ -155,6 +161,21 @@
             var form = $('.form-submit')[0];
             var data = new FormData(form);
             var action = $('.form-submit').attr('action');
+            var getUsers = "{{ $isExist }}";
+            if (getUsers) {
+                data.delete('provinces_id');
+                data.delete('regencies_id');
+                data.delete('districts_id');
+
+                var get_provinces_id = "{{ $getUsers->provinces_id }}";
+                var get_regencies_id = "{{ $getUsers->regencies_id }}";
+                var get_districts_id = "{{ $getUsers->districts_id }}";
+
+                data.append('provinces_id', get_provinces_id);
+                data.append('regencies_id', get_regencies_id);
+                data.append('districts_id', get_districts_id);
+            }
+
             onSubmit(action, data);
         })
 
@@ -397,35 +418,74 @@
             getKelurahan(value);
         })
 
-        function getKelurahan(district_id) {
-            $('.villages_id').select2({
-                theme: 'bootstrap-5',
-                ajax: {
-                    url: `{{ url('/admin/kelurahan') }}`,
-                    dataType: 'json',
-                    data: function(params) {
-                        return {
-                            xhr: 'getKelurahan',
-                            search: params.term,
-                            page: params.page || 1,
-                            district_id: district_id
-                        };
+        var getUsers = "{{ $isExist }}";
+        if (getUsers) {
+
+            var districts_id = "{{ $getUsers->districts_id }}";
+
+            getKelurahan(districts_id);
+
+            function getKelurahan(district_id) {
+                $('.villages_id').select2({
+                    theme: 'bootstrap-5',
+                    ajax: {
+                        url: `{{ url('/admin/kelurahan') }}`,
+                        dataType: 'json',
+                        data: function(params) {
+                            return {
+                                xhr: 'getKelurahan',
+                                search: params.term,
+                                page: params.page || 1,
+                                district_id: district_id
+                            };
+                        },
+                        processResults: function(data, params) {
+                            params.page = params.page || 1;
+                            return {
+                                results: data.results,
+                                pagination: {
+                                    more: (params.page * 10) < data.count_filtered
+                                }
+                            };
+                        },
+                        cache: true,
                     },
-                    processResults: function(data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.results,
-                            pagination: {
-                                more: (params.page * 10) < data.count_filtered
-                            }
-                        };
+                    templateResult: formatRepo,
+                    templateSelection: formatRepoSelection
+                });
+            }
+        } else {
+            function getKelurahan(district_id) {
+                $('.villages_id').select2({
+                    theme: 'bootstrap-5',
+                    ajax: {
+                        url: `{{ url('/admin/kelurahan') }}`,
+                        dataType: 'json',
+                        data: function(params) {
+                            return {
+                                xhr: 'getKelurahan',
+                                search: params.term,
+                                page: params.page || 1,
+                                district_id: district_id
+                            };
+                        },
+                        processResults: function(data, params) {
+                            params.page = params.page || 1;
+                            return {
+                                results: data.results,
+                                pagination: {
+                                    more: (params.page * 10) < data.count_filtered
+                                }
+                            };
+                        },
+                        cache: true,
                     },
-                    cache: true,
-                },
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            });
+                    templateResult: formatRepo,
+                    templateSelection: formatRepoSelection
+                });
+            }
         }
+
 
         function getAddKoordinator(users_id) {
             let getUrl = "{{ url('/') }}";

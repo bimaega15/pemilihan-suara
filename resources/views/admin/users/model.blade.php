@@ -9,7 +9,7 @@
              <form action="{{ route('admin.profile.store') }}" class="form-submit">
                  <input type="hidden" name="_method" value="post">
                  <input type="hidden" name="id" class="id" value="">
-                 <input type="hidden" name="password_profile_old" class="password_profile_old" value="">
+                 <input type="hidden" name="password_old" class="password_old" value="">
                  <input type="hidden" name="role_id" class="role_id" value="">
 
                  <div class="modal-body">
@@ -17,6 +17,7 @@
                          <div class="col-lg-12">
                              <div class="owl-carousel owl-theme">
                                  @include('admin.users.partial.account.index')
+                                 @include('admin.users.partial.wilayah.index')
                                  @include('admin.users.partial.biodata.index')
                              </div>
                          </div>
