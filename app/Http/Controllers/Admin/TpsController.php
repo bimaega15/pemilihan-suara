@@ -125,9 +125,10 @@ class TpsController extends Controller
             $usersId = Auth::id();
             $getUsers = User::find($usersId);
         }
+
         return view('admin.tps.index', [
             'getUsers' => $getUsers,
-            'isExist' => $getUsers != null ? true : false,
+            'isExist' => $getUsers != null ? 1 : 0,
         ]);
     }
 
