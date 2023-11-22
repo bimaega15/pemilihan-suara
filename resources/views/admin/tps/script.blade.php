@@ -85,6 +85,7 @@
                     } = data;
 
                     var getUsers = "{{ $isExist }}";
+                    getUsers = Boolean(parseInt(getUsers));
                     if (!getUsers) {
                         $('.provinces_id').append(
                                 new Option(result.provinces.name, result.provinces.id, true, true)
@@ -124,6 +125,7 @@
         function resetForm(attribute = null) {
             $('.form-submit').trigger("reset");
             var getUsers = "{{ $isExist }}";
+            getUsers = Boolean(parseInt(getUsers));
             if (!getUsers) {
                 $('.provinces_id option').attr('selected', false).trigger('change');
                 $('.regencies_id option').attr('selected', false).trigger('change');
@@ -162,14 +164,16 @@
             var data = new FormData(form);
             var action = $('.form-submit').attr('action');
             var getUsers = "{{ $isExist }}";
+            getUsers = Boolean(parseInt(getUsers));
+
             if (getUsers) {
                 data.delete('provinces_id');
                 data.delete('regencies_id');
                 data.delete('districts_id');
 
-                var get_provinces_id = "{{ $getUsers->provinces_id }}";
-                var get_regencies_id = "{{ $getUsers->regencies_id }}";
-                var get_districts_id = "{{ $getUsers->districts_id }}";
+                var get_provinces_id = "{{ isset($getUsers->provinces_id) ? $getUsers->provinces_id : '' }}";
+                var get_regencies_id = "{{ isset($getUsers->regencies_id) ? $getUsers->regencies_id : '' }}";
+                var get_districts_id = "{{ isset($getUsers->districts_id) ? $getUsers->districts_id : '' }}";
 
                 data.append('provinces_id', get_provinces_id);
                 data.append('regencies_id', get_regencies_id);
@@ -419,9 +423,11 @@
         })
 
         var getUsers = "{{ $isExist }}";
+        getUsers = Boolean(parseInt(getUsers));
+
         if (getUsers) {
 
-            var districts_id = "{{ $getUsers->districts_id }}";
+            var districts_id = "{{ isset($getUsers->districts_id) ? $getUsers->districts_id : '' }}";
 
             getKelurahan(districts_id);
 
