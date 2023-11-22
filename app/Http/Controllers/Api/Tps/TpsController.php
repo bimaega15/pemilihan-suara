@@ -6,10 +6,12 @@ use App\Helper\Check;
 use App\Http\Controllers\Controller;
 use App\Models\PendukungTps;
 use App\Models\Tps;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DataTables;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class TpsController extends Controller
 {
@@ -37,6 +39,18 @@ class TpsController extends Controller
 
         try {
             $data = Tps::query()->with('villages')->paginate(10);
+            $getRoles = Auth::user()->roles()->get()[0];
+            if (strtolower($getRoles->nama_roles) == 'koordinator kecamatan') {
+                $usersId = Auth::id();
+                $getUsers = User::find($usersId);
+
+                $data = Tps::query()->with('villages')
+                    ->where('provinces_id', $getUsers->provinces_id)
+                    ->where('regencies_id', $getUsers->regencies_id)
+                    ->where('districts_id', $getUsers->districts_id)
+                    ->paginate(10);
+            }
+
             return response()->json([
                 'status' => 200,
                 'message' => "Berhasil ambil data",
