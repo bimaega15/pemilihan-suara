@@ -13,8 +13,8 @@
 
 
     <!-- ============================
-                                                                            Slider
-                                                                        ============================== -->
+                                                                                                    Slider
+                                                                                                ============================== -->
     <div class="banner-area banner-style-one shadow navigation-custom-large zoom-effect overflow-hidden text-light"
         id="home">
         <!-- Slider main container -->
@@ -77,7 +77,7 @@
     <!-- End Main -->
 
     <!-- Start Our Features
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
 
     <div class="about-style-one-area default-padding" id="about">
 
@@ -111,7 +111,7 @@
     </div>
     <!-- End Our Features -->
     <!-- Start Services
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
     <div class="services-style-two-area default-padding bottom-less bg-cover bg-gray"
         style="background-image: url(assets-frontend/img/shape/27.png);">
 
@@ -241,11 +241,11 @@
         </div>
     </div>
     <!-- Start Partner Area
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
     <!-- End Partner Area -->
 
     <!-- Start Aobut
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
 
     <div class="fun-factor-style-one-area bg-gray default-padding"
         style="background-image: url(assets-frontend/img/shape/41.png);">
@@ -314,7 +314,7 @@
     <!-- End About -->
 
     <!-- Start Faq
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
     <div class="testimonial-style-one-area default-padding">
         <div class="container">
             <div class="row align-center">
@@ -362,7 +362,7 @@
     <!-- End Faq -->
 
     <!-- Start Testimonials
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
     <div class="testimonials-style-two-area bg-dark default-padding-top half-shape-light-bottom"
         style="background-image: url(assets-frontend/img/shape/34.png);" id="timSukses">
         <div class="container">
@@ -471,7 +471,7 @@
     <!-- End Testimonials  -->
 
     <!-- Start Project
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
     <div class="home-blog-area default-padding bottom-less bg-gray" id="gallery">
         <div class="container">
             <div class="row">
@@ -649,45 +649,45 @@
     </div>
 
     <!--<div class="request-call-back-area text-light default-padding" style="background-image: url(assets-frontend/img/shape/vote-banner.png);">
-                                                                        <div class="container">
-                                                                            <div class="row align-center">
-                                                                                <div class="col-lg-6">
-                                                                                    <h2 class="title">Looking for a First-Class <br> Business Consultant?</h2>
-                                                                                    <a class="btn circle btn-light mt-30 mt-md-15 mt-xs-10 btn-md radius animation" href="#">Request a Call back</a>
-                                                                                </div>
-                                                                                <div class="col-lg-6 text-end">
-                                                                                    <div class="achivement-counter">
-                                                                                        <ul>
-                                                                                            <li>
-                                                                                                <div class="icon">
-                                                                                                    <i class="flaticon-handshake"></i>
-                                                                                                </div>
-                                                                                                <div class="fun-fact">
-                                                                                                    <div class="counter">
-                                                                                                        <div class="timer" data-to="500" data-speed="2000">500</div>
-                                                                                                        <div class="operator">+</div>
+                                                                                                <div class="container">
+                                                                                                    <div class="row align-center">
+                                                                                                        <div class="col-lg-6">
+                                                                                                            <h2 class="title">Looking for a First-Class <br> Business Consultant?</h2>
+                                                                                                            <a class="btn circle btn-light mt-30 mt-md-15 mt-xs-10 btn-md radius animation" href="#">Request a Call back</a>
+                                                                                                        </div>
+                                                                                                        <div class="col-lg-6 text-end">
+                                                                                                            <div class="achivement-counter">
+                                                                                                                <ul>
+                                                                                                                    <li>
+                                                                                                                        <div class="icon">
+                                                                                                                            <i class="flaticon-handshake"></i>
+                                                                                                                        </div>
+                                                                                                                        <div class="fun-fact">
+                                                                                                                            <div class="counter">
+                                                                                                                                <div class="timer" data-to="500" data-speed="2000">500</div>
+                                                                                                                                <div class="operator">+</div>
+                                                                                                                            </div>
+                                                                                                                            <span class="medium">Business advices given over 30 years</span>
+                                                                                                                        </div>
+                                                                                                                    </li>
+                                                                                                                    <li>
+                                                                                                                        <div class="icon">
+                                                                                                                            <i class="flaticon-employee"></i>
+                                                                                                                        </div>
+                                                                                                                        <div class="fun-fact">
+                                                                                                                            <div class="counter">
+                                                                                                                                <div class="timer" data-to="30" data-speed="2000">30</div>
+                                                                                                                                <div class="operator">+</div>
+                                                                                                                            </div>
+                                                                                                                            <span class="medium">Business Excellence awards achieved</span>
+                                                                                                                        </div>
+                                                                                                                    </li>
+                                                                                                                </ul>
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                    <span class="medium">Business advices given over 30 years</span>
                                                                                                 </div>
-                                                                                            </li>
-                                                                                            <li>
-                                                                                                <div class="icon">
-                                                                                                    <i class="flaticon-employee"></i>
-                                                                                                </div>
-                                                                                                <div class="fun-fact">
-                                                                                                    <div class="counter">
-                                                                                                        <div class="timer" data-to="30" data-speed="2000">30</div>
-                                                                                                        <div class="operator">+</div>
-                                                                                                    </div>
-                                                                                                    <span class="medium">Business Excellence awards achieved</span>
-                                                                                                </div>
-                                                                                            </li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
+                                                                                            </div> -->
     <!-- End Project -->
     <div class="request-call-back-area text-light default-padding"
         style="background-image: url(assets-frontend/img/shape/vote-banner.png);">
@@ -698,14 +698,15 @@
                     <div class="party-single-item style-01">
                         <div class="content">
                             <div class="subtitle wow animate__animated animate__fadeInUp">
-                                <p>Dukung Vindy Faradilah, S.E </p>
+                                <p>Dukungan Anda Membantu Kami</p>
                                 <div class="icon">
                                     <i class="icon-star"></i>
                                     <i class="icon-star"></i>
                                     <i class="icon-star"></i>
                                 </div>
                             </div>
-                            <h4 class="title wow animate__animated animate__fadeInUp">Dukungan Anda membantu kami</h4>
+                            <h4 class="title wow animate__animated animate__fadeInUp">Dukung Vindy Faradilah, S.E
+                            </h4>
                             <p class="description style-01 wow animate__animated animate__fadeInUp">
                                 Dukungan yang Anda berikan kepada kami sebagai calon legislatif merupakan dorongan yang
                                 sangat kami hargai dalam perjuangan kami untuk mewakili dan melayani masyarakat dengan
@@ -813,7 +814,7 @@
         </div>
     </div>
     <!-- Start Contact Us
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
     <div class="contact-style-one-area overflow-hidden half-shape-top default-padding-bottom" style="padding-top: 20px;"
         id="contactUs">
 
@@ -930,12 +931,12 @@
     <!-- End Contact -->
 
     <!-- Start Fun Factor Area
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
 
     <!-- End Fun Factor Area -->
 
     <!-- Start Blog
-                                                                        ============================================= -->
+                                                                                                ============================================= -->
     <!-- /.contact layout 1 -->
 
 @endsection
