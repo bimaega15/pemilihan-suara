@@ -1,77 +1,123 @@
 @php
-$konfigurasi = Check::getKonfigurasi();
+    $konfigurasi = Check::getKonfigurasi();
 @endphp
 
-<footer class="footer footer-dark">
-    <div class="footer-primary">
-        <div class="container">
+<footer class="bg-dark text-light">
+    <div class="footer-shape">
+        <div class="item">
+            <img src="{{ asset('assets-frontend/img/shape/7.png') }}" alt="Shape">
+        </div>
+        <div class="item">
+            <img src="{{ asset('assets-frontend/img/shape/9.png') }}" alt="Shape">
+        </div>
+    </div>
+    <div class="container">
+        <div class="f-items relative pt-70 pb-120 pt-xs-0 pb-xs-50">
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-3 footer-widget footer-widget-about">
-                    <div class="footer-widget__content">
-                        <img src="{{ asset('upload/konfigurasi/'.$konfigurasi->logo_konfigurasi) }}" alt="logo" class="mb-30" style="width: 60%;">
-                    </div><!-- /.footer-widget__content -->
-                </div><!-- /.col-xl-3 -->
-                <div class="col-sm-6 col-md-4 col-lg-4 footer-widget footer-widget-nav">
-                    <h6 class="footer-widget__title">Tentang Kami</h6>
-                    <div class="footer-widget__content" style="color: #ffffff;">
-                        KANG ASEP SHOLEH sekarangpun menjabat sebagai Sekretaris DPD Partai Amanat Nasional (PAN) dan memantapkan Maju menjadi Anggota DPRD dapil Ill Kota Cirebon
-                    </div><!-- /.footer-widget__content -->
-                </div><!-- /.col-lg-2 -->
-                <div class="col-sm-6 col-md-4 col-lg-2 footer-widget footer-widget-nav">
-                    <h6 class="footer-widget__title">Site Map</h6>
-                    <div class="footer-widget__content">
-                        <nav>
-                            <ul class="list-unstyled">
-                                <li><a href="{{ url('/') }}">Home</a></li>
-                                <li><a href="{{ url('/gallery') }}">About</a></li>
-                                <li><a href="{{ url('/gallery') }}">Aktivitas</a></li>
-                                <li><a href="{{ url('/gallery') }}">Gallery</a></li>
-                                <li><a href="{{ url('/gallery') }}">Cek Status</a></li>
-                            </ul>
-                        </nav>
-                    </div><!-- /.footer-widget__content -->
-                </div><!-- /.col-lg-2 -->
-                <div class="col-sm-6 col-md-4 col-lg-2 footer-widget footer-widget-nav">
-                    <h6 class="footer-widget__title">Bergabung</h6>
-                    <div class="footer-widget__content">
-                        <nav>
-                            <ul class="list-unstyled">
-                                <li><a href="{{ url('/tps') }}">Daftar Koordinator</a></li>
-                                <li><a href="{{ url('/tps') }}">Pendukung</a></li>
-                                <li><a href="{{ url('/tps') }}">Login</a></li>
-                            </ul>
-                        </nav>
-                    </div><!-- /.footer-widget__content -->
-                </div><!-- /.col-lg-2 -->
-                <!-- /.col-lg-3 -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </div><!-- /.footer-primary -->
-    <div class="footer-secondary">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-sm-12 col-md-5 col-lg-5">
-                    <div class="footer__copyrights">
-                        <span class="fz-14">&copy; 2023 Partai PAN, All Rights Reserved.</span>
-                        </a>
+                <div class="col-lg-4 col-md-6 footer-item pr-50 pr-xs-15">
+                    <div class="f-item about">
+                        <img class="logo" src="{{ asset('assets-frontend/img/logo-putih.png') }}" alt="Logo">
+                        <p>
+                            Mewujudkan masyarakat yang adil, inklusif, dan berkelanjutan, di mana perempuan memiliki
+                            peran aktif dan terlibat secara merata dalam pembuatan kebijakan publik.
+
+                        </p>
+
                     </div>
-                </div><!-- /.col-lg-6 -->
-                <div class="col-sm-12 col-md-2 col-lg-2 text-center">
-                    <button id="scrollTopBtn" class="my-2"><i class="icon-arrow-up-2"></i></button>
-                </div><!-- /.col-lg-2 -->
-                <div class="col-sm-12 col-md-5 col-lg-5 d-flex flex-wrap justify-content-end align-items-center">
-                    <ul class="social-icons list-unstyled mb-0 mr-30">
-                        <li><a href="{{ $konfigurasi->facebook_konfigurasi }}"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="{{ $konfigurasi->instagram_konfigurasi }}"><i class="fab fa-instagram"></i></a></li>
+                </div>
+                <div class="col-lg-2 col-md-6 footer-item">
+                    <div class="f-item link">
+                        <h4 class="widget-title">Menu Akses</h4>
+                        <ul>
+                            <li>
+                                <a href="#">Home</a>
+                            </li>
+                            <li>
+                                <a href="#">About / Profil</a>
+                            </li>
+                            <li>
+                                <a href="#">Contribute</a>
+                            </li>
+                            <li>
+                                <a href="#">Gallery / Kegiatan</a>
+                            </li>
+                            <li>
+                                <a href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 footer-item">
+                    <div class="f-item link">
+                        <h4 class="widget-title">Program Kami</h4>
+                        <ul>
+                            <li>
+                                <a href="#">Pendidikan Berkualitas</a>
+                            </li>
+                            <li>
+                                <a href="#">Pengembangan Ekonomi</a>
+                            </li>
+                            <li>
+                                <a href="#">Perlindungan Lingkungan</a>
+                            </li>
+                            <li>
+                                <a href="#">Pengembangan Teknologi</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 footer-item">
+                    <h4 class="widget-title">Support</h4>
+                    <p>
+                        Ada pertanyaan atau ingin bergabung menjadi pendukung silahkan hubungi kami.
+                    </p>
+                    <div class="f-item newsletter">
+                        <form action="#">
+                            <input type="email" placeholder="Your Email" class="form-control" name="email">
+                            <button type="submit"> Kirim</button>
+                        </form>
+                    </div>
+                    <ul class="footer-social">
                         <li>
-                            <a href="{{ $konfigurasi->youtube_konfigurasi }}">
+                            <a href="#">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
                                 <i class="fab fa-youtube"></i>
                             </a>
-
                         </li>
-                    </ul><!-- /.social-icons -->
-                </div><!-- /.col-lg-6 -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </div><!-- /.footer-secondary -->
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; Copyright 2023. All Rights Reserved by <a href="#">Tim Pemenangan Vindy
+                            Faradilah</a></p>
+                </div>
+                <div class="col-lg-6 text-end">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Footer Bottom -->
+
 </footer>
