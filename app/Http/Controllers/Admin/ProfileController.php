@@ -136,7 +136,7 @@ class ProfileController extends Controller
             }],
             'nohp_profile' => 'required|numeric',
             'jenis_kelamin_profile' => 'required',
-            'logo_konfigurasi' => 'image|max:2048',
+            'gambar_profile' => 'image|max:2048',
 
         ], [
             'required' => ':attribute wajib diisi',

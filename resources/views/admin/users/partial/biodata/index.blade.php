@@ -101,10 +101,7 @@
     <hr>
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <button type="button" class="btn btn-outline-dark m-b-xs customPrevBtn"> <i data-feather="arrow-left"></i> Sebelumnya</button>
-                </div>
+            <div class="d-flex justify-content-end">
                 <div>
                     <button type="submit" class="btn btn-primary btn-submit-users"><i data-feather="send"></i>
                         Simpan</button>
@@ -112,4 +109,6 @@
             </div>
         </div>
     </div>
+    <div style="height: 50px;"></div>
+
 </div>

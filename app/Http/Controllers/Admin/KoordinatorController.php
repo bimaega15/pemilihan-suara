@@ -338,7 +338,6 @@ class KoordinatorController extends Controller
         $roles = 'koordinator';
         $searchValue =  $request->input('search')['value'];
 
-
         $data = User::query()
             ->select('users.*', 'roles.nama_roles', 'profile.nama_profile', 'profile.email_profile', 'profile.nohp_profile', 'profile.gambar_profile', 'profile.nik_profile', 'profile.alamat_profile', 'profile.jenis_kelamin_profile')
             ->join('profile', 'profile.users_id', 'users.id')

@@ -1,15 +1,5 @@
 <script>
     $(document).ready(function(e) {
-        let owl = $('.owl-carousel').owlCarousel({
-            loop: false,
-            margin: 10,
-            responsive: {
-                0: {
-                    items: 1
-                },
-            }
-        })
-        owl.owlCarousel();
 
         function loadDynamic() {
             let setUrl = "{{ url('/') }}";
@@ -114,9 +104,59 @@
             dropdownParent: $('#modalForm')
         });
 
+        function setActiveTab(roles) {
+            if (roles == 'admin') {
+                $('#pills-wilayah-tab').removeClass('active');
+                $('#pills-account-tab').addClass('active');
+                $('#pills-biodata-tab').removeClass('active');
+
+                $('#pills-account').addClass('show active');
+                $('#pills-wilayah').removeClass('show active');
+                $('#pills-biodata').removeClass('show active');
+            }
+            if (roles == 'koordinator') {
+                $('#pills-wilayah-tab').removeClass('active');
+                $('#pills-account-tab').addClass('active');
+                $('#pills-biodata-tab').removeClass('active');
+
+                $('#pills-account').addClass('show active');
+                $('#pills-wilayah').removeClass('show active');
+                $('#pills-biodata').removeClass('show active');
+            }
+            if (roles == 'caleg') {
+                $('#pills-wilayah-tab').removeClass('active');
+                $('#pills-account-tab').addClass('active');
+                $('#pills-biodata-tab').removeClass('active');
+
+                $('#pills-account').addClass('show active');
+                $('#pills-wilayah').removeClass('show active');
+                $('#pills-biodata').removeClass('show active');
+            }
+            if (roles == 'pendukung') {
+
+                $('#pills-wilayah-tab').removeClass('active');
+                $('#pills-account-tab').removeClass('active');
+                $('#pills-biodata-tab').addClass('active');
+
+                $('#pills-account').removeClass('show active');
+                $('#pills-wilayah').removeClass('show active');
+                $('#pills-biodata').addClass('show active');
+            }
+            if (roles == 'koordinator kecamatan') {
+                $('#pills-wilayah-tab').removeClass('active');
+                $('#pills-account-tab').addClass('active');
+                $('#pills-biodata-tab').removeClass('active');
+
+                $('#pills-account').addClass('show active');
+                $('#pills-wilayah').removeClass('show active');
+                $('#pills-biodata').removeClass('show active');
+            }
+        }
+
         $(document).on('click', '.btn-add', function(e) {
             e.preventDefault();
             resetForm();
+            resetActiveButton();
 
             $('input[name="_method"]').val('post');
             let url = "{{ url('/') }}";
@@ -125,23 +165,27 @@
             roles = roles.split('-').join(' ');
             roles = roles.toLowerCase();
 
+            setActiveTab(roles);
             let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
             if (checkRoles != null) {
                 if (roles != 'koordinator kecamatan') {
                     $('#div_wilayah').addClass('d-none');
+                    $('#pills-wilayah-tab').closest('li').addClass('d-none');
                     $('.role_id').val(checkRoles.id);
                 }
 
                 if (roles == 'pendukung') {
+                    $('#pills-account-tab').closest('li').addClass('d-none');
                     $('#div_account').addClass('d-none');
-                    owl.trigger('to.owl.carousel', 1);
                     $('.customPrevBtn').addClass('d-none');
                     $('.role_id').val(checkRoles.id);
                     $('.label-image-photo').html('Upload KTP');
                 } else {
                     $('.role_id').val(checkRoles.id);
                 }
+
             }
+
         })
 
         $(document).on('click', '.btn-edit', function(e) {
@@ -155,17 +199,19 @@
             let roles = $(this).data('roles');
             roles = roles.split('-').join(' ');
             roles = roles.toLowerCase();
+            setActiveTab(roles);
 
             let checkRoles = getDynamic.role.find((v, i) => v.nama_roles.toLowerCase() == roles);
             if (checkRoles != null) {
                 if (roles != 'koordinator kecamatan') {
+                    $('#pills-wilayah-tab').closest('li').addClass('d-none');
                     $('#div_wilayah').addClass('d-none');
                     $('.role_id').val(checkRoles.id);
                 }
 
                 if (roles == 'pendukung') {
+                    $('#pills-account-tab').closest('li').addClass('d-none');
                     $('#div_account').addClass('d-none');
-                    owl.trigger('to.owl.carousel', 1);
                     $('.customPrevBtn').addClass('d-none');
 
                     $('.role_id').val(checkRoles.id);
@@ -291,8 +337,26 @@
                     console.log(x.responseText);
                 }
             })
+
         })
 
+        function resetActiveButton() {
+            $('#pills-wilayah-tab').closest('li').removeClass('active');
+            $('#pills-account-tab').closest('li').removeClass('active');
+            $('#pills-biodata-tab').closest('li').removeClass('active');
+
+            $('#pills-account').closest('li').removeClass('show active');
+            $('#pills-wilayah').closest('li').removeClass('show active');
+            $('#pills-biodata').closest('li').removeClass('show active');
+        }
+
+        function resetButtonArea() {
+            $('#pills-wilayah-tab').closest('li').removeClass('d-none');
+            $('#pills-account-tab').closest('li').removeClass('d-none');
+
+            $('#div_account').removeClass('d-none');
+            $('#div_wilayah').removeClass('d-none');
+        }
 
 
         function resetForm(attribute = null) {
@@ -312,8 +376,7 @@
             $('.jabatan_id option').attr('selected', false).trigger('change');
             $('.form-submit').trigger("reset");
 
-            $('#div_account').removeClass('d-none');
-            owl.trigger('to.owl.carousel', 0);
+            resetButtonArea();
             $('.customPrevBtn').removeClass('d-none');
 
             $('.label-image-photo').html('Upload Photo');
@@ -521,17 +584,6 @@
             })
         })
 
-
-
-        // Go to the next item
-        $('.customNextBtn').click(function() {
-            owl.trigger('next.owl.carousel');
-        })
-
-        // Go to the previous item
-        $('.customPrevBtn').click(function() {
-            owl.trigger('prev.owl.carousel', [300]);
-        })
 
         // initialize manually with a list of links
         $(document).on('click', '[data-gallery="photoviewer"]', function(e) {

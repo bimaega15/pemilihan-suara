@@ -15,10 +15,27 @@
                  <div class="modal-body">
                      <div class="row">
                          <div class="col-lg-12">
-                             <div class="owl-carousel owl-theme">
-                                 @include('admin.users.partial.account.index')
-                                 @include('admin.users.partial.wilayah.index')
-                                 @include('admin.users.partial.biodata.index')
+                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                 <li class="nav-item" role="presentation">
+                                     <button class="nav-link active" id="pills-account-tab" data-bs-toggle="pill" data-bs-target="#pills-account" type="button" role="tab" aria-controls="pills-account" aria-selected="true">Account</button>
+                                 </li>
+                                 <li class="nav-item" role="presentation">
+                                     <button class="nav-link" id="pills-wilayah-tab" data-bs-toggle="pill" data-bs-target="#pills-wilayah" type="button" role="tab" aria-controls="pills-wilayah" aria-selected="false">Wilayah</button>
+                                 </li>
+                                 <li class="nav-item" role="presentation">
+                                     <button class="nav-link" id="pills-biodata-tab" data-bs-toggle="pill" data-bs-target="#pills-biodata" type="button" role="tab" aria-controls="pills-biodata" aria-selected="false">Biodata</button>
+                                 </li>
+                             </ul>
+                             <div class="tab-content" id="pills-tabContent">
+                                 <div class="tab-pane fade show active" id="pills-account" role="tabpanel" aria-labelledby="pills-account-tab">
+                                     @include('admin.users.partial.account.index')
+                                 </div>
+                                 <div class="tab-pane fade" id="pills-wilayah" role="tabpanel" aria-labelledby="pills-wilayah-tab">
+                                     @include('admin.users.partial.wilayah.index')
+                                 </div>
+                                 <div class="tab-pane fade" id="pills-biodata" role="tabpanel" aria-labelledby="pills-biodata-tab">
+                                     @include('admin.users.partial.biodata.index')
+                                 </div>
                              </div>
                          </div>
                      </div>

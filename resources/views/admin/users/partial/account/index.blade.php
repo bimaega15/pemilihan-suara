@@ -27,13 +27,5 @@
             </div>
         </div>
     </div>
-    <div style="height: 10px;"></div>
-    <hr>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="text-end">
-                <button type="button" class="btn btn-outline-dark m-b-xs customNextBtn"><i data-feather="arrow-right"></i> Selanjutnya</button>
-            </div>
-        </div>
-    </div>
+    <div style="height: 50px;"></div>
 </div>
