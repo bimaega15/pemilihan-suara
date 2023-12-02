@@ -6,10 +6,14 @@
             <div class="dtr-header-left">
 
                 <!-- logo -->
-                <a class="logo-default dtr-scroll-link" href="#home"><img src="{{ asset('upload/konfigurasi/'.$getKonfigurasi->logo_konfigurasi) }}" alt="{{ $getKonfigurasi->logo_konfigurasi }}" height="50px;"></a>
+                <a class="logo-default dtr-scroll-link" href="#home"><img
+                        src="{{ asset('upload/konfigurasi/' . $getKonfigurasi->logo_konfigurasi) }}"
+                        alt="{{ $getKonfigurasi->logo_konfigurasi }}" height="50px;"></a>
 
                 <!-- logo on scroll -->
-                <a class="logo-alt dtr-scroll-link" href="#home"><img src="{{ asset('upload/konfigurasi/'.$getKonfigurasi->logo_konfigurasi) }}" alt="{{ $getKonfigurasi->logo_konfigurasi }}" height="50px;"></a>
+                <a class="logo-alt dtr-scroll-link" href="#home"><img
+                        src="{{ asset('upload/konfigurasi/' . $getKonfigurasi->logo_konfigurasi) }}"
+                        alt="{{ $getKonfigurasi->logo_konfigurasi }}" height="50px;"></a>
                 <!-- logo on scroll ends -->
 
             </div>
@@ -27,7 +31,8 @@
             <!-- menu ends-->
 
             <!-- header right starts -->
-            <div class="dtr-header-right"> <a href="{{ url('/login') }}" class="dtr-btn btn-rounded btn-orange">Login Sekarang</a> </div>
+            <div class="dtr-header-right"> <a href="{{ url('/login') }}" class="dtr-btn btn-rounded btn-orange">Login
+                    Sekarang</a> </div>
             <!-- header right ends -->
 
         </div>
